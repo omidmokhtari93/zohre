@@ -24,7 +24,6 @@
              padding-left: 0px;
              z-index: 999;
              max-height: 200px;
-             overflow: auto;
              left: 0px;
              text-align: right;
          }
@@ -78,6 +77,8 @@
         .SubSystemTable tr:hover{ cursor: pointer;}
         .PartsTable tr:hover{ cursor: pointer;}
         .nav-tabs >li{ float: right!important;}
+        #txtSubSearchPart{ width: 100%;outline: none;padding: 0px 3px 0 0;font-weight: 800;border: none;border-radius: 3px;direction: rtl;}
+        .imgfilter{ position: absolute;top: 7px;right: 6px;width: 17px;height: 17px;}
     </style>
     <asp:HiddenField runat="server" ClientIDMode="Static" ID="hdSubId"/>
 <asp:HiddenField runat="server" ClientIDMode="Static" ID="TagID"/>
@@ -287,10 +288,16 @@ where s_subtag.id = @id">
                             <div id="PartBadgeArea" style="position: relative;width: 65%;display: inline-block;">
                                 <input type="text" autocomplete="off" dir="rtl" tabindex="41" class="form-control" style="width: 100%;" id="txtPartsSearch" placeholder="جستجوی قطعه ..."/>
                                 <img src="Images/loading.png" id="partsLoading" style="width: 20px; height: 20px; position: absolute;top: 7px; left:7px; display: none;"/>
-                                <div id="PartsSearchResulat" style="position: absolute;">
-                                    <table id="gridPartsResault" class="PartsTable">
-                                        <tbody></tbody>
-                                    </table>
+                                <div id="PartsSearchResulat">
+                                    <div style="padding: 5px 28px 5px 5px;background-color: #dfecfe">
+                                        <input type="text" id="txtSubSearchPart" autocomplete="off"/>
+                                        <img src="Images/funnel.png" class="imgfilter"/>
+                                    </div>
+                                    <div style="overflow: auto; width: 100%; max-height: 200px;">
+                                        <table id="gridPartsResault" class="PartsTable">
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                             <div class="panel-footer" style="margin-top: 10px;">

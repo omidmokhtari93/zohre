@@ -1,4 +1,5 @@
-﻿var typingTimersub;
+﻿var rowss;
+var typingTimersub;
 var doneTypingIntervalsub = 1000;
 var $subinput = $('#txtsubName');
 $subinput.on('keyup', function () {
@@ -312,12 +313,10 @@ function doneTyping() {
                 var tableRows = '';
                 var filteredParts = JSON.parse(e.d);
                 for (var i = 0; i < filteredParts.length; i++) {
-                    tableRows += '<tr>' +
-                        '<td>' + filteredParts[i].PartName + '</td>' +
-                        '<td style="display:none;">' + filteredParts[i].PartId + '</td>' +
-                        '</tr>';
+                    tableRows += '<tr><td partid="' + filteredParts[i].PartId + '">' + filteredParts[i].PartName + '</td></tr>';
                 }
                 $('#gridPartsResault tbody').append(tableRows);
+                rowss = $('#gridPartsResault tr').clone();
             },
             error: function () {
             }
@@ -331,15 +330,24 @@ function doneTyping() {
         $('#PartsSearchResulat').hide();
     }
 }
+
+$('#txtSubSearchPart').keyup(function () {
+    var val = $(this).val();
+    $('#gridPartsResault tbody').empty();
+    rowss.filter(function (idx, el) {
+        return val === '' || $(el).text().indexOf(val) >= 0;
+    }).appendTo('#gridPartsResault');
+});
+
 var partData = [];
 $('.PartsTable').on('click', 'tr', function () {
-    var $row = $(this).closest("tr");
-    var $text = $row.find("td").eq(0).html();
-    var $value = $row.find("td").eq(1).html();
+    var $row = $(this).find("td");
+    var pid = $row.attr('partid');
+    var text = $row.text();
     $('#PartsSearchResulat').hide();
     $('#txtPartsSearch').val('');
     $('#txtPartsSearch').removeAttr('placeholder');
-    createPartBadge($text, $value);
+    createPartBadge(text, pid);
 });
 function createPartBadge(text, val) {
     var badgeHtml = '<div class="PartsBadge" ' +
