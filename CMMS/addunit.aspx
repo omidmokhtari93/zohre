@@ -20,7 +20,7 @@
                     <label>کد واحد</label>
                     <asp:TextBox runat="server" ClientIDMode="Static" placeholder="عدد دو رقمی وارد نمایید" CssClass="form-control" TabIndex="1" ID="txtUnitCode"></asp:TextBox>        
                 </div>
-            </div>
+            </div> 
         </div>
         <div class="panel-footer">
             <asp:Button runat="server" ClientIDMode="Static" CssClass="button" TabIndex="4" Text="ثبت" ID="btnSave" OnClick="btnSave_OnClick"/>
