@@ -1,0 +1,4 @@
+﻿SELECT     partcode, partname, meghdar, mablagh, CASE WHEN mablagh = 0 THEN 0 WHEN mablagh > 0 AND meghdar > 0 THEN (mablagh * 1) / meghdar WHEN mablagh < 0 AND 
+                      meghdar <> 0 THEN (mablagh * 1) / meghdar END AS perFee, Partref
+FROM         (SELECT     partcode, partname, مقدار AS meghdar, [مبلغ کل] AS mablagh, Partref, تاريخ
+                        FROM         dbo.BuyFee) AS i

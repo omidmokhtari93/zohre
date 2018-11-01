@@ -1,0 +1,679 @@
+﻿<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.7\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.7\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9330224B-B174-49B1-AF01-25B2837EB17C}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CMMS</RootNamespace>
+    <AssemblyName>CMMS</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.7\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Activities" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Web.DataVisualization" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="admin.aspx" />
+    <Content Include="CmChecked.aspx" />
+    <Content Include="Content\personelprint.html" />
+    <Content Include="Content\report.html" />
+    <Content Include="Content\kamadatepicker.css" />
+    <Content Include="ContractorPrint.aspx" />
+    <Content Include="DailyCM.aspx" />
+    <Content Include="DailyReport.aspx" />
+    <Content Include="DailyReportPrint.aspx" />
+    <Content Include="DailyWork.aspx" />
+    <Content Include="Device.aspx" />
+    <Content Include="editMachine.aspx" />
+    <Content Include="Effective.aspx" />
+    <Content Include="Feeview.txt" />
+    <Content Include="FinancialReport.aspx" />
+    <Content Include="Images\chart_color.png" />
+    <Content Include="Images\checklist.png" />
+    <Content Include="Images\construction.png" />
+    <Content Include="Images\ContractChart.png" />
+    <Content Include="Images\copy.png" />
+    <Content Include="Images\Costchart.png" />
+    <Content Include="Images\costs.png" />
+    <Content Include="Images\delaystop.png" />
+    <Content Include="Images\Donat.png" />
+    <Content Include="Images\effectt.png" />
+    <Content Include="Images\funnel.png" />
+    <Content Include="Images\Gchecklist.png" />
+    <Content Include="Images\icon.ico" />
+    <Content Include="Images\icon_services.png" />
+    <Content Include="Images\lines.png" />
+    <Content Include="Images\loading.gif" />
+    <Content Include="Images\machine.png" />
+    <Content Include="Images\PersonelChart.png" />
+    <Content Include="Images\Rchecklist.png" />
+    <Content Include="Images\Rchecklistempty.png" />
+    <Content Include="Images\RepairChart.png" />
+    <Content Include="Images\report_stop.png" />
+    <Content Include="Images\req_yellow.png" />
+    <Content Include="Images\service.png" />
+    <Content Include="Images\Services.png" />
+    <Content Include="Images\showRepReq.png" />
+    <Content Include="Images\stop.png" />
+    <Content Include="Images\subSystem.png" />
+    <Content Include="Images\tag.png" />
+    <Content Include="Images\technical-icons.png" />
+    <Content Include="Images\ToolsChart.png" />
+    <Content Include="Images\Units.png" />
+    <Content Include="Images\update.png" />
+    <Content Include="Images\Worker.png" />
+    <Content Include="addunit.aspx" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Contractor.aspx" />
+    <Content Include="fonts\BYekan.eot" />
+    <Content Include="fonts\BYekan.ttf" />
+    <Content Include="fonts\BYekan.woff" />
+    <Content Include="fonts\BYekan.woff2" />
+    <Content Include="fonts\Far_Nazanin.eot" />
+    <Content Include="fonts\Far_Nazanin.otf" />
+    <Content Include="fonts\Far_Nazanin.ttf" />
+    <Content Include="fonts\Far_Nazanin.woff" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\IranNastaliq.ttf" />
+    <Content Include="Content\forgetPasswordForm.html" />
+    <Content Include="Images\allRep.png" />
+    <Content Include="Images\assetList.png" />
+    <Content Include="Images\bornaheader.png" />
+    <Content Include="Images\contact.png" />
+    <Content Include="Images\dailyRep.png" />
+    <Content Include="Images\machineID.png" />
+    <Content Include="Images\machineList.png" />
+    <Content Include="Images\mtbf.png" />
+    <Content Include="Images\mtbfchart.png" />
+    <Content Include="Images\mttrcahrt.png" />
+    <Content Include="Images\mttrrep.png" />
+    <Content Include="Images\newAsset.png" />
+    <Content Include="Images\newMachin.png" />
+    <Content Include="Images\repairList.png" />
+    <Content Include="Images\repreq.png" />
+    <Content Include="Images\section.png" />
+    <Content Include="Images\ServiceEntry.png" />
+    <Content Include="Images\showAllService.png" />
+    <Content Include="Images\users.png" />
+    <Content Include="Images\Zohre.png" />
+    <Content Include="Images\zohre1.png" />
+    <Content Include="intrupt.aspx" />
+    <Content Include="Lines.aspx" />
+    <Content Include="login.aspx" />
+    <Content Include="MachinePrint.aspx" />
+    <Content Include="MachineReports.aspx" />
+    <Content Include="MainDesign.Master" />
+    <Content Include="MttReport.aspx" />
+    <Content Include="MttReportPrint.aspx" />
+    <Content Include="PartsAcc.aspx" />
+    <Content Include="PartsReport.aspx" />
+    <Content Include="personel.aspx" />
+    <Content Include="PersonelPrint.aspx" />
+    <Content Include="PersonelReport.aspx" />
+    <Content Include="PmChecked.aspx" />
+    <Content Include="primryCost.aspx" />
+    <Content Include="Program.aspx" />
+    <Content Include="RepairHistory.aspx" />
+    <Content Include="RepairRecordReview.aspx" />
+    <Content Include="RepairReport.aspx" />
+    <Content Include="RepairRequestPrint.aspx" />
+    <Content Include="repairs.aspx" />
+    <Content Include="Reply.aspx" />
+    <Content Include="ReplyPrint.aspx" />
+    <Content Include="Reports.asmx" />
+    <Content Include="Scripts\chart\export-data.js" />
+    <Content Include="Scripts\chart\exporting.js" />
+    <Content Include="Scripts\chart\highcharts.js" />
+    <Content Include="Scripts\copyMachineData.js" />
+    <Content Include="Scripts\FinancialReports.js" />
+    <Content Include="Scripts\Intrupt.js" />
+    <Content Include="Scripts\MttReport.js" />
+    <Content Include="Scripts\Notifications.js" />
+    <Content Include="Scripts\DailyReport.js" />
+    <Content Include="Scripts\EditMachine.js" />
+    <Content Include="Scripts\MachineCode.js" />
+    <Content Include="Scripts\jquery-clockpicker.min.css" />
+    <Content Include="Scripts\jquery-clockpicker.min.js" />
+    <Content Include="Scripts\kamadatepicker.js" />
+    <Content Include="Scripts\loginJS.js" />
+    <Content Include="Scripts\machineJS.js" />
+    <Content Include="Scripts\MachineStyles.css" />
+    <Content Include="Scripts\PartAcc.js" />
+    <Content Include="Scripts\program.js" />
+    <Content Include="Scripts\RepairReport.js" />
+    <Content Include="Scripts\Reply.js" />
+    <Content Include="Scripts\SearchParts.js" />
+    <Content Include="Scripts\StopReport.js" />
+    <Content Include="Scripts\SubSystemJS.js" />
+    <Content Include="Scripts\SubSystemPage.js" />
+    <Content Include="Scripts\Tags.js" />
+    <Content Include="ShowDailyReport.aspx" />
+    <Content Include="ShowRequests.aspx" />
+    <Content Include="StopReport.aspx" />
+    <Content Include="SubSystem.aspx" />
+    <Content Include="Tag.aspx" />
+    <Content Include="test.aspx" />
+    <Content Include="UnitPrint.aspx" />
+    <Content Include="WebService.asmx" />
+    <Content Include="DailyPm.aspx" />
+    <Content Include="FileUploader.ashx" />
+    <Content Include="welcome.aspx" />
+    <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\contactus.htm" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="fonts\BYekan.svg" />
+    <Content Include="fonts\Far_Nazanin.svg" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
+    <Content Include="Images\1.png" />
+    <Content Include="Images\aboutus.png" />
+    <Content Include="Images\aboutus1.png" />
+    <Content Include="Images\attachment.png" />
+    <Content Include="Images\contactus1.png" />
+    <Content Include="Images\gplaypattern.jpg" />
+    <Content Include="Images\help.png" />
+    <Content Include="Images\icon_minus.png" />
+    <Content Include="Images\icon_plus.png" />
+    <Content Include="Images\jquery-te.png" />
+    <Content Include="Images\loading.png" />
+    <Content Include="Images\Search_Dark.png" />
+    <Content Include="Images\signout.png" />
+    <Content Include="newMachine.aspx" />
+    <Content Include="otherRepairRequest.aspx" />
+    <Content Include="repairRequest.aspx" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\contactus.css" />
+    <Content Include="Scripts\contactusJS.js" />
+    <Content Include="Scripts\font-awesome.min.css" />
+    <Content Include="Scripts\jquery-3.3.1.min.js" />
+    <Content Include="Scripts\jquery-ui.js" />
+    <Content Include="Scripts\jquery.easing.1.3.js" />
+    <Content Include="Scripts\jquery.easing.compatibility.js" />
+    <Content Include="Scripts\jquery.Jcrop.min.css" />
+    <Content Include="Scripts\jquery.Jcrop.min.js" />
+    <Content Include="Scripts\jquery.min.js" />
+    <Content Include="Scripts\loginStyles.css" />
+    <Content Include="Scripts\notify.min.js" />
+    <Content Include="Scripts\script.js" />
+    <Content Include="Scripts\styles.css" />
+    <Content Include="template.html" />
+    <Content Include="userManagment.aspx" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="addunit.aspx.cs">
+      <DependentUpon>addunit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="addunit.aspx.designer.cs">
+      <DependentUpon>addunit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="admin.aspx.cs">
+      <DependentUpon>admin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin.aspx.designer.cs">
+      <DependentUpon>admin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CmChecked.aspx.cs">
+      <DependentUpon>CmChecked.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CmChecked.aspx.designer.cs">
+      <DependentUpon>CmChecked.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Contractor.aspx.cs">
+      <DependentUpon>Contractor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Contractor.aspx.designer.cs">
+      <DependentUpon>Contractor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ContractorPrint.aspx.cs">
+      <DependentUpon>ContractorPrint.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ContractorPrint.aspx.designer.cs">
+      <DependentUpon>ContractorPrint.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DailyCM.aspx.cs">
+      <DependentUpon>DailyCM.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DailyCM.aspx.designer.cs">
+      <DependentUpon>DailyCM.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DailyReport.aspx.cs">
+      <DependentUpon>DailyReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DailyReport.aspx.designer.cs">
+      <DependentUpon>DailyReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DailyReportPrint.aspx.cs">
+      <DependentUpon>DailyReportPrint.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DailyReportPrint.aspx.designer.cs">
+      <DependentUpon>DailyReportPrint.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DailyWork.aspx.cs">
+      <DependentUpon>DailyWork.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DailyWork.aspx.designer.cs">
+      <DependentUpon>DailyWork.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Device.aspx.cs">
+      <DependentUpon>Device.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Device.aspx.designer.cs">
+      <DependentUpon>Device.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="editMachine.aspx.cs">
+      <DependentUpon>editMachine.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="editMachine.aspx.designer.cs">
+      <DependentUpon>editMachine.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Effective.aspx.cs">
+      <DependentUpon>Effective.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Effective.aspx.designer.cs">
+      <DependentUpon>Effective.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FileUploader.ashx.cs">
+      <DependentUpon>FileUploader.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="FinancialReport.aspx.cs">
+      <DependentUpon>FinancialReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FinancialReport.aspx.designer.cs">
+      <DependentUpon>FinancialReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="intrupt.aspx.cs">
+      <DependentUpon>intrupt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="intrupt.aspx.designer.cs">
+      <DependentUpon>intrupt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Lines.aspx.cs">
+      <DependentUpon>Lines.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Lines.aspx.designer.cs">
+      <DependentUpon>Lines.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="login.aspx.cs">
+      <DependentUpon>login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="login.aspx.designer.cs">
+      <DependentUpon>login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MachinePrint.aspx.cs">
+      <DependentUpon>MachinePrint.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MachinePrint.aspx.designer.cs">
+      <DependentUpon>MachinePrint.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MachineReports.aspx.cs">
+      <DependentUpon>MachineReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MachineReports.aspx.designer.cs">
+      <DependentUpon>MachineReports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MainDesign.Master.cs">
+      <DependentUpon>MainDesign.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MainDesign.Master.designer.cs">
+      <DependentUpon>MainDesign.Master</DependentUpon>
+    </Compile>
+    <Compile Include="MClass.cs" />
+    <Compile Include="MttReport.aspx.cs">
+      <DependentUpon>MttReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MttReport.aspx.designer.cs">
+      <DependentUpon>MttReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MttReportPrint.aspx.cs">
+      <DependentUpon>MttReportPrint.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MttReportPrint.aspx.designer.cs">
+      <DependentUpon>MttReportPrint.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="newMachine.aspx.cs">
+      <DependentUpon>newMachine.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="newMachine.aspx.designer.cs">
+      <DependentUpon>newMachine.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="otherRepairRequest.aspx.cs">
+      <DependentUpon>otherRepairRequest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="otherRepairRequest.aspx.designer.cs">
+      <DependentUpon>otherRepairRequest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PartsAcc.aspx.cs">
+      <DependentUpon>PartsAcc.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PartsAcc.aspx.designer.cs">
+      <DependentUpon>PartsAcc.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PartsReport.aspx.cs">
+      <DependentUpon>PartsReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PartsReport.aspx.designer.cs">
+      <DependentUpon>PartsReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PersianCulture.cs" />
+    <Compile Include="personel.aspx.cs">
+      <DependentUpon>personel.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="personel.aspx.designer.cs">
+      <DependentUpon>personel.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PersonelPrint.aspx.cs">
+      <DependentUpon>PersonelPrint.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PersonelPrint.aspx.designer.cs">
+      <DependentUpon>PersonelPrint.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PersonelReport.aspx.cs">
+      <DependentUpon>PersonelReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PersonelReport.aspx.designer.cs">
+      <DependentUpon>PersonelReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PmChecked.aspx.cs">
+      <DependentUpon>PmChecked.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PmChecked.aspx.designer.cs">
+      <DependentUpon>PmChecked.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="primryCost.aspx.cs">
+      <DependentUpon>primryCost.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="primryCost.aspx.designer.cs">
+      <DependentUpon>primryCost.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Program.aspx.cs">
+      <DependentUpon>Program.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Program.aspx.designer.cs">
+      <DependentUpon>Program.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RepairHistory.aspx.cs">
+      <DependentUpon>RepairHistory.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RepairHistory.aspx.designer.cs">
+      <DependentUpon>RepairHistory.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RepairRecordReview.aspx.cs">
+      <DependentUpon>RepairRecordReview.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RepairRecordReview.aspx.designer.cs">
+      <DependentUpon>RepairRecordReview.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RepairReport.aspx.cs">
+      <DependentUpon>RepairReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RepairReport.aspx.designer.cs">
+      <DependentUpon>RepairReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="repairRequest.aspx.cs">
+      <DependentUpon>repairRequest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="repairRequest.aspx.designer.cs">
+      <DependentUpon>repairRequest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RepairRequestPrint.aspx.cs">
+      <DependentUpon>RepairRequestPrint.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RepairRequestPrint.aspx.designer.cs">
+      <DependentUpon>RepairRequestPrint.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="repairs.aspx.cs">
+      <DependentUpon>repairs.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="repairs.aspx.designer.cs">
+      <DependentUpon>repairs.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reply.aspx.cs">
+      <DependentUpon>Reply.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reply.aspx.designer.cs">
+      <DependentUpon>Reply.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReplyPrint.aspx.cs">
+      <DependentUpon>ReplyPrint.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReplyPrint.aspx.designer.cs">
+      <DependentUpon>ReplyPrint.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports.asmx.cs">
+      <DependentUpon>Reports.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rijn.cs" />
+    <Compile Include="ShamsiCalendar.cs" />
+    <Compile Include="ShowDailyReport.aspx.cs">
+      <DependentUpon>ShowDailyReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ShowDailyReport.aspx.designer.cs">
+      <DependentUpon>ShowDailyReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ShowRequests.aspx.cs">
+      <DependentUpon>ShowRequests.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ShowRequests.aspx.designer.cs">
+      <DependentUpon>ShowRequests.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StopReport.aspx.cs">
+      <DependentUpon>StopReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StopReport.aspx.designer.cs">
+      <DependentUpon>StopReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SubSystem.aspx.cs">
+      <DependentUpon>SubSystem.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SubSystem.aspx.designer.cs">
+      <DependentUpon>SubSystem.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Tag.aspx.cs">
+      <DependentUpon>Tag.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Tag.aspx.designer.cs">
+      <DependentUpon>Tag.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="test.aspx.cs">
+      <DependentUpon>test.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="test.aspx.designer.cs">
+      <DependentUpon>test.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UnitPrint.aspx.cs">
+      <DependentUpon>UnitPrint.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UnitPrint.aspx.designer.cs">
+      <DependentUpon>UnitPrint.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="userManagment.aspx.cs">
+      <DependentUpon>userManagment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="userManagment.aspx.designer.cs">
+      <DependentUpon>userManagment.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebService.asmx.cs">
+      <DependentUpon>WebService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DailyPm.aspx.cs">
+      <DependentUpon>DailyPm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DailyPm.aspx.designer.cs">
+      <DependentUpon>DailyPm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="welcome.aspx.cs">
+      <DependentUpon>welcome.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="welcome.aspx.designer.cs">
+      <DependentUpon>welcome.aspx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="files\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>8358</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:8358/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.7\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.7\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,74 @@
+﻿
+<div class="panel-group">
+    <div class="panel panel-primary" id="pnlPrimary">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a href="#collapse1" data-toggle="collapse">ثبت و تحلیل گزارش</a>
+            </h4>
+        </div>
+        <div id="collapse1" class="panel-collapse collapse">
+            <div class="panel-body" id="reportInputs">
+                <div class="row" style="margin:0">
+                    <div class="col-lg-12" style="text-align: left;">
+                        <input class="form-control text-center" style="width: 200px; cursor: pointer;" readonly id="tarikh" />
+                    </div>
+                </div>
+                <hr />
+                <div class="row" style="margin: 0;">
+                    <div class="col-lg-4">
+                        مدیر فرآیند
+                        <input class="form-control" dir="rtl" id="txtmanager" tabindex="3"/>
+                    </div>
+                    <div class="col-lg-4">
+                        تهیه کننده
+                        <input class="form-control" dir="rtl" id="txtproducer" tabindex="2"/>
+                    </div>
+                    <div class="col-lg-4">
+                        نام گزارش
+                        <input class="form-control" dir="rtl" id="txtReportname" tabindex="1"/>
+                    </div>
+                </div>
+                <div class="row" style="margin: 0; margin-top: 10px;">
+                    <div class="col-lg-12">
+                        شرح گزارش
+                        <textarea class="form-control" rows="3" dir="rtl" id="txtReportExp" tabindex="4" style="resize: none;"></textarea>
+                    </div>
+                </div>
+                <div class="row" style="margin: 0; margin-top: 10px;">
+                    <div class="col-lg-12">
+                        تحلیل گزارش
+                        <textarea class="form-control" rows="3" dir="rtl" id="txtReportAnalyse" tabindex="5" style="resize: none;"></textarea>
+                    </div>
+                </div>
+            </div>
+            <script>
+                $(document).ready(function () {
+                    var customOptions = {
+                        placeholder: "روز / ماه / سال"
+                        , twodigit: true
+                        , closeAfterSelect: true
+                        , nextButtonIcon: "fa fa-arrow-circle-right"
+                        , previousButtonIcon: "fa fa-arrow-circle-left"
+                        , buttonsColor: "blue"
+                        , forceFarsiDigits: true
+                        , markToday: true
+                        , markHolidays: true
+                        , highlightSelectedDay: true
+                        , sync: true
+                        , gotoToday: true
+                    }
+                    kamaDatepicker('tarikh', customOptions);
+                });
+            </script>
+            <style>
+                .panel-heading * {
+                    font-family: myfont;
+                    font-weight: 800;
+                }
+            </style>
+            <div class="panel-footer">
+                <button type="button" class="button" #btn# tabindex="6">ثبت</button>
+            </div>
+        </div>
+    </div>
+</div>
