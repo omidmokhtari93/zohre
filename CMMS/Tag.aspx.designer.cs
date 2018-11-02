@@ -229,6 +229,24 @@ namespace CMMS {
         protected global::System.Web.UI.WebControls.SqlDataSource Sqlunit;
         
         /// <summary>
+        /// drAfterLine control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drAfterLine;
+        
+        /// <summary>
+        /// Sqlline control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource Sqlline;
+        
+        /// <summary>
         /// drAfterUnit control.
         /// </summary>
         /// <remarks>
@@ -236,6 +254,15 @@ namespace CMMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList drAfterUnit;
+        
+        /// <summary>
+        /// drNowLine control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drNowLine;
         
         /// <summary>
         /// drNowunit control.
@@ -265,6 +292,15 @@ namespace CMMS {
         protected global::System.Web.UI.WebControls.SqlDataSource SqlRepairers;
         
         /// <summary>
+        /// drNewLocLine control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drNewLocLine;
+        
+        /// <summary>
         /// drNewLocUnit control.
         /// </summary>
         /// <remarks>
@@ -272,6 +308,15 @@ namespace CMMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList drNewLocUnit;
+        
+        /// <summary>
+        /// drRecLocLine control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drRecLocLine;
         
         /// <summary>
         /// drRecLocUnit control.

@@ -30,9 +30,7 @@
                 <div class="row" style="margin: 0; text-align: right; direction: ltr;">
                    <div class="col-md-3">
                        <label style="display: block;"> : خط</label>
-                       
                        <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drlinefail" CssClass="form-control" DataSourceID="Sqlline" DataTextField="line_name" DataValueField="id"><asp:ListItem Value="-1">خط را انتخاب کنید</asp:ListItem></asp:DropDownList>  
-                       
                    </div>
                     <div class="col-md-3">
                         <label style="display: block;"> : واحد</label>

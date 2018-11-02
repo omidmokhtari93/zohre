@@ -234,7 +234,9 @@ where s_subtag.id = @id">
                         <div style="border: 1px solid darkgray; padding: 5px; border-radius: 5px; height: 74px;">
                             <div style="display: inline-block; width: 48%; text-align: right;">
                                 خط جدید
-                                <select dir="rtl" class="form-control" id="drAfterLine"></select> 
+                                <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drAfterLine" CssClass="form-control" DataSourceID="Sqlline" DataTextField="line_name" DataValueField="id"><asp:ListItem Value="-1">خط را انتخاب کنید</asp:ListItem></asp:DropDownList>  
+                                <asp:SqlDataSource ID="Sqlline" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT [id],[line_name] FROM [dbo].[i_lines]">
+                                </asp:SqlDataSource>
                             </div>
                             <div style="display: inline-block;width: 48%; text-align: right;">
                                 واحد جدید
@@ -246,7 +248,7 @@ where s_subtag.id = @id">
                         <div style="border: 1px solid darkgray; padding: 5px; border-radius: 5px; height: 74px;">
                             <div style="display: inline-block; width: 48%; text-align: right;">
                                 خط فعلی
-                                <select dir="rtl" class="form-control" id="drNowLine"></select> 
+                                <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drNowLine" CssClass="form-control" DataSourceID="Sqlline" DataTextField="line_name" DataValueField="id"><asp:ListItem Value="-1">خط را انتخاب کنید</asp:ListItem></asp:DropDownList>  
                             </div>
                             <div style="display: inline-block;width: 48%; text-align: right;">
                                 واحد فعلی
@@ -314,7 +316,7 @@ where s_subtag.id = @id">
                         <div style="border: 1px solid darkgray; padding: 5px; border-radius: 5px; height: 74px;">
                             <div style="display: inline-block; width: 48%; text-align: right;">
                                 خط جدید
-                                <select dir="rtl" class="form-control" id="drNewLocLine"></select> 
+                                <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drNewLocLine" CssClass="form-control" DataSourceID="Sqlline" DataTextField="line_name" DataValueField="id"><asp:ListItem Value="-1">خط را انتخاب کنید</asp:ListItem></asp:DropDownList>  
                             </div>
                             <div style="display: inline-block;width: 48%; text-align: right;">
                                 واحد جدید
@@ -326,7 +328,7 @@ where s_subtag.id = @id">
                         <div style="border: 1px solid darkgray; padding: 5px; border-radius: 5px; height: 74px;">
                             <div style="display: inline-block; width: 48%; text-align: right;">
                                 خط فعلی
-                                <select dir="rtl" class="form-control" id="drRecLocLine"></select> 
+                                <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drRecLocLine" CssClass="form-control" DataSourceID="Sqlline" DataTextField="line_name" DataValueField="id"><asp:ListItem Value="-1">خط را انتخاب کنید</asp:ListItem></asp:DropDownList>  
                             </div>
                             <div style="display: inline-block;width: 48%; text-align: right;">
                                 واحد فعلی
