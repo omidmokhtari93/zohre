@@ -60,7 +60,9 @@
             <asp:SqlDataSource ID="sqlpersonel" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT ROW_NUMBER()over (order by per_id) as rownum,id,per_id,per_name,case when unit = 0 then 'تاسیسات' when unit = 1 then 'برق' end as unitt,case when task = 0 then 'نیروی معمولی' when task = 1 then 'نیروی ماهر' when task = 2 then 'سرشیفت' when task = 3 then 'سرپرست' when task = 4 then 'مدیر فنی' end as task,unit as vahed , task as semat ,permit FROM i_personel order by unit,per_id"></asp:SqlDataSource>
         </div>
         <div class="panel-footer">
-            <a href="PersonelPrint.aspx" class="fa fa-print print" target="_blank" title="پرینت"></a>
+            <div style="display: block; text-align: center;">
+                <button class="fa fa-print" runat="server" OnServerClick="btnPrintPersonel_OnClick" style="background: transparent; border: none;"></button>
+            </div>
             <div class="row" style="margin: 0; border: 1px solid rgb(190, 190, 190);border-radius: 5px; background-color: #dfecfe;">
                 <div class="col-lg-6" style="padding: 5px;">
                     <label style="display: block; text-align: right;">سمت</label>
@@ -111,7 +113,6 @@
                 setTimeout(function () { $('#txtname').removeClass('form-controlError'); }, 4000);
                 $.notify("!!لطفا نام و نام خانوادگی را وارد نمایید", { globalPosition: 'top left' });
             }
-            
         }
 
         function getRadio() {

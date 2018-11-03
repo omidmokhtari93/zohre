@@ -1835,19 +1835,20 @@ namespace CMMS
         }
 
         [WebMethod]
-        public string GetPersonels()
+        public string GetPersonels(int task , int unit)
         {
             _cnn.Open();
             var persList =  new List<string[]>();
             var list = new List<string[]>();
-            var p = new SqlCommand("SELECT per_id,per_name,case when unit = 0 then 'تاسیسات' when unit = 1 then 'برق' end as unitt," +
-                                   "case when task = 0 then 'نیروی معمولی' when task = 1 then 'نیروی ماهر' " +
-                                   "when task = 2 then 'سرشیفت' when task = 3 then 'سرپرست' when task = 4 then" +
-                                   " 'مدیر فنی' end as task,permit FROM i_personel order by unit,per_id",_cnn);
+            var p = new SqlCommand("select per,perid,unit,task,permit from(SELECT per_name as per,case when unit = 0 then 'تاسیسات' when unit = 1 then 'برق'  "+
+                                   "end as unit, case when task = 0 then 'نیروی معمولی' when task = 1 then 'نیروی ماهر' when task = 2 then 'سرشیفت' when " +
+                                   "task = 3 then 'سرپرست' when task = 4 then 'مدیر فنی' end as task, unit as vahed, task as semat,per_id as perid, case when permit = 1 " +
+                                   "then 'فعال' else 'غیرفعال' end as permit FROM i_personel)i " +
+                                   "where (vahed = "+unit+" or "+unit+" = -1) and (semat = "+task+" or "+task+" = -1) ", _cnn);
             var r = p.ExecuteReader();
             while (r.Read())
             {
-                persList.Add(new []{r["per_name"].ToString() , r["per_id"].ToString() , r["task"].ToString() , r["unitt"].ToString()});
+                persList.Add(new []{r["per"].ToString() , r["perid"].ToString() , r["task"].ToString() , r["unit"].ToString(), r["permit"].ToString() });
             }
             list.AddRange(persList);
             return new JavaScriptSerializer().Serialize(list);

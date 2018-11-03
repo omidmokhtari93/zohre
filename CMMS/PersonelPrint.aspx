@@ -100,66 +100,76 @@
         </style>
     </div>
     <script>
-    var allrows;
-    var pagess;
-    var footerlength;
-    var footerContent;
-    var hfContent;
-    $(function () {
-        $.get("Content/personelprint.html",
-            function (htmlString) {
-                hfContent = htmlString;
-                hfContent = hfContent.replace("#date#", JalaliDateTime());
-                headerFooterDate();
-            },
-            'html');
-    });
-
-    function headerFooterDate() {
-        var d = [];
-        d.push({
-            url: 'WebService.asmx/GetPersonels',
-            parameters: [],
-            func: createTables
+        var allrows;
+        var pagess;
+        var footerlength;
+        var footerContent;
+        var hfContent;
+        $(function() {
+            $.get("Content/personelprint.html",
+                function(htmlString) {
+                    hfContent = htmlString;
+                    hfContent = hfContent.replace("#date#", JalaliDateTime());
+                    headerFooterDate();
+                },
+                'html');
         });
-        AjaxCall(d);
-        function createTables(e) {
-            var pData = JSON.parse(e.d);
-            pagess = Math.ceil(pData.length / 42);
-            var page = 1;
-            var k;
-            var b = 0;
-            var body = [];
-            var radif = 0;
-            for (var i = 0; i < pagess; i++) {
-                hfContent = hfContent.replace('id="tbl' + i + '"', 'id="tbl' + page + '"');
-                $('#printArea').append(hfContent);
-                var table = $('#printArea').find('table#tbl' + page + '');
-                body.push('<tr><th>ردیف</th><th>نام پرسنل</th><th>شماره پرسنلی</th><th>سمت</th><th>واحد اشتغال</th></tr>');
-                if (i === 0 && pagess > 1) {
-                    var first = $('#printArea').find('.print');
-                    $(first).css('margin-bottom', '200px');
-                }
-                for (k = b; k < pData.length;) {
-                    body.push('<tr>' +
-                        '<td>' + parseInt(++radif) + '</td>' +
-                        '<td>' + pData[k][0] + '</td>' +
-                        '<td>' + pData[k][1] + '</td>' +
-                        '<td>' + pData[k][2] + '</td>' +
-                        '<td>' + pData[k][3] + '</td></tr>');
-                    ++k;
-                    if ((42 * (i + 1) - k) === 0 || k === pData.length) {
-                        $(table).append(body.join(''));
-                        body = [];
-                        b = k;
-                        break;
+
+        function headerFooterDate() {
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for (var j = 0; j < hashes.length; j++) {
+                hash = hashes[j].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            var d = [];
+            d.push({
+                url: 'WebService.asmx/GetPersonels',
+                parameters: [{ task: vars['task'], unit: vars['unit'] }],
+                func: createTables
+            });
+            AjaxCall(d);
+
+            function createTables(e) {
+                var pData = JSON.parse(e.d);
+                pagess = Math.ceil(pData.length / 42);
+                var page = 1;
+                var k;
+                var b = 0;
+                var body = [];
+                var radif = 0;
+                for (var i = 0; i < pagess; i++) {
+                    hfContent = hfContent.replace('id="tbl' + i + '"', 'id="tbl' + page + '"');
+                    $('#printArea').append(hfContent);
+                    var table = $('#printArea').find('table#tbl' + page + '');
+                    body.push('<tr><th>ردیف</th><th>نام پرسنل</th><th>شماره پرسنلی</th><th>سمت</th><th>واحد اشتغال</th><th>وضعیت</th></tr>');
+                    if (i === 0 && pagess > 1) {
+                        var first = $('#printArea').find('.print');
+                        $(first).css('margin-bottom', '200px');
                     }
-                    page++;
+                    for (k = b; k < pData.length;) {
+                        body.push('<tr>' +
+                            '<td>' + parseInt(++radif) +'</td>' +
+                            '<td>' + pData[k][0] + '</td>' +
+                            '<td>' + pData[k][1] +'</td>' +
+                            '<td>' + pData[k][2] +'</td>' +
+                            '<td>' + pData[k][3] + '</td>' +
+                            '<td>' + pData[k][4] + '</td>' +
+                            '</tr>');
+                        ++k;
+                        if ((42 * (i + 1) - k) === 0 || k === pData.length) {
+                            $(table).append(body.join(''));
+                            body = [];
+                            b = k;
+                            break;
+                        }
+                        page++;
+                    }
                 }
             }
         }
-    }
-</script>
+    </script>
 </form>
 </body>
 </html>

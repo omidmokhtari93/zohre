@@ -21,7 +21,6 @@ namespace CMMS
                 default:
                     Response.Redirect("login.aspx");
                     break;
-
             }
         }
 
@@ -43,33 +42,23 @@ namespace CMMS
 
         protected void gridpersonel_OnRowCommand(object sender, GridViewCommandEventArgs e)
         {
-            if (e.CommandName == "ed")
-            {
-                var index = int.Parse(e.CommandArgument.ToString());
-                ViewState["id"] = gridpersonel.DataKeys[index]["id"];
-                cnn.Open();
-                var getUser = new SqlCommand("SELECT [per_id],[per_name],[unit],[task],[permit] FROM [dbo].[i_personel] where id = " + Convert.ToInt32(ViewState["id"]) + " ", cnn);
-                var rd = getUser.ExecuteReader();
-                if (rd.Read())
-                {
-                    txtname.Text = rd["per_name"].ToString();
-                    txtper.Text = rd["per_id"].ToString();
-                    
-                    
-                    userState.Value = rd["unit"].ToString();
-                    userActive.Value = rd["permit"].ToString();
-                    drsemat.SelectedValue = rd["task"].ToString();
-                    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "setRadio();setactRadio();", true);
-                    btninsert.Visible = false;
-                    btncancel.Visible = true;
-                    btnedit.Visible = true;
-                }
-            }
-
-            
+            if (e.CommandName != "ed") return;
+            var index = int.Parse(e.CommandArgument.ToString());
+            ViewState["id"] = gridpersonel.DataKeys[index]["id"];
+            cnn.Open();
+            var getUser = new SqlCommand("SELECT [per_id],[per_name],[unit],[task],[permit] FROM [dbo].[i_personel] where id = " + Convert.ToInt32(ViewState["id"]) + " ", cnn);
+            var rd = getUser.ExecuteReader();
+            if (!rd.Read()) return;
+            txtname.Text = rd["per_name"].ToString();
+            txtper.Text = rd["per_id"].ToString();
+            userState.Value = rd["unit"].ToString();
+            userActive.Value = rd["permit"].ToString();
+            drsemat.SelectedValue = rd["task"].ToString();
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "setRadio();setactRadio();", true);
+            btninsert.Visible = false;
+            btncancel.Visible = true;
+            btnedit.Visible = true;
         }
-
-       
 
         protected void btnedit_Click(object sender, EventArgs e)
         {
@@ -78,26 +67,9 @@ namespace CMMS
                 ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "Err();", true);
                 return;
             }
-            
             cnn.Open();
-            int unitt;
-            int act;
-            if (userState.Value == "0")
-            {
-                unitt = 0;
-            }
-            else
-            {
-                unitt = 1;
-            }
-            if (userActive.Value == "0")
-            {
-                act = 0;
-            }
-            else
-            {
-                act = 1;
-            }
+            var unitt = userState.Value == "0" ? 0 : 1;
+            var act = userActive.Value == "0" ? 0 : 1;
             var upPersonel = new SqlCommand("UPDATE [dbo].[i_personel] " +
                                         "SET[per_name] = '" + txtname.Text + "' " +
                                         ",[per_id] = '" + txtper.Text + "' " +
@@ -127,26 +99,26 @@ namespace CMMS
 
         protected void drtaskFilter_OnSelectedIndexChanged(object sender, EventArgs e)
         {
-            if (drtaskFilter.SelectedValue == "-1")
-            {
-                sqlpersonel.FilterExpression = "";
-                gridpersonel.DataBind();
-                return;
-            }
-            sqlpersonel.FilterExpression = "semat = "+drtaskFilter.SelectedValue+" ";
-            gridpersonel.DataBind();
+            FilterPersonel();
         }
 
         protected void drunitFilter_OnSelectedIndexChanged(object sender, EventArgs e)
         {
-            if (drunitFilter.SelectedValue == "-1")
-            {
-                sqlpersonel.FilterExpression = "";
-                gridpersonel.DataBind();
-                return;
-            }
-            sqlpersonel.FilterExpression = "vahed = "+drunitFilter.SelectedValue+" ";
+            FilterPersonel();
+        }
+
+        private void FilterPersonel()
+        {
+            var task = Convert.ToInt32(drtaskFilter.SelectedValue);
+            var unit = Convert.ToInt32(drunitFilter.SelectedValue);
+            sqlpersonel.FilterExpression = " (vahed = " + unit + " or "+unit+" = -1) and (semat = "+task+" or "+task+" = -1) ";
             gridpersonel.DataBind();
+        }
+        protected void btnPrintPersonel_OnClick(object sender, EventArgs e)
+        {
+            var task = drtaskFilter.SelectedValue;
+            var unit = drunitFilter.SelectedValue;
+            Response.Write("<script>window.open('PersonelPrint.aspx?task=" + task + "&unit=" + unit+ "','_blank');</script>");
         }
     }
 }
