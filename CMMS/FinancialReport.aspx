@@ -15,6 +15,7 @@
         <li ><a data-toggle="tab" href="#ToolsCost">هزینه قطعات</a></li>
         <li ><a data-toggle="tab" href="#ContractorCost">هزینه پیمانکاران</a></li>
         <li><a data-toggle="tab" href="#PersonelCost">هزینه پرسنل</a></li>
+        <li><a data-toggle="tab" href="#RequestCost">تعمیرات پر هزینه</a></li>
     </ul>
     <asp:SqlDataSource ID="Sqlline" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT [id],[line_name] FROM [dbo].[i_lines]"></asp:SqlDataSource>
     <div class="tab-content">
@@ -155,6 +156,31 @@
                 </div>
             </div>
         </div>
+    <div id="RequestCost" class="tab-pane fade">
+        <div class="menubody">
+            <div class="row" style="margin: 0; text-align: right; direction: ltr;">
+                <div class="col-md-4">
+                    <label style="display: block;"> : تعداد نتایج</label>
+                    <input class="form-control text-center" autocomplete="off" id="txtMosReqCount"/>
+                </div>
+              
+                <div class="col-md-4">
+                    <label style="display: block;"> : تا تاریخ</label>
+                    <input class="form-control text-center" autocomplete="off" id="txtEndDateReqCost"/>
+                </div>
+                <div class="col-md-4">
+                    <label style="display: block;"> : از تاریخ</label>
+                    <input class="form-control text-center" autocomplete="off" id="txtStartDateReqCost"/>
+                </div>
+            </div>
+            <div style="padding: 15px;">
+                <button type="button" class="btn btn-info" style="width: 100%;" onclick="RequestCost();">دریافت گزارش</button>
+            </div>
+            <table dir="rtl" id="gridRequestCost" class="table">
+                <tbody></tbody>
+            </table>
+        </div>
     </div>
+   </div>
     <script src="Scripts/FinancialReports.js"></script>
 </asp:Content>

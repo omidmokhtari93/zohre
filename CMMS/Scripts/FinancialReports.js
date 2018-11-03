@@ -21,6 +21,8 @@
     kamaDatepicker('txtStartDateContractorCost', customOptions);
     kamaDatepicker('txtEndDateToolsCost', customOptions);
     kamaDatepicker('txtStartDateToolsCost', customOptions);
+    kamaDatepicker('txtEndDateReqCost', customOptions);
+    kamaDatepicker('txtStartDateReqCost', customOptions);
 });
 $('#drPersonelUnit').on('change', function () {
     if ($('#drPersonelUnit :selected').val() !== '-1') {
@@ -239,5 +241,49 @@ function RepairCost() {
             $('#gridRepairCost tbody').append(body.join(''));
         }
         $('#lblRepairCost').text(total + ' ریال ');
+    }
+}
+function RequestCost() {
+    var count = $('#txtMosReqCount').val();
+    var sDate = $('#txtStartDateReqCost').val();
+    var eDate = $('#txtEndDateReqCost').val();
+    if (sDate === '' || eDate === ''||count==='') {
+        RedAlert('no', '!!فیلدهای خالی را تکمیل کنید');
+        return;
+    }
+    if (CheckPastTime(sDate, '12:00', eDate, '12:00') === false) {
+        RedAlert('no', '!!تاریخ شروع باید کوچکتر از تاریخ پایان باشد');
+        return;
+    }
+
+    var data = [];
+    data.push({
+        url: 'Reports.asmx/RequestCost',
+        parameters: [{ count:count, dateS: sDate, dateE: eDate }],
+        func: reqCost
+    });
+    AjaxCall(data);
+
+    function reqCost(e) {
+        $('#gridRequestCost tbody').empty();
+        var pc = JSON.parse(e.d);
+        var total = 0;
+        if (pc.length > 0) {
+            var body = [];
+
+            body.push('<tr><th>ردیف</th><th>نام ماشین</th><th>شماره درخواست</th><th>هزینه(ریال)</th></tr>');
+            for (var i = 0; i < pc.length; i++) {
+                total += parseInt(pc[i][0]);
+                body.push('<tr>' +
+                    '<td>' + parseInt(i + 1) + '</td>' +
+                    '<td>' + pc[i][1] + '</td>' +
+                    '<td>' + pc[i][2] + '</td>' +
+                    '<td>' + pc[i][0] + '</td>' +
+                    '</tr>');
+            }
+
+            $('#gridRequestCost tbody').append(body.join(''));
+        }
+        //$('#gridRequestCost').text(total + ' ریال ');
     }
 }

@@ -411,6 +411,36 @@ function CreateMostDelaysChart() {
         dateE: $('#txtMostDelaysEndDate').val()
     });
     GetChartData(obj);
+
+    var dataa = [];
+    dataa.push({
+        url: 'Reports.asmx/TimeDelay',
+        parameters: [{ line: linee,unit:unitt, dateS: sDate, dateE: eDate }],
+        func: delay
+    });
+    AjaxCall(dataa);
+
+    function delay(e) {
+        $('#gridDelayTime tbody').empty();
+        var pc = JSON.parse(e.d);
+        if (pc.length > 0) {
+            var body = [];
+
+            body.push('<tr><th>ردیف</th><th>نام ماشین</th><th>شماره درخواست</th><th>علت تاخیر</th><th>مدت زمان تاخیر(دقیقه)</th></tr>');
+            for (var i = 0; i < pc.length; i++) {
+               body.push('<tr>' +
+                    '<td>' + parseInt(i + 1) + '</td>' +
+                    '<td>' + pc[i][2] + '</td>' +
+                    '<td>' + pc[i][3] + '</td>' +
+                    '<td>' + pc[i][1] + '</td>' +
+                    '<td>' + pc[i][0] + '</td>' +
+                    '</tr>');
+            }
+
+            $('#gridDelayTime tbody').append(body.join(''));
+        }
+        //$('#gridRequestCost').text(total + ' ریال ');
+    }
 }
 
 

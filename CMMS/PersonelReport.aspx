@@ -7,6 +7,7 @@
     </div>
     <ul class="nav nav-tabs" style="padding: 0px 15px 0 15px; margin-top: 10px;">
         <li class="active"><a data-toggle="tab" href="#PersonelWorkTime">میزان کارکرد پرسنل</a></li>
+        <li ><a data-toggle="tab" href="#PersonelEmPmCmTime">گزارش نفر ساعت کارکرد</a></li>
     </ul>
     <div class="tab-content">
         <div id="PersonelWorkTime" class="tab-pane fade in active">
@@ -38,6 +39,25 @@
                 </table>
             </div>
         </div>
+        <div id="PersonelEmPmCmTime" class="tab-pane fade ">
+            <div class="menubody">
+                <div class="row" style="margin: 0; text-align: right; direction: ltr;">
+                    
+                    <div class="col-md-6">
+                        <label style="display: block;"> : تا تاریخ</label>
+                        <input class="form-control text-center" autocomplete="off" id="txtTimeEndDate" tabindex="2"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label style="display: block;"> : از تاریخ</label>
+                        <input class="form-control text-center" autocomplete="off" id="txtTimeStartDate" tabindex="1"/>
+                    </div>
+                </div>
+                <div style="padding: 15px;">
+                    <button type="button" class="btn btn-info" style="width: 100%;" onclick="EmPmTimeChart();">دریافت گزارش</button>
+                </div>
+                <div id="EmPmChart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 10px auto;"></div>
+            </div>
+        </div>
     </div>
     <script>
         $(document).ready(function () {
@@ -57,6 +77,8 @@
             }
             kamaDatepicker('txtPersonelEndDate', customOptions);
             kamaDatepicker('txtPersonelStartDate', customOptions);
+            kamaDatepicker('txtTimeEndDate', customOptions);
+            kamaDatepicker('txtTimeStartDate', customOptions);
         });
 
         function CreatePersonelWorkTimeChart() {
@@ -93,6 +115,34 @@
                 }
                 $('#gridPersonelWorkTime tbody').append(body.join(''));
             }
+        }
+        function EmPmTimeChart() {
+          
+            var sDate = $('#txtTimeStartDate').val();
+            var eDate = $('#txtTimeEndDate').val();
+
+            if ($('#txtTimeEndDate').val() == '' || $('#txtTimeStartDate').val() == '' ) {
+                RedAlert('no', '!!فیلدهای خالی را تکمیل کنید');
+                return;
+            }
+            if (CheckPastTime(sDate, '12:00', eDate, '12:00') === false) {
+                RedAlert('no', '!!تاریخ شروع باید کوچکتر از تاریخ پایان باشد');
+                return;
+            }
+            var obj = {
+                lblkind: 'دقیقه',
+                url: 'EmPmtimePersonel',
+                data: [],
+                element: 'EmPmChart',
+                header: 'بیشترین خرابی اجزاء',
+                chartype: 'column'
+            };
+            obj.data.push({
+                
+                dateS: sDate,
+                dateE: eDate
+            });
+            GetChartData(obj);
         }
     </script>
 </asp:Content>

@@ -163,6 +163,10 @@
                     <button type="button" class="btn btn-info" style="width: 100%;" onclick="CreateMostDelaysChart();">دریافت گزارش</button>
                 </div>
                 <div id="MostDelaysChart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 10px auto;"></div>
+                <hr 5/>
+                <table dir="rtl" id="gridDelayTime" class="table">
+                    <tbody></tbody>
+                </table>
             </div>
         </div>
         <div id="RepairAction" class="tab-pane fade">

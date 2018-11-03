@@ -213,6 +213,63 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(infoMaxReq);
         }
         [WebMethod]
+        public string TimeDelay(int line,int unit, string dateS, string dateE)//خرابی های پر هزینه 
+        {
+            var infoReqcost = new List<string[]>();
+            cnn.Open();
+            var cmdReqcost = new SqlCommand(" SELECT SUM(1 * DATEDIFF(minute, 0, dbo.r_reply.delay_time)) AS DelayTime, STRING_AGG(dbo.i_delay_reason.delay, ' ,') AS Dinfo, " +
+                                            " dbo.r_reply.idreq, dbo.m_machine.name " +
+                                            " FROM dbo.r_reply INNER JOIN " +
+                                            " dbo.r_rdelay ON dbo.r_reply.id = dbo.r_rdelay.id_rep INNER JOIN " +
+                                            " dbo.i_delay_reason ON dbo.r_rdelay.delay_id = dbo.i_delay_reason.id INNER JOIN " +
+                                            " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
+                                            " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
+                                            " GROUP BY dbo.r_reply.idreq, dbo.m_machine.name", cnn);
+            var cmdReqcostUnit = new SqlCommand(" SELECT SUM(1 * DATEDIFF(minute, 0, dbo.r_reply.delay_time)) AS DelayTime, STRING_AGG(dbo.i_delay_reason.delay, ' ,') AS Dinfo, " +
+                                            " dbo.r_reply.idreq, dbo.m_machine.name " +
+                                            " FROM dbo.r_reply INNER JOIN " +
+                                            " dbo.r_rdelay ON dbo.r_reply.id = dbo.r_rdelay.id_rep INNER JOIN " +
+                                            " dbo.i_delay_reason ON dbo.r_rdelay.delay_id = dbo.i_delay_reason.id INNER JOIN " +
+                                            " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
+                                            " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
+                                            " where m_machine.loc = "+unit+" " +
+                                            " GROUP BY dbo.r_reply.idreq, dbo.m_machine.name", cnn);
+            var cmdReqcostline = new SqlCommand(" SELECT SUM(1 * DATEDIFF(minute, 0, dbo.r_reply.delay_time)) AS DelayTime, STRING_AGG(dbo.i_delay_reason.delay, ' ,') AS Dinfo, " +
+                                            " dbo.r_reply.idreq, dbo.m_machine.name " +
+                                            " FROM dbo.r_reply INNER JOIN " +
+                                            " dbo.r_rdelay ON dbo.r_reply.id = dbo.r_rdelay.id_rep INNER JOIN " +
+                                            " dbo.i_delay_reason ON dbo.r_rdelay.delay_id = dbo.i_delay_reason.id INNER JOIN " +
+                                            " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
+                                            " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
+                                            " where m_machine.line = "+line+" " +
+                                            " GROUP BY dbo.r_reply.idreq, dbo.m_machine.name", cnn);
+
+            SqlDataReader rd;
+            if (line != -1)
+            {
+                rd = cmdReqcostline.ExecuteReader();
+
+            }
+            else if (unit != -1)
+            {
+                rd = cmdReqcostUnit.ExecuteReader();
+
+            }
+            else
+            {
+                rd = cmdReqcost.ExecuteReader();
+            }
+            while (rd.Read())
+            {
+                var strList = new List<string[]>
+                {
+                    new[] { rd["DelayTime"].ToString(),rd["Dinfo"].ToString(), rd["name"].ToString(),rd["idreq"].ToString() }
+                };
+                infoReqcost.AddRange(strList);
+            }
+            return new JavaScriptSerializer().Serialize(infoReqcost);
+        }
+        [WebMethod]
         public string RDelay(int line, int unit, string dateS, string dateE)
         {
             var infodelay = new ChartData();
@@ -282,7 +339,7 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(infodelay);
         }
         [WebMethod]
-        public string EmPmCm(int line,int unit,string dateS, string dateE)
+        public string EmPmCm(int line,int unit,string dateS, string dateE)//نوع درخواست
         {
             var infoPm = new List<string[]>();
             cnn.Open();
@@ -334,7 +391,7 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(infoPm);
         }
         [WebMethod]
-        public string Failreason(int line, int unit, string dateS, string dateE)
+        public string Failreason(int line, int unit, string dateS, string dateE)//دلایل خرابی
         {
             var infoFail = new ChartData();
             var list1 = new List<string>();
@@ -390,7 +447,7 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(infoFail);
         }
         [WebMethod]
-        public string MachinType()
+        public string MachinType()//نوع ماشین آلات
         {
             var machineList = new List<string[]>();
             cnn.Open();
@@ -412,7 +469,7 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(machineList);
         }
         [WebMethod]
-        public string MaxTools(int line,int unit,int count,string dateS, string dateE)
+        public string MaxTools(int line,int unit,int count,string dateS, string dateE)//قطعات پر استفاده 
         {
             var infoTools = new ChartData();
             var list1 = new List<string>();
@@ -519,6 +576,33 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(infoPersonel);
         }
         [WebMethod]
+        public string EmPmtimePersonel(string dateS, string dateE)//گزارش نفر ساعت تعمیرات 
+        {
+            var infoTools = new ChartData();
+            var list1 = new List<string>();
+            var list2 = new List<decimal>();
+            cnn.Open();
+            var cmdEmPmtimePersonel = new SqlCommand(" SELECT SUM(- (1 * DATEDIFF(minute, dbo.r_personel.time_work, 0))) AS min, " +
+                                          " CASE WHEN dbo.r_request.type_req = 1 THEN 'اضطراری' WHEN dbo.r_request.type_req = 2 THEN 'پیش بینانه'" +
+                                          " WHEN dbo.r_request.type_req = 3 THEN 'پیش گیرانه' END AS TypeReq " +
+                                          " FROM dbo.r_personel INNER JOIN " +
+                                          " dbo.i_personel AS i_personel_1 ON dbo.r_personel.per_id = i_personel_1.id INNER JOIN " +
+                                          " dbo.r_reply ON dbo.r_personel.id_rep = dbo.r_reply.id INNER JOIN " +
+                                          " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id " +
+                                          " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
+                                          " GROUP BY dbo.r_request.type_req", cnn);
+
+            var rd = cmdEmPmtimePersonel.ExecuteReader();
+            while (rd.Read())
+            {
+                list1.Add(rd["TypeReq"].ToString());
+                list2.Add(Convert.ToInt32(rd["min"]));
+            }
+            infoTools.Strings.AddRange(list1);
+            infoTools.Integers.AddRange(list2);
+            return new JavaScriptSerializer().Serialize(infoTools);
+        }
+        [WebMethod]
         public string RepState(string dateS, string dateE)
         {
             var infoRepstate = new List<string[]>();
@@ -541,7 +625,7 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(infoRepstate);
         }
         [WebMethod]
-        public string Typefailreason(int line,int unit,string dateS, string dateE)
+        public string Typefailreason(int line,int unit,string dateS, string dateE)//علت خرابی
         {
             var infoFail = new List<string[]>();
             cnn.Open();
@@ -1008,7 +1092,63 @@ namespace CMMS
             }
             return new JavaScriptSerializer().Serialize(infotools);
         }
-        
+        [WebMethod]
+        public string RequestCost( int count, string dateS, string dateE)//خرابی های پر هزینه 
+        {
+            var infoReqcost = new List<string[]>();
+            cnn.Open();
+            var cmdReqcost = new SqlCommand(" SELECT TOP ("+count+") SUM(i.Total) AS Tot, dbo.m_machine.name, i.idreq " +
+                                            " FROM dbo.m_machine INNER JOIN " +
+                                            " dbo.r_request AS r_request_2 ON dbo.m_machine.id = r_request_2.machine_code INNER JOIN " +
+                                            " (SELECT TOP(5) SUM(Tot) AS Total, idreq " +
+                                            " FROM(SELECT sgdb.dbo.Fee.perFee * SUM(i_1.count) AS Tot, i_1.idreq " +
+                                            " FROM(SELECT dbo.r_tools.tools_id, SUM(dbo.r_tools.count) AS count, dbo.r_reply.idreq " +
+                                            " FROM dbo.r_reply INNER JOIN " +
+                                            " dbo.r_tools ON dbo.r_reply.id = dbo.r_tools.id_rep INNER JOIN " +
+                                            " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
+                                            " dbo.m_machine AS m_machine_2 ON dbo.r_request.machine_code = m_machine_2.id " +
+                                            " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
+                                            " GROUP BY dbo.r_tools.tools_id, dbo.r_reply.idreq) AS i_1 INNER JOIN " +
+                                            " sgdb.dbo.Fee ON i_1.tools_id = sgdb.dbo.Fee.Partref " +
+                                            " GROUP BY sgdb.dbo.Fee.perFee, i_1.idreq) AS Tmain " +
+                                            " GROUP BY idreq UNION ALL " +
+                                            " SELECT SUM(min * (salary / 30 / 440)) AS Price, idreq " +
+                                            " FROM(SELECT dbo.i_personel.per_name, dbo.i_personel.per_id, r_reply_2.idreq, -(1 * DATEDIFF(minute, dbo.r_personel.time_work, 0)) AS min, CASE WHEN(task = 0) THEN " +
+                                            " (SELECT worker FROM i_costs WHERE cost_year = " +
+                                            " (SELECT SUBSTRING('" + dateS + "', 1, 4) AS Year)) WHEN task = 1 THEN " +
+                                            " (SELECT expert FROM i_costs WHERE cost_year = " +
+                                            " (SELECT SUBSTRING('" + dateS + "', 1, 4) AS Year)) WHEN task = 2 THEN " +
+                                            " (SELECT headworker FROM i_costs WHERE cost_year = " +
+                                            " (SELECT SUBSTRING('" + dateS + "', 1, 4) AS Year)) WHEN task = 3 THEN " +
+                                            " (SELECT manager FROM i_costs WHERE cost_year = " +
+                                            " (SELECT SUBSTRING('" + dateS + "', 1, 4) AS Year)) WHEN task = 4 THEN " +
+                                            " (SELECT technical_manager FROM i_costs WHERE cost_year = " +
+                                            " (SELECT SUBSTRING('" + dateS + "', 1, 4) AS Year)) END AS salary, dbo.r_personel.time_work FROM dbo.i_personel INNER JOIN " +
+                                            " dbo.r_personel ON dbo.i_personel.id = dbo.r_personel.per_id INNER JOIN " +
+                                            " dbo.r_reply AS r_reply_2 ON dbo.r_personel.id_rep = r_reply_2.id " +
+                                            " WHERE(r_reply_2.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.r_personel.per_id <> 5)) AS derivedtbl_1 " +
+                                            " GROUP BY idreq UNION ALL " +
+                                            " SELECT SUM(dbo.r_contract.cost) AS contract, r_reply_1.idreq " +
+                                            " FROM dbo.i_contractor INNER JOIN " +
+                                            " dbo.r_contract ON dbo.i_contractor.id = dbo.r_contract.contract_id INNER JOIN " +
+                                            " dbo.r_reply AS r_reply_1 ON dbo.r_contract.id_rep = r_reply_1.id INNER JOIN " +
+                                            " dbo.r_request AS r_request_1 ON r_reply_1.idreq = r_request_1.req_id INNER JOIN " +
+                                            " dbo.m_machine AS m_machine_1 ON r_request_1.machine_code = m_machine_1.id " +
+                                            " WHERE(r_reply_1.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
+                                            " GROUP BY dbo.i_contractor.name, dbo.i_contractor.id, r_reply_1.idreq) AS i ON r_request_2.req_id = i.idreq " +
+                                            " GROUP BY i.idreq, dbo.m_machine.name ORDER BY Tot DESC", cnn);
+
+            var rd = cmdReqcost.ExecuteReader();
+            while (rd.Read())
+            {
+                var strList = new List<string[]>
+                {
+                    new[] { rd["Tot"].ToString(), rd["name"].ToString(),rd["idreq"].ToString() }
+                };
+                infoReqcost.AddRange(strList);
+            }
+            return new JavaScriptSerializer().Serialize(infoReqcost);
+        }
         [WebMethod]
         public string ContractorCost(int line,int unit,string dateS, string dateE)//هزینه پیمانکاران
         {
