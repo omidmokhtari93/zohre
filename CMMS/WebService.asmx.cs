@@ -612,13 +612,12 @@ namespace CMMS
             var Minfo = new List<MachineMainInfo>();
             _cnn.Open();
             var getMachInfo = new SqlCommand(
-                "SELECT dbo.m_machine.name, dbo.m_machine.code, dbo.m_machine.catalog, dbo.m_machine.catFile, "+
-                "dbo.m_machine.imp, dbo.m_machine.creator, dbo.m_machine.insDate, dbo.m_machine.maModel, " +
-                "dbo.m_machine.startDate, dbo.m_machine.pow, dbo.m_machine.catGroup, dbo.m_machine.catState, " +
-                "dbo.m_machine.mtbfH, dbo.m_machine.mtbfD, dbo.m_machine.mttrH, dbo.m_machine.mttrD, " +
-                "dbo.m_machine.selinfo, dbo.m_machine.supinfo, dbo.i_lines.line_name, dbo.i_units.unit_name " +
-                "FROM dbo.m_machine INNER JOIN dbo.i_lines ON dbo.m_machine.line = dbo.i_lines.id INNER JOIN " +
-                "dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code WHERE m_machine.id = " + mid + " ", _cnn);
+                "SELECT name, code, catalog, catFile, "+
+                "imp, creator, insDate, maModel, " +
+                "startDate, pow, catGroup, catState, " +
+                "mtbfH, mtbfD, mttrH, mttrD, " +
+                "selinfo, supinfo, line ,loc " +
+                "FROM dbo.m_machine WHERE m_machine.id = " + mid + " ", _cnn);
             var rd = getMachInfo.ExecuteReader();
             if (rd.Read())
             {
@@ -634,8 +633,8 @@ namespace CMMS
                         InsDate = rd["insDate"].ToString(),
                         Model = rd["maModel"].ToString(),
                         Tarikh = rd["startDate"].ToString(),
-                        LineName = rd["line_name"].ToString(),
-                        UnitName = rd["unit_name"].ToString(),
+                        Line = Convert.ToInt32(rd["line"]),
+                        Location = rd["loc"].ToString(),
                         Power = rd["pow"].ToString(),
                         CatGroup = Convert.ToInt32(rd["catGroup"]),
                         VaziatTajhiz = Convert.ToInt32(rd["catState"]),
