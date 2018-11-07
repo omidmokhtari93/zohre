@@ -915,16 +915,20 @@ namespace CMMS
         [WebMethod]
         public string PartsFilter(string partName)
         {
-            var farsiPart1 = partName.Replace("ک", "ك").Replace("ی", "ي");
-            var farsiPart2 = partName.Replace("ك", "ک").Replace("ي", "ی").Replace("ﯼ", "ی").Replace("ى", "ی").Replace("ة", "ه");
+            var farsiPart1 = partName.Replace("ک", "ك").Replace("ی", "ي").Replace("ة", "ه");
+            var farsiPart2 = partName.Replace("ك", "ک").Replace("ي", "ی").Replace("ه", "ة");
             _partsConnection.Open();
             var filteredPartList = new List<PartsFilter>(); 
-             var parts = new SqlCommand("select Serial ,PartName from inv.Part where PartName like N'%"+ farsiPart1 + "%' OR " +
-                                        "PartName like N'%" + farsiPart2 + "%' OR PartName like N'%" + partName + "%'", _partsConnection);
+             var parts = new SqlCommand("select Serial ,PartName from inv.Part where PartName like '%"+ farsiPart1 + "%' OR " +
+                                        "PartName like '%" + farsiPart2 + "%' OR PartName like '%" + partName + "%'", _partsConnection);
             var read = parts.ExecuteReader();
             while (read.Read())
             {
-                filteredPartList.Add(new PartsFilter(){PartName = read["PartName"].ToString() ,PartId = Convert.ToInt32(read["Serial"])});
+                filteredPartList.Add(new PartsFilter()
+                {
+                    PartName = read["PartName"].ToString().Replace("ك", "ک").Replace("ي", "ی"),
+                    PartId = Convert.ToInt32(read["Serial"])
+                });
             }
             return new JavaScriptSerializer().Serialize(filteredPartList);
         }
