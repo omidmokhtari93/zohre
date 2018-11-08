@@ -23,6 +23,7 @@
         #gridRepairRecord tr td a{ cursor: pointer;}
         #gridRepairRequest tr td a{ cursor: pointer;}
         #gridMachines table { text-align: center;border: 1px solid #c6cdd5;}
+        .fa-trash{ color: red;}
     </style>
      <div class="panel panel-primary" runat="server" ID="pnlMachineInfo">
         <div class="panel-heading">ویرایش شناسنامه تجهیزات</div>
@@ -96,11 +97,9 @@
                                <a class="fa fa-print" style="color: #2461be; cursor: pointer;" title="پرینت" id="print"></a>
                            </ItemTemplate>
                        </asp:TemplateField>
-                       <asp:TemplateField>
-                           <ItemTemplate>
-                               <asp:LinkButton runat="server" CssClass="fa fa-trash" style="color: Red;" ToolTip="حذف ماشین" CommandName="del" CommandArgument='<%# Container.DataItemIndex %>'></asp:LinkButton>
-                           </ItemTemplate>
-                       </asp:TemplateField>
+                       <asp:ButtonField CommandName="del">
+                           <ControlStyle CssClass="fa fa-trash"></ControlStyle>
+                       </asp:ButtonField>
                    </Columns>
                    <PagerStyle HorizontalAlign="Center" />
                </asp:GridView>

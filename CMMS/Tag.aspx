@@ -96,7 +96,7 @@
                     <input dir="rtl" placeholder="جستجوی اجزا ..." class="form-control" id="txtsubName"/>
                     </div>
                     <img src="Images/loading.png" id="subsystemLoading" style="width: 20px; height: 20px; position: absolute; top: 27px; left: 23px; display: none;"/>
-                    <div style="position: absolute; width: 100%;padding-right:30px; display: none; overflow: auto; max-height: 200px; z-index: 999;" id="subSystemSearchRes">
+                    <div style="position: absolute; width: 422px; display: none; overflow: auto; max-height: 200px; z-index: 999;" id="subSystemSearchRes">
                         <table id="gridSubsystem" dir="rtl" class="SubSystemTable">
                             <tbody></tbody>
                         </table>

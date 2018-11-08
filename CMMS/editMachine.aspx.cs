@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -45,7 +46,8 @@ namespace CMMS
             if (e.CommandName == "del")
             {
                 var index = int.Parse(e.CommandArgument.ToString());
-                ViewState["machineId"] = gridMachines.DataKeys[index]["id"];
+                var mid = (int)gridMachines.DataKeys[index]["id"];
+                ViewState["machineId"] = mid;
                 var machineName = gridMachines.Rows[index].Cells[1].Text;
                 var machineCode = gridMachines.Rows[index].Cells[2].Text;
                 lblMachineName.Text = machineName + " به شماره فنی " + machineCode;
@@ -93,6 +95,16 @@ namespace CMMS
         protected void yes_OnClick(object sender, EventArgs e)
         {
             cnn.Open();
+            var selfile = new SqlCommand("select catFile from m_machine where id = " + ViewState["machineId"] + "",cnn);
+            var filePath = selfile.ExecuteScalar().ToString();
+            if (!string.IsNullOrEmpty(filePath))
+            {
+                var path = Server.MapPath(filePath);
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
+            }
             var deletMAchine = new SqlCommand("DELETE FROM m_fuel where Mid =(select id from m_machine where id="+ ViewState["machineId"] + ") "+
                                               "DELETE FROM m_inst where Mid = (select id from m_machine where id = "+ ViewState["machineId"] + ") " +
                                               "DELETE FROM m_subsystem where Mid = (select id from m_machine where id = "+ ViewState["machineId"] + ") " +

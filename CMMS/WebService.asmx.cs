@@ -50,8 +50,8 @@ namespace CMMS
             var userId = Convert.ToInt32(rd["id"]);
             var unit = Convert.ToInt32(rd["unit"]);
             var userLevel = Convert.ToInt32(rd["usrlevel"]);
-            
             var userPassword = rd["password"].ToString();
+            _cnn.Close();
             if (permit == 0)
             {
                 return new JavaScriptSerializer().Serialize(new { flag = 0, message = "! حساب کاربری شما غیرفعال است" });
@@ -266,6 +266,7 @@ namespace CMMS
                                                ",[supinfo] = '" + Minfo.SuppInfo + "' " +
                                                "WHERE id = " + mid + " ", _cnn);
             updateMachine.ExecuteNonQuery();
+            _cnn.Close();
             return mid;
         }
 
@@ -304,6 +305,7 @@ namespace CMMS
                 masrafiMain.AirPressure + "'," + masrafiMain.FuelChecked + "" +
                 ",'" + masrafiMain.FuelType + "','" + masrafiMain.FuelMasraf + "')", _cnn);
             insertFuel.ExecuteNonQuery();
+            _cnn.Close();
             return "";
         }
 
@@ -314,13 +316,13 @@ namespace CMMS
             var deleteItems = new SqlCommand("delete from m_control where id ="+controlId+" " +
                                              "delete from p_pmcontrols where idmcontrol = "+controlId+" ", _cnn);
             deleteItems.ExecuteNonQuery();
+            _cnn.Close();
             return "";
         }
 
        
         public void InsertControli(string IdCon,string Tarikh,int Kind,string week,string other)
-        {
-            
+        {            
             var Pmcontrol =
                 new SqlCommand(
                     "IF (SELECT  COUNT(idmcontrol) AS Idm FROM  dbo.p_pmcontrols WHERE  (idmcontrol = " + IdCon + "))=0 " +
@@ -336,7 +338,6 @@ namespace CMMS
                     " UPDATE p_pmcontrols SET kind=0,week=NULL,other=NULL where (idmcontrol = " + IdCon + ") " +
                     " INSERT INTO [dbo].[p_pmcontrols]([idmcontrol],[act],[tarikh],[kind],[week],[other]) VALUES (" + IdCon + ",0,'" + Tarikh + "'," + Kind + "," + week + "," + other + ") end ", _cnn);
             Pmcontrol.ExecuteNonQuery();
-            
         }
         [WebMethod]
         public string SendGridControli(int mid, List<Controls> controls)
@@ -471,6 +472,7 @@ namespace CMMS
                         break;
                 }
             }
+            _cnn.Close();
             return "";
         }
 
@@ -487,6 +489,7 @@ namespace CMMS
                     "VALUES(" + mid + "," + item.SubSystemId + ")", _cnn);
                 insertParts.ExecuteNonQuery();
             }
+            _cnn.Close();
             return "";
         }
 
@@ -497,6 +500,7 @@ namespace CMMS
             var deleteItems = new SqlCommand("delete from m_parts where id =" + partId + " " +
                                              "delete from p_forecast where m_partId = " + partId + " ", _cnn);
             deleteItems.ExecuteNonQuery();
+            _cnn.Close();
             return "";
         }
 
@@ -568,6 +572,7 @@ namespace CMMS
                         break;
                 }
             }
+            _cnn.Close();
             return "";
         }
 
@@ -603,6 +608,7 @@ namespace CMMS
                 "INSERT INTO [dbo].[m_inst]([Mid],[inst])VALUES" +
                 "(" + mid + ",'" + dastoor + "')", _cnn);
             insertInstruct.ExecuteNonQuery();
+            _cnn.Close();
             return "";
         }
 
@@ -647,6 +653,7 @@ namespace CMMS
                     }
                 });
             }
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(Minfo);
         }
 
@@ -685,6 +692,7 @@ namespace CMMS
                     }
                 });
             }
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(masrafiList);
         }
 
@@ -712,6 +720,7 @@ namespace CMMS
                     }
                 });
             }
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(controliList);
         }
 
@@ -731,6 +740,7 @@ namespace CMMS
                     new SubSystems(){SubSystemId = Convert.ToInt32(rd["subId"]) , SubSystemName = rd["name"].ToString()}
                 });
             }
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(subSystemList);
         }
 
@@ -761,6 +771,7 @@ namespace CMMS
                     }
                 });
             }
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(partsList);
         }
 
@@ -791,6 +802,7 @@ namespace CMMS
                 });
             }
             NoInstruction:
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(energyList);
         }
 
@@ -813,6 +825,7 @@ namespace CMMS
                     }
                 });
             }
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(contList);
         }
 
@@ -830,6 +843,7 @@ namespace CMMS
                     new ToolsTableItems(){ToolName = rd["name"].ToString() , ToolCode = rd["code"].ToString(),ToolId = rd["id"].ToString()}
                 });
             }
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(drItemsList);
         }
 
@@ -839,6 +853,7 @@ namespace CMMS
            _cnn.Open();
             var insertTool = new SqlCommand("insert into subsystem (name,code)values('" + toolName + "' , '" + toolCode + "')", _cnn);
             insertTool.ExecuteNonQuery();
+            _cnn.Close();
             return "1";
         }
 
@@ -848,6 +863,7 @@ namespace CMMS
             _cnn.Open();
             var updateSub = new SqlCommand("UPDATE [dbo].[subsystem] SET [name] = '"+name+"',[code] ='"+code+"'  WHERE code = "+editCode+" ",_cnn);
             updateSub.ExecuteNonQuery();
+            _cnn.Close();
             return "";
         }
 
@@ -885,6 +901,7 @@ namespace CMMS
                     }
                 });
             }
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(reqDetList);
         }
 
@@ -910,6 +927,7 @@ namespace CMMS
                                                 "VALUES("+id+","+p+")",_cnn);
                 inserParts.ExecuteNonQuery();
             }
+            _cnn.Close();
             return "";
         }
         [WebMethod]
@@ -930,6 +948,7 @@ namespace CMMS
                     PartId = Convert.ToInt32(read["Serial"])
                 });
             }
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(filteredPartList);
         }
 
@@ -949,6 +968,7 @@ namespace CMMS
             {
                 filteredSubList.Add(new ToolsTableItems{ToolName = rd["name"].ToString(), ToolId = rd["id"].ToString()});
             }
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(filteredSubList);
         }
 
@@ -976,6 +996,7 @@ namespace CMMS
             {
                 UnitData = unitList ,MachineData = machineList
             };
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(data);
         }
 
@@ -986,6 +1007,7 @@ namespace CMMS
             var selectCode = new SqlCommand("if (SELECT count(code) FROM [dbo].[m_machine] where code like '"+ machineCode + "%') <> 0 "+
                                             "begin SELECT max(code + 1) FROM[dbo].[m_machine] where code like '" + machineCode + "%' end else begin select '' end", _cnn);
             var code = selectCode.ExecuteScalar();
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(code);
         }
 
@@ -1005,6 +1027,7 @@ namespace CMMS
             {
                 nameList.Add(rd["name"].ToString());
             }
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(nameList);
         }
 
@@ -1018,6 +1041,7 @@ namespace CMMS
             {
                 return new JavaScriptSerializer().Serialize("1");
             }
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize("");
         }
 
@@ -1063,6 +1087,7 @@ namespace CMMS
                 insertContractors.ExecuteNonQuery();
             }
             var selectRepNum = new SqlCommand("SELECT case when COUNT(rep_num)= 0 then  100  else MAX(rep_num)+1 end as id FROM s_subhistory", _cnn);
+            _cnn.Close();
             return selectRepNum.ExecuteScalar().ToString();
         }
 
@@ -1271,7 +1296,7 @@ namespace CMMS
                                           " dbo.r_partwait ON dbo.r_reply.idreq = dbo.r_partwait.req_id "+
                                           " WHERE(dbo.r_reply.idreq = " + obj.ReplyInfo[0].RequestId + ")", _cnn);
             uppartwait.ExecuteNonQuery();
-
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(listforecast);
         }
 
@@ -1291,6 +1316,7 @@ namespace CMMS
             var updatePforecast = new SqlCommand("UPDATE [dbo].[p_forecast]SET [tarikh] = '"+obj.ReplyDate+"'" +
                                                  ",[act] = 1 ,[inforeason] = '"+obj.Info+"' WHERE id = "+obj.ForeCastId+" ", _cnn);
             updatePforecast.ExecuteNonQuery();
+            _cnn.Close();
             return "";
         }
 
@@ -1405,6 +1431,7 @@ namespace CMMS
                 personelList,
                 contractorList
             };
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(obj);
         }
         [WebMethod]
@@ -1419,6 +1446,7 @@ namespace CMMS
             {
                 listMachines.Add(new Machines(){MachineId = rd["id"].ToString(),MachineName = rd["name"].ToString()});
             }
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(listMachines);
         }
         
@@ -1437,6 +1465,7 @@ namespace CMMS
                     SubSystemName = r["name"].ToString() , SubSystemId = Convert.ToInt32(r["subId"])
                 });
             }
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(list);
         }
 
@@ -1458,6 +1487,7 @@ namespace CMMS
                                               "[subject] = '" + dailyDate[0].Subject + "',[date_remind] ='" + dailyDate[0].RemindTime + "' ,[check_remind] = 0  WHERE id = "+editFlag+" ", _cnn);
                 updateDaily.ExecuteNonQuery();
             }
+            _cnn.Close();
             return "";
         }
 
@@ -1476,6 +1506,7 @@ namespace CMMS
                     ,ReportTips = rd["tips"].ToString(),RemindTime = rd["date_remind"].ToString(),Subject = rd["subject"].ToString()
                 });
             }
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(dailyList);
         }
 
@@ -1500,6 +1531,7 @@ namespace CMMS
                     Subject = rd["subject"].ToString()
                 });
             }
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(dailyList);
         }
 
@@ -1528,6 +1560,7 @@ namespace CMMS
                     Code = rd["code"].ToString(),Time = rd["time"].ToString()
                 });
             }
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(list);
         }
 
@@ -1549,6 +1582,7 @@ namespace CMMS
                     ,RepairTime = rd["rep_time"].ToString(),StopTime = rd["stop_time"].ToString(),RepairDate = rd["start_repdate"].ToString()
                 });
             }
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(list);
         }
 
@@ -1565,6 +1599,7 @@ namespace CMMS
                 array.Add(new []{rd["id"].ToString(),rd["stop"].ToString()});
             }
             list.AddRange(array);
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(list);
         }
 
@@ -1581,6 +1616,7 @@ namespace CMMS
                 array.Add(new[] { rd["id"].ToString(), rd["delay"].ToString() });
             }
             list.AddRange(array);
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(list);
         }
 
@@ -1597,6 +1633,7 @@ namespace CMMS
                 array.Add(new[] { rd["id"].ToString(), rd["fail"].ToString() });
             }
             list.AddRange(array);
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(list);
         }
 
@@ -1613,6 +1650,7 @@ namespace CMMS
                 array.Add(new[] { rd["id"].ToString(), rd["operation"].ToString() });
             }
             list.AddRange(array);
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(list);
         }
 
@@ -1628,6 +1666,7 @@ namespace CMMS
             }
             var cmdUpstop = new SqlCommand("update i_stop_reason set stop='" + text + "' where id=" + editId + " ", _cnn);
             cmdUpstop.ExecuteNonQuery();
+            _cnn.Close();
             return "e";
         }
 
@@ -1643,6 +1682,7 @@ namespace CMMS
             }
             var cmdUpfail = new SqlCommand("update i_fail_reason set fail='" + text + "' where id=" + editId + " ", _cnn);
             cmdUpfail.ExecuteNonQuery();
+            _cnn.Close();
             return "e";
         }
 
@@ -1658,6 +1698,7 @@ namespace CMMS
             }
             var cmdUpdelay = new SqlCommand("update i_delay_reason set delay='" + text + "' where id=" + editId + " ", _cnn);
             cmdUpdelay.ExecuteNonQuery();
+            _cnn.Close();
             return "e";
         }
 
@@ -1673,6 +1714,7 @@ namespace CMMS
             }
             var upOpreation = new SqlCommand("update i_repairs set operation='" + text + "' where id = " + editId + " ", _cnn);
             upOpreation.ExecuteNonQuery();
+            _cnn.Close();
             return "e";
         }
 
@@ -1699,6 +1741,7 @@ namespace CMMS
                 partlist.Add(new []{rd["partname"].ToString() ,rd["PartId"].ToString(), rd["Mojodi"].ToString() });
             }
             list.AddRange(partlist);
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(list);
         }
 
@@ -1715,6 +1758,7 @@ namespace CMMS
                 partlist.Add(new[] { rd["partname"].ToString(), rd["partcode"].ToString(), rd["Mojodi"].ToString() });
             }
             list.AddRange(partlist);
+            _partsConnection.Close();
             return new JavaScriptSerializer().Serialize(list);
         }
 
@@ -1744,6 +1788,7 @@ namespace CMMS
                                             "VALUES("+obj.Type+",'"+obj.ReportName+"','"+obj.Producer+"','"+obj.Tarikh+"'" +
                                             ",'"+obj.Manager+"','"+obj.Exp+"','"+obj.Analyse+"')", _cnn);
             insertData.ExecuteNonQuery();
+            _cnn.Close();
             return "";
         }
 
@@ -1760,6 +1805,7 @@ namespace CMMS
                                         ",[analyze] = '" + obj.Analyse + "'" +
                                         "WHERE id = "+obj.Id+" ", _cnn);
             update.ExecuteNonQuery();
+            _cnn.Close();
             return "";
         }
         [WebMethod]
@@ -1768,6 +1814,7 @@ namespace CMMS
             _cnn.Open();
             var delete = new SqlCommand("delete from MT_report where id = "+ reportIdd + " ", _cnn);
             delete.ExecuteNonQuery();
+            _cnn.Close();
             return "";
         }
         [WebMethod]
@@ -1786,6 +1833,7 @@ namespace CMMS
                     Tarikh = r["tarikh"].ToString(),Manager = r["manager"].ToString(),Exp = r["exp"].ToString(),Analyse = r["analyze"].ToString()
                 });
             }
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(rep);
         }
 
@@ -1811,6 +1859,7 @@ namespace CMMS
                     Analyse = r["analyze"].ToString()
                 });
             }
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(rep);
         }
 
@@ -1834,6 +1883,7 @@ namespace CMMS
                 list.Add(new []{ r["unit_name"].ToString(), r["name"].ToString() , r["code"].ToString() , r["partname"].ToString() , r["tarikh"].ToString(),r["Mojodi"].ToString() });
             }
             listt.AddRange(list);
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(listt);
         }
 
@@ -1854,6 +1904,7 @@ namespace CMMS
                 persList.Add(new []{r["per"].ToString() , r["perid"].ToString() , r["task"].ToString() , r["unit"].ToString(), r["permit"].ToString() });
             }
             list.AddRange(persList);
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(list);
         }
 
@@ -1912,6 +1963,7 @@ namespace CMMS
                     MachineName = r["name"].ToString(),MachineId = r["main_mid"].ToString(),AfftectedMachineId = r["sub_mid"].ToString()
                 });
             }
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(list);
         }
 
@@ -1925,6 +1977,7 @@ namespace CMMS
                                          "("+i.RequestId+","+i.MachineId+","+i.AfftectedMachineId+",'"+i.StopTime+"')",_cnn);
                 ins.ExecuteNonQuery();
             }
+            _cnn.Close();
         }
     }
 }
