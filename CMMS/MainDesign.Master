@@ -113,7 +113,7 @@
                                 <li class='has-sub' id="manager" runat="server"><a href='#'><span>مدیریت</span></a>
                                     <ul>
                                         <li><a href='#'><div class="Icon1" style="background-image: url(/images/section.png);"></div><asp:Button ID="btn_addunit" runat="server" CssClass="textstyle" Text="مدیریت واحدها" OnClick="btn_addunit_Click"></asp:Button></a></li>
-                                        <li><a href='#'><div class="Icon1" style="background-image: url(/images/lines.png);"></div><asp:Button ID="btn_Lines" runat="server" CssClass="textstyle" Text="مدیریت خطوط" OnClick="btn_Lines_OnClick"></asp:Button></a></li>
+                                        <li><a href='#'><div class="Icon1" style="background-image: url(/images/lines.png);"></div><asp:Button ID="btn_Lines" runat="server" CssClass="textstyle" Text="مدیریت فاز / خطوط" OnClick="btn_Lines_OnClick"></asp:Button></a></li>
                                         <li><a href='#'><div class="Icon1" style="background-image: url(/images/worker.png);"></div><asp:Button ID="btnUserManagment" runat="server" CssClass="textstyle" Text="مدیریت کاربران" OnClick="btnUserManagment_OnClick"></asp:Button></a></li>
                                         <li><a href='#'><div class="Icon1" style="background-image: url(/images/technical-icons.png);"></div><asp:Button ID="btn_personel" runat="server" CssClass="textstyle" Text="مدیریت نیروی فنی" OnClick="btn_personel_OnClick" ></asp:Button></a></li>
                                     </ul>

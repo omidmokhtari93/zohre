@@ -187,6 +187,7 @@
     <Content Include="Scripts\chart\highcharts.js" />
     <Content Include="Scripts\copyMachineData.js" />
     <Content Include="Scripts\FinancialReports.js" />
+    <Content Include="Scripts\Fazline.js" />
     <Content Include="Scripts\Intrupt.js" />
     <Content Include="Scripts\MttReport.js" />
     <Content Include="Scripts\Notifications.js" />
