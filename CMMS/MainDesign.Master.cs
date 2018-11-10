@@ -267,5 +267,10 @@ namespace CMMS
         {
            Response.Redirect("DailyWork.aspx");
         }
+
+        protected void btnCatalog_OnClick(object sender, EventArgs e)
+        {
+            Response.Redirect("catalog.aspx");
+        }
     }
 }

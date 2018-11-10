@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="admin.aspx" />
+    <Content Include="catalog.aspx" />
     <Content Include="CmChecked.aspx" />
     <Content Include="Content\personelprint.html" />
     <Content Include="Content\report.html" />
@@ -84,6 +85,7 @@
     <Content Include="Effective.aspx" />
     <Content Include="Feeview.txt" />
     <Content Include="FinancialReport.aspx" />
+    <Content Include="Images\catalogue.png" />
     <Content Include="Images\chart_color.png" />
     <Content Include="Images\checklist.png" />
     <Content Include="Images\construction.png" />
@@ -287,6 +289,13 @@
     </Compile>
     <Compile Include="admin.aspx.designer.cs">
       <DependentUpon>admin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="catalog.aspx.cs">
+      <DependentUpon>catalog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="catalog.aspx.designer.cs">
+      <DependentUpon>catalog.aspx</DependentUpon>
     </Compile>
     <Compile Include="CmChecked.aspx.cs">
       <DependentUpon>CmChecked.aspx</DependentUpon>

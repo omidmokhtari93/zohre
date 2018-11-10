@@ -194,24 +194,25 @@ namespace CMMS
             return checkDuplicate.ExecuteScalar().ToString();
         }
         [WebMethod]
-        public string MachineInfo(string mid , string fileName, MachineMainInfo Minfo)
+        public string MachineInfo(string mid , string fileName, MachineMainInfo minfo)
         {
             _cnn.Open();
             if (Convert.ToInt32(mid) == 0)
             {
-                var inserMachInfo = new SqlCommand("INSERT INTO [dbo].[m_machine]([name],[code],[catalog],[catFile] " +
-                                                   ",[imp],[creator],[insDate],[maModel],[startDate],[loc],[line] " +
-                                                   ",[pow],[catGroup],[catState],[mtbfH],[mtbfD],[mttrH] " +
+                var inserMachInfo = new SqlCommand("INSERT INTO [dbo].[m_machine]([name],[code],[catalog],[catname],[catcode],[catFile] " +
+                                                   ",[imp],[creator],[insDate],[maModel],[startDate],[faz],[loc],[line] " +
+                                                   ",[pow],[stopcost],[catGroup],[catState],[mtbfH],[mtbfD],[mttrH] " +
                                                    ",[mttrD],[selinfo],[supinfo])VALUES " +
-                                                   "('" + Minfo.Name + "' , '" + Minfo.Code + "' , " + Minfo.Catalog + "," +
-                                                   "  '" + fileName + "', " + Minfo.Ahamiyat + " , '" + Minfo.Creator +
-                                                   "','" + Minfo.InsDate + "', '" + Minfo.Model + "' , '" + Minfo.Tarikh + "' " +
-                                                   ", '" + Minfo.Location +"' ,"+Minfo.Line+", '" + Minfo.Power + "', " + Minfo.CatGroup + " , " + Minfo.VaziatTajhiz + " ," +
-                                                   "'" + Minfo.MtbfH + "' , '" + Minfo.MtbfD + "', '" + Minfo.MttrH + "' , '" + Minfo.MttrD + "' ," +
-                                                   " '" + Minfo.SellInfo + "' , '" + Minfo.SuppInfo + "') SELECT CAST(scope_identity() AS int)", _cnn);
+                                                   "('" + minfo.Name + "' , '" + minfo.Code + "' , " + minfo.Catalog + ",'"+minfo.CatName+"'," +
+                                                   "'"+minfo.CatCode+"' ,'" + fileName + "', " + minfo.Ahamiyat + " , '" + minfo.Creator +"'" +
+                                                   ",'" + minfo.InsDate + "', '" + minfo.Model + "' , '" + minfo.Tarikh + "' , "+minfo.Faz+" " +
+                                                   ", '" + minfo.Location +"' ,"+minfo.Line+", '" + minfo.Power + "',"+minfo.StopCostPerHour+" ,"
+                                                   + minfo.CatGroup + " , " + minfo.VaziatTajhiz + " ,'" + minfo.MtbfH + "' , '" + minfo.MtbfD + "'," +
+                                                   " '" + minfo.MttrH + "' , '" + minfo.MttrD + "' ," +
+                                                   " '" + minfo.SellInfo + "' , '" + minfo.SuppInfo + "') SELECT CAST(scope_identity() AS int)", _cnn);
                 return inserMachInfo.ExecuteScalar().ToString();
             }
-            if (Minfo.Catalog == 1 && string.IsNullOrEmpty(fileName))
+            if (minfo.Catalog == 1 && string.IsNullOrEmpty(fileName))
             {
                 var selectfilePAth = new SqlCommand("select catFile from m_machine where id =" + mid + " ", _cnn);
                 fileName = selectfilePAth.ExecuteScalar().ToString();
@@ -228,7 +229,7 @@ namespace CMMS
                     File.Delete(path);
                 }
             }
-            if (string.IsNullOrEmpty(fileName) && Minfo.Catalog == 0)
+            if (string.IsNullOrEmpty(fileName) && minfo.Catalog == 0)
             {
                 var filePath = "";
                 var selectfilePAth = new SqlCommand("select catFile from m_machine where id =" + mid + " ", _cnn);
@@ -244,26 +245,30 @@ namespace CMMS
             }
             update:
             var updateMachine = new SqlCommand("UPDATE [dbo].[m_machine] " +
-                                               "SET[name] = '" + Minfo.Name + "' " +
-                                               ",[code] = '" + Minfo.Code + "' " +
-                                               ",[catalog] = " + Minfo.Catalog + " " +
+                                               "SET[name] = '" + minfo.Name + "' " +
+                                               ",[code] = '" + minfo.Code + "' " +
+                                               ",[catalog] = " + minfo.Catalog + " " +
+                                               ",[catname] = '" + minfo.CatName + "' " +
+                                               ",[catcode] = '" + minfo.CatCode + "' " +
                                                ",[catFile] = '" + fileName + "' " +
-                                               ",[imp] = " + Minfo.Ahamiyat + " " +
-                                               ",[creator] = '" + Minfo.Creator + "' " +
-                                               ",[insDate] = '" + Minfo.InsDate + "' " +
-                                               ",[maModel] = '" + Minfo.Model + "' " +
-                                               ",[startDate] = '" + Minfo.Tarikh + "' " +
-                                               ",[loc] = '" + Minfo.Location + "' " +
-                                               ",[line] = '" + Minfo.Line + "' " +
-                                               ",[pow] = '" + Minfo.Power + "' " +
-                                               ",[catGroup] = " + Minfo.CatGroup + " " +
-                                               ",[catState] = " + Minfo.VaziatTajhiz + " " +
-                                               ",[mtbfH] = '" + Minfo.MtbfH + "' " +
-                                               ",[mtbfD] = '" + Minfo.MtbfD + "' " +
-                                               ",[mttrH] = '" + Minfo.MttrH + "' " +
-                                               ",[mttrD] = '" + Minfo.MttrD + "' " +
-                                               ",[selinfo] = '" + Minfo.SellInfo + "' " +
-                                               ",[supinfo] = '" + Minfo.SuppInfo + "' " +
+                                               ",[imp] = " + minfo.Ahamiyat + " " +
+                                               ",[creator] = '" + minfo.Creator + "' " +
+                                               ",[insDate] = '" + minfo.InsDate + "' " +
+                                               ",[maModel] = '" + minfo.Model + "' " +
+                                               ",[startDate] = '" + minfo.Tarikh + "' " +
+                                               ",[loc] = " + minfo.Location + " " +
+                                               ",[line] = " + minfo.Line + " " +
+                                               ",[faz] = " + minfo.Faz + " " +
+                                               ",[pow] = '" + minfo.Power + "' " +
+                                               ",[stopcost] = " + minfo.StopCostPerHour + " " +
+                                               ",[catGroup] = " + minfo.CatGroup + " " +
+                                               ",[catState] = " + minfo.VaziatTajhiz + " " +
+                                               ",[mtbfH] = '" + minfo.MtbfH + "' " +
+                                               ",[mtbfD] = '" + minfo.MtbfD + "' " +
+                                               ",[mttrH] = '" + minfo.MttrH + "' " +
+                                               ",[mttrD] = '" + minfo.MttrD + "' " +
+                                               ",[selinfo] = '" + minfo.SellInfo + "' " +
+                                               ",[supinfo] = '" + minfo.SuppInfo + "' " +
                                                "WHERE id = " + mid + " ", _cnn);
             updateMachine.ExecuteNonQuery();
             _cnn.Close();
@@ -618,11 +623,11 @@ namespace CMMS
             var Minfo = new List<MachineMainInfo>();
             _cnn.Open();
             var getMachInfo = new SqlCommand(
-                "SELECT name, code, catalog, catFile, "+
+                "SELECT name, code, catalog, catFile,catname,catcode, "+
                 "imp, creator, insDate, maModel, " +
                 "startDate, pow, catGroup, catState, " +
-                "mtbfH, mtbfD, mttrH, mttrD, " +
-                "selinfo, supinfo, line ,loc " +
+                "mtbfH, mtbfD, mttrH, mttrD,stopcost, " +
+                "selinfo, supinfo, line ,loc,faz " +
                 "FROM dbo.m_machine WHERE m_machine.id = " + mid + " ", _cnn);
             var rd = getMachInfo.ExecuteReader();
             if (rd.Read())
@@ -634,14 +639,18 @@ namespace CMMS
                         Name = rd["name"].ToString(),
                         Code = rd["code"].ToString(),
                         Catalog = Convert.ToInt32(rd["catalog"]),
+                        CatName = rd["catname"].ToString(),
+                        CatCode = rd["catcode"].ToString(),
                         Ahamiyat = rd["imp"].ToString(),
                         Creator = rd["creator"].ToString(),
                         InsDate = rd["insDate"].ToString(),
                         Model = rd["maModel"].ToString(),
                         Tarikh = rd["startDate"].ToString(),
                         Line = Convert.ToInt32(rd["line"]),
+                        Faz = Convert.ToInt32(rd["faz"]),
                         Location = rd["loc"].ToString(),
                         Power = rd["pow"].ToString(),
+                        StopCostPerHour = Convert.ToInt32(rd["stopcost"]),
                         CatGroup = Convert.ToInt32(rd["catGroup"]),
                         VaziatTajhiz = Convert.ToInt32(rd["catState"]),
                         MtbfH = Convert.ToInt32(rd["mtbfH"].ToString()),

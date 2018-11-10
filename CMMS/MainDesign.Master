@@ -58,6 +58,7 @@
                                         <li><div class="Icon1" style="background-image: url(/images/service.png);"></div><a><asp:Button ID="btn_contractor" runat="server" CssClass="textstyle" Text="پیمانکاران" OnClick="btn_contractor_Click" /></a></li>
                                         <li><div class="Icon1" style="background-image: url(/images/delaystop.png);"></div><a><asp:Button ID="btn_stops"  runat="server" CssClass="textstyle" Text="لیست سرویسکاری / خرابی / تاخیر/ توقفات"  OnClick="btn_stops_Click" /></a></li>
                                         <li><div class="Icon1" style="background-image: url(/images/costs.png);"></div><a><asp:Button ID="btnHazine" runat="server" CssClass="textstyle" Text="هزینه های پایه"  OnClick="btnHazine_Click"></asp:Button></a></li>
+                                        <li><div class="Icon1" style="background-image: url(/images/catalogue.png);"></div><a><asp:Button ID="btnCatalog" runat="server" CssClass="textstyle" Text="کاتالوگ دستگاه ها" OnClick="btnCatalog_OnClick"></asp:Button></a></li>
                                     </ul>
                                 </li>
                                 <li class='has-sub' id="reports" runat="server"><a href='#'><span>مشاهده نمودارها و گزارشات</span></a>

@@ -118,8 +118,6 @@ $('#btnNewMachineFor').on('click', function () {
             if ($('#txtAdmissionperiodMTBF').val() == '') {RedAlert('txtAdmissionperiodMTBF', "!!را مشخص کنید MTBF لطفا دوره پذیرش");flag = 1;}
             if ($('#txttargetMTTR').val() == '') {RedAlert('txttargetMTTR', "!!را مشخص کنید MTTR لطفا هدف");flag = 1;}
             if ($('#txtAdmissionperiodMTTR').val() == '') {RedAlert('txtAdmissionperiodMTTR', "!!را مشخص کنید MTTR لطفا دوره پذیرش");flag = 1;}
-            if ($('#Mid').val() == '') {if ($('#file1').val() == '' && $('#haveCatalog').prop('checked')) {RedAlert('catalgBorder', "!! لطفا فایل کاتالوگ را انتخاب نمایید");flag = 1;}
-            } else {if ($('#file1').val() == '' && $('#pnlCatalog').css('display') == 'block') {RedAlert('catalgBorder', "!! لطفا فایل کاتالوگ را انتخاب نمایید");flag = 1;}}
             if (check === 1) {RedAlert('txtmachineCode', "!!این کد دستگاه قبلا ثبت شده است");flag = 1;}
             if (mCode.length !== 8) {RedAlert('txtmachineCode', "!!لطفا کد دستگاه را 8 رقمی تعیین کنید");flag = 1;}
             if ($('#Mid').val() == '') {if (flag === 0) {$('#pnlNewMachine').hide();$('#pnlMavaredMasrafi').fadeIn();}
@@ -538,7 +536,8 @@ function checkModEnergy() {
     }
 }
 function insertEnergy() {
-    if ($('#txtDastoorTarikh').val() == '' || $('#txtDastoorMachineType').val() == '' || $('#txtDastoorAmper1').val() == '' || $('#txtDastoorVP1').val() == '') {
+    if ($('#txtDastoorTarikh').val() == '' || $('#txtDastoorMachineType').val() == ''
+        || $('#txtDastoorAmper1').val() == '' || $('#txtDastoorVP1').val() == '') {
         checkModEnergy();
     } else {
         createEnergyTable();
@@ -603,30 +602,14 @@ $('#noCatalog').change(function () {
     if (document.getElementById('noCatalog').checked) {
         $('#pnlCatalog').hide();
         $('#file1').val('');
+        $('#txtcatcode').val('');
+        $('#txtcatname').val('');
     }
 });
 function SendTablesToDB() {
     $('#btnFinalSave').animate({ 'padding-left': '40px', 'padding-right': '10px' });
     $('#btnFinalLoading').fadeIn(20);
     var machinId;
-    var havecatalog = document.getElementById('haveCatalog');
-    var kelidi = document.getElementById('kelidi');
-    var act = document.getElementById('act');
-    var deact = document.getElementById('deact');
-    var fail = document.getElementById('fail');
-    var bargh = document.getElementById('chkbargh');
-    var gas = document.getElementById('chkgaz');
-    var hava = document.getElementById('chkhava');
-    var sookht = document.getElementById('chksokht');
-    var serviceYes = document.getElementById('servicebale');
-    if (havecatalog.checked) { $('#catalog').val('1'); } else { $('#catalog').val('0'); }
-    if (kelidi.checked) { $('#ahamiyat').val('1'); } else { $('#ahamiyat').val('0'); }
-    if (act.checked) { $('#vaziatTajhiz').val('1'); } if (deact.checked) { $('#vaziatTajhiz').val('0'); } if (fail.checked) { $('#vaziatTajhiz').val('2'); }
-    if (bargh.checked) { $('#chbargh').val('1'); } else { $('#chbargh').val('0'); }
-    if (gas.checked) { $('#chgas').val('1'); } else { $('#chgas').val('0'); }
-    if (hava.checked) { $('#chhava').val('1'); } else { $('#chhava').val('0'); }
-    if (sookht.checked) { $('#chsookht').val('1'); } else { $('#chsookht').val('0'); }
-    if (serviceYes.checked) { $('#chMDcontrol').val('1'); } else { $('#chMDcontrol').val('0'); }
     uploadFile();
     function uploadFile() {
         var fileUpload = $("#file1").get(0);
@@ -647,7 +630,7 @@ function SendTablesToDB() {
                     sendMinfo(fileName);
                 },
                 error: function () {
-                    $.notify("!!خطا در آپلود فایل", { globalPosition: 'top left' });
+                    RedAlert('n',"!!خطا در آپلود فایل");
                     sendMinfo('');
                 }
             });
@@ -661,17 +644,21 @@ function SendTablesToDB() {
         var obj = {};
         obj.Name = $('#txtmachineName').val();
         obj.Code = $('#txtmachineCode').val();
-        obj.Catalog = $('#catalog').val();
-        obj.Ahamiyat = $('#ahamiyat').val();
+        obj.Catalog = $(document).find('input[name=switch_1]:checked').attr('value');
+        obj.CatName = $('#txtcatname').val();
+        obj.CatCode = $('#txtcatcode').val();
+        obj.Ahamiyat = $(document).find('input[name=switch_2]:checked').attr('value');
         obj.Creator = $('#txtMachineManufacturer').val();
         obj.InsDate = $('#txtMachineNasbDate').val();
         obj.Model = $('#txtMachineModel').val();
         obj.Tarikh = $('#txtmachineTarikh').val();
         obj.Location = $('#drMAchineLocateion :selected').val();
         obj.Line = $('#drLine :selected').val();
+        obj.Faz = $('#drFaz :selected').val();
         obj.Power = $('#txtMachinePower').val();
+        if ($('#txtstopperhour').val() == '') {obj.StopCostPerHour = 0;} else {obj.StopCostPerHour = $('#txtstopperhour').val();}
         obj.CatGroup = $('#drCatGroup :selected').val();
-        obj.VaziatTajhiz = $('#vaziatTajhiz').val();
+        obj.VaziatTajhiz = $(document).find('input[name=switch_21]:checked').attr('value');
         obj.MtbfH = $('#txttargetMTBF').val();
         obj.MtbfD = $('#txtAdmissionperiodMTBF').val();
         obj.MttrH = $('#txttargetMTTR').val();
@@ -681,7 +668,6 @@ function SendTablesToDB() {
         return obj;
     }
     function sendMinfo(fileName) {
-        var machineMain = machinMainData();
         var machineId = '';
         if ($('#Mid').val() == '') {
             machineId = '0';
@@ -691,7 +677,7 @@ function SendTablesToDB() {
         $.ajax({
             type: "POST",
             url: "WebService.asmx/MachineInfo",
-            data: JSON.stringify({ 'mid': machineId, 'fileName': fileName, 'Minfo': machineMain }),
+            data: JSON.stringify({ 'mid': machineId, 'fileName': fileName, 'Minfo': machinMainData() }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (mid) {
@@ -699,7 +685,7 @@ function SendTablesToDB() {
                 sendMasrafi();
             },
             error: function () {
-                $.notify("!!خطا در ثبت اطلاعات اولیه ماشین", { globalPosition: 'top left' });
+                RedAlert('n',"!!خطا در ثبت اطلاعات اولیه ماشین");
             }
         }); 
     }
@@ -710,7 +696,7 @@ function SendTablesToDB() {
         obj.Width = $('#txtMavaredArz').val();
         obj.Height = $('#txtMavaredErtefa').val();
         obj.Weight = $('#txtMavaredVazn').val();
-        if (bargh.checked) {
+        if ($('#chkbargh').is(':checked')) {
             obj.BarghChecked = 1;
             obj.Masraf = $('#txtMavaredMasraf').val();
             obj.Voltage = $('#txtMavaredVoltage').val();
@@ -723,21 +709,21 @@ function SendTablesToDB() {
             obj.Phase = '';
             obj.Cycle = '';
         }
-        if (gas.checked) {
+        if ($('#chkgaz').is(':checked')) {
             obj.GasChecked = 1;
             obj.GasPressure = $('#txtMavaredGazPressure').val();
         } else {
             obj.GasChecked = 0;
             obj.GasPressure = '';
         }
-        if (hava.checked) {
+        if ($('#chkhava').is(':checked')) {
             obj.AirChecked = 1;
             obj.AirPressure = $('#txtMavaredAirPressure').val();
         } else {
             obj.AirChecked = 0;
             obj.AirPressure = '';
         }
-        if (sookht.checked) {
+        if ($('#chksokht').is(':checked')) {
             obj.FuelChecked = 1;
             obj.FuelType = $('#txtMavaredSookhtType').val();
             obj.FuelMasraf = $('#txtMavaredSookhtMasraf').val();
@@ -756,11 +742,11 @@ function SendTablesToDB() {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function () {
-                $.notify("✔ موارد مصرفی با موفقیت ثبت شد", { className: 'success', clickToHide: false, autoHide: true, position: 'top left' });
+                GreenAlert('n', "✔ موارد مصرفی با موفقیت ثبت شد");
                 sendControli();
             },
             error: function () {
-                $.notify("!!خطا در ثبت موارد مصرفی", { globalPosition: 'top left' });
+                RedAlert('n', "!!خطا در ثبت موارد مصرفی");
                 sendControli();
             }
         });
@@ -788,11 +774,11 @@ function SendTablesToDB() {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function () {
-                $.notify("✔ موارد کنترلی با موفقیت ثبت شد", { className: 'success', clickToHide: false, autoHide: true, position: 'top left' });
+                GreenAlert('n', "✔ موارد کنترلی با موفقیت ثبت شد");
                 sendSubsystems();
             },
             error: function () {
-                $.notify("!!خطا در ثبت موارد کنترلی", { globalPosition: 'top left' });
+                RedAlert('n', "!!خطا در ثبت موارد کنترلی");
                 sendSubsystems();
             }
         });
@@ -813,11 +799,11 @@ function SendTablesToDB() {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function () {
-                $.notify("✔ اجزا ماشین با موفقیت ثبت شد", { className: 'success', clickToHide: false, autoHide: true, position: 'top left' });
+                GreenAlert('n', "✔ اجزا ماشین با موفقیت ثبت شد");
                 sendGhataat();
             },
             error: function () {
-                $.notify("!!خطا در ثبت اجزا سیستم", { globalPosition: 'top left' });
+                RedAlert('n', "!!خطا در ثبت اجزا سیستم");
                 sendGhataat();
             }
         }); 
@@ -848,11 +834,11 @@ function SendTablesToDB() {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function () {
-                $.notify("✔ قطعات دستگاه با موفقیت ثبت شد", { className: 'success', clickToHide: false, autoHide: true, position: 'top left' });
+                GreenAlert('n', "✔ قطعات دستگاه با موفقیت ثبت شد");
                 sendInstr();
             },
-            error: function() {
-                $.notify("!!خطا در ثبت قطعات", { globalPosition: 'top left' });
+            error: function () {
+                RedAlert('n', "!!خطا در ثبت قطعات");
                 sendInstr();
             }
         });
@@ -924,23 +910,22 @@ function SendTablesToDB() {
             '16-اپراتور باید فردی آموزش دیده ، دارای حکم کارگزینی به همراه شرح وظایف ، و ملزم به رعایت آن باشد. \n' +
             '17-اپراتور باید از پوشیدن لباسهای گشاد خودداری کند. \n' +
             '18-دقت کنید که دستگاه روغنریزی نداشته و هنگام کار درب دستگاه بسته باشد.\n');
-        kelidi.checked = true;
-        document.getElementById('noCatalog').checked = true;
-        act.checked = true;
+        $('#kelidi').prop('checked');
+        $('#noCatalog').prop('checked');
+        $('#act').prop('checked');
         $('#chkbargh').parent().removeClass("isSelected");
         $("#pnlBargh").fadeOut();
-        bargh.checked = false;
+        $('#chkbargh').prop('unchecked');
         $('#chkgaz').parent().removeClass("isSelected");
         $("#pnlGaz").fadeOut();
-        gas.checked = false;
+        $('#chkgaz').prop('unchecked');
         $('#chkhava').parent().removeClass("isSelected");
         $("#pnlHava").fadeOut();
-        hava.checked = false;
+        $('#chkhava').prop('unchecked');
         $('#chksokht').parent().removeClass("isSelected");
         $("#pnlSookht").fadeOut();
-        sookht.checked = false;
-        serviceYes.checked = true;
-        document.getElementById('noCatalog').checked = true;
+        $('#chksokht').prop('unchecked');
+        $('#servicebale').prop('checked');
         $('#pnlCatalog').css('display', 'none');
         $('#pnlDastoor').hide();
         $('#pnlNewMachine').fadeIn();
@@ -988,8 +973,10 @@ function fillMachineControls(mInfo) {
     $('#txtMachineModel').val(mInfo[0].Model);
     $('#txtmachineTarikh').val(mInfo[0].Tarikh);
     $('#drLine').val(mInfo[0].Line);
+    $('#drFaz').val(mInfo[0].Faz);
     $('#drMAchineLocateion').val(mInfo[0].Location);
     $('#txtMachinePower').val(mInfo[0].Power);
+    $('#txtstopperhour').val(mInfo[0].StopCostPerHour);
     $('#drCatGroup').val(mInfo[0].CatGroup);
     $('#txttargetMTBF').val(mInfo[0].MtbfH);
     $('#txtAdmissionperiodMTBF').val(mInfo[0].MtbfD);
@@ -997,7 +984,12 @@ function fillMachineControls(mInfo) {
     $('#txtAdmissionperiodMTTR').val(mInfo[0].MttrD);
     $('#txtSelInfo').val(mInfo[0].SellInfo);
     $('#txtSupInfo').val(mInfo[0].SuppInfo);
-    if (mInfo[0].Catalog == 1) { havecatalog.checked = true;   }
+    if (mInfo[0].Catalog == 1) {
+        havecatalog.checked = true;
+        $('#pnlCatalog').show();
+        $('#txtcatname').val(mInfo[0].CatName);
+        $('#txtcatcode').val(mInfo[0].CatCode);
+    }
     if (mInfo[0].Ahamiyat == "False") { gheyrkelidi.checked = true;}
     if (mInfo[0].VaziatTajhiz == 2) { fail.checked = true; }
     if (mInfo[0].VaziatTajhiz == 0) { deact.checked = true; }

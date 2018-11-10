@@ -55,8 +55,10 @@ function CopyData() {
             $('#txtMachineModel').val(mInfo[0].Model);
             $('#txtmachineTarikh').val(mInfo[0].Tarikh);
             $('#drLine').val(mInfo[0].Line);
+            $('#drFaz').val(mInfo[0].Faz);
             $('#drMAchineLocateion').val(mInfo[0].Location);
             $('#txtMachinePower').val(mInfo[0].Power);
+            $('#txtstopperhour').val(mInfo[0].StopCostPerHour);
             $('#drCatGroup').val(mInfo[0].CatGroup);
             $('#txttargetMTBF').val(mInfo[0].MtbfH);
             $('#txtAdmissionperiodMTBF').val(mInfo[0].MtbfD);
@@ -64,7 +66,6 @@ function CopyData() {
             $('#txtAdmissionperiodMTTR').val(mInfo[0].MttrD);
             $('#txtSelInfo').val(mInfo[0].SellInfo);
             $('#txtSupInfo').val(mInfo[0].SuppInfo);
-            //if (mInfo[0].Catalog == 1) { havecatalog.checked = true; }
             if (mInfo[0].Ahamiyat == "False") { gheyrkelidi.checked = true; }
             if (mInfo[0].VaziatTajhiz == 2) { fail.checked = true; }
             if (mInfo[0].VaziatTajhiz == 0) { deact.checked = true; }

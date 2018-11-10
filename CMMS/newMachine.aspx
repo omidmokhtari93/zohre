@@ -57,83 +57,106 @@
                         <input class="form-control text-center" dir="ltr" style="width: 79%; display: inline-block;margin-left: 5px;" tabindex="2" id="txtmachineCode"/>
                 </div>
                 <div class="col-md-6">
-                    <label>نام دستگاه :</label>
+                    نام دستگاه :
                     <input id="txtmachineName" tabindex="1"  class="form-control"/>
                 </div>
             </div>
             <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
-                <div class="col-md-6">
-                    <label>درجه اهمیت :</label>
-                    <div class="switch-field">
-                        <input type="radio" id="kelidi" name="switch_2" value="yes" checked/>
-                        <label for="kelidi">کلیدی</label>
-                        <input type="radio" id="gheyrkelidi" name="switch_2" value="no" />
-                        <label for="gheyrkelidi">غیرکلیدی</label>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="col-md-6" style="padding: 0;">
-                        <div id="pnlCatalog" style="display: none;">
-                        <label style="margin-bottom: 0px; ">انتخاب فایل</label>
+                <div class="col-md-12">
+                    <div class="col-md-9" style="padding:0">
+                    <div id="pnlCatalog" style="display: none;">
+                        <div class="col-md-4" style="padding:0">
+                            کد مدرک :
+                            <input class="form-control" id="txtcatcode"/>
+                        </div>
+                        <div class="col-md-4">
+                            نام مدرک :
+                            <input class="form-control" id="txtcatname"/>
+                        </div>
+                        <div class="col-md-4" style="padding: 0;">
+                            انتخاب فایل
                             <div style="padding: 5px 4px 3px 0;" class="form-control" id="catalgBorder">
-                        <input type="file" id="file1" name="file1" style="outline: none; width: 200px;"/>
+                                <input type="file" id="file1" name="file1" style="outline: none; width: 200px;"/>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6" style="padding: 0;">
-                        <label>کاتالوگ :</label>
+                    </div>
+                    <div class="col-md-3" style="padding: 0;">
+                        کاتالوگ :
                         <div class="switch-field">
-                            <input type="radio" id="haveCatalog" name="switch_1" />
+                            <input type="radio" id="haveCatalog" value="1" name="switch_1" />
                             <label for="haveCatalog">دارد</label>
-                            <input type="radio" id="noCatalog" name="switch_1"  checked/>
+                            <input type="radio" id="noCatalog" value="0" name="switch_1"  checked/>
                             <label for="noCatalog">ندارد</label>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
-                <div class="col-md-6">
-                    <label>تاریخ نصب :</label>
+                <div class="col-md-4">
+                    تاریخ نصب :
                     <input class="form-control" tabindex="4" id="txtMachineNasbDate" />  
                 </div>
-                <div class="col-md-6">
-                    <label>سازنده :</label>
+                <div class="col-md-4">
+                    سازنده :
                     <input id="txtMachineManufacturer" tabindex="3" class="form-control" />   
+                </div>
+                <div class="col-md-4">
+                    درجه اهمیت :
+                    <div class="switch-field">
+                        <input type="radio" id="kelidi" name="switch_2" value="1" checked/>
+                        <label for="kelidi">کلیدی</label>
+                        <input type="radio" id="gheyrkelidi" name="switch_2" value="0" />
+                        <label for="gheyrkelidi">غیرکلیدی</label>
+                    </div>
                 </div>
             </div>
             <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
                 <div class="col-md-6">
-                    <label>تاریخ بهره برداری :</label>
+                    تاریخ بهره برداری :
                     <input class="form-control" tabindex="7" id="txtmachineTarikh" />
                 </div>
                 <div class="col-md-6">
-                    <label>مدل دستگاه :</label>
+                    مدل دستگاه :
                     <input id="txtMachineModel" tabindex="6" class="form-control" /> 
                 </div>
             </div>
             <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
                 <div class="col-md-4">
-                    <label>توان / ظرفیت:</label>
-                    <input class="form-control" tabindex="9" id="txtMachinePower" />
+                    فاز :
+                    <asp:DropDownList runat="server" CssClass="form-control" AppendDataBoundItems="True" ID="drFaz" ClientIDMode="Static" DataSourceID="SqlFaz" DataTextField="faz_name" DataValueField="id">
+                        <asp:ListItem Value="0">انتخاب کنید</asp:ListItem>
+                    </asp:DropDownList>
+                    <asp:SqlDataSource ID="SqlFaz" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, faz_name FROM i_faz"></asp:SqlDataSource>
                 </div>
                 <div class="col-md-4">
-                   <label>خط :</label>
+                    خط :
                     <asp:DropDownList runat="server" CssClass="form-control" ID="drLine" ClientIDMode="Static" AppendDataBoundItems="True" DataSourceID="Sqlline" DataTextField="line_name" DataValueField="id">
                         <asp:ListItem Value="0">انتخاب کنید</asp:ListItem>
                     </asp:DropDownList>
                     <asp:SqlDataSource ID="Sqlline" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT line_name, id FROM i_lines"></asp:SqlDataSource>
                 </div>
                 <div class="col-md-4">
-                    <label>محل استقرار :</label>
+                    محل استقرار :
                     <asp:DropDownList runat="server" tabindex="8" ClientIDMode="Static" ID="drMAchineLocateion" CssClass="form-control" DataSourceID="sqlUnits" DataTextField="unit_name" DataValueField="unit_code">
                     </asp:DropDownList>  
                     <asp:SqlDataSource ID="sqlUnits" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT unit_name, unit_code FROM i_units"></asp:SqlDataSource>
                 </div>
             </div>
+            <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
+                <div class="col-md-6">
+                    هزینه توقف بر ساعت :
+                    <input class="form-control text-center" id="txtstopperhour"/>
+                </div>
+                <div class="col-md-6">
+                    توان / ظرفیت :
+                    <input class="form-control text-center" tabindex="9" id="txtMachinePower"/>
+                </div>
+            </div>
             <hr/>
             <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
                 <div class="col-md-6">
-                    <label>وضعیت تجهیز :</label>
+                    وضعیت تجهیز :
                     <div class="switch-field">
                         <input type="radio" id="act" name="switch_21" value="1" checked/>
                         <label for="act">فعال</label>
@@ -144,7 +167,7 @@
                     </div>        
                 </div>
                 <div class="col-md-6">
-                    <label>گروه تجهیز :</label>
+                    گروه تجهیز :
                     <asp:DropDownList runat="server" tabindex="10" ClientIDMode="Static" id="drCatGroup" CssClass="form-control" >
                         <asp:ListItem Value="1">ماشین آلات</asp:ListItem>
                         <asp:ListItem Value="2">سیستم تاسیسات و برق</asp:ListItem>
@@ -188,11 +211,11 @@
             <hr/>
             <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
                 <div class="col-md-6">
-                    <label>مشخصات مراکز خدمات پس از فروش :</label>
+                    مشخصات مراکز خدمات پس از فروش :
                     <input class="form-control" tabindex="16" id="txtSupInfo" />
                 </div>
                 <div class="col-md-6">
-                    <label>مشخصات فروشنده/سازنده :</label>
+                    مشخصات فروشنده/سازنده :
                     <input class="form-control" tabindex="15" id="txtSelInfo" />
                 </div>
             </div>

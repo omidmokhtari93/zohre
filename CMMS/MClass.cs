@@ -15,6 +15,8 @@ namespace CMMS
         public string Name { get; set; }
         public string Code { get; set; }
         public int Catalog { get; set; }
+        public string CatName { get; set; }
+        public string CatCode { get; set; }
         public string Ahamiyat { get; set; }
         public string Creator { get; set; }
         public string InsDate { get; set; }
@@ -24,6 +26,8 @@ namespace CMMS
         public int Line { get; set; }
         public string LineName { get; set; }
         public string UnitName { get; set; }
+        public int Faz { get; set; }
+        public int StopCostPerHour { get; set; }
         public string Power { get; set; }
         public int CatGroup { get; set; }
         public int VaziatTajhiz { get; set; }
