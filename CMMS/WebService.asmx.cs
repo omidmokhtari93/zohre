@@ -1613,6 +1613,38 @@ namespace CMMS
         }
 
         [WebMethod]
+        public string GetFazTable()
+        {
+            _cnn.Open();
+            var list = new List<string[]>();
+            var array = new List<string[]>();
+            var selectAll = new SqlCommand("SELECT [id],[faz_name]FROM [dbo].[i_faz]", _cnn);
+            var rd = selectAll.ExecuteReader();
+            while (rd.Read())
+            {
+                array.Add(new[] { rd["id"].ToString(), rd["faz_name"].ToString() });
+            }
+            list.AddRange(array);
+            _cnn.Close();
+            return new JavaScriptSerializer().Serialize(list);
+        }
+        [WebMethod]
+        public string GetLineTable()
+        {
+            _cnn.Open();
+            var list = new List<string[]>();
+            var array = new List<string[]>();
+            var selectAll = new SqlCommand("SELECT [id],[line_name]FROM [dbo].[i_lines]", _cnn);
+            var rd = selectAll.ExecuteReader();
+            while (rd.Read())
+            {
+                array.Add(new[] { rd["id"].ToString(), rd["line_name"].ToString() });
+            }
+            list.AddRange(array);
+            _cnn.Close();
+            return new JavaScriptSerializer().Serialize(list);
+        }
+        [WebMethod]
         public string GetDelayReasonTable()
         {
             _cnn.Open();
@@ -1726,7 +1758,36 @@ namespace CMMS
             _cnn.Close();
             return "e";
         }
-
+        [WebMethod]
+        public string InsertAndUpdatefaz(string text, int editId)
+        {
+            _cnn.Open();
+            if (editId == 0)
+            {
+                var cmdinsertFaz = new SqlCommand("insert into i_faz (faz_name) values ('" + text + "')", _cnn);
+                cmdinsertFaz.ExecuteNonQuery();
+                return "i";
+            }
+            var cmdUpFAz = new SqlCommand("update i_faz set faz_name='" + text + "' where id=" + editId + " ", _cnn);
+            cmdUpFAz.ExecuteNonQuery();
+            _cnn.Close();
+            return "e";
+        }
+        [WebMethod]
+        public string InsertAndUpdateline(string text, int editId)
+        {
+            _cnn.Open();
+            if (editId == 0)
+            {
+                var cmdinsertline = new SqlCommand("insert into i_lines (line_name) values ('" + text + "')", _cnn);
+                cmdinsertline.ExecuteNonQuery();
+                return "i";
+            }
+            var cmdUpline = new SqlCommand("update i_lines set line_name='" + text + "' where id=" + editId + " ", _cnn);
+            cmdUpline.ExecuteNonQuery();
+            _cnn.Close();
+            return "e";
+        }
         [WebMethod]
         public string MojoodiMachinePart(int machineid)
         {
