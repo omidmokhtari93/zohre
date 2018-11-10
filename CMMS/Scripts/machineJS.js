@@ -677,7 +677,7 @@ function SendTablesToDB() {
         $.ajax({
             type: "POST",
             url: "WebService.asmx/MachineInfo",
-            data: JSON.stringify({ 'mid': machineId, 'fileName': fileName, 'Minfo': machinMainData() }),
+            data: JSON.stringify({ 'mid': machineId, 'fileName': fileName, 'minfo': machinMainData() }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (mid) {
