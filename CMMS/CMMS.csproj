@@ -85,6 +85,7 @@
     <Content Include="Effective.aspx" />
     <Content Include="Feeview.txt" />
     <Content Include="FinancialReport.aspx" />
+    <Content Include="Images\catalog.png" />
     <Content Include="Images\catalogue.png" />
     <Content Include="Images\chart_color.png" />
     <Content Include="Images\checklist.png" />

@@ -18,27 +18,34 @@
     <div id="Mtbf" class="tab-pane fade in active">
         <div class="menubody">
             <div class="row" style="margin: 0; text-align: right; direction: ltr;">
-                <div class="col-md-3">
-                    <label style="display: block;"> : خط</label>
-                    
-                    <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drMTBFLine" CssClass="form-control" DataSourceID="Sqlline" DataTextField="line_name" DataValueField="id"><asp:ListItem Value="-1">خط را انتخاب کنید</asp:ListItem></asp:DropDownList>  
-                    <asp:SqlDataSource ID="Sqlline" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id,line_name FROM i_lines"></asp:SqlDataSource>
-                </div>
-                <div class="col-md-3">
-                    <label style="display: block;"> : واحد</label>
-                    <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drMTBFUnits" CssClass="form-control" DataSourceID="Sqlunit" DataTextField="unit_name" DataValueField="unit_code"><asp:ListItem Value="-1">واحد را انتخاب کنید</asp:ListItem></asp:DropDownList>  
-                    <asp:SqlDataSource ID="Sqlunit" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT unit_name, unit_code FROM i_units"></asp:SqlDataSource>
-                </div>
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <label style="display: block;"> : تا تاریخ</label>
                     <input class="form-control text-center" autocomplete="off" id="txtMtbfEndDate"/>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <label style="display: block;"> : از تاریخ</label>
                     <input class="form-control text-center" autocomplete="off" id="txtMtbfStartDate"/>
                 </div>
                
             </div>
+            <div class="row" style="margin: 0; margin-top: 5px; text-align: right; direction: ltr;">
+                <div class="col-md-4">
+                    <label style="display: block;"> : واحد</label>
+                    <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drMTBFUnits" CssClass="form-control" DataSourceID="Sqlunit" DataTextField="unit_name" DataValueField="unit_code"><asp:ListItem Value="-1">واحد را انتخاب کنید</asp:ListItem></asp:DropDownList>  
+                    <asp:SqlDataSource ID="Sqlunit" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT unit_name, unit_code FROM i_units"></asp:SqlDataSource>
+                </div>
+                <div class="col-md-4">
+                    <label style="display: block;"> : خط</label>
+                    <asp:SqlDataSource ID="SqlFaz" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id,faz_name FROM i_faz"></asp:SqlDataSource>
+                    <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drMTBFLine" CssClass="form-control" DataSourceID="Sqlline" DataTextField="line_name" DataValueField="id"><asp:ListItem Value="-1">خط را انتخاب کنید</asp:ListItem></asp:DropDownList>  
+                    <asp:SqlDataSource ID="Sqlline" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id,line_name FROM i_lines"></asp:SqlDataSource>
+                </div>
+                <div class="col-md-4">
+                    <label style="display: block;"> : فاز</label> 
+                    <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drMTBFfaz" CssClass="form-control" DataSourceID="SqlFaz" DataTextField="faz_name" DataValueField="id"><asp:ListItem Value="-1">خط را انتخاب کنید</asp:ListItem></asp:DropDownList>  
+                </div>
+            </div>
+            
             <div style="padding: 15px;">
                 <button type="button" class="btn btn-info" style="width: 100%;" onclick="Mtbf();">MTBF_دریافت گزارش</button>
             </div>
@@ -60,26 +67,32 @@
         <div id="MttrPerRepiar" class="tab-pane fade">
             <div class="menubody">
                 <div class="row" style="margin: 0; text-align: right; direction: ltr;">
-                    <div class="col-md-3">
-                        <label style="display: block;"> : خط</label>
-                        <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drMTTRRLine" CssClass="form-control" DataSourceID="Sqlline" DataTextField="line_name" DataValueField="id"><asp:ListItem Value="-1">خط را انتخاب کنید</asp:ListItem></asp:DropDownList>  
-                       
+                    <div class="col-md-6">
+                        <label style="display: block;"> : تا تاریخ</label>
+                        <input class="form-control text-center" autocomplete="off" id="txtrepEndDate"/>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-6">
+                        <label style="display: block;"> : از تاریخ</label>
+                        <input class="form-control text-center" autocomplete="off" id="txtrepStartDate"/>
+                    </div>                   
+                </div>
+                <div class="row" style="margin: 0;margin-top: 5px; text-align: right; direction: ltr;">
+                    <div class="col-md-4">
                         <label style="display: block;"> : واحد</label>
                         <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drMttrPerRepiar" CssClass="form-control" DataSourceID="Sqlunit" DataTextField="unit_name" DataValueField="unit_code"><asp:ListItem Value="-1">واحد را انتخاب کنید</asp:ListItem></asp:DropDownList>  
                         
                     </div>
-                    <div class="col-md-3">
-                        <label style="display: block;"> : تا تاریخ</label>
-                        <input class="form-control text-center" autocomplete="off" id="txtrepEndDate"/>
+                    <div class="col-md-4">
+                        <label style="display: block;"> : خط</label>
+                        <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drMTTRRLine" CssClass="form-control" DataSourceID="Sqlline" DataTextField="line_name" DataValueField="id"><asp:ListItem Value="-1">خط را انتخاب کنید</asp:ListItem></asp:DropDownList>  
+                       
                     </div>
-                    <div class="col-md-3">
-                        <label style="display: block;"> : از تاریخ</label>
-                        <input class="form-control text-center" autocomplete="off" id="txtrepStartDate"/>
+                   <div class="col-md-4">
+                        <label style="display: block;"> : فاز</label> 
+                        <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drMTTRRFaz" CssClass="form-control" DataSourceID="SqlFaz" DataTextField="faz_name" DataValueField="id"><asp:ListItem Value="-1">خط را انتخاب کنید</asp:ListItem></asp:DropDownList>  
                     </div>
-                    
                 </div>
+                
                 <div style="padding: 15px;">
                     <button type="button" class="btn btn-info" style="width: 100%;" onclick="MttrPerRepiar();">بر مبنای تعمیر  MTTR دریافت گزارش</button>
                 </div>
@@ -87,28 +100,36 @@
                 <div id="MttrPerRepiarReport"></div>
             </div>
         </div>
+   
         <div id="MttrPerStop" class="tab-pane fade">
             <div class="menubody">
                 <div class="row" style="margin: 0; text-align: right; direction: ltr;">
-                    <div class="col-md-3">
-                        <label style="display: block;"> : خط</label> 
-                        <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drMTTRSLine" CssClass="form-control" DataSourceID="Sqlline" DataTextField="line_name" DataValueField="id"><asp:ListItem Value="-1">خط را انتخاب کنید</asp:ListItem></asp:DropDownList>  
-                    </div>
-                    <div class="col-md-3">
-                        <label style="display: block;"> : واحد</label>
-                        <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drMttrPerStop" CssClass="form-control" DataSourceID="Sqlunit" DataTextField="unit_name" DataValueField="unit_code"><asp:ListItem Value="-1">واحد را انتخاب کنید</asp:ListItem></asp:DropDownList>  
-                        
-                    </div>
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <label style="display: block;"> : تا تاریخ</label>
                         <input class="form-control text-center" autocomplete="off" id="txtstopEndDate"/>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <label style="display: block;"> : از تاریخ</label>
                         <input class="form-control text-center" autocomplete="off" id="txtstopStartDate"/>
                     </div>
                    
                 </div>
+                <div class="row" style="margin: 0;margin-top: 5px; text-align: right; direction: ltr;">
+                    <div class="col-md-4">
+                        <label style="display: block;"> : واحد</label>
+                        <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drMttrPerStop" CssClass="form-control" DataSourceID="Sqlunit" DataTextField="unit_name" DataValueField="unit_code"><asp:ListItem Value="-1">واحد را انتخاب کنید</asp:ListItem></asp:DropDownList>  
+                        
+                    </div>
+                    <div class="col-md-4">
+                        <label style="display: block;"> : خط</label> 
+                        <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drMTTRSLine" CssClass="form-control" DataSourceID="Sqlline" DataTextField="line_name" DataValueField="id"><asp:ListItem Value="-1">خط را انتخاب کنید</asp:ListItem></asp:DropDownList>  
+                    </div>
+                    <div class="col-md-4">
+                        <label style="display: block;"> : فاز</label> 
+                        <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drMTTRSFaz" CssClass="form-control" DataSourceID="SqlFaz" DataTextField="faz_name" DataValueField="id"><asp:ListItem Value="-1">خط را انتخاب کنید</asp:ListItem></asp:DropDownList>  
+                    </div>
+                </div>
+                  
                 <div style="padding: 15px;">
                     <button type="button" class="btn btn-info" style="width: 100%;" onclick="MttrPerStop();"> بر مبنای توقف  MTTR دریافت گزارش</button>
                 </div>

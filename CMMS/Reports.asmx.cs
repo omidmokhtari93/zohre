@@ -523,6 +523,7 @@ namespace CMMS
                                               " WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.s_subhistory.new_line = "+line+")) AS T " +
                                               " GROUP BY PartName, Serial " +
                                               " ORDER BY tedad DESC", cnn);
+           
 
             SqlDataReader rd;
             if (line != -1)
@@ -1713,7 +1714,7 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(obj);
         }
         [WebMethod]
-        public string MTBF_Report(string dateS, string dateE,int unit,int line)// MTBF گزارش
+        public string MTBF_Report(string dateS, string dateE,int unit,int line,int faz)// MTBF گزارش
         {
             var obj = new MtMachines();
             cnn.Open();
@@ -1734,16 +1735,30 @@ namespace CMMS
                                          " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code" +
                                          " WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine.line = " + line + ")" +
                                          " GROUP BY dbo.m_machine.name, dbo.m_machine.code, dbo.m_machine.mtbfH", cnn);
+
+            var cmdMtbffaz = new SqlCommand("SELECT dbo.m_machine.name, dbo.m_machine.code, SUM(dbo.r_reply.mtbf) AS BF," +
+                                             " COUNT(dbo.m_machine.code) AS Fail, SUM(dbo.r_reply.mtbf) / COUNT(dbo.m_machine.code) AS MTBF, dbo.m_machine.mtbfH" +
+                                             " FROM dbo.m_machine INNER JOIN" +
+                                             " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN" +
+                                             " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN" +
+                                             " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code" +
+                                             " WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine.faz = " + faz + ")" +
+                                             " GROUP BY dbo.m_machine.name, dbo.m_machine.code, dbo.m_machine.mtbfH", cnn);
             SqlDataReader rd;
+
             if (line != -1)
             {
                 rd = cmdMtbfLine.ExecuteReader();
 
             }
-            else
+            else if(unit != -1)
             {
                 rd = cmdMtbf.ExecuteReader();
 
+            }
+            else 
+            {
+                rd = cmdMtbffaz.ExecuteReader();
             }
             while (rd.Read())
             {
@@ -1754,7 +1769,7 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(obj);
         }
         [WebMethod]
-        public string MTTR_Per_Repair(string dateS, string dateE, int unit,int line)// MTTRگزارش بر مبنی تعمیر  
+        public string MTTR_Per_Repair(string dateS, string dateE, int unit,int line, int faz)// MTTRگزارش بر مبنی تعمیر  
         {
             var infoMttr = new MtMachines();
             cnn.Open();
@@ -1775,16 +1790,28 @@ namespace CMMS
                                          " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code" +
                                          " WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine.line = " + line + ")" +
                                          " GROUP BY dbo.m_machine.name, dbo.m_machine.code, dbo.m_machine.mttrH", cnn);
+            var cmdMttrRFaz = new SqlCommand("SELECT        dbo.m_machine.name, dbo.m_machine.code, SUM(DATEDIFF(minute, 0, dbo.r_reply.rep_time_help)) AS TR, COUNT(dbo.m_machine.code) AS Trcount," +
+                                              " SUM(DATEDIFF(minute, 0, dbo.r_reply.rep_time_help)) / 60 / COUNT(dbo.m_machine.code) AS MTTRrep, dbo.m_machine.mttrH" +
+                                              " FROM dbo.m_machine INNER JOIN" +
+                                              " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
+                                              " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN" +
+                                              " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code" +
+                                              " WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine.faz = " + faz + ")" +
+                                              " GROUP BY dbo.m_machine.name, dbo.m_machine.code, dbo.m_machine.mttrH", cnn);
             SqlDataReader rd;
             if (line != -1)
             {
                 rd = cmdMttrRLine.ExecuteReader();
 
             }
-            else
+            else if (unit != -1)
             {
                 rd = cmdMttrR.ExecuteReader();
 
+            }
+            else
+            {
+                rd = cmdMttrRFaz.ExecuteReader();
             }
             while (rd.Read())
             {
@@ -1795,7 +1822,7 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(infoMttr);
         }
         [WebMethod]
-        public string MTTR_Per_stop(string dateS, string dateE, int unit,int line)// MTTRگزارش بر مبنی توقف  
+        public string MTTR_Per_stop(string dateS, string dateE, int unit,int line ,int faz)// MTTRگزارش بر مبنی توقف  
         {
             var infoMttr = new MtMachines();
             cnn.Open();
@@ -1818,16 +1845,29 @@ namespace CMMS
                                          " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code" +
                                          " WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine.line = " + line + ")" +
                                          " GROUP BY dbo.m_machine.name, dbo.m_machine.code, dbo.m_machine.mttrH", cnn);
+            var cmdMttrSFaz = new SqlCommand("SELECT dbo.m_machine.name, dbo.m_machine.code, SUM(DATEDIFF(minute, 0, dbo.r_reply.stop_time_help)) AS TR," +
+                                              " COUNT(dbo.m_machine.code) AS Trcount," +
+                                              " SUM(DATEDIFF(minute, 0, dbo.r_reply.stop_time_help)) / 60 / COUNT(dbo.m_machine.code) AS MTTR_Stop, dbo.m_machine.mttrH" +
+                                              " FROM dbo.m_machine INNER JOIN" +
+                                              " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
+                                              " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN" +
+                                              " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code" +
+                                              " WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine.faz = " + faz + ")" +
+                                              " GROUP BY dbo.m_machine.name, dbo.m_machine.code, dbo.m_machine.mttrH", cnn);
             SqlDataReader rd;
             if (line != -1)
             {
                 rd = cmdMttrSline.ExecuteReader();
 
             }
-            else
+            else if (unit != -1)
             {
                 rd = cmdMttrS.ExecuteReader();
 
+            }
+            else
+            {
+                rd = cmdMttrSFaz.ExecuteReader();
             }
             while (rd.Read())
             {

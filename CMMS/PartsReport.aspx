@@ -61,13 +61,16 @@
         $('#drPartsUnit').on('change', function () {
             if ($('#drPartsUnit :selected').val() !== '-1') {
                 $('#drPartsLine').val('-1');
+              
             }
         });  
         $('#drPartsLine').on('change', function () {
             if ($('#drPartsLine :selected').val() !== '-1') {
                 $('#drPartsUnit').val('-1');
+             
             }
         });  
+      
         function CreatePartsChart() {
             var linee = $('#drPartsLine :selected').val();
             var unitt = $('#drPartsUnit :selected').val();
@@ -85,6 +88,7 @@
             var obj = {
                 url: 'MaxTools',
                 data: [], 
+                lblkind :'تعداد',
                 element: 'PartsChart',
                 header: 'قطعات پر مصرف',
                 chartype: 'column'

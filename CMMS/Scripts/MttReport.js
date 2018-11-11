@@ -30,13 +30,22 @@ function ClearReprtArea() {
 }
 $('#drMTBFUnits').on('change', function () {
     if ($('#drMTBFUnits :selected').val() !== '-1') {
-        $('#drMTBFLine').val('-1') ; 
+        $('#drMTBFLine').val('-1');
+        $('#drMTBFfaz').val('-1');
     } 
     
 });
 $('#drMTBFLine').on('change', function () {
     if ($('#drMTBFLine :selected').val() !== '-1') {
         $('#drMTBFUnits').val('-1');
+        $('#drMTBFfaz').val('-1');
+    }
+
+});
+$('#drMTBFfaz').on('change', function () {
+    if ($('#drMTBFfaz :selected').val() !== '-1') {
+        $('#drMTBFUnits').val('-1');
+        $('#drMTBFLine').val('-1');
     }
 
 });
@@ -46,12 +55,13 @@ function Mtbf() {
     var endDate = $('#txtMtbfEndDate').val();
     var unitt = $('#drMTBFUnits :selected').val();
     var linee = $('#drMTBFLine :selected').val();
+    var fazz = $('#drMTBFfaz :selected').val();
     if (startDate == '' || endDate == '') {
         RedAlert('no', 'لطفا فیلد های خالی را تکمیل نمایید');
         return;
     }
-    if (unitt === '-1' && linee === '-1') {
-        RedAlert('no', 'لطفا خط یا واحد مورد نظر را انتخاب کنید');
+    if (unitt === '-1' && linee === '-1' && fazz === '-1') {
+        RedAlert('no', 'لطفا فاز ، خط یا واحد مورد نظر را انتخاب کنید');
         return;
     }
     var obj = {
@@ -69,7 +79,8 @@ function Mtbf() {
         dateS: startDate,
         dateE: endDate,
         unit: unitt,
-        line: linee
+        line: linee,
+        faz:fazz
     });
     GetChartData(obj);
     $.get("Content/report.html", function (data) {
@@ -81,11 +92,19 @@ function Mtbf() {
 $('#drMttrPerRepiar').on('change', function() {
     if ($('#drMttrPerRepiar :selected').val() !== '-1') {
         $('#drMTTRRLine').val('-1');
+        $('#drMTTRRFaz').val('-1');
     }
 });
 $('#drMTTRRLine').on('change', function () {
     if ($('#drMTTRRLine :selected').val() !== '-1') {
         $('#drMttrPerRepiar').val('-1');
+        $('#drMTTRRFaz').val('-1');
+    }
+});
+$('#drMTTRRFaz').on('change', function () {
+    if ($('#drMTTRRFaz :selected').val() !== '-1') {
+        $('#drMttrPerRepiar').val('-1');
+        $('#drMTTRRLine').val('-1');
     }
 });
 function MttrPerRepiar() {
@@ -94,12 +113,13 @@ function MttrPerRepiar() {
     var endDate = $('#txtrepEndDate').val();
     var unitt = $('#drMttrPerRepiar :selected').val();
     var linee = $('#drMTTRRLine :selected').val();
+    var fazz = $('#drMTTRRFaz :selected').val();
     if (startDate == '' || endDate == '') {
         RedAlert('no', 'لطفا فیلد های خالی را تکمیل نمایید');
         return;
     }
-    if (unitt === '-1' && linee === '-1') {
-        RedAlert('no', 'لطفا خط یا واحد مورد نظر را انتخاب کنید');
+    if (unitt === '-1' && linee === '-1' && fazz === '-1') {
+        RedAlert('no', 'لطفا فاز ، خط یا واحد مورد نظر را انتخاب کنید');
         return;
     }
     var obj = {
@@ -117,7 +137,8 @@ function MttrPerRepiar() {
         dateS: startDate,
         dateE: endDate,
         unit: unitt,
-        line:linee
+        line: linee,
+        faz:fazz
     });
     GetChartData(obj);
     $.get("Content/report.html", function (data) {
@@ -129,13 +150,21 @@ function MttrPerRepiar() {
 $('#drMttrPerStop').on('change', function () {
     if ($('#drMttrPerStop :selected').val() !== '-1') {
         $('#drMTTRSLine').val('-1');
+        $('#drMTTRSFaz').val('-1');
     }
 });   
 $('#drMTTRSLine').on('change', function () {
     if ($('#drMTTRSLine :selected').val() !== '-1') {
         $('#drMttrPerStop').val('-1');
+        $('#drMTTRSFaz').val('-1');
     }
 });   
+$('#drMTTRSFaz').on('change', function () {
+    if ($('#drMTTRSFaz :selected').val() !== '-1') {
+        $('#drMttrPerStop').val('-1');
+        $('#drMTTRSLine').val('-1');
+    }
+});  
 
 function MttrPerStop() {
     ClearReprtArea();
@@ -143,12 +172,13 @@ function MttrPerStop() {
     var endDate = $('#txtstopEndDate').val();
     var unitt =$('#drMttrPerStop :selected').val();
     var linee = $('#drMTTRSLine :selected').val();
+    var fazz = $('#drMTTRSFaz :selected').val();
     if (startDate == '' || endDate == '') {
         RedAlert('no', 'لطفا فیلد های خالی را تکمیل نمایید');
         return;
     }
-    if (unitt === '-1' && linee === '-1') {
-        RedAlert('no', 'لطفا خط یا واحد مورد نظر را انتخاب کنید');
+    if (unitt === '-1' && linee === '-1' && fazz === '-1') {
+        RedAlert('no', 'لطفا فاز ، خط یا واحد مورد نظر را انتخاب کنید');
         return;
     }
     var obj = {
@@ -166,7 +196,8 @@ function MttrPerStop() {
         dateS: startDate,
         dateE: endDate,
         unit: unitt,
-        line:linee
+        line: linee,
+        faz:fazz
     });
     GetChartData(obj);
     $.get("Content/report.html", function (data) {

@@ -13,24 +13,6 @@ namespace CMMS {
     public partial class MttReport {
         
         /// <summary>
-        /// drMTBFLine control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList drMTBFLine;
-        
-        /// <summary>
-        /// Sqlline control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource Sqlline;
-        
-        /// <summary>
         /// drMTBFUnits control.
         /// </summary>
         /// <remarks>
@@ -49,13 +31,40 @@ namespace CMMS {
         protected global::System.Web.UI.WebControls.SqlDataSource Sqlunit;
         
         /// <summary>
-        /// drMTTRRLine control.
+        /// SqlFaz control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList drMTTRRLine;
+        protected global::System.Web.UI.WebControls.SqlDataSource SqlFaz;
+        
+        /// <summary>
+        /// drMTBFLine control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drMTBFLine;
+        
+        /// <summary>
+        /// Sqlline control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource Sqlline;
+        
+        /// <summary>
+        /// drMTBFfaz control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drMTBFfaz;
         
         /// <summary>
         /// drMttrPerRepiar control.
@@ -67,13 +76,22 @@ namespace CMMS {
         protected global::System.Web.UI.WebControls.DropDownList drMttrPerRepiar;
         
         /// <summary>
-        /// drMTTRSLine control.
+        /// drMTTRRLine control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList drMTTRSLine;
+        protected global::System.Web.UI.WebControls.DropDownList drMTTRRLine;
+        
+        /// <summary>
+        /// drMTTRRFaz control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drMTTRRFaz;
         
         /// <summary>
         /// drMttrPerStop control.
@@ -83,5 +101,23 @@ namespace CMMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList drMttrPerStop;
+        
+        /// <summary>
+        /// drMTTRSLine control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drMTTRSLine;
+        
+        /// <summary>
+        /// drMTTRSFaz control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drMTTRSFaz;
     }
 }
