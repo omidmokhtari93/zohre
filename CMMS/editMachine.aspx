@@ -89,11 +89,6 @@
                            </asp:ButtonField>
                        <asp:TemplateField>
                            <ItemTemplate>
-                               <asp:HyperLink ID="lnk" runat="server" Target="_blank" style="color: green;" CssClass="fa fa-download" ToolTip="دانلود فایل کاتالوگ" NavigateUrl='<%# Eval("catFile") %>'></asp:HyperLink>
-                           </ItemTemplate>
-                       </asp:TemplateField>
-                       <asp:TemplateField>
-                           <ItemTemplate>
                                <a class="fa fa-print" style="color: #2461be; cursor: pointer;" title="پرینت" id="print"></a>
                            </ItemTemplate>
                        </asp:TemplateField>
@@ -105,7 +100,7 @@
                </asp:GridView>
                <asp:SqlDataSource ID="SqlMachine" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="
 SELECT dbo.m_machine.name,dbo.m_machine.loc AS location ,dbo.m_machine.code,cast (dbo.m_machine.code as nvarchar(8)) as vcode,
-                   dbo.m_machine.id, dbo.i_units.unit_name AS loc, dbo.m_machine.catFile, dbo.m_machine.maModel, dbo.m_machine.insDate,
+                   dbo.m_machine.id, dbo.i_units.unit_name AS loc, dbo.m_machine.maModel, dbo.m_machine.insDate,
                    dbo.m_machine.creator FROM dbo.m_machine INNER JOIN dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code order by m_machine.code,
                    m_machine.name,m_machine.id"></asp:SqlDataSource>
            </div>

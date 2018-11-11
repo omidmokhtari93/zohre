@@ -194,17 +194,15 @@ namespace CMMS
             return checkDuplicate.ExecuteScalar().ToString();
         }
         [WebMethod]
-        public string MachineInfo(string mid , string fileName, MachineMainInfo minfo)
+        public string MachineInfo(string mid , MachineMainInfo minfo)
         {
             _cnn.Open();
             if (Convert.ToInt32(mid) == 0)
             {
-                var inserMachInfo = new SqlCommand("INSERT INTO [dbo].[m_machine]([name],[code],[catalog],[catname],[catcode],[catFile] " +
-                                                   ",[imp],[creator],[insDate],[maModel],[startDate],[faz],[loc],[line] " +
-                                                   ",[pow],[stopcost],[catGroup],[catState],[mtbfH],[mtbfD],[mttrH] " +
-                                                   ",[mttrD],[selinfo],[supinfo])VALUES " +
-                                                   "('" + minfo.Name + "' , '" + minfo.Code + "' , " + minfo.Catalog + ",'"+minfo.CatName+"'," +
-                                                   "'"+minfo.CatCode+"' ,'" + fileName + "', " + minfo.Ahamiyat + " , '" + minfo.Creator +"'" +
+                var inserMachInfo = new SqlCommand("INSERT INTO [dbo].[m_machine]([name],[code],[imp],[creator],[insDate],[maModel]," +
+                                                   "[startDate],[faz],[loc],[line] ,[pow],[stopcost],[catGroup],[catState]," +
+                                                   "[mtbfH],[mtbfD],[mttrH],[mttrD],[selinfo],[supinfo])VALUES " +
+                                                   "('" + minfo.Name + "' , '" + minfo.Code + "' , " + minfo.Ahamiyat + " , '" + minfo.Creator +"'" +
                                                    ",'" + minfo.InsDate + "', '" + minfo.Model + "' , '" + minfo.Tarikh + "' , "+minfo.Faz+" " +
                                                    ", '" + minfo.Location +"' ,"+minfo.Line+", '" + minfo.Power + "',"+minfo.StopCostPerHour+" ,"
                                                    + minfo.CatGroup + " , " + minfo.VaziatTajhiz + " ,'" + minfo.MtbfH + "' , '" + minfo.MtbfD + "'," +
@@ -212,45 +210,9 @@ namespace CMMS
                                                    " '" + minfo.SellInfo + "' , '" + minfo.SuppInfo + "') SELECT CAST(scope_identity() AS int)", _cnn);
                 return inserMachInfo.ExecuteScalar().ToString();
             }
-            if (minfo.Catalog == 1 && string.IsNullOrEmpty(fileName))
-            {
-                var selectfilePAth = new SqlCommand("select catFile from m_machine where id =" + mid + " ", _cnn);
-                fileName = selectfilePAth.ExecuteScalar().ToString();
-                goto update;
-            }
-            if (!string.IsNullOrEmpty(fileName))
-            {
-                var filePath = "";
-                var selectfilePAth = new SqlCommand("select catFile from m_machine where id =" + mid + " ", _cnn);
-                filePath = selectfilePAth.ExecuteScalar().ToString();
-                var path = Server.MapPath(filePath);
-                if (File.Exists(path))
-                {
-                    File.Delete(path);
-                }
-            }
-            if (string.IsNullOrEmpty(fileName) && minfo.Catalog == 0)
-            {
-                var filePath = "";
-                var selectfilePAth = new SqlCommand("select catFile from m_machine where id =" + mid + " ", _cnn);
-                filePath = selectfilePAth.ExecuteScalar().ToString();
-                if (!string.IsNullOrEmpty(filePath))
-                {
-                    var path = Server.MapPath(filePath);
-                    if (File.Exists(path))
-                    {
-                        File.Delete(path);
-                    }
-                }
-            }
-            update:
             var updateMachine = new SqlCommand("UPDATE [dbo].[m_machine] " +
                                                "SET[name] = '" + minfo.Name + "' " +
                                                ",[code] = '" + minfo.Code + "' " +
-                                               ",[catalog] = " + minfo.Catalog + " " +
-                                               ",[catname] = '" + minfo.CatName + "' " +
-                                               ",[catcode] = '" + minfo.CatCode + "' " +
-                                               ",[catFile] = '" + fileName + "' " +
                                                ",[imp] = " + minfo.Ahamiyat + " " +
                                                ",[creator] = '" + minfo.Creator + "' " +
                                                ",[insDate] = '" + minfo.InsDate + "' " +
@@ -620,35 +582,38 @@ namespace CMMS
         [WebMethod]
         public string GetMachineTbl(int mid)
         {
-            var Minfo = new List<MachineMainInfo>();
+            var minfo = new List<MachineMainInfo>();
             _cnn.Open();
             var getMachInfo = new SqlCommand(
-                "SELECT name, code, catalog, catFile,catname,catcode, "+
-                "imp, creator, insDate, maModel, " +
-                "startDate, pow, catGroup, catState, " +
-                "mtbfH, mtbfD, mttrH, mttrD,stopcost, " +
-                "selinfo, supinfo, line ,loc,faz " +
-                "FROM dbo.m_machine WHERE m_machine.id = " + mid + " ", _cnn);
+                "SELECT dbo.m_machine.name, dbo.m_machine.code, dbo.m_machine.imp, dbo.m_machine.creator,dbo.m_machine.stopcost, " +
+                "dbo.m_machine.insDate, dbo.m_machine.maModel, dbo.m_machine.startDate, dbo.m_machine.pow, " +
+                "dbo.m_machine.catGroup, dbo.m_machine.catState, dbo.m_machine.mtbfH, dbo.m_machine.mtbfD, " +
+                "dbo.m_machine.mttrH, dbo.m_machine.mttrD, dbo.m_machine.selinfo, dbo.m_machine.supinfo, " +
+                "dbo.i_lines.line_name, dbo.i_units.unit_name, dbo.i_faz.faz_name, dbo.m_machine.faz, " +
+                "dbo.m_machine.line, dbo.m_machine.loc FROM dbo.m_machine INNER JOIN " +
+                "dbo.i_lines ON dbo.m_machine.line = dbo.i_lines.id INNER JOIN " +
+                "dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code left JOIN " +
+                "dbo.i_faz ON dbo.m_machine.faz = dbo.i_faz.id WHERE(dbo.m_machine.id = "+mid+") ", _cnn);
             var rd = getMachInfo.ExecuteReader();
             if (rd.Read())
             {
-                Minfo.AddRange(new List<MachineMainInfo>
+                minfo.AddRange(new List<MachineMainInfo>
                 {
                     new MachineMainInfo
                     {
                         Name = rd["name"].ToString(),
                         Code = rd["code"].ToString(),
-                        Catalog = Convert.ToInt32(rd["catalog"]),
-                        CatName = rd["catname"].ToString(),
-                        CatCode = rd["catcode"].ToString(),
                         Ahamiyat = rd["imp"].ToString(),
                         Creator = rd["creator"].ToString(),
                         InsDate = rd["insDate"].ToString(),
                         Model = rd["maModel"].ToString(),
                         Tarikh = rd["startDate"].ToString(),
                         Line = Convert.ToInt32(rd["line"]),
+                        LineName = rd["line_name"].ToString(),
                         Faz = Convert.ToInt32(rd["faz"]),
+                        FazName = rd["faz_name"].ToString(),
                         Location = rd["loc"].ToString(),
+                        LocationName = rd["unit_name"].ToString(),
                         Power = rd["pow"].ToString(),
                         StopCostPerHour = Convert.ToInt32(rd["stopcost"]),
                         CatGroup = Convert.ToInt32(rd["catGroup"]),
@@ -663,7 +628,7 @@ namespace CMMS
                 });
             }
             _cnn.Close();
-            return new JavaScriptSerializer().Serialize(Minfo);
+            return new JavaScriptSerializer().Serialize(minfo);
         }
 
         [WebMethod]
@@ -874,6 +839,14 @@ namespace CMMS
             updateSub.ExecuteNonQuery();
             _cnn.Close();
             return "";
+        }
+
+        [WebMethod]
+        public void DeleteSubSystem(int subcode)
+        {
+            _cnn.Open();
+            var del = new SqlCommand("delete from subsystem where code = "+subcode+" ",_cnn);
+            del.ExecuteNonQuery();
         }
 
         [WebMethod]
@@ -2048,6 +2021,28 @@ namespace CMMS
                 ins.ExecuteNonQuery();
             }
             _cnn.Close();
+        }
+
+        [WebMethod]
+        public string GetCatalogFiles(string name ,string code ,int unit ,int mid)
+        {
+            _cnn.Open();
+            var e = new List<CatalogFiles>();
+            var selfiles = new SqlCommand("select name,code,address from catalog where " +
+                                          "(mid = "+mid+" or "+mid+" = -1) AND " +
+                                          "(name like '%"+name+"%' or '"+name+"' = '') AND " +
+                                          "(code like '%"+code+"%' or '"+code+"' = '')", _cnn);
+            var r = selfiles.ExecuteReader();
+            while (r.Read())
+            {
+                e.Add(new CatalogFiles()
+                {
+                    Filename = r["name"].ToString(),
+                    FileCode = r["code"].ToString(),
+                    Address = r["address"].ToString()
+                });
+            }
+            return new JavaScriptSerializer().Serialize(e);
         }
     }
 }

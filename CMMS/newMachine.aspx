@@ -34,62 +34,31 @@
             <div class="row" style="margin: 0; direction: rtl; text-align: right;">
                 <div class="col-md-6" style="direction: ltr;">
                     <label style="display: block; direction: rtl;">کد دستگاه :</label>
-                        <div id="vahed" class="MachineCodeButtons">
-                            <div class="mytooltip">
-                                <div id="vahedTooltip" class="tooltiptext">
-                                    <table class="table" id="gridUnits" dir="rtl">
-                                        <tbody></tbody>
-                                    </table>
-                                </div>
+                    <div id="vahed" class="MachineCodeButtons">
+                        <div class="mytooltip">
+                            <div id="vahedTooltip" class="tooltiptext">
+                                <table class="table" id="gridUnits" dir="rtl">
+                                    <tbody></tbody>
+                                </table>
                             </div>
-                            <button class="btnVahed"  title="واحدها" id="btnVahed" type="button"></button>
-                        </div>&nbsp;
-                        <div id="machine" class="MachineCodeButtons">
-                            <div class="mytooltip">
-                                <div id="machineTooltip" class="tooltiptext">
-                                    <table class="table" id="gridMachines" dir="rtl">
-                                        <tbody></tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <button class="btnMachine" title="تجهیزات" id="btnMachine" type="button"></button>
                         </div>
-                        <input class="form-control text-center" dir="ltr" style="width: 79%; display: inline-block;margin-left: 5px;" tabindex="2" id="txtmachineCode"/>
+                        <button class="btnVahed" title="واحدها" id="btnVahed" type="button"></button>
+                    </div>&nbsp;
+                    <div id="machine" class="MachineCodeButtons">
+                        <div class="mytooltip">
+                            <div id="machineTooltip" class="tooltiptext">
+                                <table class="table" id="gridMachines" dir="rtl">
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <button class="btnMachine" title="تجهیزات" id="btnMachine" type="button"></button>
+                    </div>
+                    <input class="form-control text-center" dir="ltr" style="width: 79%; display: inline-block; margin-left: 5px;" tabindex="2" id="txtmachineCode"/>
                 </div>
                 <div class="col-md-6">
                     نام دستگاه :
                     <input id="txtmachineName" tabindex="1"  class="form-control"/>
-                </div>
-            </div>
-            <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
-                <div class="col-md-12">
-                    <div class="col-md-9" style="padding:0">
-                    <div id="pnlCatalog" style="display: none;">
-                        <div class="col-md-4" style="padding:0">
-                            کد مدرک :
-                            <input class="form-control" id="txtcatcode"/>
-                        </div>
-                        <div class="col-md-4">
-                            نام مدرک :
-                            <input class="form-control" id="txtcatname"/>
-                        </div>
-                        <div class="col-md-4" style="padding: 0;">
-                            انتخاب فایل
-                            <div style="padding: 5px 4px 3px 0;" class="form-control" id="catalgBorder">
-                                <input type="file" id="file1" name="file1" style="outline: none; width: 200px;"/>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                    <div class="col-md-3" style="padding: 0;">
-                        کاتالوگ :
-                        <div class="switch-field">
-                            <input type="radio" id="haveCatalog" value="1" name="switch_1" />
-                            <label for="haveCatalog">دارد</label>
-                            <input type="radio" id="noCatalog" value="0" name="switch_1"  checked/>
-                            <label for="noCatalog">ندارد</label>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">

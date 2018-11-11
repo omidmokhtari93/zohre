@@ -97,13 +97,8 @@
                 <tr>
                     <td colspan="2">محل اسقرار : <label id="location"></label></td>
                     <td>خط تولید : <label id="lblline"></label></td>
+                    <td>فاز : <label id="lblfaz"></label></td>
                     <td>توان : <label id="power"></label></td>
-                    <td>کاتالوگ : &nbsp;&nbsp;
-                        دارد
-                        <input type="checkbox" id="cat"/>&nbsp;&nbsp;
-                        ندارد
-                        <input type="checkbox" id="nonCat"/>
-                    </td>
                 </tr>
                 <tr>
                     <td colspan="5">
@@ -296,8 +291,6 @@
                     }
                 });
                 function fillMachineControls(mInfo) {
-                    var cat = document.getElementById('cat');
-                    var noncat = document.getElementById('nonCat');
                     var nonkelidi = document.getElementById('nonkelidi');
                     var kelidi = document.getElementById('kelidi');
                     $('#name').text(mInfo[0].Name);
@@ -306,11 +299,12 @@
                     $('#tarikhNasb').text(mInfo[0].InsDate);
                     $('#model').text(mInfo[0].Model);
                     $('#startDate').text(mInfo[0].Tarikh);
-                    $('#location').text(mInfo[0].UnitName);
+                    $('#location').text(mInfo[0].LocationName);
                     $('#power').text(mInfo[0].Power);
                     $('#sellInfo').text(mInfo[0].SellInfo);
                     $('#suppInfo').text(mInfo[0].SuppInfo);
                     $('#lblline').text(mInfo[0].LineName);
+                    $('#lblfaz').text(mInfo[0].FazName);
                     if (mInfo[0].VaziatTajhiz == 0) { $('#vaziatTajhiz').text('غیرفعال'); }
                     if (mInfo[0].VaziatTajhiz == 1) { $('#vaziatTajhiz').text('فعال'); }
                     if (mInfo[0].VaziatTajhiz == 2) { $('#vaziatTajhiz').text('معیوب'); }
@@ -318,7 +312,6 @@
                     if (mInfo[0].CatGroup == 2) { $('#groupTajhiz').text('سیستم تاسیسات و برق'); }
                     if (mInfo[0].CatGroup == 3) { $('#groupTajhiz').text('ساختمان'); }
                     if (mInfo[0].CatGroup == 4) { $('#groupTajhiz').text('حمل و نقل'); }
-                    if (mInfo[0].Catalog == 1) { cat.checked = true; } else {noncat.checked = true;}
                     if (mInfo[0].Ahamiyat == "True") { kelidi.checked = true; } else { nonkelidi.checked = true; }
                 }
                 function getMasrafiData() {

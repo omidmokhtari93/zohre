@@ -74,5 +74,22 @@
             </div>
         </div>
     </div>
+    
+    <div id="ModalDelete" class="modal" style="direction: rtl;">
+        <div class="modal-content" style="width: 400px;">
+            <div class="panel panel-danger" style="margin-bottom: 0;">
+                <div class="panel-heading" style="font-weight: 800;">حذف تجهیز</div>
+                <div class="panel-body" style="text-align: center;">
+                    <label id="subname" class="label label-primary"></label>
+                    <p style="font-weight: 800; padding: 5px;">آیا مایل به حذف هستید؟</p>
+                    <div style="text-align: center;">
+                        <button class="button" type="button" onclick="deleteSubsystem();">حذف</button>
+                        <button class="button" type="button" onclick="$('#ModalDelete').hide();">انصراف</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="Scripts/SubSystemPage.js"></script>
 </asp:Content>
