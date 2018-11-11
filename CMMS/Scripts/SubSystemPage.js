@@ -189,13 +189,14 @@ function FillToolsTablePage() {
             var array = [];
             if (items.length > 0) {
                 $('#TableSubSystem tbody').empty();
-                array.push('<tr><th>ردیف</th><th>نام تجهیز</th><th>کد تجهیز</th><th></th></tr>');
+                array.push('<tr><th>ردیف</th><th>نام تجهیز</th><th>کد تجهیز</th><th></th><th></th></tr>');
                 for (var i = 0; i < items.length; i++) {
                     array.push('<tr>' +
                         '<td>' + parseInt(i + 1) + '</td>' +
                         '<td>' + items[i].ToolName + '</td>' +
                         '<td>' + items[i].ToolCode + '</td>' +
                         '<td><a id="editSubsystem">ویرایش</a></td>' +
+                        '<td><a id="del">حذف</a></td>' +
                         '</tr>');
                 }
                 $('#TableSubSystem tbody').append(array.join(''));
@@ -204,4 +205,27 @@ function FillToolsTablePage() {
         error: function () {
         }
     });
+}
+
+$("table").on("click", "tr a#del", function () {
+    targetTr = $(this).closest('tr');
+    $('#subname').text($(this).closest('tr').find('td:eq(1)').text());
+    _editCode = $(this).closest('tr').find('td:eq(2)').text();
+    $('#ModalDelete').show();
+});
+
+function deleteSubsystem() {
+    var e = [];
+    e.push({
+        url: 'WebService.asmx/DeleteSubSystem',
+        parameters: [{ subcode: _editCode }],
+        func:deleteDone
+    });
+    AjaxCall(e);
+
+    function deleteDone() {
+        GreenAlert('n', 'با موفقیت حذف شد');
+        $('#ModalDelete').hide();
+        FillToolsTablePage();
+    }
 }

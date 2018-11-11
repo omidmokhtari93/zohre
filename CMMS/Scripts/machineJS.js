@@ -610,36 +610,7 @@ function SendTablesToDB() {
     $('#btnFinalSave').animate({ 'padding-left': '40px', 'padding-right': '10px' });
     $('#btnFinalLoading').fadeIn(20);
     var machinId;
-    uploadFile();
-    function uploadFile() {
-        var fileUpload = $("#file1").get(0);
-        var files = fileUpload.files;
-        if (files.length > 0) {
-            var fData = new FormData();
-            for (var i = 0; i < files.length; i++) {
-                fData.append(files[i].name, files[i]);
-            }
-            $.ajax({
-                url: "FileUploader.ashx",
-                type: "POST",
-                contentType: false,
-                processData: false,
-                data: fData,
-                success: function (e) {
-                    var fileName = e;
-                    sendMinfo(fileName);
-                },
-                error: function () {
-                    RedAlert('n',"!!خطا در آپلود فایل");
-                    sendMinfo('');
-                }
-            });
-        } else {
-            var filname = '';
-            sendMinfo(filname);
-        }
-    }
-
+    sendMinfo();
     function machinMainData() {
         var obj = {};
         obj.Name = $('#txtmachineName').val();

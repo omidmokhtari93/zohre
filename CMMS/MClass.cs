@@ -14,19 +14,17 @@ namespace CMMS
     {
         public string Name { get; set; }
         public string Code { get; set; }
-        public int Catalog { get; set; }
-        public string CatName { get; set; }
-        public string CatCode { get; set; }
         public string Ahamiyat { get; set; }
         public string Creator { get; set; }
         public string InsDate { get; set; }
         public string Model { get; set; }
         public string Tarikh { get; set; }
         public string Location { get; set; }
+        public string LocationName { get; set; }
         public int Line { get; set; }
         public string LineName { get; set; }
-        public string UnitName { get; set; }
         public int Faz { get; set; }
+        public string FazName { get; set; }
         public int StopCostPerHour { get; set; }
         public string Power { get; set; }
         public int CatGroup { get; set; }
@@ -431,5 +429,13 @@ namespace CMMS
         public int PartId { get; set; }
         public string ReplyDate { get; set; }
         public string Tarikh { get; set; }
+    }
+
+    public class CatalogFiles
+    {
+        public int MachineId { get; set; }
+        public string Filename { get; set; }
+        public string FileCode { get; set; }
+        public string Address { get; set; }
     }
 }
