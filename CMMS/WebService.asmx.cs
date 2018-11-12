@@ -591,8 +591,8 @@ namespace CMMS
                 "dbo.m_machine.catGroup, dbo.m_machine.catState, dbo.m_machine.mtbfH, dbo.m_machine.mtbfD, " +
                 "dbo.m_machine.mttrH, dbo.m_machine.mttrD, dbo.m_machine.selinfo, dbo.m_machine.supinfo, " +
                 "dbo.i_lines.line_name, dbo.i_units.unit_name, dbo.i_faz.faz_name, dbo.m_machine.faz, " +
-                "dbo.m_machine.line, dbo.m_machine.loc FROM dbo.m_machine INNER JOIN " +
-                "dbo.i_lines ON dbo.m_machine.line = dbo.i_lines.id INNER JOIN " +
+                "dbo.m_machine.line, dbo.m_machine.loc FROM dbo.m_machine left JOIN " +
+                "dbo.i_lines ON dbo.m_machine.line = dbo.i_lines.id left JOIN " +
                 "dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code left JOIN " +
                 "dbo.i_faz ON dbo.m_machine.faz = dbo.i_faz.id WHERE(dbo.m_machine.id = "+mid+") ", _cnn);
             var rd = getMachInfo.ExecuteReader();
