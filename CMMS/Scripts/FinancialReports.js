@@ -23,6 +23,11 @@
     kamaDatepicker('txtStartDateToolsCost', customOptions);
     kamaDatepicker('txtEndDateReqCost', customOptions);
     kamaDatepicker('txtStartDateReqCost', customOptions);
+    kamaDatepicker('txtEndDateRStopCost', customOptions);
+    kamaDatepicker('txtStartDateRStopCost', customOptions);
+    kamaDatepicker('txtEndDatePrStopCost', customOptions);
+    kamaDatepicker('txtStartDatePrStopCost', customOptions);
+    
 });
 $('#drPersonelUnit').on('change', function () {
     if ($('#drPersonelUnit :selected').val() !== '-1') {
@@ -70,13 +75,13 @@ function PersonelCost() {
                     '<td>' + parseInt(i + 1) + '</td>' +
                     '<td>' + pc[i][2] + '</td>' +
                     '<td>' + pc[i][1] + '</td>' +
-                    '<td>' + pc[i][0] + '</td>' +
+                    '<td>' + parseInt(pc[i][0]).toLocaleString() + '</td>' +
                     '</tr>');
             }
            
             $('#gridPersonelCost tbody').append(body.join(''));
         }
-        $('#lblPersonelCostTotal').text(total + ' ریال ');
+        $('#lblPersonelCostTotal').text(parseInt(total).toLocaleString() + ' ریال ');
     }
 }
 $('#drContractUnit').on('change', function () {
@@ -124,7 +129,7 @@ function ContractorCost() {
                 body.push('<tr>' +
                     '<td>' + parseInt(i + 1) + '</td>' +
                     '<td>' + pc[i][1] + '</td>' +
-                    '<td>' + pc[i][0] + '</td>' +
+                    '<td>' + parseInt(pc[i][0]).toLocaleString() + '</td>' +
                     '</tr>');
             }
            
@@ -179,14 +184,14 @@ function ToolsCost() {
                     '<td>' + parseInt(i + 1) + '</td>' +
                     '<td>' + pc[i][3] + '</td>' +
                     '<td>' + pc[i][2] + '</td>' +
-                    '<td>' + pc[i][1] + '</td>' +
-                    '<td>' + pc[i][0] + '</td>' +
+                    '<td>' + parseInt(pc[i][1]).toLocaleString() + '</td>' +
+                    '<td>' + parseInt(pc[i][0]).toLocaleString() + '</td>' +
                     '</tr>');
             }
            
             $('#gridToolsCost tbody').append(body.join(''));
         }
-        $('#lblToolsCost').text(total + ' ریال ');
+        $('#lblToolsCost').text(parseInt(total).toLocaleString() + ' ریال ');
     }
 }
 $('#drRepairUnit').on('change', function () {
@@ -233,14 +238,14 @@ function RepairCost() {
                 total += parseInt(pc[i][0]);
                 body.push('<tr>' +
                     '<td>' + parseInt(i + 1) + '</td>' +
-                    '<td>' + pc[i][1] + '</td>' +
-                    '<td>' + pc[i][0] + '</td>' +
+                    '<td>' + parseInt(pc[i][1]).toLocaleString() + '</td>' +
+                    '<td>' + parseInt(pc[i][0]).toLocaleString() + '</td>' +
                     '</tr>');
             }
            
             $('#gridRepairCost tbody').append(body.join(''));
         }
-        $('#lblRepairCost').text(total + ' ریال ');
+        $('#lblRepairCost').text(parseInt(total).toLocaleString() + ' ریال ');
     }
 }
 function RequestCost() {
@@ -278,12 +283,140 @@ function RequestCost() {
                     '<td>' + parseInt(i + 1) + '</td>' +
                     '<td>' + pc[i][1] + '</td>' +
                     '<td>' + pc[i][2] + '</td>' +
-                    '<td>' + pc[i][0] + '</td>' +
+                    '<td>' + parseInt(pc[i][0]).toLocaleString() + '</td>' +
                     '</tr>');
             }
 
             $('#gridRequestCost tbody').append(body.join(''));
         }
         //$('#gridRequestCost').text(total + ' ریال ');
+    }
+}
+$('#drRStopUnits').on('change', function () {
+    if ($('#drRStopUnits :selected').val() !== '-1') {
+        $('#drRStopLine').val('-1');
+        $('#drRStopfaz').val('-1');
+    }
+});
+$('#drRStopLine').on('change', function () {
+    if ($('#drRStopLine :selected').val() !== '-1') {
+        $('#drRStopUnits').val('-1');
+        $('#drRStopfaz').val('-1');
+    }
+});
+$('#drRStopfaz').on('change', function () {
+    if ($('#drRStopfaz :selected').val() !== '-1') {
+        $('#drRStopUnits').val('-1');
+        $('#drRStopLine').val('-1');
+    }
+});
+function RStopCost() {
+    var linee = $('#drRStopLine :selected').val();
+    var unitt = $('#drRStopUnits :selected').val();
+    var fazz = $('#drRStopfaz :selected').val();
+    var sDate = $('#txtStartDateRStopCost').val();
+    var eDate = $('#txtEndDateRStopCost').val();
+    if (sDate === '' || eDate === '') {
+        RedAlert('no', '!!فیلدهای خالی را تکمیل کنید');
+        return;
+    }
+    if (CheckPastTime(sDate, '12:00', eDate, '12:00') === false) {
+        RedAlert('no', '!!تاریخ شروع باید کوچکتر از تاریخ پایان باشد');
+        return;
+    }
+
+    var data = [];
+    data.push({
+        url: 'Reports.asmx/RepairStopCost',
+        parameters: [{ faz:fazz,line: linee, unit: unitt, dateS: sDate, dateE: eDate }],
+        func: rStopCostt
+    });
+    AjaxCall(data);
+
+    function rStopCostt(e) {
+        $('#gridRStopCost tbody').empty();
+        var pc = JSON.parse(e.d);
+        var total = 0;
+        if (pc.length > 0) {
+            var body = [];
+
+            body.push('<tr><th>ردیف</th><th>ماشین</th><th>توقفات مکانیکی</th><th>توقفات برقی</th><th>مبلغ کل(ریال)</th></tr>');
+            for (var i = 0; i < pc.length; i++) {
+                total += parseInt(pc[i][0]);
+                body.push('<tr>' +
+                    '<td>' + parseInt(i + 1) + '</td>' +
+                    '<td>' + pc[i][3] + '</td>' +
+                    '<td>' + parseInt(pc[i][2]).toLocaleString() + '</td>' +
+                    '<td>' + parseInt(pc[i][1]).toLocaleString() + '</td>' +
+                    '<td>' + parseInt(pc[i][0]).toLocaleString() + '</td>' +
+                    '</tr>');
+            }
+
+            $('#gridRStopCost tbody').append(body.join(''));
+        }
+        $('#lblRStopCost').text(parseInt(total).toLocaleString() + ' ریال ');
+    }
+}
+$('#drPrStopCostUnit').on('change', function () {
+    if ($('#drPrStopCostUnit :selected').val() !== '-1') {
+        $('#drPrStopCostLine').val('-1');
+        $('#drPrStopCostFaz').val('-1');
+    }
+});
+$('#drPrStopCostLine').on('change', function () {
+    if ($('#drPrStopCostLine :selected').val() !== '-1') {
+        $('#drPrStopCostUnit').val('-1');
+        $('#drPrStopCostFaz').val('-1');
+    }
+});
+$('#drPrStopCostFaz').on('change', function () {
+    if ($('#drPrStopCostFaz :selected').val() !== '-1') {
+        $('#drPrStopCostUnit').val('-1');
+        $('#drPrStopCostLine').val('-1');
+    }
+});
+function prStopCost() {
+    var linee = $('#drPrStopCostLine :selected').val();
+    var unitt = $('#drPrStopCostLine :selected').val();
+    var fazz = $('#drPrStopCostFaz :selected').val();
+    var sDate = $('#txtStartDatePrStopCost').val();
+    var eDate = $('#txtEndDatePrStopCost').val();
+    if (sDate === '' || eDate === '') {
+        RedAlert('no', '!!فیلدهای خالی را تکمیل کنید');
+        return;
+    }
+    if (CheckPastTime(sDate, '12:00', eDate, '12:00') === false) {
+        RedAlert('no', '!!تاریخ شروع باید کوچکتر از تاریخ پایان باشد');
+        return;
+    }
+
+    var data = [];
+    data.push({
+        url: 'Reports.asmx/ProductStopCost',
+        parameters: [{ faz: fazz, line: linee, unit: unitt, dateS: sDate, dateE: eDate }],
+        func: prStopCostt
+    });
+    AjaxCall(data);
+
+    function prStopCostt(e) {
+        $('#gridPrStopCost tbody').empty();
+        var pc = JSON.parse(e.d);
+        var total = 0;
+        if (pc.length > 0) {
+            var body = [];
+
+            body.push('<tr><th>ردیف</th><th>ماشین</th><th>مبلغ کل(ریال)</th></tr>');
+            for (var i = 0; i < pc.length; i++) {
+                total += parseInt(pc[i][0]);
+                body.push('<tr>' +
+                    '<td>' + parseInt(i + 1) + '</td>' +
+                    '<td>' + pc[i][1] + '</td>' +
+                    '<td>' + parseInt(pc[i][0]).toLocaleString() + '</td>' +
+                    '</tr>');
+            }
+
+            $('#gridPrStopCost tbody').append(body.join(''));
+        }
+        $('#lblPrStopCost').text(parseInt(total).toLocaleString() + ' ریال ');
     }
 }

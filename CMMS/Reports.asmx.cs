@@ -1019,7 +1019,148 @@ namespace CMMS
             var obj = new { Total = infoDetail, flag = 4 };
             return new JavaScriptSerializer().Serialize(obj);
         }
+        [WebMethod]
+        public string RepairStopCost(int faz,int line, int unit, string dateS, string dateE)//هزینه توقفات تعمیرات
+        {
+            var infoStopCost = new List<string[]>();
+            cnn.Open();
+            var cmdUnit = new SqlCommand("SELECT (SUM(dbo.r_reply.elec_time) + SUM(dbo.r_reply.mech_time)) * (dbo.m_machine.stopcost / 60) AS TotalCost," +
+                                              " SUM(dbo.r_reply.elec_time) * (dbo.m_machine.stopcost / 60) AS Ecost, SUM(dbo.r_reply.mech_time) " +
+                                              " * (dbo.m_machine.stopcost / 60) AS Mcost, dbo.m_machine.name" +
+                                              " FROM dbo.m_machine INNER JOIN " +
+                                              " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
+                                              " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq " +
+                                              " WHERE(dbo.m_machine.loc =" + unit + ") AND(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
+                                              " GROUP BY dbo.m_machine.name, dbo.m_machine.stopcost", cnn);
 
+            var cmdFaz = new SqlCommand("SELECT (SUM(dbo.r_reply.elec_time) + SUM(dbo.r_reply.mech_time)) * (dbo.m_machine.stopcost / 60) AS TotalCost," +
+                                         " SUM(dbo.r_reply.elec_time) * (dbo.m_machine.stopcost / 60) AS Ecost, SUM(dbo.r_reply.mech_time) " +
+                                         " * (dbo.m_machine.stopcost / 60) AS Mcost, dbo.m_machine.name" +
+                                         " FROM dbo.m_machine INNER JOIN " +
+                                         " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
+                                         " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq " +
+                                         " WHERE(dbo.m_machine.faz =" + faz + ") AND(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
+                                         " GROUP BY dbo.m_machine.name, dbo.m_machine.stopcost", cnn);
+
+            var cmdLine = new SqlCommand("SELECT (SUM(dbo.r_reply.elec_time) + SUM(dbo.r_reply.mech_time)) * (dbo.m_machine.stopcost / 60) AS TotalCost," +
+                                         " SUM(dbo.r_reply.elec_time) * (dbo.m_machine.stopcost / 60) AS Ecost, SUM(dbo.r_reply.mech_time) " +
+                                         " * (dbo.m_machine.stopcost / 60) AS Mcost, dbo.m_machine.name" +
+                                         " FROM dbo.m_machine INNER JOIN " +
+                                         " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
+                                         " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq " +
+                                         " WHERE(dbo.m_machine.line =" + line + ") AND(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
+                                         " GROUP BY dbo.m_machine.name, dbo.m_machine.stopcost", cnn);
+
+            var cmdtot = new SqlCommand("SELECT (SUM(dbo.r_reply.elec_time) + SUM(dbo.r_reply.mech_time)) * (dbo.m_machine.stopcost / 60) AS TotalCost," +
+                                         " SUM(dbo.r_reply.elec_time) * (dbo.m_machine.stopcost / 60) AS Ecost, SUM(dbo.r_reply.mech_time) " +
+                                         " * (dbo.m_machine.stopcost / 60) AS Mcost, dbo.m_machine.name" +
+                                         " FROM dbo.m_machine INNER JOIN " +
+                                         " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
+                                         " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq " +
+                                         " WHERE (dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
+                                         " GROUP BY dbo.m_machine.name, dbo.m_machine.stopcost", cnn);
+
+
+
+            SqlDataReader rd;
+            if (line != -1)
+            {
+                rd = cmdLine.ExecuteReader();
+
+            }
+            else if (unit != -1)
+            {
+                rd = cmdUnit.ExecuteReader();
+
+            }
+            else if (faz != -1)
+            {
+                rd = cmdFaz.ExecuteReader();
+
+            }
+            else
+            {
+                rd = cmdtot.ExecuteReader();
+            }
+            while (rd.Read())
+            {
+                var strList = new List<string[]>
+                {
+                    new[] { rd["TotalCost"].ToString(), rd["Ecost"].ToString(), rd["Mcost"].ToString(), rd["name"].ToString() }
+                };
+                infoStopCost.AddRange(strList);
+            }
+            return new JavaScriptSerializer().Serialize(infoStopCost);
+        }
+        [WebMethod]
+        public string ProductStopCost(int faz, int line, int unit, string dateS, string dateE)//هزینه توقفات منجر به توقف تولید
+        {
+            var infoStopCost = new List<string[]>();
+            cnn.Open();
+            var cmdUnit = new SqlCommand("SELECT SUM(dbo.t_StopEffect.stop_time) * (dbo.m_machine.stopcost / 60) AS StopCost, dbo.m_machine.name " +
+                                         " FROM dbo.t_StopEffect INNER JOIN " +
+                                         " dbo.m_machine ON dbo.t_StopEffect.sub_mid = dbo.m_machine.id INNER JOIN " +
+                                         " dbo.r_request ON dbo.t_StopEffect.reqid = dbo.r_request.req_id INNER JOIN " +
+                                         " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq "+
+                                         " WHERE(dbo.m_machine.loc =" + unit + ") AND(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
+                                         " GROUP BY dbo.m_machine.name, dbo.m_machine.stopcost", cnn);
+
+            var cmdFaz = new SqlCommand("SELECT SUM(dbo.t_StopEffect.stop_time) * (dbo.m_machine.stopcost / 60) AS StopCost, dbo.m_machine.name " +
+                                        " FROM dbo.t_StopEffect INNER JOIN " +
+                                        " dbo.m_machine ON dbo.t_StopEffect.sub_mid = dbo.m_machine.id INNER JOIN " +
+                                        " dbo.r_request ON dbo.t_StopEffect.reqid = dbo.r_request.req_id INNER JOIN " +
+                                        " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq " +
+                                        " WHERE(dbo.m_machine.faz =" + faz + ") AND(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
+                                        " GROUP BY dbo.m_machine.name, dbo.m_machine.stopcost", cnn);
+
+            var cmdLine = new SqlCommand("SELECT SUM(dbo.t_StopEffect.stop_time) * (dbo.m_machine.stopcost / 60) AS StopCost, dbo.m_machine.name " +
+                                         " FROM dbo.t_StopEffect INNER JOIN " +
+                                         " dbo.m_machine ON dbo.t_StopEffect.sub_mid = dbo.m_machine.id INNER JOIN " +
+                                         " dbo.r_request ON dbo.t_StopEffect.reqid = dbo.r_request.req_id INNER JOIN " +
+                                         " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq " +
+                                         " WHERE(dbo.m_machine.line =" + line + ") AND(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
+                                         " GROUP BY dbo.m_machine.name, dbo.m_machine.stopcost", cnn);
+
+            var cmdtot = new SqlCommand("SELECT SUM(dbo.t_StopEffect.stop_time) * (dbo.m_machine.stopcost / 60) AS StopCost, dbo.m_machine.name " +
+                                        " FROM dbo.t_StopEffect INNER JOIN " +
+                                        " dbo.m_machine ON dbo.t_StopEffect.sub_mid = dbo.m_machine.id INNER JOIN " +
+                                        " dbo.r_request ON dbo.t_StopEffect.reqid = dbo.r_request.req_id INNER JOIN " +
+                                        " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq " +
+                                        " WHERE (dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
+                                        " GROUP BY dbo.m_machine.name, dbo.m_machine.stopcost", cnn);
+
+
+
+            SqlDataReader rd;
+            if (line != -1)
+            {
+                rd = cmdLine.ExecuteReader();
+
+            }
+            else if (unit != -1)
+            {
+                rd = cmdUnit.ExecuteReader();
+
+            }
+            else if (faz != -1)
+            {
+                rd = cmdFaz.ExecuteReader();
+
+            }
+            else
+            {
+                rd = cmdtot.ExecuteReader();
+            }
+            while (rd.Read())
+            {
+                var strList = new List<string[]>
+                {
+                    new[] { rd["StopCost"].ToString(),rd["name"].ToString() }
+                };
+                infoStopCost.AddRange(strList);
+            }
+            return new JavaScriptSerializer().Serialize(infoStopCost);
+        }
         [WebMethod]
         public string ToolsCost(int line,int unit,string dateS, string dateE)//ریز هزینه قطعات
         {

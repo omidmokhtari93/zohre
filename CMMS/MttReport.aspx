@@ -42,7 +42,7 @@
                 </div>
                 <div class="col-md-4">
                     <label style="display: block;"> : فاز</label> 
-                    <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drMTBFfaz" CssClass="form-control" DataSourceID="SqlFaz" DataTextField="faz_name" DataValueField="id"><asp:ListItem Value="-1">خط را انتخاب کنید</asp:ListItem></asp:DropDownList>  
+                    <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drMTBFfaz" CssClass="form-control" DataSourceID="SqlFaz" DataTextField="faz_name" DataValueField="id"><asp:ListItem Value="-1">فاز را انتخاب کنید</asp:ListItem></asp:DropDownList>  
                 </div>
             </div>
             

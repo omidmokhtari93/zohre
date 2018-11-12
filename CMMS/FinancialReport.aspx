@@ -16,6 +16,8 @@
         <li ><a data-toggle="tab" href="#ContractorCost">هزینه پیمانکاران</a></li>
         <li><a data-toggle="tab" href="#PersonelCost">هزینه پرسنل</a></li>
         <li><a data-toggle="tab" href="#RequestCost">تعمیرات پر هزینه</a></li>
+        <li><a data-toggle="tab" href="#RepairStopCost">هزینه توقفات تعمیرات</a></li>
+        <li><a data-toggle="tab" href="#ProductStopCost">هزینه توقفات تولید</a></li>
     </ul>
     <asp:SqlDataSource ID="Sqlline" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT [id],[line_name] FROM [dbo].[i_lines]"></asp:SqlDataSource>
     <div class="tab-content">
@@ -179,6 +181,92 @@
             <table dir="rtl" id="gridRequestCost" class="table">
                 <tbody></tbody>
             </table>
+        </div>
+    </div>
+        <div id="RepairStopCost" class="tab-pane fade">
+            <div class="menubody">
+                <div class="row" style="margin: 0; text-align: right; direction: ltr;">
+                    <div class="col-md-6">
+                        <label style="display: block;"> : تا تاریخ</label>
+                        <input class="form-control text-center" autocomplete="off" id="txtEndDateRStopCost"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label style="display: block;"> : از تاریخ</label>
+                        <input class="form-control text-center" autocomplete="off" id="txtStartDateRStopCost"/>
+                    </div>
+               
+                </div>
+                <div class="row" style="margin: 0; margin-top: 5px; text-align: right; direction: ltr;">
+                    <div class="col-md-4">
+                        <label style="display: block;"> : واحد</label>
+                        <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drRStopUnits" CssClass="form-control" DataSourceID="Sqlunit" DataTextField="unit_name" DataValueField="unit_code"><asp:ListItem Value="-1">واحد را انتخاب کنید</asp:ListItem></asp:DropDownList>  
+                       
+                    </div>
+                    <div class="col-md-4">
+                        <label style="display: block;"> : خط</label>
+                        
+                        <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drRStopLine" CssClass="form-control" DataSourceID="Sqlline" DataTextField="line_name" DataValueField="id"><asp:ListItem Value="-1">خط را انتخاب کنید</asp:ListItem></asp:DropDownList>  
+                        
+                    </div>
+                    <div class="col-md-4">
+                        <label style="display: block;"> : فاز</label> 
+                        <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drRStopfaz" CssClass="form-control" DataSourceID="SqlFaz" DataTextField="faz_name" DataValueField="id"><asp:ListItem Value="-1">فاز را انتخاب کنید</asp:ListItem></asp:DropDownList>  
+                        <asp:SqlDataSource ID="SqlFaz" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id,faz_name FROM i_faz"></asp:SqlDataSource>
+                    </div>
+                </div>
+                <div style="padding: 15px;">
+                    <button type="button" class="btn btn-info" style="width: 100%;" title="هزینه توقفات تعمیراتی" onclick="RStopCost();">دریافت گزارش</button>
+                </div>
+                <table dir="rtl" id="gridRStopCost" class="table">
+                    <tbody></tbody>
+                </table>
+                <div class="TotalArea">
+                    <label>جمع کل : </label>
+                    <label class="badgelbl" id="lblRStopCost"></label>
+                </div>
+            </div>
+        </div>
+    <div id="ProductStopCost" class="tab-pane fade">
+        <div class="menubody">
+            <div class="row" style="margin: 0; text-align: right; direction: ltr;">
+                <div class="col-md-6">
+                    <label style="display: block;"> : تا تاریخ</label>
+                    <input class="form-control text-center" autocomplete="off" id="txtEndDatePrStopCost"/>
+                </div>
+                <div class="col-md-6">
+                    <label style="display: block;"> : از تاریخ</label>
+                    <input class="form-control text-center" autocomplete="off" id="txtStartDatePrStopCost"/>
+                </div>
+               
+            </div>
+            <div class="row" style="margin: 0; margin-top: 5px; text-align: right; direction: ltr;">
+                <div class="col-md-4">
+                    <label style="display: block;"> : واحد</label>
+                    <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drPrStopCostUnit" CssClass="form-control" DataSourceID="Sqlunit" DataTextField="unit_name" DataValueField="unit_code"><asp:ListItem Value="-1">واحد را انتخاب کنید</asp:ListItem></asp:DropDownList>  
+                       
+                </div>
+                <div class="col-md-4">
+                    <label style="display: block;"> : خط</label>
+                        
+                    <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drPrStopCostLine" CssClass="form-control" DataSourceID="Sqlline" DataTextField="line_name" DataValueField="id"><asp:ListItem Value="-1">خط را انتخاب کنید</asp:ListItem></asp:DropDownList>  
+                        
+                </div>
+                <div class="col-md-4">
+                    <label style="display: block;"> : فاز</label> 
+                    <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drPrStopCostFaz" CssClass="form-control" DataSourceID="SqlFaz" DataTextField="faz_name" DataValueField="id"><asp:ListItem Value="-1">فاز را انتخاب کنید</asp:ListItem></asp:DropDownList>  
+                   
+                </div>
+            </div>
+            <div style="padding: 15px;">
+                <button type="button" class="btn btn-info" style="width: 100%;" title='هزینه توقفات منجر به توقف تولید' onclick="prStopCost();">دریافت گزارش</button>
+            </div>
+            <table dir="rtl" id="gridPrStopCost" class="table">
+                <tbody></tbody>
+            </table>
+            <div class="TotalArea">
+                <label>جمع کل : </label>
+                <label class="badgelbl" id="lblPrStopCost"></label>
+            </div>
         </div>
     </div>
    </div>
