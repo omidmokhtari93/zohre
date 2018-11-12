@@ -26,25 +26,17 @@
     <div class="panel panel-primary">
     <div class="panel-heading">تعمیرات انجام شده </div>
     <div class="panel-body">
-        <div class="row" style="margin: 0; text-align: right; direction: ltr;">
-            <div class="col-md-3">
-               
-            </div>
-            <div class="col-md-3">
-                
-            </div>
-            <div class="col-md-3">
-                
-            </div>
-            <div class="col-md-3">
+        <div class="row" style="margin: 0;">
+            <div class="col-md-9"></div>
+            <div class="col-md-3" style="text-align: right;">
                 <label style="display: block;"> : تاریخ</label>
-                <input class="form-control text-center" autocomplete="on" id="txtWorkDate" runat="server" ClientIDMode="Static"/>
+                <input class="form-control text-center" readonly style="cursor: pointer;" autocomplete="on" id="txtWorkDate" runat="server" ClientIDMode="Static"/>
             </div>
         </div>
-        <div style="padding: 15px;">
-           
+        <div style="padding: 15px 0;">
             <asp:Button runat="server" style="width: 100%;" ID="btnShow" Text="دریافت گزارش" CssClass="btn btn-primary" OnClick="btnShow_OnClick"/>
         </div> 
+        <hr/>
         <div class="alert alert-info" align="center" >مدت زمان توقف خطوط </div>
         <asp:GridView runat="server" ID="grid_LineWorks" CssClass="table" dir="rtl" ClientIDMode="Static"
                       AutoGenerateColumns="False"  DataSourceID="sqllines" >

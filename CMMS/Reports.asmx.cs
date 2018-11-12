@@ -1880,19 +1880,19 @@ namespace CMMS
         //================================
         //==========برنامه کنترلی========
         [WebMethod]
-        public string GetPmControlProgram(string s, string e, int mid)
+        public string GetPmControlProgram(string s, string e, int mid , int opr)
         {
-            var daily = Daily(mid);
-            var monthly = Month(s, e, mid);
-            var week = Week(s, e, mid);
-            var other = Other(s, e, mid);
+            var daily = Daily(mid , opr);
+            var monthly = Month(s, e, mid , opr);
+            var week = Week(s, e, mid , opr);
+            var other = Other(s, e, mid , opr);
             var obj = new
             {
                 daily,monthly,week,other
             };
             return new JavaScriptSerializer().Serialize(obj);
         }
-        public List<PMcontrol> Daily( int machineid)
+        public List<PMcontrol> Daily( int machineid , int opr)
         {
             var lst = new List<PMcontrol>();
             cnn.Open();
@@ -1902,7 +1902,8 @@ namespace CMMS
                                        " dbo.m_control ON dbo.m_machine.id = dbo.m_control.Mid INNER JOIN" +
                                        " dbo.p_pmcontrols ON dbo.m_control.id = dbo.p_pmcontrols.idmcontrol INNER JOIN" +
                                        " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code" +
-                                       " WHERE(dbo.p_pmcontrols.act = 0) AND(dbo.p_pmcontrols.kind = 0) AND (dbo.m_machine.id=" + machineid + ")", cnn);
+                                       " WHERE(dbo.p_pmcontrols.act = 0) AND(dbo.p_pmcontrols.kind = 0)" +
+                                       " AND (dbo.m_machine.id=" + machineid + ") AND (m_control.opr = "+opr+")", cnn);
             var rd = cmdPm.ExecuteReader();
             while (rd.Read())
             {
@@ -1917,7 +1918,7 @@ namespace CMMS
             cnn.Close();
             return lst;
         }
-        public List<PMcontrol> Other(string S, string E, int machineid)
+        public List<PMcontrol> Other(string S, string E, int machineid , int opr)
         {
             var lst = new List<PMcontrol>();
             var check = false;
@@ -1929,7 +1930,7 @@ namespace CMMS
                                        "  dbo.p_pmcontrols ON dbo.m_control.id = dbo.p_pmcontrols.idmcontrol INNER JOIN " +
                                        " dbo.i_units  ON dbo.m_machine.loc = dbo.i_units.unit_code " +
                                        " WHERE(dbo.p_pmcontrols.tarikh < '" + E + "') AND(dbo.p_pmcontrols.act = 0) AND(dbo.p_pmcontrols.kind = 5) " +
-                                       "AND (dbo.m_machine.id=" + machineid + ") ORDER BY dbo.p_pmcontrols.tarikh ", cnn);
+                                       "AND (dbo.m_machine.id=" + machineid + ") AND (m_control.opr = " + opr + ") ORDER BY dbo.p_pmcontrols.tarikh ", cnn);
             var rd = cmdPm.ExecuteReader();
             while (rd.Read())
             {
@@ -1971,7 +1972,7 @@ namespace CMMS
             return lst;
         }
 
-        public List<PMcontrol> Week(string S, string E, int machineid)
+        public List<PMcontrol> Week(string S, string E, int machineid , int opr)
         {
             var lst = new List<PMcontrol>();
             var check = false;
@@ -1982,7 +1983,7 @@ namespace CMMS
                                        "  dbo.p_pmcontrols ON dbo.m_control.id = dbo.p_pmcontrols.idmcontrol INNER JOIN " +
                                        " dbo.i_units  ON dbo.m_machine.loc = dbo.i_units.unit_code " +
                                        " WHERE(dbo.p_pmcontrols.tarikh < '" + E + "') AND(dbo.p_pmcontrols.act = 0) AND" +
-                                       "(dbo.p_pmcontrols.kind = 6) AND (dbo.m_machine.id=" + machineid + ")" +
+                                       "(dbo.p_pmcontrols.kind = 6) AND (dbo.m_machine.id=" + machineid + ") AND (m_control.opr = " + opr + ") " +
                                        " ORDER BY dbo.p_pmcontrols.tarikh ", cnn);
             var rd = cmdPm.ExecuteReader();
             while (rd.Read())
@@ -2023,7 +2024,7 @@ namespace CMMS
             return lst;
         }
 
-        public List<PMcontrol> Month(string S, string E, int machineid)
+        public List<PMcontrol> Month(string S, string E, int machineid , int opr)
         {
             var lst = new List<PMcontrol>();
             var check = false;
@@ -2036,7 +2037,7 @@ namespace CMMS
                                        " dbo.i_units  ON dbo.m_machine.loc = dbo.i_units.unit_code " +
                                        " WHERE(dbo.p_pmcontrols.tarikh < '" + E + "') AND(dbo.p_pmcontrols.act = 0) AND" +
                                        " (dbo.p_pmcontrols.kind = 1 OR dbo.p_pmcontrols.kind = 2 OR dbo.p_pmcontrols.kind =3 OR dbo.p_pmcontrols.kind = 4)" +
-                                       " AND (dbo.m_machine.id=" + machineid + ") ORDER BY dbo.p_pmcontrols.tarikh ", cnn);
+                                       " AND (dbo.m_machine.id=" + machineid + ") AND (m_control.opr = " + opr + ") ORDER BY dbo.p_pmcontrols.tarikh ", cnn);
             var rd = cmdPm.ExecuteReader();
             while (rd.Read())
             {

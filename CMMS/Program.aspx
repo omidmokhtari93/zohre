@@ -21,8 +21,18 @@
                       <input class="txt text-center" id="txtStartDate" autocomplete="off"/>
                     </div>
                 </div>
-                <div class="col-lg-4" style="padding: 5px;">
-                    <label style="display: block; text-align: right;"> : مدت زمان پیش بینی شده</label>
+                <div class="col-lg-2" style="padding: 5px;">
+                    <label style="display: block; text-align: right;"> : عملیات</label>
+                    <div style="border: 1px solid darkgray; border-radius:5px; position: relative;">
+                        <select class="form-control dr" id="drOpr">
+                            <option value="1">برق</option>
+                            <option value="2">چک و بازدید</option>
+                            <option value="3">روانکاری</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-2" style="padding: 5px;">
+                    <label style="display: block; text-align: right;"> : دوره</label>
                     <div style="border: 1px solid darkgray; border-radius:5px; position: relative;">
                         <select class="form-control dr" id="drType">
                             <option value="0">روزانه</option>

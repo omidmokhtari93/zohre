@@ -135,13 +135,23 @@ function CopyData() {
             $('#gridMavaredControli').empty();
             var controliData = JSON.parse(e.d);
             if (controliData.length > 0) {
-                var tblHead = '<thead><tr><th>مورد کنترلی</th><th>دوره تکرار</th>' +
-                    '<th>روز پیش بینی شده</th><th>نمایش برای سرویس کاری</th>' +
-                    '<th>شروع سرویسکاری</th><th>ملاحظات</th><th></th><th></th></tr></thead>';
+                var tblHead = '<thead>' +
+                    '<tr>' +
+                    '<th>مورد کنترلی</th>' +
+                    '<th>دوره تکرار</th>' +
+                    '<th>روز پیش بینی شده</th>' +
+                    '<th>نمایش برای سرویس کاری</th>' +
+                    '<th>عملیات</th>' +
+                    '<th>شروع سرویسکاری</th>' +
+                    '<th>ملاحظات</th>' +
+                    '<th></th>' +
+                    '<th></th>' +
+                    '</tr>' +
+                    '</thead>';
                 var tblBody = "<tbody></tbody>";
                 $('#gridMavaredControli').append(tblHead);
                 $('#gridMavaredControli').append(tblBody);
-                var period, rooz, mdSer, mdserValue;
+                var period, rooz, mdSer, mdserValue, opr;
                 for (var i = 0; i < controliData.length; i++) {
                     if (controliData[i].Time == '0') { period = "روزانه"; rooz = '----' }
                     if (controliData[i].Time == '6') {
@@ -162,6 +172,9 @@ function CopyData() {
                         period = "غیره";
                         rooz = 'هر ' + controliData[i].Day + ' روز';
                     }
+                    if (controliData[i].Operation == 1) { opr = 'برق' }
+                    if (controliData[i].Operation == 2) { opr = 'چک و بازدید' }
+                    if (controliData[i].Operation == 3) { opr = 'روانکاری' }
                     if (controliData[i].MDservice == "1") { mdSer = "بله"; mdserValue = 1; }
                     if (controliData[i].MDservice == "0") { mdSer = "خیر"; mdserValue = 0; }
                     if (controliData[i].Comment == null) { controliData[i].Comment = " "; }
@@ -171,12 +184,14 @@ function CopyData() {
                         '<td style="display:none;">' + controliData[i].Time + '</td>' +
                         '<td style="display:none;">' + controliData[i].Day + '</td>' +
                         '<td style="display:none;">' + mdserValue + '</td>' +
+                        '<td style="display:none;">' + controliData[i].Operation + '</td>' +
                         '<td style="display:none;">' + controliData[i].PmDate + '</td>' +
                         '<td style="display:none;">' + controliData[i].Comment + '</td>' +
                         '<td>' + controliData[i].Control + '</td>'
                         + '<td>' + period + '</td>'
                         + '<td>' + rooz + '</td>'
                         + '<td>' + mdSer + '</td>'
+                        + '<td>' + opr + '</td>'
                         + '<td>' + controliData[i].PmDate + '</td>'
                         + '<td>' + controliData[i].Comment + '</td>'
                         + '<td><a id="edit">ویرایش</a></td><td><a id="delete">حذف</a></td></tr>';
