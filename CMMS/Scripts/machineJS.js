@@ -140,8 +140,7 @@ function checkControliInputs() {
     return flag;
 }
 function addControli() {
-    var flag = checkControliInputs();
-    if (flag === 0) {
+    if (checkControliInputs() === 0) {
         var mdControl = document.getElementById('servicebale');
         var mdcont = 'خیر';
         var mdCountValue = 0;
@@ -176,6 +175,7 @@ function addControli() {
             '<th>دوره تکرار</th>' +
             '<th>روز پیش بینی شده</th>' +
             '<th>نمایش برای سرویسکاری</th>' +
+            '<th>عملیات</th>' +
             '<th>تاریخ شروع سرویسکاری</th>' +
             '<th>ملاحظات</th>' +
             '<th></th>' +
@@ -189,12 +189,14 @@ function addControli() {
             '<td style="display:none;">' + zamanValue + '</td>' +
             '<td style="display:none;">' + roozValue + '</td>' +
             '<td style="display:none;">' + mdCountValue + '</td>' +
+            '<td style="display:none;">' + $('#drcontroliOpr :selected').val() + '</td>' +
             '<td style="display:none;">' + $('#txtStartPMDate').val() + '</td>' +
             '<td style="display:none;">' + comm + '</td>' +
             '<td>' + mored + '</td>' +
             '<td>' + zaman + '</td>' +
             '<td>' + rooz + '</td>' +
             '<td>' + mdcont + '</td>' +
+            '<td>' + $('#drcontroliOpr :selected').text() + '</td>' +
             '<td>' + $('#txtStartPMDate').val() + '</td>' +
             '<td>' + comm + '</td>' +
             '<td><a id="edit">ویرایش</a></td>' +
@@ -227,8 +229,9 @@ $("#gridMavaredControli").on("click", "tr a#edit", function () {
         Period: $(this).parent().parent().find('td:eq(2)').text(),
         Day: $(this).parent().parent().find('td:eq(3)').text(),
         Service: $(this).parent().parent().find('td:eq(4)').text(),
-        Date: $(this).parent().parent().find('td:eq(5)').text(),
-        Comment: $(this).parent().parent().find('td:eq(6)').text()
+        Operation: $(this).parent().parent().find('td:eq(5)').text(),
+        Date: $(this).parent().parent().find('td:eq(6)').text(),
+        Comment: $(this).parent().parent().find('td:eq(7)').text()
     });
     FillControls(rowItems);
 });
@@ -250,6 +253,7 @@ function FillControls(items) {
     } else {
         document.getElementById('servicekheyr').checked = true;
     }
+    $('#drcontroliOpr').val(items[0].Operation);
     $('#txtStartPMDate').val(items[0].Date);
     $('#txtMavaredComment').val(items[0].Comment);
     $('#btnEditControls').show();
@@ -279,40 +283,41 @@ function DeleteControls() {
 }
 
 function EditControliItems() {
-    var flag = checkControliInputs();
-    if (flag === 0) {
+    if (checkControliInputs() === 0) {
         $(target_tr).find('td:eq(1)').text($('#txtControliMoredControl').val());
-        $(target_tr).find('td:eq(7)').text($('#txtControliMoredControl').val());
+        $(target_tr).find('td:eq(8)').text($('#txtControliMoredControl').val());
         $(target_tr).find('td:eq(2)').text($('#drControliZaman :selected').val());
-        $(target_tr).find('td:eq(8)').text($('#drControliZaman :selected').text());
+        $(target_tr).find('td:eq(9)').text($('#drControliZaman :selected').text());
         var period = $('#drControliZaman :selected').val();
         if (period == 6) {
             $(target_tr).find('td:eq(3)').text($('#drControlWeek :selected').val());
-            $(target_tr).find('td:eq(9)').text($('#drControlWeek :selected').text());
+            $(target_tr).find('td:eq(10)').text($('#drControlWeek :selected').text());
         }
         if (period == 0) {
             $(target_tr).find('td:eq(3)').text(0);
-            $(target_tr).find('td:eq(9)').text('----');
+            $(target_tr).find('td:eq(10)').text('----');
         }
         if (period == 5) {
             $(target_tr).find('td:eq(3)').text($('#txtControliRooz').val());
-            $(target_tr).find('td:eq(9)').text('هر ' + $('#txtControliRooz').val() + ' روز');
+            $(target_tr).find('td:eq(10)').text('هر ' + $('#txtControliRooz').val() + ' روز');
         }
         if (period != 6 && period != 0 && period != 5) {
             $(target_tr).find('td:eq(3)').text($('#txtControliRooz').val());
-            $(target_tr).find('td:eq(9)').text($('#txtControliRooz').val());
+            $(target_tr).find('td:eq(10)').text($('#txtControliRooz').val());
         }
         if ($('#servicebale').is(':checked')) {
             $(target_tr).find('td:eq(4)').text(1);
-            $(target_tr).find('td:eq(10)').text('بله');
+            $(target_tr).find('td:eq(11)').text('بله');
         } else {
             $(target_tr).find('td:eq(4)').text(0);
-            $(target_tr).find('td:eq(10)').text('خیر');
+            $(target_tr).find('td:eq(11)').text('خیر');
         }
-        $(target_tr).find('td:eq(5)').text($('#txtStartPMDate').val());
-        $(target_tr).find('td:eq(6)').text($('#txtMavaredComment').val());
-        $(target_tr).find('td:eq(11)').text($('#txtStartPMDate').val());
-        $(target_tr).find('td:eq(12)').text($('#txtMavaredComment').val());
+        $(target_tr).find('td:eq(5)').text($('#drcontroliOpr :selected').val());
+        $(target_tr).find('td:eq(12)').text($('#drcontroliOpr :selected').text());
+        $(target_tr).find('td:eq(6)').text($('#txtStartPMDate').val());
+        $(target_tr).find('td:eq(13)').text($('#txtStartPMDate').val());
+        $(target_tr).find('td:eq(7)').text($('#txtMavaredComment').val());
+        $(target_tr).find('td:eq(14)').text($('#txtMavaredComment').val());
         EmptyControls();
         GreenAlert(target_tr,"✔ مورد کنترلی ویرایش شد");
     }
@@ -734,8 +739,9 @@ function SendTablesToDB() {
                 Time: table.rows[i].cells[2].innerHTML,
                 Day: table.rows[i].cells[3].innerHTML,
                 MDservice: table.rows[i].cells[4].innerHTML,
-                PmDate: table.rows[i].cells[5].innerHTML,
-                Comment: table.rows[i].cells[6].innerHTML
+                Operation: table.rows[i].cells[5].innerHTML,
+                PmDate: table.rows[i].cells[6].innerHTML,
+                Comment: table.rows[i].cells[7].innerHTML
             });
         }
         $.ajax({
@@ -1037,6 +1043,7 @@ function GetC() {
                     '<th>دوره تکرار</th>' +
                     '<th>روز پیش بینی شده</th>' +
                     '<th>نمایش برای سرویس کاری</th>' +
+                    '<th>عملیات</th>' +
                     '<th>شروع سرویسکاری</th>' +
                     '<th>ملاحظات</th>' +
                     '<th></th>' +
@@ -1046,7 +1053,7 @@ function GetC() {
                 var tblBody = "<tbody></tbody>";
                 $('#gridMavaredControli').append(tblHead);
                 $('#gridMavaredControli').append(tblBody);
-                var  period, rooz, mdSer ,mdserValue;
+                var  period, rooz, mdSer ,mdserValue ,opr;
                 for (var i = 0; i < controliData.length; i++) {
                     if (controliData[i].Time == '0') { period = "روزانه"; rooz = '----'}
                     if (controliData[i].Time == '6') {
@@ -1067,6 +1074,9 @@ function GetC() {
                         period = "غیره";
                         rooz = 'هر ' + controliData[i].Day + ' روز';
                     }
+                    if (controliData[i].Operation == 1) { opr = 'برق' }
+                    if (controliData[i].Operation == 2) { opr = 'چک و بازدید' }
+                    if (controliData[i].Operation == 3) { opr = 'روانکاری' }
                     if (controliData[i].MDservice == "1") { mdSer = "بله"; mdserValue = 1;}
                     if (controliData[i].MDservice == "0") { mdSer = "خیر"; mdserValue = 0;}
                     if (controliData[i].Comment == null) { controliData[i].Comment = " "; }
@@ -1076,12 +1086,14 @@ function GetC() {
                         '<td style="display:none;">' + controliData[i].Time + '</td>' +
                         '<td style="display:none;">' + controliData[i].Day + '</td>' +
                         '<td style="display:none;">' + mdserValue + '</td>' +
+                        '<td style="display:none;">' + controliData[i].Operation + '</td>' +
                         '<td style="display:none;">' + controliData[i].PmDate + '</td>' +
                         '<td style="display:none;">' + controliData[i].Comment + '</td>' +
                         '<td>' + controliData[i].Control + '</td>'
                         + '<td>' + period + '</td>'
                         + '<td>' + rooz + '</td>'
                         + '<td>' + mdSer + '</td>'
+                        + '<td>' + opr + '</td>'
                         + '<td>' + controliData[i].PmDate + '</td>'
                         + '<td>' + controliData[i].Comment + '</td>'
                         + '<td><a id="edit">ویرایش</a></td><td><a id="delete">حذف</a></td></tr>';
