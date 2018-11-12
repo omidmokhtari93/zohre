@@ -185,6 +185,7 @@
     <Content Include="Reply.aspx" />
     <Content Include="ReplyPrint.aspx" />
     <Content Include="Reports.asmx" />
+    <Content Include="Scripts\catalog.js" />
     <Content Include="Scripts\chart\export-data.js" />
     <Content Include="Scripts\chart\exporting.js" />
     <Content Include="Scripts\chart\highcharts.js" />

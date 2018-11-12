@@ -2,50 +2,39 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:HiddenField runat="server" id="Date"/>
     <script>
-    $(document).ready(function () {
-        var customOptions = {
-            placeholder: "روز / ماه / سال"
-            , twodigit: true
-            , closeAfterSelect: true
-            , nextButtonIcon: "fa fa-arrow-circle-right"
-            , previousButtonIcon: "fa fa-arrow-circle-left"
-            , buttonsColor: "blue"
-            , forceFarsiDigits: true
-            , markToday: true
-            , markHolidays: true
-            , highlightSelectedDay: true
-            , sync: true
-            , gotoToday: true
-        }
-        kamaDatepicker('txtWorkDate', customOptions);
+        $(document).ready(function() {
+            var customOptions = {
+                placeholder: "روز / ماه / سال",
+                twodigit: true,
+                closeAfterSelect: true,
+                nextButtonIcon: "fa fa-arrow-circle-right",
+                previousButtonIcon: "fa fa-arrow-circle-left",
+                buttonsColor: "blue",
+                forceFarsiDigits: true,
+                markToday: true,
+                markHolidays: true,
+                highlightSelectedDay: true,
+                sync: true,
+                gotoToday: true
+            }
+            kamaDatepicker('txtWorkDate', customOptions);
         });
-
-    
         </script>
-    
     <div class="panel panel-primary">
     <div class="panel-heading">تعمیرات انجام شده </div>
     <div class="panel-body">
-        <div class="row" style="margin: 0; text-align: right; direction: ltr;">
-            <div class="col-md-3">
-               
-            </div>
-            <div class="col-md-3">
-                
-            </div>
-            <div class="col-md-3">
-                
-            </div>
-            <div class="col-md-3">
+        <div class="row" style="margin: 0;">
+            <div class="col-md-9"></div>
+            <div class="col-md-3" style="text-align: right;">
                 <label style="display: block;"> : تاریخ</label>
-                <input class="form-control text-center" autocomplete="on" id="txtWorkDate" runat="server" ClientIDMode="Static"/>
+                <input class="form-control text-center" readonly style="cursor: pointer;" autocomplete="on" id="txtWorkDate" runat="server" ClientIDMode="Static"/>
             </div>
         </div>
-        <div style="padding: 15px;">
-           
+        <div style="padding: 15px 0;">
             <asp:Button runat="server" style="width: 100%;" ID="btnShow" Text="دریافت گزارش" CssClass="btn btn-primary" OnClick="btnShow_OnClick"/>
         </div> 
-        <div class="alert alert-info" align="center" >مدت زمان توقف خطوط </div>
+        <hr/>
+        <div class="alert alert-info" align="center">مدت زمان توقف خطوط</div>
         <asp:GridView runat="server" ID="grid_LineWorks" CssClass="table" dir="rtl" ClientIDMode="Static"
                       AutoGenerateColumns="False"  DataSourceID="sqllines" >
             <Columns> 
@@ -84,8 +73,7 @@ FROM            dbo.i_repairs INNER JOIN
                          dbo.r_rfail ON dbo.r_reply.id = dbo.r_rfail.id_rep INNER JOIN
                          dbo.i_fail_reason ON dbo.r_rfail.fail_id = dbo.i_fail_reason.id ON dbo.r_action.id_rep = dbo.r_reply.id
             WHERE        (dbo.r_reply.start_repdate = @date)
-GROUP BY dbo.i_units.unit_name, dbo.m_machine.name, dbo.r_reply.elec_time, dbo.r_reply.mech_time, dbo.r_reply.idreq
-">
+GROUP BY dbo.i_units.unit_name, dbo.m_machine.name, dbo.r_reply.elec_time, dbo.r_reply.mech_time, dbo.r_reply.idreq">
             <SelectParameters>
                 <asp:ControlParameter ControlID="Date" Name="date" PropertyName="Value" />
             </SelectParameters>

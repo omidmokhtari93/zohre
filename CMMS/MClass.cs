@@ -65,6 +65,7 @@ namespace CMMS
         public int Time { get; set; }
         public int Day { get; set; }
         public int MDservice { get; set; }
+        public int Operation { get; set; }
         public string PmDate { get; set; }
         public string Comment { get; set; }
     }
@@ -433,6 +434,7 @@ namespace CMMS
 
     public class CatalogFiles
     {
+        public int Id { get; set; }
         public int MachineId { get; set; }
         public string Filename { get; set; }
         public string FileCode { get; set; }

@@ -313,11 +313,22 @@
     <div class="panel-heading">موارد کنترلی دستگاه</div>
     <div class="panel-body">
         <div class="row" style="margin: 0; direction: rtl; text-align: right;">
+            <div class="col-md-12">
+                <label>مورد کنترلی :</label>
+                <input id="txtControliMoredControl" tabindex="35" class="form-control"/>
+            </div>
+        </div>
+        <hr/>
+        <div class="row" style="margin: 0; direction: rtl; text-align: right;margin-top: 15px;">
+            <div class="col-md-6">
+                <label>تاریخ شروع سرویسکاری :</label>
+                  <input class="form-control text-center" id="txtStartPMDate" readonly style="cursor: pointer;"/>
+            </div>
             <div class="col-md-6">
                 <div class="col-sm-6" style="padding-left: 0;">
                     <div id="pnlcontroliRooz" style="display: none;">
-                    <label>روزپیش بینی شده در ماه :</label>
-                    <input id="txtControliRooz" tabindex="37" type="number" min="1" max="31" class="form-control text-center"/>
+                        <label>روزپیش بینی شده در ماه :</label>
+                        <input id="txtControliRooz" tabindex="37" type="number" min="1" max="31" class="form-control text-center"/>
                     </div>
                     <div id="pnlControliWeek" style="display: none;">
                         <label>روز هفته :</label>
@@ -345,15 +356,16 @@
                     </asp:DropDownList>
                 </div>
             </div>
-            <div class="col-md-6">
-                <label>مورد کنترلی :</label>
-                <input id="txtControliMoredControl" tabindex="35" class="form-control"/>
-            </div>
         </div>
+        <hr/>
         <div class="row" style="margin: 0; direction: rtl; text-align: right;margin-top: 15px;">
             <div class="col-md-6">
-                <label>تاریخ شروع سرویسکاری :</label>
-                  <input class="form-control text-center" id="txtStartPMDate" readonly style="cursor: pointer;"/>
+                <label style="margin-bottom: 5px;">عملیات</label>
+                <select class="form-control" id="drcontroliOpr">
+                    <option value="1">برق</option>
+                    <option value="2">چک و بازدید</option>
+                    <option value="3">روانکاری</option>
+                </select>
             </div>
             <div class="col-md-6">
                 <label style="margin-bottom: 5px;">آیا این دستگاه برای سرویس کاری روزانه یا ماهانه نمایش داده شود ؟</label>

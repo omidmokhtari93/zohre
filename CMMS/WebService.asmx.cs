@@ -314,11 +314,12 @@ namespace CMMS
             {
                 var selectrepeatrow = new SqlCommand(
                     "if(SELECT COUNT(id) AS idd FROM dbo.m_control WHERE (id IN (SELECT DISTINCT idmcontrol AS Idm FROM dbo.p_pmcontrols WHERE (idmcontrol = " + item.Idcontrol + "))))>0  " +
-                    "begin UPDATE [dbo].[m_control] SET [contName] ='" + item.Control + "',[period] =" + item.Time + " ,[rooz] =" + item.Day + ",[MDser] =" + item.MDservice + " ," +
+                    "begin UPDATE [dbo].[m_control] SET [contName] ='" + item.Control + "',[period] =" + item.Time + " " +
+                    ",[rooz] =" + item.Day + ",[opr] = "+item.Operation+",[MDser] =" + item.MDservice + " ," +
                     "[comment] ='" + item.Comment + "' ,[pmstart] ='" + item.PmDate + "' WHERE id=" + item.Idcontrol +
                     " SELECT '" + item.Idcontrol + "' AS IDc end " +
-                    "else begin  INSERT INTO [dbo].[m_control]([Mid],[contName],[period],[rooz],[pmstart],[MDser],[comment])" +
-                    "VALUES(" + mid + ",'" + item.Control + "'," + item.Time + "," + item.Day + "," +
+                    "else begin  INSERT INTO [dbo].[m_control]([Mid],[contName],[period],[rooz],[opr],[pmstart],[MDser],[comment])" +
+                    "VALUES(" + mid + ",'" + item.Control + "'," + item.Time + "," + item.Day + ","+item.Operation+"," +
                     "'" + item.PmDate + "'," + item.MDservice + ",'" + item.Comment +
                     "') SELECT CAST(scope_identity() AS nvarchar) end", _cnn);
                 string idmcontrol = "";
@@ -676,7 +677,7 @@ namespace CMMS
             var controliList = new List<Controls>();
             _cnn.Open();
             var getControls =
-                new SqlCommand("SELECT [id],[contName],[period],[rooz],[pmstart],[MDser],[comment]FROM [dbo].[m_control] where Mid = " + mid+"", _cnn);
+                new SqlCommand("SELECT [id],[contName],[period],[rooz],[pmstart],[opr],[MDser],[comment]FROM [dbo].[m_control] where Mid = " + mid+"", _cnn);
             var rd = getControls.ExecuteReader();
             while (rd.Read())
             {
@@ -689,6 +690,7 @@ namespace CMMS
                         Time = Convert.ToInt32(rd["period"]),
                         Day = Convert.ToInt32(rd["rooz"]),
                         MDservice = Convert.ToInt32(rd["MDser"]),
+                        Operation = Convert.ToInt32(rd["opr"]),
                         PmDate = Convert.ToString(rd["pmstart"]),
                         Comment = rd["comment"].ToString()
                     }
@@ -2028,7 +2030,7 @@ namespace CMMS
         {
             _cnn.Open();
             var e = new List<CatalogFiles>();
-            var selfiles = new SqlCommand("select name,code,address from catalog where " +
+            var selfiles = new SqlCommand("select id,name,code,address from catalog where " +
                                           "(mid = "+mid+" or "+mid+" = -1) AND " +
                                           "(name like '%"+name+"%' or '"+name+"' = '') AND " +
                                           "(code like '%"+code+"%' or '"+code+"' = '')", _cnn);
@@ -2037,12 +2039,31 @@ namespace CMMS
             {
                 e.Add(new CatalogFiles()
                 {
+                    Id = Convert.ToInt32(r["id"]),
                     Filename = r["name"].ToString(),
                     FileCode = r["code"].ToString(),
                     Address = r["address"].ToString()
                 });
             }
             return new JavaScriptSerializer().Serialize(e);
+        }
+
+        [WebMethod]
+        public void DeleteCatFile(int id)
+        {
+            _cnn.Open();
+            var selfile = new SqlCommand("select address from catalog where id = "+id+" ",_cnn);
+            var delfile = new SqlCommand("delete from catalog where id = " + id + " ", _cnn);
+            var filePath = selfile.ExecuteScalar().ToString();
+            if (!string.IsNullOrEmpty(filePath))
+            {
+                var path = Server.MapPath(filePath);
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
+            }
+            delfile.ExecuteNonQuery();
         }
     }
 }

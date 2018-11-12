@@ -76,7 +76,7 @@ function GetProgram() {
         var data = [];
         data.push({
             url: 'Reports.asmx/GetPmControlProgram',
-            parameters: [{ s: ss, e: ee, mid: midd }],
+            parameters: [{ s: ss, e: ee, mid: midd ,opr : $('#drOpr :selected').val()}],
             func: createProgram
         });
         AjaxCall(data);
@@ -106,7 +106,11 @@ function GetProgram() {
                 var dates = DatesBetween2Date(ss, ee);
                 var dailyLength = p.daily.length;
                 var body = [];
-                $('#tblsubheader tbody').append('<tr style="text-align: right;"><td>نام مجری : </td><td>دوره بازدید : روزانه</td></tr>');
+                $('#tblsubheader tbody').append('<tr style="text-align: right;">' +
+                    '<td style="width:40%;">نام مجری : </td>' +
+                    '<td >دوره بازدید : روزانه</td>' +
+                    '<td > نوع عملیات : '+$('#drOpr :selected').text()+'</td>' +
+                    '</tr>');
                 body.push('<tr><td colspan="5" style="background: #d6d5d5;text-align:center;">شرح بازدید , کنترل و سرویس</td></tr>');
                 for (var i = 0; i < dailyLength; i++) {
                     body.push('<tr style="border:none;text-align:right;">' +
@@ -138,7 +142,11 @@ function GetProgram() {
             function createWeekOtherProgram(p) {
                 var body = [];
                 var radif = 1;
-                $('#tblsubheader tbody').append('<tr style="text-align: right;"><td>نام مجری : </td><td>دوره بازدید : هفتگی / متفرقه</td></tr>');
+                $('#tblsubheader tbody').append('<tr style="text-align: right;">' +
+                    '<td style="width:40%;">نام مجری : </td>' +
+                    '<td>دوره بازدید : هفتگی / متفرقه</td>' +
+                    '<td > نوع عملیات : ' + $('#drOpr :selected').text() + '</td>' +
+                    '</tr>');
                 body.push('<tr><td colspan="5" style="background: #d6d5d5;text-align:center;">شرح بازدید , کنترل و سرویس</td></tr>');
                 for (var i = 0; i < p.week.length; i++) {
                     body.push('<tr style="border:none;text-align:right;">' +
@@ -178,7 +186,11 @@ function GetProgram() {
             function createMonthlyProgram(p) {
                 var body = [];
                 var radif = 1;
-                $('#tblsubheader tbody').append('<tr style="text-align: right;"><td style="width:50%;">نام مجری : </td><td>دوره بازدید : ماهیانه /سه ماهه /شش ماهه /سالیانه</td></tr>');
+                $('#tblsubheader tbody').append('<tr style="text-align: right;">' +
+                    '<td style="width:40%;">نام مجری : </td>' +
+                    '<td>دوره بازدید : ماهیانه /سه ماهه /شش ماهه /سالیانه</td>' +
+                    '<td > نوع عملیات : ' + $('#drOpr :selected').text() + '</td>' +
+                    '</tr>');
                 body.push('<tr><td colspan="5" style="background: #d6d5d5;text-align:center;">شرح بازدید , کنترل و سرویس</td></tr>');
                 for (var i = 0; i < p.monthly.length; i++) {
                     body.push('<tr style="border:none;text-align:right;">' +
