@@ -1769,12 +1769,7 @@ namespace CMMS
             _cnn.Open();
             var list = new List<string[]>();
             var partlist = new List<string[]>();
-            //var getMojoodi = new SqlCommand("SELECT dbo.m_parts.PartId, sgdb.dbo.BuyFee.partname, sgdb.dbo.BuyFee.مقدار "+
-            //                                "FROM dbo.m_machine INNER JOIN " +
-            //                                "dbo.m_parts ON dbo.m_machine.id = dbo.m_parts.Mid INNER JOIN " +
-            //                                "sgdb.dbo.BuyFee ON dbo.m_parts.PartId = sgdb.dbo.BuyFee.Partref " +
-            //                                "WHERE(dbo.m_machine.id = "+ machineid + ")", _cnn);
-            //var rd = getMojoodi.ExecuteReader();
+           
             var getMojoodi = new SqlCommand("SELECT dbo.m_parts.PartId, sgdb.dbo.kalaMojodi.partname, sgdb.dbo.kalaMojodi.Mojodi " +
                                             "FROM dbo.m_machine INNER JOIN " +
                                             "dbo.m_parts ON dbo.m_machine.id = dbo.m_parts.Mid INNER JOIN " +
