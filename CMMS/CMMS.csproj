@@ -72,6 +72,8 @@
     <Content Include="admin.aspx" />
     <Content Include="catalog.aspx" />
     <Content Include="CmChecked.aspx" />
+    <Content Include="Content\A4.html" />
+    <Content Include="Content\A5.html" />
     <Content Include="Content\personelprint.html" />
     <Content Include="Content\report.html" />
     <Content Include="Content\kamadatepicker.css" />
@@ -192,6 +194,7 @@
     <Content Include="Scripts\FinancialReports.js" />
     <Content Include="Scripts\Fazline.js" />
     <Content Include="Scripts\Intrupt.js" />
+    <Content Include="Scripts\MachineRepor.js" />
     <Content Include="Scripts\MttReport.js" />
     <Content Include="Scripts\Notifications.js" />
     <Content Include="Scripts\DailyReport.js" />

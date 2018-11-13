@@ -373,3 +373,35 @@ function AjaxCall(obj) {
         }
     });
 }
+
+function AjaxData(obj) {
+    $.ajax({
+        type: 'POST',
+        url: obj.url,
+        data: JSON.stringify(obj.param),
+        contentType: 'application/json;',
+        dataType: 'json',
+        success: obj.func,
+        error: function () {
+            console.log('error');
+        }
+    });
+}
+
+function FilterMachineByUnit(unit , machine) {
+    var location = $("#" + unit + " :selected").val();
+    var data = {
+        url: 'WebService.asmx/FilterMachineOrderByLocation',
+        param: { loc: location },
+        func: fillelement
+    }
+    AjaxData(data);
+    function fillelement(e) {
+        var data = JSON.parse(e.d);
+        $('#' + machine).empty();
+        $('#' + machine).append($("<option></option>").attr("value", -1).text('انتخاب کنید'));
+        for (var i = 0; i < data.length; i++) {
+            $('#' + machine).append($("<option></option>").attr("value", data[i].MachineId).text(data[i].MachineName));
+        }
+    }
+}

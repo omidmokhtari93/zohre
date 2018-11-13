@@ -2289,5 +2289,47 @@ namespace CMMS
             infoStopproduct.Integers.AddRange(list2);
             return new JavaScriptSerializer().Serialize(infoStopproduct);
         }
+
+        [WebMethod]
+        public string FilterSubSystems(int loc)
+        {
+            cnn.Open();
+            var e =  new List<SubSystems>();
+            var sele = new SqlCommand("SELECT DISTINCT dbo.subsystem.name, dbo.subsystem.code FROM dbo.subsystem INNER JOIN "+
+                                      "dbo.m_subsystem ON dbo.subsystem.id = dbo.m_subsystem.subId INNER JOIN " +
+                                      "dbo.m_machine ON dbo.m_subsystem.Mid = dbo.m_machine.id WHERE(dbo.m_machine.loc = "+loc+" OR "+loc+" = 0)",cnn);
+            var r = sele.ExecuteReader();
+            while (r.Read())
+            {
+                e.Add(new SubSystems()
+                {
+                     SubSystemId = Convert.ToInt32(r["code"]), SubSystemName = r["name"].ToString()
+                });
+            }
+            cnn.Close();
+            return new JavaScriptSerializer().Serialize(e);
+        }
+
+        [WebMethod]
+        public string FilterMachines(int loc)
+        {
+            cnn.Open();
+            var e = new List<MachineMainInfo>();
+            var sel = new SqlCommand("SELECT dbo.m_machine.name, dbo.m_machine.code, dbo.i_units.unit_name, " +
+                                     "dbo.m_machine.imp, dbo.m_machine.creator, dbo.m_machine.maModel, dbo.m_machine.startDate " +
+                                     "FROM dbo.m_machine INNER JOIN dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code " +
+                                     "WHERE(dbo.m_machine.loc = " + loc + " OR " +loc+ " = 0) order by dbo.m_machine.code", cnn);
+            var r = sel.ExecuteReader();
+            while (r.Read())
+            {
+                e.Add(new MachineMainInfo()
+                {
+                    Name = r["name"].ToString(),Code = r["code"].ToString(),LocationName = r["unit_name"].ToString(),
+                    Ahamiyat = r["imp"].ToString(),Creator = r["creator"].ToString(),Model = r["maModel"].ToString(),
+                    Tarikh = r["startDate"].ToString()
+                });
+            }
+            return new JavaScriptSerializer().Serialize(e);
+        }
     }
 }

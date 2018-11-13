@@ -1,0 +1,138 @@
+﻿<div style="width: 100%; text-align: center;">
+    <a style="cursor: pointer; text-decoration: none;" onclick="printDiv">
+        <span class="fa fa-print" style="vertical-align: middle;"></span> پرینت
+    </a>
+</div>
+<div id="#ReportArea#" style="margin-top: 15px; text-align: center;">
+    <style>
+        @font-face {
+            font-family: 'myfont';
+            src: url('/fonts/BYekan.eot'), url('/fonts/BYekan.eot?#FooAnything') format('embedded-opentype');
+            src: local('☺'), url('/fonts/BYekan.woff') format('woff'), url('/fonts/BYekan.ttf') format('truetype'), url('/fonts/BYekan.svg') format('svg');
+        }
+        #ReportArea * { font-weight: 800; }
+        .square {
+            height: 13px;
+            width: 13px;
+            border: 1px solid black;
+            vertical-align: middle;
+            display: inline-block;
+        }
+        table { font-family: myfont; }
+        img {
+            width: auto;
+            height: 60px;
+        }
+        #HeaderTable td * { font-family: myfont; }
+
+        #HeaderTable {
+            width: 100%;
+            direction: rtl;
+            position: relative;
+            margin-right: 0;
+            padding: 0;
+            border-collapse: collapse;
+        }
+
+        #HeaderTable tr { position: relative; }
+
+        #HeaderTable td {
+            border: 1px solid #625f5f;
+            padding: 3px;
+            position: relative !important;
+            font-size: 10pt;
+        }
+        .footertable {
+            border-collapse: collapse;
+            position: absolute;
+            bottom: 0px;
+            right: 0px;
+            width: 100%;
+            text-align: right;
+            direction: rtl;
+            margin: 0;
+        }
+
+        .footertable tr {
+            padding: 0;
+            margin: 0;
+        }
+        .footertable tr td {
+            padding: 0;
+            margin: 0;
+            border: 1px solid black;
+        }
+        .A4body {
+            width: 211mm;
+            height: 300mm;
+            margin: auto;
+            border: 1px solid black;
+            position: relative;
+        }
+        .contentArea {
+            direction: rtl;
+            width: 100%
+        }
+        .contentArea table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .contentArea table tr { text-align: center!important; }
+        .contentArea table tr th {
+            background: #e0e0e0;
+            border: 1px solid black;
+            text-align: center !important;
+        }
+        .contentArea table tr td {
+            border: 1px solid black;
+        }
+        .spn1 {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+        }
+        .sDate {position: absolute; top: 40px; right: 80px;}
+        @media print {
+            body { -webkit-print-color-adjust: exact; }
+            .footertable{ right: -1px;}
+            #program { padding: 0; position: relative;}
+        }
+
+        @page {
+            size: A4;
+            margin: 5mm 6mm 0 4mm;
+        }
+    </style>
+    <div class="A4body">
+        <table id="HeaderTable">
+            <tr style="height: 100px; text-align: center;">
+                <td>
+                    <img src="/Images/zohre1.png"/>
+                </td>
+                <td colspan="2">
+                    <h3 style="margin: 0;">#RP#</h3>
+                    <h4 style="display: block;">#unit#</h4>
+                </td>
+                <td style="width: 220px;">
+                    <span class="spn1">تاریخ :</span>
+                    <label class="sDate"></label>
+                </td>
+            </tr>
+        </table>
+        <div class="contentArea" id="#cnt#">
+        </div>
+        <table class="footertable">
+            <tr>
+                <td colspan="6">
+                    <p style="margin: 0;">&nbsp;نام و امضا تهیه کننده : </p>
+                    <p>&nbsp;</p>
+                </td>
+                <td colspan="6">
+                    <p style="margin: 0;">&nbsp;نام و امضا مدیر نت تجهیزات : </p>
+                    <p>&nbsp;</p>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
