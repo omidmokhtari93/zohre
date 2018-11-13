@@ -93,7 +93,7 @@
                 func:getControlimachineData
             });
             function getControlimachineData(r) {
-                var data = JSON.parse(r.d);
+                var controliData = JSON.parse(r.d);
                 var mach = 'ماشین ' + $('#drControliMachines :selected').text();
                 $.get("Content/A4.html", function (e) {
                     e = e.replace('#ReportArea#', 'MachineControlsPanel');
@@ -101,25 +101,22 @@
                     e = e.replace('#RP#', 'لیست موارد کنترلی');
                     e = e.replace('#cnt#', 'machineControlsContent');
                     e = e.replace('#unit#', mach);
-                    createMachineControliReport(e);
+                    $('#MachineControliPrint').empty();
+                    $('#MachineControliPrint').append(e);
+                    createMachineControliReport();
                 }, 'html');
                 function createMachineControliReport() {
                     var body = [];
-                    if (d.length > 0) {
-                        body.push('<thead>' +
+                    if (controliData.length > 0) {
+                        body.push('<table>' +
                             '<tr>' +
                             '<th>ردیف</th>' +
                             '<th>مورد کنترلی</th>' +
                             '<th>دوره تکرار</th>' +
                             '<th>روز پیش بینی شده</th>' +
-                            '<th>نمایش برای سرویس کاری</th>' +
                             '<th>عملیات</th>' +
-                            '<th>شروع سرویسکاری</th>' +
-                            '<th>ملاحظات</th>' +
-                            '<th></th>' +
-                            '<th></th>' +
                             '</tr>' +
-                            '</thead>');
+                            '</tr>');
                         var period, rooz, mdSer, mdserValue, opr;
                         for (var i = 0; i < controliData.length; i++) {
                             if (controliData[i].Time == '0') { period = "روزانه"; rooz = '----' }
@@ -144,19 +141,18 @@
                             if (controliData[i].Operation == 1) { opr = 'برق' }
                             if (controliData[i].Operation == 2) { opr = 'چک و بازدید' }
                             if (controliData[i].Operation == 3) { opr = 'روانکاری' }
-                            if (controliData[i].MDservice == "1") { mdSer = "بله"; mdserValue = 1; }
-                            if (controliData[i].MDservice == "0") { mdSer = "خیر"; mdserValue = 0; }
                             if (controliData[i].Comment == null) { controliData[i].Comment = " "; }
                             body.push('<tr>' 
                                 + '<td>' + (i+1) + '</td>'
                                 + '<td>' + controliData[i].Control + '</td>'
                                 + '<td>' + period + '</td>'
                                 + '<td>' + rooz + '</td>'
-                                + '<td>' + mdSer + '</td>'
                                 + '<td>' + opr + '</td>'
-                                + '<td>' + controliData[i].PmDate + '</td>'
-                                + '<td>' + controliData[i].Comment + '</td></tr>');
+                                + '</tr>');
                         }
+                        body.push('</table>');
+                        $('.sDate').text(JalaliDateTime);
+                        $('#machineControlsContent').append(body.join(''));
                     }
                 }
             }

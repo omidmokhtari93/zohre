@@ -123,7 +123,19 @@ function MachineReport() {
 }
 
 function printDiv(div) {
-    var ele = div === 1 ? $('#subsystem')[0] : $('#machine')[0];
+    var ele;
+    switch (div) {
+    case 1:
+        ele = $('#subsystem')[0];
+        break;
+    case 0:
+        ele = $('#machine')[0];
+        break;
+    case 2:
+        ele = $('#MachineControlsPanel')[0];
+        break;
+    default:
+    }
     var newWin = window.open('', 'Print-Window');
     newWin.document.open();
     newWin.document.write('<html><body onload="window.print()">' + ele.innerHTML + '</body></html>');
