@@ -3,6 +3,7 @@
     <style>
         .hidethis{ display: none;}
         label{ margin: 0;}
+        #pnlDelete{display: inline-block; padding: 5px; border: 1px darkgray solid; border-radius: 5px; text-align: center; margin: 5px;}
     </style>
     <div class="panel panel-primary">
         <div class="panel-heading">لیست دستگاه/ماشین
@@ -25,9 +26,15 @@
             <asp:Button id="btnedit" runat="server" Visible="False" CssClass="button" Text="ویرایش" TabIndex="6" OnClick="btnedit_OnClick" OnClientClick="getRadio();getactRadio();"/>
             <asp:Button id="btncancel" runat="server" Visible="False" CssClass="button" Text="انصراف" TabIndex="7" OnClick="btncancel_OnClick"/>
         </div>
-        <div class="panel-footer">
+        <div class="panel-footer" style="text-align: center !important;">
+            <div ClientIDMode="Static" Visible="False" runat="server" id="pnlDelete">
+                <label style="display: block;">** کلیه دستگاه های ثبت شده با این کد حذف خواهند شد **</label>
+                <label style="display: block;">آیا مایل به حذف هستید؟</label>
+                <asp:Button runat="server" Text="بله" CssClass="button" ID="btnyes" OnClick="btnyes_OnClick"/>
+                <asp:Button runat="server" Text="خیر" ID="btnno" CssClass="button" OnClick="btnno_OnClick"/>
+            </div>
             <div class="tablescroll">
-            <asp:GridView runat="server" CssClass="table" AutoGenerateColumns="False" DataSourceID="SqlDevice" DataKeyNames="id" ID="gridDevice" OnRowCommand="gridDevice_OnRowCommand">
+            <asp:GridView runat="server" CssClass="table" AutoGenerateColumns="False" DataSourceID="SqlDevice" DataKeyNames="id,DeviceCode" ID="gridDevice" OnRowCommand="gridDevice_OnRowCommand">
                 <Columns>
                     <asp:BoundField DataField="id">
                         <ItemStyle CssClass="hidethis"></ItemStyle>
@@ -37,7 +44,7 @@
                     <asp:BoundField DataField="DeviceName" HeaderText="نام دستگاه" SortExpression="DeviceName" />
                     <asp:BoundField DataField="DeviceCode" HeaderText="کد دستگاه" SortExpression="DeviceCode" />
                     <asp:ButtonField Text="ویرایش" CommandName="ed"/>
-                    
+                    <asp:ButtonField Text="حذف" CommandName="del"/>
                 </Columns>
             </asp:GridView>
             </div>

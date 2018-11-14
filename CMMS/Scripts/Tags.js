@@ -1,4 +1,5 @@
-﻿var rowss;
+﻿
+var rowss;
 var typingTimersub;
 var doneTypingIntervalsub = 1000;
 var $subinput = $('#txtsubName');

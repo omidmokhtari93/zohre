@@ -187,7 +187,7 @@ WHERE (dbo.m_machine.id = @id)">
         </div>
     
         
-        <div style="padding: 5px 12px 5px 5px;width: 210mm; min-height: 297mm; padding-top: 20px;" class="print">
+        <div style="padding: 5px 12px 5px 5px;width: 210mm; min-height: 297mm; padding-top: 30px;" class="print">
         <div style="border: 1px solid #625f5f; padding-bottom: 2px; min-height: 297mm; position: relative;">
              <table>
                 <tr style="text-align: center;">
@@ -237,7 +237,7 @@ FROM m_control WHERE (Mid = @id)">
         </div>
 
 
-        <div style="padding: 5px 12px 5px 5px;width: 210mm; min-height: 297mm; padding-top: 30px;" class="print">
+        <div style="padding: 5px 12px 0px 5px;width: 210mm; min-height: 297mm; padding-top: 30px;" class="print">
         <div style="border: 1px solid #625f5f; padding-bottom: 2px; min-height: 297mm; position: relative;">
             <table>
                 <tr style="height: 100px; text-align: center;">

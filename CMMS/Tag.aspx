@@ -79,6 +79,7 @@
         .nav-tabs >li{ float: right!important;}
         #txtSubSearchPart{ width: 100%;outline: none;padding: 0px 3px 0 0;font-weight: 800;border: none;border-radius: 3px;direction: rtl;}
         .imgfilter{ position: absolute;top: 7px;right: 6px;width: 17px;height: 17px;}
+        #subsystemLoading{width: 20px; height: 20px; position: absolute; top: 27px; left: 23px; display: none;}
     </style>
     <asp:HiddenField runat="server" ClientIDMode="Static" ID="hdSubId"/>
 <asp:HiddenField runat="server" ClientIDMode="Static" ID="TagID"/>
@@ -93,9 +94,9 @@
                 <div class="col-lg-6">
                     نام قطعه
                     <div id="subbadgeArea" style="position: relative;">
-                    <input dir="rtl" placeholder="جستجوی اجزا ..." class="form-control" id="txtsubName"/>
+                    <input dir="rtl" placeholder="نام قطعه ..." class="form-control" id="txtsubName" runat="server" ClientIDMode="Static"/>
                     </div>
-                    <img src="Images/loading.png" id="subsystemLoading" style="width: 20px; height: 20px; position: absolute; top: 27px; left: 23px; display: none;"/>
+                    <img src="Images/loading.png" id="subsystemLoading"/>
                     <div style="position: absolute; width: 422px; display: none; overflow: auto; max-height: 200px; z-index: 999;" id="subSystemSearchRes">
                         <table id="gridSubsystem" dir="rtl" class="SubSystemTable">
                             <tbody></tbody>
