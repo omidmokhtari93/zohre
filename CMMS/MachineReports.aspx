@@ -13,7 +13,6 @@
         <li><a data-toggle="tab" href="#MachineTypes" onclick="machineTypes();">نوع ماشین آلات</a></li>
         <li><a data-toggle="tab" href="#machinelist">لیست دستگاه ها</a></li>
         <li><a data-toggle="tab" href="#subsystemlist">لیست تجهیزات</a></li>
-        <li><a data-toggle="tab" href="#machineControls">لیست موارد کنترلی</a></li>
     </ul>
     <div class="tab-content">
         <div id="ActiveMachine" class="tab-pane fade in active">
@@ -54,108 +53,6 @@
                 </div>
             </div>
         </div>
-        <div id="machineControls" class="tab-pane fade">
-            <div class="menubody">
-                <div class="row">
-                    <div class="col-md-6">
-                        <select id="drControliMachines" class="form-control" dir="rtl"></select>
-                    </div>
-                    <div class="col-md-6">
-                        <asp:DropDownList dir="rtl" ID="drControliUnits" runat="server" CssClass="form-control" AppendDataBoundItems="True" ClientIDMode="Static" DataSourceID="Sqlunits" DataTextField="unit_name" DataValueField="unit_code">
-                            <asp:ListItem Value="0">انتخاب کنید</asp:ListItem>
-                        </asp:DropDownList>
-                    </div>
-                </div>
-                <a class="btn btn-info btns" onclick="MachineControliReport();">مشاهده</a>
-                <div id="MachineControliPrint">
-                </div>
-            </div>
-        </div>
     </div>
     <script src="Scripts/MachineRepor.js"></script>
-    <script>
-        $('#drControliUnits').change(function () {
-            FilterMachineByUnit('drControliUnits', 'drControliMachines');    
-        });
-
-        function MachineControliReport() {
-            if ($('#drControliUnits :selected').val() == '0') {
-                RedAlert('drControliUnits', 'لطفا واحد را انتخاب نمایید');
-                return;
-            }
-            if ($('#drControliMachines :selected').val() == '-1') {
-                RedAlert('drControliMachines', 'لطفا دستگاه را انتخاب نمایید');
-                return;
-            }
-            AjaxData({
-                url: 'WebService.asmx/GetC',
-                param: { mid: $('#drControliMachines :selected').val()},
-                func:getControlimachineData
-            });
-            function getControlimachineData(r) {
-                var controliData = JSON.parse(r.d);
-                var mach = 'ماشین ' + $('#drControliMachines :selected').text();
-                $.get("Content/A4.html", function (e) {
-                    e = e.replace('#ReportArea#', 'MachineControlsPanel');
-                    e = e.replace('printDiv', 'printDiv(2);');
-                    e = e.replace('#RP#', 'لیست موارد کنترلی');
-                    e = e.replace('#cnt#', 'machineControlsContent');
-                    e = e.replace('#unit#', mach);
-                    $('#MachineControliPrint').empty();
-                    $('#MachineControliPrint').append(e);
-                    createMachineControliReport();
-                }, 'html');
-                function createMachineControliReport() {
-                    var body = [];
-                    if (controliData.length > 0) {
-                        body.push('<table>' +
-                            '<tr>' +
-                            '<th>ردیف</th>' +
-                            '<th>مورد کنترلی</th>' +
-                            '<th>دوره تکرار</th>' +
-                            '<th>روز پیش بینی شده</th>' +
-                            '<th>عملیات</th>' +
-                            '</tr>' +
-                            '</tr>');
-                        var period, rooz, mdSer, mdserValue, opr;
-                        for (var i = 0; i < controliData.length; i++) {
-                            if (controliData[i].Time == '0') { period = "روزانه"; rooz = '----' }
-                            if (controliData[i].Time == '6') {
-                                period = "هفتگی";
-                                if (controliData[i].Day == "0") { rooz = 'شنبه' }
-                                if (controliData[i].Day == "1") { rooz = 'یکشنبه' }
-                                if (controliData[i].Day == "2") { rooz = 'دوشنبه' }
-                                if (controliData[i].Day == "3") { rooz = 'سه شنبه' }
-                                if (controliData[i].Day == "4") { rooz = 'چهارشنبه' }
-                                if (controliData[i].Day == "5") { rooz = 'پنجشنبه' }
-                                if (controliData[i].Day == "6") { rooz = 'جمعه' }
-                            }
-                            if (controliData[i].Time == "1") { period = "ماهیانه"; rooz = controliData[i].Day; }
-                            if (controliData[i].Time == "2") { period = "سه ماهه"; rooz = controliData[i].Day; }
-                            if (controliData[i].Time == "3") { period = "شش ماهه"; rooz = controliData[i].Day; }
-                            if (controliData[i].Time == "4") { period = "یکساله"; rooz = controliData[i].Day; }
-                            if (controliData[i].Time == "5") {
-                                period = "غیره";
-                                rooz = 'هر ' + controliData[i].Day + ' روز';
-                            }
-                            if (controliData[i].Operation == 1) { opr = 'برق' }
-                            if (controliData[i].Operation == 2) { opr = 'چک و بازدید' }
-                            if (controliData[i].Operation == 3) { opr = 'روانکاری' }
-                            if (controliData[i].Comment == null) { controliData[i].Comment = " "; }
-                            body.push('<tr>' 
-                                + '<td>' + (i+1) + '</td>'
-                                + '<td>' + controliData[i].Control + '</td>'
-                                + '<td>' + period + '</td>'
-                                + '<td>' + rooz + '</td>'
-                                + '<td>' + opr + '</td>'
-                                + '</tr>');
-                        }
-                        body.push('</table>');
-                        $('.sDate').text(JalaliDateTime);
-                        $('#machineControlsContent').append(body.join(''));
-                    }
-                }
-            }
-        }
-    </script>
 </asp:Content>

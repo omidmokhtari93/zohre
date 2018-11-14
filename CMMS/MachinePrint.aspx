@@ -147,39 +147,23 @@
             </table>
             <table>
                 <tr style="text-align: center;">
-                  <td colspan="2" style="background: #d6d5d5;">لیست موارد کنترلی</td>
+                  <td colspan="2" style="background: #d6d5d5;">لیست تجهیزات</td>
                 </tr>
                 <tr>
                     <td colspan="2" style="border: none; padding: 0;"> 
-                        <asp:GridView runat="server" Width="100%" CssClass="tbl" ID="gridControli" AutoGenerateColumns="False" DataSourceID="sqlControli">
+                        <asp:GridView runat="server" Width="100%" CssClass="tbl" ID="gridsubsystems" AutoGenerateColumns="False" DataSourceID="sqlsubsystems">
                             <Columns>
                                 <asp:BoundField DataField="rn" HeaderText="ردیف" ReadOnly="True" SortExpression="rn" />
-                                <asp:BoundField DataField="contName" HeaderText="مورد کنترلی" SortExpression="contName" />
-                                <asp:BoundField DataField="period" HeaderText="دوره سرویس کاری" SortExpression="period" />
-                                <asp:BoundField DataField="rooz" HeaderText="روز پیش بینی شده" SortExpression="rooz" />
-                                <asp:BoundField DataField="comment" HeaderText="ملاحظات" SortExpression="comment" />
+                                <asp:BoundField DataField="name" HeaderText="نام تجهیز" SortExpression="name" />
+                                <asp:BoundField DataField="code" HeaderText="کد تجهیز" SortExpression="code" />
                             </Columns>
                         </asp:GridView>
-                        <asp:SqlDataSource ID="sqlControli" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT row_number()OVER(ORDER BY id) AS rn,
- contName,
-  case when period = 0 then 'روزانه' 
-  when period = 6 then 'هفتگی'
-  when period = 1 then 'ماهیانه'
-  when period = 2 then 'سه ماهه'
-  when period = 3 then 'شش ماهه'
-  when period = 4 then 'یکساله'
-  when period = 5 then 'غیره' end as period,
-  case when period = 0 then  '----' 
-  when period = 6 and rooz = 0 then 'شنبه'
-  when period = 6 and rooz = 1 then 'یکشنبه'
-  when period = 6 and rooz = 2 then 'دوشنبه'
-  when period = 6 and rooz = 3 then 'سه شنبه'
-  when period = 6 and rooz = 4 then 'چهارشنبه'
-  when period = 6 and rooz = 5 then 'پنجشنبه'
-  when period = 6 and rooz = 6 then 'جمعه'
-  when period = 5 then 'هر ' + cast(rooz as nvarchar(5)) + ' روز'
-  else cast(rooz as nvarchar(10)) end as rooz,
-  comment FROM m_control WHERE (Mid = @id)">
+                        <asp:SqlDataSource ID="sqlsubsystems" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="
+ SELECT row_number()OVER(ORDER BY dbo.m_machine.id) AS rn,
+dbo.subsystem.name, dbo.subsystem.code FROM dbo.m_machine INNER JOIN
+ dbo.m_subsystem ON dbo.m_machine.id = dbo.m_subsystem.Mid INNER JOIN
+ dbo.subsystem ON dbo.m_subsystem.subId = dbo.subsystem.id
+WHERE (dbo.m_machine.id = @id)">
                             <SelectParameters>
                                 <asp:QueryStringParameter Name="id" QueryStringField="mid" />
                             </SelectParameters>
@@ -202,6 +186,57 @@
         </div>
         </div>
     
+        
+        <div style="padding: 5px 12px 5px 5px;width: 210mm; min-height: 297mm; padding-top: 20px;" class="print">
+        <div style="border: 1px solid #625f5f; padding-bottom: 2px; min-height: 297mm; position: relative;">
+             <table>
+                <tr style="text-align: center;">
+                  <td colspan="2" style="background: #d6d5d5;">لیست موارد کنترلی</td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="border: none; padding: 0;"> 
+                        <asp:GridView runat="server" Width="100%" CssClass="tbl" ID="gridControli" AutoGenerateColumns="False" DataSourceID="sqlControli">
+                            <Columns>
+                                <asp:BoundField DataField="rn" HeaderText="ردیف" ReadOnly="True" SortExpression="rn" />
+                                <asp:BoundField DataField="contName" HeaderText="مورد کنترلی" SortExpression="contName" />
+                                <asp:BoundField DataField="period" HeaderText="دوره سرویس کاری" SortExpression="period" />
+                                <asp:BoundField DataField="rooz" HeaderText="روز پیش بینی شده" SortExpression="rooz" />
+                                <asp:BoundField DataField="opr" HeaderText="عملیات" SortExpression="opr" />
+                            </Columns>
+                        </asp:GridView>
+                        <asp:SqlDataSource ID="sqlControli" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="
+SELECT row_number()OVER(ORDER BY id) AS rn,
+ contName,
+  case when period = 0 then 'روزانه' 
+  when period = 6 then 'هفتگی'
+  when period = 1 then 'ماهیانه'
+  when period = 2 then 'سه ماهه'
+  when period = 3 then 'شش ماهه'
+  when period = 4 then 'یکساله'
+  when period = 5 then 'غیره' end as period,
+  case when period = 0 then  '----' 
+  when period = 6 and rooz = 0 then 'شنبه'
+  when period = 6 and rooz = 1 then 'یکشنبه'
+  when period = 6 and rooz = 2 then 'دوشنبه'
+  when period = 6 and rooz = 3 then 'سه شنبه'
+  when period = 6 and rooz = 4 then 'چهارشنبه'
+  when period = 6 and rooz = 5 then 'پنجشنبه'
+  when period = 6 and rooz = 6 then 'جمعه'
+  when period = 5 then 'هر ' + cast(rooz as nvarchar(5)) + ' روز'
+  else cast(rooz as nvarchar(10)) end as rooz,
+ case when opr = 1 then 'برق' when opr = 2 then 'چک و بازدید' when opr = 3 then 'روانکاری' end as opr                          
+FROM m_control WHERE (Mid = @id)">
+                            <SelectParameters>
+                                <asp:QueryStringParameter Name="id" QueryStringField="mid" />
+                            </SelectParameters>
+                        </asp:SqlDataSource>
+                    </td>
+                </tr>
+            </table>
+            </div>
+        </div>
+
+
         <div style="padding: 5px 12px 5px 5px;width: 210mm; min-height: 297mm; padding-top: 30px;" class="print">
         <div style="border: 1px solid #625f5f; padding-bottom: 2px; min-height: 297mm; position: relative;">
             <table>
@@ -238,7 +273,6 @@
                     </td>
                 </tr>
             </table>
-            <br/>
             <table>
                 <tr style="text-align: center;">
                     <td colspan="5" style=" background: #d6d5d5;">دستورالعمل ایمنی و محیط زیستی</td>

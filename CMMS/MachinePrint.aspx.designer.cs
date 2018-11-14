@@ -31,6 +31,24 @@ namespace CMMS {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lbldate;
         
         /// <summary>
+        /// gridsubsystems control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gridsubsystems;
+        
+        /// <summary>
+        /// sqlsubsystems control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource sqlsubsystems;
+        
+        /// <summary>
         /// gridControli control.
         /// </summary>
         /// <remarks>
