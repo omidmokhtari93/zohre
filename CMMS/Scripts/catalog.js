@@ -56,47 +56,11 @@ function getAllFiles() {
 }
 
 $('#drunit').change(function () {
-    if ($('#drunit :selected').val() === '-1') {
-        $('#drMachines').empty();
-    } else {
-        var data = [];
-        data.push({
-            url: "WebService.asmx/FilterMachineOrderByLocation",
-            parameters: [{ loc: $('#drunit :selected').val() }],
-            func: createDrmachineCopy
-        });
-        AjaxCall(data);
-        function createDrmachineCopy(e) {
-            var data = JSON.parse(e.d);
-            $('#drMachines').empty();
-            $('#drMachines').append($("<option></option>").attr("value", -1).text('انتخاب کنید'));
-            for (var i = 0; i < data.length; i++) {
-                $('#drMachines').append($("<option></option>").attr("value", data[i].MachineId).text(data[i].MachineName));
-            }
-        }
-    }
+    FilterMachineByUnit('drunit','drMachines');
 });
 
 $('#drUnits').change(function () {
-    if ($('#drUnits :selected').val() === '-1') {
-        $('#drmachinesearch').empty();
-    } else {
-        var data = [];
-        data.push({
-            url: "WebService.asmx/FilterMachineOrderByLocation",
-            parameters: [{ loc: $('#drUnits :selected').val() }],
-            func: createDrmachineCopy
-        });
-        AjaxCall(data);
-        function createDrmachineCopy(e) {
-            var data = JSON.parse(e.d);
-            $('#drmachinesearch').empty();
-            $('#drmachinesearch').append($("<option></option>").attr("value", -1).text('انتخاب کنید'));
-            for (var i = 0; i < data.length; i++) {
-                $('#drmachinesearch').append($("<option></option>").attr("value", data[i].MachineId).text(data[i].MachineName));
-            }
-        }
-    }
+    FilterMachineByUnit('drUnits', 'drmachinesearch');
 });
 
 $('#drmachinesearch').change(function () {

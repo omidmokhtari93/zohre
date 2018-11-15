@@ -957,6 +957,25 @@ namespace CMMS
         }
 
         [WebMethod]
+        public string FilterTagedDevices(string device)
+        {
+            var farsiPart1 = device.Replace("ک", "ك").Replace("ی", "ي").Replace("ة", "ه");
+            var farsiPart2 = device.Replace("ك", "ک").Replace("ي", "ی").Replace("ه", "ة");
+            var devList = new List<string[]>();
+            _cnn.Open();
+            var find = new SqlCommand("select device from s_subtag where " +
+                                      "device like  '%" + device + "%' OR " +
+                                      "device like  '%" + farsiPart1 + "%' OR " +
+                                      "device like  '%" + farsiPart2 + "%'", _cnn);
+            var r = find.ExecuteReader();
+            while (r.Read())
+            {
+                devList.Add(new []{r["device"].ToString()});
+            }
+            return new JavaScriptSerializer().Serialize(devList);
+        }
+
+        [WebMethod]
         public string GetMachineTooltipData()
         {
             var unitList = new List<Units>();

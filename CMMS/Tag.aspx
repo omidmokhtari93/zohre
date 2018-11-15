@@ -1,6 +1,43 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MainDesign.Master" AutoEventWireup="true" CodeBehind="Tag.aspx.cs" Inherits="CMMS.Tag" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <style>
+        .tooltipp{
+            direction: ltr;
+            display: none;
+            position: absolute;
+            cursor: pointer;
+            right: 20px;
+            min-width: 100px;
+            max-width: 300px;
+            font-family: tahoma;
+            font-weight: 200;
+            font-size: 8pt;
+            top: 65px;
+            border: solid 1px #e3e3e3;
+            border-radius: 5px;
+            background-color: #ffffdd;
+            padding:2px 2px 1px 2px;
+            z-index: 1000;
+        }
+        .tooltipp div {
+            padding: 3px;
+            background-color: #e3e3e3;
+            border-radius: 3px;
+            margin: 1px;
+            display: inline-block;
+            white-space: nowrap;
+            direction: rtl;
+        }
+        .tooltipp::after {
+            content: "";
+            position: absolute;
+            top:-10px;
+            right: 65px;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent transparent #e3e3e3 transparent;
+        }
         .PartsBadge{
             position: absolute;
             top: 5px;
@@ -17,16 +54,16 @@
             direction: ltr!important;
         }
         .PartsBadge *:hover{ cursor: pointer;}
-         #PartsSearchResulat {
-             display: none;
-             position: absolute;
-             width: 273px;
-             padding-left: 0px;
-             z-index: 999;
-             max-height: 200px;
-             left: 0px;
-             text-align: right;
-         }
+        #PartsSearchResulat {
+            display: none;
+            position: absolute;
+            width: 273px;
+            padding-left: 0px;
+            z-index: 999;
+            max-height: 200px;
+            left: 0px;
+            text-align: right;
+        }
         .costBadge{
             display: inline-block;
             direction: rtl!important;
@@ -97,10 +134,7 @@
                     <input dir="rtl" placeholder="نام قطعه ..." class="form-control" id="txtsubName" runat="server" ClientIDMode="Static"/>
                     </div>
                     <img src="Images/loading.png" id="subsystemLoading"/>
-                    <div style="position: absolute; width: 422px; display: none; overflow: auto; max-height: 200px; z-index: 999;" id="subSystemSearchRes">
-                        <table id="gridSubsystem" dir="rtl" class="SubSystemTable">
-                            <tbody></tbody>
-                        </table>
+                    <div id="nameTooltip" class="tooltipp">
                     </div>
                 </div>
             </div>
@@ -140,14 +174,13 @@
             </div>
             <asp:GridView runat="server" CssClass="table" ID="gridTags" AutoGenerateColumns="False" DataKeyNames="id" DataSourceID="SqlTags" OnRowCommand="gridTags_OnRowCommand">
                 <Columns>
-                    <asp:BoundField DataField="subname" HeaderText="نام قطعه" SortExpression="subname" />
-                    <asp:BoundField DataField="code" HeaderText="کد قطعه" SortExpression="code" />
+                    <asp:BoundField DataField="device" HeaderText="نام قطعه" SortExpression="subname" />
                     <asp:BoundField DataField="tag" HeaderText="شماره پلاک" SortExpression="tag" />
                     <asp:ButtonField CommandName="show" Text="مشاهده سوابق"/>
                     <asp:ButtonField CommandName="sabt" Text="ثبت سوابق"/>
                 </Columns>
             </asp:GridView>
-            <asp:SqlDataSource ID="SqlTags" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT subsystem.name as subname, s_subtag.tag, CAST(s_subtag.tag AS nvarchar(3)) AS chartag, subsystem.code, CAST(subsystem.code AS nvarchar(3)) AS charcode, s_subtag.id FROM s_subtag INNER JOIN subsystem ON s_subtag.subid = subsystem.id order by s_subtag.id desc"></asp:SqlDataSource>
+            <asp:SqlDataSource ID="SqlTags" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, device, tag FROM dbo.s_subtag ORDER BY id DESC"></asp:SqlDataSource>
         </div>
     </div>
 

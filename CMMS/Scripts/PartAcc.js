@@ -44,27 +44,7 @@ function doneTyping() {
 }
 
 $('#drUnits').change(function () {
-    if ($('#drUnits :selected').val() === '-1') {
-        $('#drMachines').empty();
-    } else {
-        var data = [];
-        data.push({
-            url: 'WebService.asmx/FilterMachineOrderByLocation',
-            parameters: [{ loc: $('#drUnits :selected').val() }],
-            func: fillMachineDr
-        });
-        AjaxCall(data);
-        function fillMachineDr(e) {
-            var dr = JSON.parse(e.d);
-            var body = [];
-            $('#drMachines').empty();
-            body.push('<option value="-1">انتخاب کنید</option>');
-            for (var i = 0; i < dr.length; i++) {
-                body.push('<option value="' + dr[i].MachineId + '">' + dr[i].MachineName + '</option>');
-            }
-            $('#drMachines').append(body.join(''));
-        }
-    }
+    FilterMachineByUnit('drUnits', 'drMachines');
 });
 
 $('#txtSubSearchPart').keyup(function () {
