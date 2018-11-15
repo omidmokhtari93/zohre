@@ -1,43 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MainDesign.Master" AutoEventWireup="true" CodeBehind="Tag.aspx.cs" Inherits="CMMS.Tag" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <style>
-        .tooltipp{
-            direction: ltr;
-            display: none;
-            position: absolute;
-            cursor: pointer;
-            right: 20px;
-            min-width: 100px;
-            max-width: 300px;
-            font-family: tahoma;
-            font-weight: 200;
-            font-size: 8pt;
-            top: 65px;
-            border: solid 1px #e3e3e3;
-            border-radius: 5px;
-            background-color: #ffffdd;
-            padding:2px 2px 1px 2px;
-            z-index: 1000;
-        }
-        .tooltipp div {
-            padding: 3px;
-            background-color: #e3e3e3;
-            border-radius: 3px;
-            margin: 1px;
-            display: inline-block;
-            white-space: nowrap;
-            direction: rtl;
-        }
-        .tooltipp::after {
-            content: "";
-            position: absolute;
-            top:-10px;
-            right: 65px;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: transparent transparent #e3e3e3 transparent;
-        }
         .PartsBadge{
             position: absolute;
             top: 5px;
@@ -118,7 +81,6 @@
         .imgfilter{ position: absolute;top: 7px;right: 6px;width: 17px;height: 17px;}
         #subsystemLoading{width: 20px; height: 20px; position: absolute; top: 27px; left: 23px; display: none;}
     </style>
-    <asp:HiddenField runat="server" ClientIDMode="Static" ID="hdSubId"/>
 <asp:HiddenField runat="server" ClientIDMode="Static" ID="TagID"/>
     <div class="panel panel-primary" id="pnlMachineTag" runat="server">
         <div class="panel-heading">ثبت پلاک قطعات</div>
@@ -130,12 +92,7 @@
                 </div>
                 <div class="col-lg-6">
                     نام قطعه
-                    <div id="subbadgeArea" style="position: relative;">
                     <input dir="rtl" placeholder="نام قطعه ..." class="form-control" id="txtsubName" runat="server" ClientIDMode="Static"/>
-                    </div>
-                    <img src="Images/loading.png" id="subsystemLoading"/>
-                    <div id="nameTooltip" class="tooltipp">
-                    </div>
                 </div>
             </div>
         </div>

@@ -1049,11 +1049,10 @@ namespace CMMS
         }
 
         [WebMethod]
-        public string LatestSubSystemTagNumber(int subSystemId)
+        public string LatestDeviceTagNumber()
         {
             _cnn.Open();
-            var latestSubtag = new SqlCommand("if(select count(id) from s_subtag where subid = " + subSystemId + ") = 0 begin select 101 end " +
-                                              "else begin select max(tag + 1) FROM[dbo].[s_subtag] where subid = " + subSystemId + " end  ",_cnn);
+            var latestSubtag = new SqlCommand("SELECT max(tag)+1 FROM [dbo].[s_subtag]", _cnn);
             return latestSubtag.ExecuteScalar().ToString();
         }
 
@@ -1090,8 +1089,9 @@ namespace CMMS
                 insertContractors.ExecuteNonQuery();
             }
             var selectRepNum = new SqlCommand("SELECT case when COUNT(rep_num)= 0 then  100  else MAX(rep_num)+1 end as id FROM s_subhistory", _cnn);
+            var i = selectRepNum.ExecuteScalar().ToString();
             _cnn.Close();
-            return selectRepNum.ExecuteScalar().ToString();
+            return i;
         }
 
         [WebMethod]

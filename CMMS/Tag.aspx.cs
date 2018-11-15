@@ -53,11 +53,16 @@ namespace CMMS
 
         protected void btnSabt_OnClick(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(txtsubName.Value))
+            {
+                ScriptManager.RegisterStartupScript(Page, GetType(), "script", "cancel();", true);
+                return;
+            }
             cnn.Open();
-            var insert = new SqlCommand("INSERT INTO [dbo].[s_subtag]([subid],[tag])VALUES("+hdSubId.Value+" , "+txtsubCode.Value+")", cnn);
+            var insert = new SqlCommand("INSERT INTO [dbo].[s_subtag]([device],[tag])VALUES('"+ txtsubName.Value+"', "+txtsubCode.Value+")", cnn);
             insert.ExecuteNonQuery();
             gridTags.DataBind();
-            txtsubCode.Value = "";
+            txtsubName.Value = "";
             ScriptManager.RegisterStartupScript(Page, GetType(), "script", "save();", true);
         }
 
@@ -68,15 +73,13 @@ namespace CMMS
                 var index = int.Parse(e.CommandArgument.ToString());
                 var tagId = (int) gridTags.DataKeys[index]["id"];
                 var repairNumber = GetRepairNumber();
-                var selectTagDetails = new SqlCommand("SELECT dbo.s_subtag.id, dbo.subsystem.name, dbo.s_subtag.tag "+
-                                                      "FROM dbo.s_subtag INNER JOIN dbo.subsystem ON dbo.s_subtag.subid = dbo.subsystem.id" +
-                                                      " where s_subtag.id = "+ tagId+ " ",cnn);
+                var selectTagDetails = new SqlCommand("SELECT id,tag,device FROM dbo.s_subtag where id = "+ tagId+ " ",cnn);
                 var rd = selectTagDetails.ExecuteReader();
                 if (rd.Read())
                 {
                     txtRepairNumber.Value = repairNumber.ToString();
                     TagID.Value = tagId.ToString();
-                    txtRepairedSub.Value = rd["name"].ToString();
+                    txtRepairedSub.Value = rd["device"].ToString();
                     txtTagNumber.Value = rd["tag"].ToString();
                     pnlMachineTag.Visible = false;
                     pnlRepairRecord.Visible = true;
@@ -87,12 +90,11 @@ namespace CMMS
                 var index = int.Parse(e.CommandArgument.ToString());
                 Session["subtagId"] = (int)gridTags.DataKeys[index]["id"];
                 cnn.Open();
-                var subInfo = new SqlCommand("SELECT dbo.subsystem.name, dbo.s_subtag.tag FROM dbo.s_subtag" +
-                                             " INNER JOIN dbo.subsystem ON dbo.s_subtag.subid = dbo.subsystem.id where s_subtag.id ="+ Session["subtagId"] + " ",cnn);
+                var subInfo = new SqlCommand("SELECT device,tag FROM dbo.s_subtag where s_subtag.id ="+ Session["subtagId"] + " ",cnn);
                 var rd = subInfo.ExecuteReader();
                 if (rd.Read())
                 {
-                    lblSubtagName.InnerText = rd["name"].ToString();
+                    lblSubtagName.InnerText = rd["device"].ToString();
                     lblSubtagPelak.InnerText = rd["tag"].ToString();
                 } 
                 gridRepairRecords.DataBind();

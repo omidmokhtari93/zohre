@@ -1,51 +1,13 @@
-﻿
-var rowss;
-var typingTimersub;
-var doneTypingIntervalsub = 1000;
-var $subinput = $('#txtsubName');
-$subinput.on('keyup', function () {
-    clearTimeout(typingTimersub);
-    typingTimersub = setTimeout(doneTypingsub, doneTypingIntervalsub);
-    $('#subsystemLoading').show();
-    if ($('#txtsubName').val() === '') {
+﻿$(function () {
+    AjaxData({
+        url: 'WebService.asmx/LatestDeviceTagNumber',
+        param: {},
+        func: lastcode
+    });
+    function lastcode(e) {
+        $('#txtsubCode').val(e.d);
     }
 });
-$subinput.on('keydown', function () {
-    clearTimeout(typingTimersub);
-});
-
-function doneTypingsub() {
-    if (($subinput).val().length > 2) {
-        AjaxData({
-            url: 'WebService.asmx/FilterTagedDevices',
-            param: {device : $subinput.val()},
-            func:createToolTip
-        });
-        function createToolTip(e) {
-            var d = JSON.parse(e.d);
-            var span = '';
-            if (d.length > 0) {
-                $('#nameTooltip').empty();
-                $('#nameTooltip').append('<p style="display: block; text-align: right;padding-right:3px;margin-bottom:5px;">: موارد مشابه ثبت شده</p>');
-                for (var i = 0; i < d.length; i++) {
-                    span += '<div>' + d[i][0] + '</div>';
-                }
-                $('#nameTooltip').append(span);
-                $("#nameTooltip").show();
-            } else {
-                $("#nameTooltip").hide();
-            }
-        }
-    }
-    if (($subinput).val().length <= 2 && ($subinput).val() != '') {
-        $.notify("!!حداقل سه حرف از نام قطعه را وارد نمایید", { globalPosition: 'top left' });
-    }
-    $('#subsystemLoading').hide();
-    if ($('#txtsubName').val() === '') {
-        $("#nameTooltip").hide();
-    }
-}
-
 var customOptions = {
     placeholder: "روز / ماه / سال"
     , twodigit: true
@@ -62,7 +24,6 @@ var customOptions = {
 }
 kamaDatepicker('txtRepairDate', customOptions);
 $('#txtWorkTime').clockpicker({ autoclose: true, placement: 'top' });
-
 function AddRepairers() {
     if ($('#txtWorkTime').val() == '') {
         RedAlert('txtWorkTime', "!!لطفا ساعت کاکرد را وارد کنید");
