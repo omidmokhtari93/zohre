@@ -17,16 +17,16 @@
             direction: ltr!important;
         }
         .PartsBadge *:hover{ cursor: pointer;}
-         #PartsSearchResulat {
-             display: none;
-             position: absolute;
-             width: 273px;
-             padding-left: 0px;
-             z-index: 999;
-             max-height: 200px;
-             left: 0px;
-             text-align: right;
-         }
+        #PartsSearchResulat {
+            display: none;
+            position: absolute;
+            width: 273px;
+            padding-left: 0px;
+            z-index: 999;
+            max-height: 200px;
+            left: 0px;
+            text-align: right;
+        }
         .costBadge{
             display: inline-block;
             direction: rtl!important;
@@ -79,8 +79,8 @@
         .nav-tabs >li{ float: right!important;}
         #txtSubSearchPart{ width: 100%;outline: none;padding: 0px 3px 0 0;font-weight: 800;border: none;border-radius: 3px;direction: rtl;}
         .imgfilter{ position: absolute;top: 7px;right: 6px;width: 17px;height: 17px;}
+        #subsystemLoading{width: 20px; height: 20px; position: absolute; top: 27px; left: 23px; display: none;}
     </style>
-    <asp:HiddenField runat="server" ClientIDMode="Static" ID="hdSubId"/>
 <asp:HiddenField runat="server" ClientIDMode="Static" ID="TagID"/>
     <div class="panel panel-primary" id="pnlMachineTag" runat="server">
         <div class="panel-heading">ثبت پلاک قطعات</div>
@@ -92,15 +92,7 @@
                 </div>
                 <div class="col-lg-6">
                     نام قطعه
-                    <div id="subbadgeArea" style="position: relative;">
-                    <input dir="rtl" placeholder="جستجوی اجزا ..." class="form-control" id="txtsubName"/>
-                    </div>
-                    <img src="Images/loading.png" id="subsystemLoading" style="width: 20px; height: 20px; position: absolute; top: 27px; left: 23px; display: none;"/>
-                    <div style="position: absolute; width: 422px; display: none; overflow: auto; max-height: 200px; z-index: 999;" id="subSystemSearchRes">
-                        <table id="gridSubsystem" dir="rtl" class="SubSystemTable">
-                            <tbody></tbody>
-                        </table>
-                    </div>
+                    <input dir="rtl" placeholder="نام قطعه ..." class="form-control" id="txtsubName" runat="server" ClientIDMode="Static"/>
                 </div>
             </div>
         </div>
@@ -139,14 +131,13 @@
             </div>
             <asp:GridView runat="server" CssClass="table" ID="gridTags" AutoGenerateColumns="False" DataKeyNames="id" DataSourceID="SqlTags" OnRowCommand="gridTags_OnRowCommand">
                 <Columns>
-                    <asp:BoundField DataField="subname" HeaderText="نام قطعه" SortExpression="subname" />
-                    <asp:BoundField DataField="code" HeaderText="کد قطعه" SortExpression="code" />
+                    <asp:BoundField DataField="device" HeaderText="نام قطعه" SortExpression="subname" />
                     <asp:BoundField DataField="tag" HeaderText="شماره پلاک" SortExpression="tag" />
                     <asp:ButtonField CommandName="show" Text="مشاهده سوابق"/>
                     <asp:ButtonField CommandName="sabt" Text="ثبت سوابق"/>
                 </Columns>
             </asp:GridView>
-            <asp:SqlDataSource ID="SqlTags" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT subsystem.name as subname, s_subtag.tag, CAST(s_subtag.tag AS nvarchar(3)) AS chartag, subsystem.code, CAST(subsystem.code AS nvarchar(3)) AS charcode, s_subtag.id FROM s_subtag INNER JOIN subsystem ON s_subtag.subid = subsystem.id order by s_subtag.id desc"></asp:SqlDataSource>
+            <asp:SqlDataSource ID="SqlTags" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, device, tag FROM dbo.s_subtag ORDER BY id DESC"></asp:SqlDataSource>
         </div>
     </div>
 

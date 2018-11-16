@@ -1,91 +1,13 @@
-﻿var rowss;
-var typingTimersub;
-var doneTypingIntervalsub = 1000;
-var $subinput = $('#txtsubName');
-$subinput.on('keyup', function () {
-    clearTimeout(typingTimersub);
-    typingTimersub = setTimeout(doneTypingsub, doneTypingIntervalsub);
-    $('#subsystemLoading').show();
-    $('#gridSubsystem tbody').empty();
-    if ($('#txtsubName').val() === '') {
-        $('#subSystemSearchRes').hide();
-    }
-});
-$subinput.on('keydown', function () {
-    clearTimeout(typingTimersub);
-});
-
-function doneTypingsub() {
-    if (($subinput).val().length > 2) {
-        $.ajax({
-            type: "POST",
-            url: "WebService.asmx/FilteredGridSubSystem",
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({ 'subSystemName': $subinput.val() }),
-            dataType: "json",
-            success: function (e) {
-                var items = JSON.parse(e.d);
-                var itemCount = items.length;
-                for (var i = 0; i < itemCount; i++) {
-                    $('#gridSubsystem').append('<tr><td>' +
-                        items[i].ToolName +
-                        '</td>' +
-                        '<td style="display:none;">' +
-                        items[i].ToolId +
-                        '</td></tr>');
-                }
-            },
-            error: function () {
-            }
-        });
-    }
-    if (($subinput).val().length <= 2 && ($subinput).val() != '') {
-        $.notify("!!حداقل سه حرف از نام قطعه را وارد نمایید", { globalPosition: 'top left' });
-    }
-    $('#subsystemLoading').hide();
-    $('#subSystemSearchRes').show();
-    if ($('#txtsubName').val() === '') {
-        $('#subSystemSearchRes').hide();
-    }
-}
-$('.SubSystemTable').on('click', 'tr', function () {
-    var $row = $(this).closest("tr");
-    var $text = $row.find("td").eq(0).html();
-    var $value = $row.find("td").eq(1).html();
-    $('#subSystemSearchRes').hide();
-    $('#txtsubName').val('');
-    $('#txtsubName').removeAttr('placeholder');
-    createSubBadge($text, $value);
-});
-function createSubBadge(text, val) {
-    var badgeHtml = '<div class="SubBadge" ' +
-        'onclick="RemoveSubBadge($(this));$(this).remove();">' +
-        '<label style="direction:rtl;white-space:nowrap;">' + text + '</label>' +
-        '<p style="display:none;">' + val + '</p>' +
-        ' <span>&times;</span>' +
-        '</div>';
-    $('#hdSubId').val(val);
-    $('#subbadgeArea').append(badgeHtml);
-    $('#txtsubName').attr('readonly', 'readonly');
-    $.ajax({
-        type: "POST",
-        url: "WebService.asmx/LatestSubSystemTagNumber",
-        contentType: "application/json; charset=utf-8",
-        data: JSON.stringify({ 'subSystemId': val }),
-        dataType: "json",
-        success: function (e) {
-            $('#txtsubCode').val(e.d);
-            $('#btnSabt').removeAttr('disabled');
-        },
-        error: function () {
-        }
+﻿$(function () {
+    AjaxData({
+        url: 'WebService.asmx/LatestDeviceTagNumber',
+        param: {},
+        func: lastcode
     });
-}
-function RemoveSubBadge() {
-    $('#txtsubName').attr('placeholder', 'جستجو کنید ...');
-    $('#txtsubName').removeAttr('readonly');
-    $('#txtsubCode').val('');
-}
+    function lastcode(e) {
+        $('#txtsubCode').val(e.d);
+    }
+});
 var customOptions = {
     placeholder: "روز / ماه / سال"
     , twodigit: true
@@ -212,24 +134,20 @@ $input.on('keydown', function () {
 });
 function doneTyping() {
     if (($input).val().length > 2) {
-        $.ajax({
-            type: "POST",
+        AjaxData({
             url: "WebService.asmx/PartsFilter",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify({ 'partName': $input.val() }),
-            success: function (e) {
-                var tableRows = '';
-                var filteredParts = JSON.parse(e.d);
-                for (var i = 0; i < filteredParts.length; i++) {
-                    tableRows += '<tr><td partid="' + filteredParts[i].PartId + '">' + filteredParts[i].PartName + '</td></tr>';
-                }
-                $('#gridPartsResault tbody').append(tableRows);
-                rowss = $('#gridPartsResault tr').clone();
-            },
-            error: function () {
-            }
+            param: { partname: $input.val() },
+            func:createparttable
         });
+        function createparttable(e) {
+            var tableRows = '';
+            var filteredParts = JSON.parse(e.d);
+            for (var i = 0; i < filteredParts.length; i++) {
+                tableRows += '<tr><td partid="' + filteredParts[i].PartId + '">' + filteredParts[i].PartName + '</td></tr>';
+            }
+            $('#gridPartsResault tbody').append(tableRows);
+            rowss = $('#gridPartsResault tr').clone();
+        }
     } if (($input).val().length <= 2 && ($input).val() != '') {
         RedAlert('n', "!!حداقل سه حرف از نام قطعه را وارد نمایید");
     }
@@ -464,28 +382,24 @@ function PassDataToDB() {
         passDataToServer(obj);
     } 
     function passDataToServer(obj) {
-        $.ajax({
-            type: "POST",
+        AjaxData({
             url: "WebService.asmx/PartsRepairRecord",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify({ 'data': obj }),
-            success: function (e) {
-                $('#txtRepairNumber').val(e.d);
-                ClearFields('inputsArea');
-                $('#txtRepairDate').val('');
-                $('#gridContractors thead').empty();
-                $('#gridContractors tbody').empty();
-                $('#gridRepairers thead').empty();
-                $('#gridRepairers tbody').empty();
-                $('#gridParts thead').empty();
-                $('#gridParts tbody').empty();
-                $('#lblTotalCost').text('');
-                $('#TotalCostArea').hide();
-                GreenAlert('nothing', "✔ سابقه تعمیر قطعه با موفقیت ثبت شد");
-            },
-            error: function () {
-            }
-        });   
+            param: { data: obj },
+            func:successfull
+        });
+        function successfull(e) {
+            $('#txtRepairNumber').val(e.d);
+            ClearFields('inputsArea');
+            $('#txtRepairDate').val('');
+            $('#gridContractors thead').empty();
+            $('#gridContractors tbody').empty();
+            $('#gridRepairers thead').empty();
+            $('#gridRepairers tbody').empty();
+            $('#gridParts thead').empty();
+            $('#gridParts tbody').empty();
+            $('#lblTotalCost').text('');
+            $('#TotalCostArea').hide();
+            GreenAlert('nothing', "✔ سابقه تعمیر قطعه با موفقیت ثبت شد");
+        }
     }
 }

@@ -29,11 +29,10 @@ namespace CMMS
             try
             {
                 cnn.Open();
-                var selectData = new SqlCommand("SELECT dbo.subsystem.name, dbo.s_subtag.tag, dbo.s_subhistory.tarikh, dbo.s_subhistory.rep_num, "+
+                var selectData = new SqlCommand("SELECT dbo.s_subtag.device, dbo.s_subtag.tag, dbo.s_subhistory.tarikh, dbo.s_subhistory.rep_num, "+
                                                 "dbo.s_subhistory.comment, dbo.s_subhistory.info_rep, dbo.s_subhistory.CR, dbo.i_lines.line_name AS nline, " +
-                                                "dbo.i_units.unit_name AS nunit, i_lines_1.line_name AS rline, i_units_1.unit_name AS runit FROM dbo.s_subtag INNER JOIN " +
-                                                "dbo.subsystem ON dbo.s_subtag.subid = dbo.subsystem.id INNER JOIN " +
-                                                "dbo.s_subhistory ON dbo.s_subtag.id = dbo.s_subhistory.tagid INNER JOIN " +
+                                                "dbo.i_units.unit_name AS nunit, i_lines_1.line_name AS rline, i_units_1.unit_name AS runit FROM dbo.s_subtag " +
+                                                "INNER JOIN dbo.s_subhistory ON dbo.s_subtag.id = dbo.s_subhistory.tagid INNER JOIN " +
                                                 "dbo.i_lines ON dbo.s_subhistory.new_line = dbo.i_lines.id INNER JOIN " +
                                                 "dbo.i_units ON dbo.s_subhistory.new_unit = dbo.i_units.unit_code INNER JOIN " +
                                                 "dbo.i_lines AS i_lines_1 ON dbo.s_subhistory.rec_line = i_lines_1.id INNER JOIN " +
@@ -44,7 +43,7 @@ namespace CMMS
                 {
                     lblRepNumber.InnerText = rd["rep_num"].ToString();
                     lblRepairDate.InnerText = rd["tarikh"].ToString();
-                    lblToolName.InnerText = rd["name"].ToString();
+                    lblToolName.InnerText = rd["device"].ToString();
                     lblTagNumber.InnerText = rd["tag"].ToString();
                     if (Convert.ToInt32(rd["CR"]) == 1)
                     {

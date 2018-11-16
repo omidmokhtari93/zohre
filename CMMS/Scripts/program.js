@@ -17,27 +17,7 @@
     kamaDatepicker('txtEndDate', customOptions);
 });
 $('#drUnits').change(function () {
-    if ($('#drUnits :selected').val() === '-1') {
-        $('#drMachines').empty();
-    } else {
-        $.ajax({
-            type: "POST",
-            url: "WebService.asmx/FilterMachineOrderByLocation",
-            data: "{loc : " + $('#drUnits :selected').val() + "}",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (e) {
-                var data = JSON.parse(e.d);
-                $('#drMachines').empty();
-                $('#drMachines').append($("<option></option>").attr("value", -1).text('انتخاب کنید'));
-                for (var i = 0; i < data.length; i++) {
-                    $('#drMachines').append($("<option></option>").attr("value", data[i].MachineId).text(data[i].MachineName));
-                }
-            },
-            error: function () {
-            }
-        });
-    }
+    FilterMachineByUnit('drUnits','drMachines');
 });
 function printDiv() {
     var divToPrint = document.getElementById('ReportArea');

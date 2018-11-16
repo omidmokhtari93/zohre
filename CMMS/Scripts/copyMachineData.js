@@ -1,23 +1,5 @@
 ﻿$('#drunitMachineCopy').change(function () {
-    if ($('#drUnits :selected').val() === '-1') {
-        $('#drMachinesCopy').empty();
-    } else {
-        var data = [];
-        data.push({
-            url: "WebService.asmx/FilterMachineOrderByLocation",
-            parameters: [{ loc: $('#drunitMachineCopy :selected').val() }],
-            func: createDrmachineCopy
-        });
-        AjaxCall(data);
-        function createDrmachineCopy(e) {
-            var data = JSON.parse(e.d);
-            $('#drMachinesCopy').empty();
-            $('#drMachinesCopy').append($("<option></option>").attr("value", -1).text('انتخاب کنید'));
-            for (var i = 0; i < data.length; i++) {
-                $('#drMachinesCopy').append($("<option></option>").attr("value", data[i].MachineId).text(data[i].MachineName));
-            }
-        }
-    }
+    FilterMachineByUnit('drunitMachineCopy','drMachinesCopy');
 });
 
 function CopyData() {

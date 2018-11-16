@@ -13,15 +13,6 @@ namespace CMMS {
     public partial class Tag {
         
         /// <summary>
-        /// hdSubId control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdSubId;
-        
-        /// <summary>
         /// TagID control.
         /// </summary>
         /// <remarks>
@@ -47,6 +38,15 @@ namespace CMMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputText txtsubCode;
+        
+        /// <summary>
+        /// txtsubName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtsubName;
         
         /// <summary>
         /// btnSabt control.
