@@ -80,6 +80,8 @@
         #txtSubSearchPart{ width: 100%;outline: none;padding: 0px 3px 0 0;font-weight: 800;border: none;border-radius: 3px;direction: rtl;}
         .imgfilter{ position: absolute;top: 7px;right: 6px;width: 17px;height: 17px;}
         #subsystemLoading{width: 20px; height: 20px; position: absolute; top: 27px; left: 23px; display: none;}
+        #gridTags tr td:first-child{ display: none;}
+        #gridTags tr th:first-child{ display: none;}
     </style>
 <asp:HiddenField runat="server" ClientIDMode="Static" ID="TagID"/>
     <div class="panel panel-primary" id="pnlMachineTag" runat="server">
@@ -129,15 +131,22 @@
                     </asp:Panel>
                 </div>
             </div>
-            <asp:GridView runat="server" CssClass="table" ID="gridTags" AutoGenerateColumns="False" DataKeyNames="id" DataSourceID="SqlTags" OnRowCommand="gridTags_OnRowCommand">
+            <asp:GridView runat="server" ClientIDMode="Static" CssClass="table" ID="gridTags" AutoGenerateColumns="False" DataKeyNames="id" DataSourceID="SqlTags" OnRowCommand="gridTags_OnRowCommand">
                 <Columns>
+                    <asp:BoundField DataField="id" SortExpression="id" />
                     <asp:BoundField DataField="device" HeaderText="نام قطعه" SortExpression="subname" />
-                    <asp:BoundField DataField="tag" HeaderText="شماره پلاک" SortExpression="tag" />
+                    <asp:BoundField DataField="tag" HeaderText="شماره پلاک" SortExpression="tag"/>
                     <asp:ButtonField CommandName="show" Text="مشاهده سوابق"/>
                     <asp:ButtonField CommandName="sabt" Text="ثبت سوابق"/>
+                    <asp:CommandField ShowEditButton="True" EditText="ویرایش" />
                 </Columns>
             </asp:GridView>
-            <asp:SqlDataSource ID="SqlTags" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, device, tag FROM dbo.s_subtag ORDER BY id DESC"></asp:SqlDataSource>
+            <asp:SqlDataSource ID="SqlTags" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, device, tag FROM dbo.s_subtag ORDER BY id DESC" UpdateCommand="UPDATE s_subtag SET device = @device,tag = @tag WHERE (id = @id)">
+                <UpdateParameters>
+                    <asp:Parameter Name="device" />
+                    <asp:Parameter Name="tag" />
+                </UpdateParameters>
+            </asp:SqlDataSource>
         </div>
     </div>
 

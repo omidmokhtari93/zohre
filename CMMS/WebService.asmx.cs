@@ -1052,7 +1052,8 @@ namespace CMMS
         public string LatestDeviceTagNumber()
         {
             _cnn.Open();
-            var latestSubtag = new SqlCommand("SELECT max(tag)+1 FROM [dbo].[s_subtag]", _cnn);
+            var latestSubtag = new SqlCommand("if(SELECT max(tag)+1 FROM [dbo].[s_subtag]) is null begin select 100 end "+
+                                              "else begin SELECT max(tag) + 1 FROM[dbo].[s_subtag] end", _cnn);
             return latestSubtag.ExecuteScalar().ToString();
         }
 
