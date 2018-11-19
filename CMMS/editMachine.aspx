@@ -23,6 +23,7 @@
         #gridRepairRecord tr td a{ cursor: pointer;}
         #gridRepairRequest tr td a{ cursor: pointer;}
         #gridMachines table { text-align: center;border: 1px solid #c6cdd5;}
+        #gridMachines tr td{ padding: 2px 0!important;}
         .fa-trash{ color: red;}
     </style>
      <div class="panel panel-primary" runat="server" ID="pnlMachineInfo">
@@ -68,15 +69,16 @@
                        </asp:TemplateField>
                        <asp:BoundField DataField="name" HeaderText="نام ماشین" SortExpression="name" />
                        <asp:BoundField DataField="code" HeaderText="کد" SortExpression="code" />
-                       <asp:BoundField DataField="loc" HeaderText="محل اسقرار" SortExpression="loc" />
+                       <asp:BoundField DataField="loc" HeaderText="واحد" SortExpression="loc" />
+                       <asp:BoundField DataField="faz_name" HeaderText="فاز" SortExpression="faz_name" />
                        <asp:TemplateField>
                            <ItemTemplate>
-                               <a style="cursor: pointer" class="gridButton" id="RepiarRequest">مشاهده درخواست های تعمیر</a>
+                               <a style="cursor: pointer" class="gridButton" id="RepiarRequest">درخواست های تعمیر</a>
                            </ItemTemplate>
                        </asp:TemplateField>
                        <asp:TemplateField>
                            <ItemTemplate>
-                               <a style="cursor: pointer" class="gridButton" id="RepairRecord">مشاهده سوابق تعمیر</a>
+                               <a style="cursor: pointer" class="gridButton" id="RepairRecord">سوابق تعمیر</a>
                            </ItemTemplate>
                        </asp:TemplateField>
                        <asp:TemplateField>
@@ -84,8 +86,8 @@
                                <a style="cursor: pointer" class="gridButton" id="energy">ثبت موارد انرژی</a>
                            </ItemTemplate>
                        </asp:TemplateField>
-                       <asp:ButtonField CommandName="Ed" Text="ویرایش">
-                           <ControlStyle CssClass="gridButton"></ControlStyle>
+                       <asp:ButtonField CommandName="Ed">
+                           <ControlStyle CssClass="fa fa-pencil"></ControlStyle>
                            </asp:ButtonField>
                        <asp:TemplateField>
                            <ItemTemplate>
@@ -99,10 +101,11 @@
                    <PagerStyle HorizontalAlign="Center" />
                </asp:GridView>
                <asp:SqlDataSource ID="SqlMachine" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="
-SELECT dbo.m_machine.name,dbo.m_machine.loc AS location ,dbo.m_machine.code,cast (dbo.m_machine.code as nvarchar(8)) as vcode,
-                   dbo.m_machine.id, dbo.i_units.unit_name AS loc, dbo.m_machine.maModel, dbo.m_machine.insDate,
-                   dbo.m_machine.creator FROM dbo.m_machine INNER JOIN dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code order by m_machine.code,
-                   m_machine.name,m_machine.id"></asp:SqlDataSource>
+SELECT dbo.m_machine.name, dbo.m_machine.loc AS location, dbo.m_machine.code, 
+CAST(dbo.m_machine.code AS nvarchar(8)) AS vcode, dbo.m_machine.id, dbo.i_units.unit_name AS loc, 
+ dbo.m_machine.maModel, dbo.m_machine.insDate, dbo.m_machine.creator, dbo.i_faz.faz_name
+FROM dbo.m_machine INNER JOIN dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code INNER JOIN
+ dbo.i_faz ON dbo.m_machine.faz = dbo.i_faz.id ORDER BY dbo.m_machine.code, dbo.m_machine.name, dbo.m_machine.id"></asp:SqlDataSource>
            </div>
         </div>
     </div>
