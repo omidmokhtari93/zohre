@@ -48,7 +48,7 @@ function GreenAlert(ele, txt) {
 function ClearFields(div) {
     $('#' + div).find('input:text').val('');
     $('#' + div).find('textarea').val('');
-    $('#' + div).find('input').val('');
+    //$('#' + div).find('input').val('');
     $('#' + div).find("select").prop('selectedIndex', 0);
 }
 function checkPastDate(ele) {

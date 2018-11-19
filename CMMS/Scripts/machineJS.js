@@ -643,7 +643,7 @@ function SendTablesToDB() {
         obj.SuppInfo = $('#txtSupInfo').val();
         return obj;
     }
-    function sendMinfo(fileName) {
+    function sendMinfo() {
         var machineId = '';
         if ($('#Mid').val() == '') {
             machineId = '0';
@@ -653,7 +653,7 @@ function SendTablesToDB() {
         $.ajax({
             type: "POST",
             url: "WebService.asmx/MachineInfo",
-            data: JSON.stringify({ 'mid': machineId, 'fileName': fileName, 'minfo': machinMainData() }),
+            data: JSON.stringify({ 'mid': machineId,'minfo': machinMainData() }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (mid) {
@@ -888,7 +888,6 @@ function SendTablesToDB() {
             '17-اپراتور باید از پوشیدن لباسهای گشاد خودداری کند. \n' +
             '18-دقت کنید که دستگاه روغنریزی نداشته و هنگام کار درب دستگاه بسته باشد.\n');
         $('#kelidi').prop('checked');
-        $('#noCatalog').prop('checked');
         $('#act').prop('checked');
         $('#chkbargh').parent().removeClass("isSelected");
         $("#pnlBargh").fadeOut();

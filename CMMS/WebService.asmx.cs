@@ -191,7 +191,9 @@ namespace CMMS
         {
             _cnn.Open();
             var checkDuplicate = new SqlCommand("select count(id) from m_machine where code = "+ machinCode + " and id <> "+mid+" ",_cnn);
-            return checkDuplicate.ExecuteScalar().ToString();
+            var chk = checkDuplicate.ExecuteScalar().ToString();
+            _cnn.Close();
+            return chk;
         }
         [WebMethod]
         public string MachineInfo(string mid , MachineMainInfo minfo)
@@ -238,7 +240,7 @@ namespace CMMS
         }
 
         [WebMethod]
-        public string SendMasrafi(int mid, MasrafiMain masrafiMain)
+        public void SendMasrafi(int mid, MasrafiMain masrafiMain)
         {
             _cnn.Open();
             var insertFuel = new SqlCommand(
@@ -273,18 +275,16 @@ namespace CMMS
                 ",'" + masrafiMain.FuelType + "','" + masrafiMain.FuelMasraf + "')", _cnn);
             insertFuel.ExecuteNonQuery();
             _cnn.Close();
-            return "";
         }
 
         [WebMethod]
-        public string DeleteControlItem(int controlId)
+        public void DeleteControlItem(int controlId)
         {
             _cnn.Open();
             var deleteItems = new SqlCommand("delete from m_control where id ="+controlId+" " +
                                              "delete from p_pmcontrols where idmcontrol = "+controlId+" ", _cnn);
             deleteItems.ExecuteNonQuery();
             _cnn.Close();
-            return "";
         }
 
        
@@ -307,7 +307,7 @@ namespace CMMS
             Pmcontrol.ExecuteNonQuery();
         }
         [WebMethod]
-        public string SendGridControli(int mid, List<Controls> controls)
+        public void SendGridControli(int mid, List<Controls> controls)
         {
             _cnn.Open();
             foreach (var item in controls)
@@ -441,11 +441,10 @@ namespace CMMS
                 }
             }
             _cnn.Close();
-            return "";
         }
 
         [WebMethod]
-        public string SendSubSystem(int mid, List<SubSystems> subSystem)
+        public void SendSubSystem(int mid, List<SubSystems> subSystem)
         {
             _cnn.Open();
             var checkExistSub = new SqlCommand("delete from m_subsystem where Mid = " + mid + " ", _cnn);
@@ -458,22 +457,20 @@ namespace CMMS
                 insertParts.ExecuteNonQuery();
             }
             _cnn.Close();
-            return "";
         }
 
         [WebMethod]
-        public string DeletePartItem(int partId)
+        public void DeletePartItem(int partId)
         {
             _cnn.Open();
             var deleteItems = new SqlCommand("delete from m_parts where id =" + partId + " " +
                                              "delete from p_forecast where m_partId = " + partId + " ", _cnn);
             deleteItems.ExecuteNonQuery();
             _cnn.Close();
-            return "";
         }
 
         [WebMethod]
-        public string SendGridGhataat(int mid, List<Parts> parts)
+        public void SendGridGhataat(int mid, List<Parts> parts)
         {
             _cnn.Open();
             foreach (var item in parts)
@@ -541,11 +538,10 @@ namespace CMMS
                 }
             }
             _cnn.Close();
-            return "";
         }
 
         [WebMethod]
-        public string SendInstru(int mid, List<Instructions> instructions, string dastoor)
+        public void SendInstru(int mid, List<Instructions> instructions, string dastoor)
         {
             _cnn.Open();
             //if (instructions.Count != 0)
@@ -565,7 +561,8 @@ namespace CMMS
 
             if (string.IsNullOrEmpty(dastoor))
             {
-                return "";
+                _cnn.Close();
+                return;
             }
             var insertInstruct = new SqlCommand(
                 "if (select count(Mid) from m_inst where Mid = " + mid + ") <> 0 " +
@@ -577,7 +574,6 @@ namespace CMMS
                 "(" + mid + ",'" + dastoor + "')", _cnn);
             insertInstruct.ExecuteNonQuery();
             _cnn.Close();
-            return "";
         }
 
         [WebMethod]
@@ -834,13 +830,12 @@ namespace CMMS
         }
 
         [WebMethod]
-        public string EditSubSystem(string name , string code , string editCode)
+        public void EditSubSystem(string name , string code , string editCode)
         {
             _cnn.Open();
             var updateSub = new SqlCommand("UPDATE [dbo].[subsystem] SET [name] = '"+name+"',[code] ='"+code+"'  WHERE code = "+editCode+" ",_cnn);
             updateSub.ExecuteNonQuery();
             _cnn.Close();
-            return "";
         }
 
         [WebMethod]
@@ -890,14 +885,18 @@ namespace CMMS
         }
 
         [WebMethod]
-        public string RequestStateDifinition(PartRequest d ,List<int> parts)
+        public void RequestStateDifinition(PartRequest d ,List<int> parts)
         {
             _cnn.Open();
             var stateDifinition = new SqlCommand("if (select "+d.State+ ") = 2 or (select " + d.State + ") = 3" +
                                                  "begin UPDATE[dbo].[r_request] SET[state] = " + d.State + " WHERE req_id = "+d.RequestId+" " +
                                                  "end else begin delete from r_request where req_id = " + d.RequestId+" end",_cnn);
             stateDifinition.ExecuteNonQuery();
-            if (d.State != 3) return "";
+            if (d.State != 3)
+            {
+                _cnn.Close();
+                return;
+            }
             var deleteAllReq = new SqlCommand("DELETE FROM [dbo].[r_reqwaitpart] where id_wait = (select id from r_partwait where req_id = " + d.RequestId + ") " +
                                               "DELETE FROM [dbo].[r_partwait] WHERE req_id = "+d.RequestId+"", _cnn);
             deleteAllReq.ExecuteNonQuery();
@@ -912,7 +911,6 @@ namespace CMMS
                 inserParts.ExecuteNonQuery();
             }
             _cnn.Close();
-            return "";
         }
         [WebMethod]
         public string PartsFilter(string partName)
@@ -932,7 +930,7 @@ namespace CMMS
                     PartId = Convert.ToInt32(read["Serial"])
                 });
             }
-            _cnn.Close();
+            _partsConnection.Close();
             return new JavaScriptSerializer().Serialize(filteredPartList);
         }
 
@@ -972,6 +970,7 @@ namespace CMMS
             {
                 devList.Add(new []{r["device"].ToString()});
             }
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(devList);
         }
 
@@ -1042,6 +1041,7 @@ namespace CMMS
             var code = selectCode.ExecuteScalar();
             if (code != null)
             {
+                _cnn.Close();
                 return new JavaScriptSerializer().Serialize("1");
             }
             _cnn.Close();
@@ -1054,7 +1054,9 @@ namespace CMMS
             _cnn.Open();
             var latestSubtag = new SqlCommand("if(SELECT max(tag)+1 FROM [dbo].[s_subtag]) is null begin select 100 end "+
                                               "else begin SELECT max(tag) + 1 FROM[dbo].[s_subtag] end", _cnn);
-            return latestSubtag.ExecuteScalar().ToString();
+            var la = latestSubtag.ExecuteScalar().ToString();
+            _cnn.Close();
+            return la;
         }
 
         [WebMethod]
@@ -1305,7 +1307,7 @@ namespace CMMS
         }
 
         [WebMethod]
-        public string SubmitReplyForcast(PartForeCastChange obj)
+        public void SubmitReplyForcast(PartForeCastChange obj)
         {
             _cnn.Open();
             foreach (var fail in obj.FailReasonList)
@@ -1321,7 +1323,6 @@ namespace CMMS
                                                  ",[act] = 1 ,[inforeason] = '"+obj.Info+"' WHERE id = "+obj.ForeCastId+" ", _cnn);
             updatePforecast.ExecuteNonQuery();
             _cnn.Close();
-            return "";
         }
 
         [WebMethod]
@@ -1474,7 +1475,7 @@ namespace CMMS
         }
 
         [WebMethod]
-        public string SaveDailyReport(List<DailyReport> dailyDate, int editFlag)
+        public void SaveDailyReport(List<DailyReport> dailyDate, int editFlag)
         {
             _cnn.Open();
             if (editFlag == 0)
@@ -1492,7 +1493,6 @@ namespace CMMS
                 updateDaily.ExecuteNonQuery();
             }
             _cnn.Close();
-            return "";
         }
 
         [WebMethod]
@@ -1714,6 +1714,7 @@ namespace CMMS
             {
                 var cmdinsertfail = new SqlCommand("insert into i_fail_reason (fail) values ('" + text + "')", _cnn);
                 cmdinsertfail.ExecuteNonQuery();
+                _cnn.Close();
                 return "i";
             }
             var cmdUpfail = new SqlCommand("update i_fail_reason set fail='" + text + "' where id=" + editId + " ", _cnn);
@@ -1730,6 +1731,7 @@ namespace CMMS
             {
                 var cmdinsertdelay = new SqlCommand("insert into i_delay_reason (delay) values ('" + text + "')", _cnn);
                 cmdinsertdelay.ExecuteNonQuery();
+                _cnn.Close();
                 return "i";
             }
             var cmdUpdelay = new SqlCommand("update i_delay_reason set delay='" + text + "' where id=" + editId + " ", _cnn);
@@ -1746,6 +1748,7 @@ namespace CMMS
             {
                 var insertPersonel = new SqlCommand("insert into i_repairs (operation) values ('" + text + "')",_cnn);
                 insertPersonel.ExecuteNonQuery();
+                _cnn.Close();
                 return "i";
             }
             var upOpreation = new SqlCommand("update i_repairs set operation='" + text + "' where id = " + editId + " ", _cnn);
@@ -1761,6 +1764,7 @@ namespace CMMS
             {
                 var cmdinsertFaz = new SqlCommand("insert into i_faz (faz_name) values ('" + text + "')", _cnn);
                 cmdinsertFaz.ExecuteNonQuery();
+                _cnn.Close();
                 return "i";
             }
             var cmdUpFAz = new SqlCommand("update i_faz set faz_name='" + text + "' where id=" + editId + " ", _cnn);
@@ -1776,6 +1780,7 @@ namespace CMMS
             {
                 var cmdinsertline = new SqlCommand("insert into i_lines (line_name) values ('" + text + "')", _cnn);
                 cmdinsertline.ExecuteNonQuery();
+                _cnn.Close();
                 return "i";
             }
             var cmdUpline = new SqlCommand("update i_lines set line_name='" + text + "' where id=" + editId + " ", _cnn);
@@ -1841,7 +1846,7 @@ namespace CMMS
         }
 
         [WebMethod]
-        public string MtbfReports(MtbfReports obj)
+        public void MtbfReports(MtbfReports obj)
         {
             _cnn.Open();
             var insertData = new SqlCommand("INSERT INTO [dbo].[MT_report]([type],[name],[producer],[tarikh],[manager],[exp],[analyze])" +
@@ -1849,11 +1854,10 @@ namespace CMMS
                                             ",'"+obj.Manager+"','"+obj.Exp+"','"+obj.Analyse+"')", _cnn);
             insertData.ExecuteNonQuery();
             _cnn.Close();
-            return "";
         }
 
         [WebMethod]
-        public string UpdateReport(MtbfReports obj)
+        public void UpdateReport(MtbfReports obj)
         {
             _cnn.Open();
             var update = new SqlCommand("UPDATE [dbo].[MT_report] "+
@@ -1866,16 +1870,14 @@ namespace CMMS
                                         "WHERE id = "+obj.Id+" ", _cnn);
             update.ExecuteNonQuery();
             _cnn.Close();
-            return "";
         }
         [WebMethod]
-        public string DeleteReport(int reportIdd)
+        public void DeleteReport(int reportIdd)
         {
             _cnn.Open();
             var delete = new SqlCommand("delete from MT_report where id = "+ reportIdd + " ", _cnn);
             delete.ExecuteNonQuery();
             _cnn.Close();
-            return "";
         }
         [WebMethod]
         public string GetFilteredReportTable(string dateS, string dateE, int type)
@@ -1940,7 +1942,8 @@ namespace CMMS
             var r = filter.ExecuteReader();
             while (r.Read())
             {
-                list.Add(new []{ r["unit_name"].ToString(), r["name"].ToString() , r["code"].ToString() , r["partname"].ToString() , r["tarikh"].ToString(),r["Mojodi"].ToString() });
+                list.Add(new []{ r["unit_name"].ToString(), r["name"].ToString() , r["code"].ToString() ,
+                    r["partname"].ToString() , r["tarikh"].ToString(),r["Mojodi"].ToString() });
             }
             listt.AddRange(list);
             _cnn.Close();
@@ -2060,6 +2063,7 @@ namespace CMMS
                     Address = r["address"].ToString()
                 });
             }
+            _cnn.Close();
             return new JavaScriptSerializer().Serialize(e);
         }
 
@@ -2079,6 +2083,7 @@ namespace CMMS
                 }
             }
             delfile.ExecuteNonQuery();
+            _cnn.Close();
         }
     }
 }
