@@ -23,6 +23,7 @@
         #gridRepairRecord tr td a{ cursor: pointer;}
         #gridRepairRequest tr td a{ cursor: pointer;}
         #gridMachines table { text-align: center;border: 1px solid #c6cdd5;}
+        #gridMachines table tr td{ padding: 0 3px!important;}
         #gridMachines tr td{ padding: 2px 0!important;}
         .fa-trash{ color: red;}
     </style>
@@ -101,10 +102,10 @@
                    <PagerStyle HorizontalAlign="Center" />
                </asp:GridView>
                <asp:SqlDataSource ID="SqlMachine" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="
-SELECT dbo.m_machine.name, dbo.m_machine.loc AS location, dbo.m_machine.code, 
-CAST(dbo.m_machine.code AS nvarchar(8)) AS vcode, dbo.m_machine.id, dbo.i_units.unit_name AS loc, 
+SELECT dbo.m_machine.name, dbo.m_machine.loc AS location, dbo.m_machine.code,
+ CAST(dbo.m_machine.code AS nvarchar(8)) AS vcode, dbo.m_machine.id, dbo.i_units.unit_name AS loc, 
  dbo.m_machine.maModel, dbo.m_machine.insDate, dbo.m_machine.creator, dbo.i_faz.faz_name
-FROM dbo.m_machine INNER JOIN dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code INNER JOIN
+FROM dbo.m_machine INNER JOIN dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code left JOIN
  dbo.i_faz ON dbo.m_machine.faz = dbo.i_faz.id ORDER BY dbo.m_machine.code, dbo.m_machine.name, dbo.m_machine.id"></asp:SqlDataSource>
            </div>
         </div>
