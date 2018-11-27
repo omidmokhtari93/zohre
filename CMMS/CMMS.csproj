@@ -105,6 +105,7 @@
     <Content Include="Images\lines.png" />
     <Content Include="Images\loading.gif" />
     <Content Include="Images\machine.png" />
+    <Content Include="Images\MainMachine.png" />
     <Content Include="Images\PersonelChart.png" />
     <Content Include="Images\Rchecklist.png" />
     <Content Include="Images\Rchecklistempty.png" />
@@ -165,6 +166,7 @@
     <Content Include="intrupt.aspx" />
     <Content Include="Lines.aspx" />
     <Content Include="login.aspx" />
+    <Content Include="MachineBase.aspx" />
     <Content Include="MachinePrint.aspx" />
     <Content Include="MachineReports.aspx" />
     <Content Include="MainDesign.Master" />
@@ -194,6 +196,7 @@
     <Content Include="Scripts\FinancialReports.js" />
     <Content Include="Scripts\Fazline.js" />
     <Content Include="Scripts\Intrupt.js" />
+    <Content Include="Scripts\MachineBaseJS.js" />
     <Content Include="Scripts\MachineRepor.js" />
     <Content Include="Scripts\MttReport.js" />
     <Content Include="Scripts\Notifications.js" />
@@ -402,6 +405,13 @@
     </Compile>
     <Compile Include="login.aspx.designer.cs">
       <DependentUpon>login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MachineBase.aspx.cs">
+      <DependentUpon>MachineBase.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MachineBase.aspx.designer.cs">
+      <DependentUpon>MachineBase.aspx</DependentUpon>
     </Compile>
     <Compile Include="MachinePrint.aspx.cs">
       <DependentUpon>MachinePrint.aspx</DependentUpon>

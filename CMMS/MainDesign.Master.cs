@@ -272,5 +272,10 @@ namespace CMMS
         {
             Response.Redirect("catalog.aspx");
         }
+
+        protected void btnMainMachine_OnClick(object sender, EventArgs e)
+        {
+            Response.Redirect("MachineBase.aspx");
+        }
     }
 }
