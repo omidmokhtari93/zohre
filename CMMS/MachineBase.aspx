@@ -108,45 +108,45 @@
         <div class="row" style="margin: 0; direction: rtl; text-align: right;">
             <div class="col-md-3">
                 <label>وزن :</label>
-                <input type="text" id="txtMavaredVazn" tabindex="21" class="form-control"/>  
+                <input type="text" id="txtMavaredVazn" tabindex="13" class="form-control"/>  
             </div>
             <div class="col-md-3">
                 <label>ارتفاع :</label>
-                <input type="text" id="txtMavaredErtefa" tabindex="20" class="form-control" />
+                <input type="text" id="txtMavaredErtefa" tabindex="12" class="form-control" />
             </div>
             <div class="col-md-3">
                 <label>عرض :</label>
-                <input type="text" id="txtMavaredArz" tabindex="19" class="form-control" />
+                <input type="text" id="txtMavaredArz" tabindex="11" class="form-control" />
             </div>
             <div class="col-md-3">
                 <label>طول :</label>
-                <input type="text" id="txtMavaredTool" tabindex="18" class="form-control" />
+                <input type="text" id="txtMavaredTool" tabindex="10" class="form-control" />
             </div>
         </div>
         <hr/>
         <div class="row" style="margin: 0; direction: rtl; text-align: right;">
             <div style="display: block; padding-right: 15px;">
                 <label class="checklabel">
-                    <input type="checkbox" tabindex="22" id="chkbargh"/>
+                    <input type="checkbox" tabindex="14" id="chkbargh"/>
                     برق
                 </label>
             </div>
             <div id="pnlBargh" style="display: none;">
                 <div class="col-md-3">
                     <label>سیکل :</label>
-                    <input  type="text" id="txtMavaredCycle" tabindex="26" class="form-control" />  
+                    <input  type="text" id="txtMavaredCycle" tabindex="18" class="form-control" />  
                 </div>
                 <div class="col-md-3">
                     <label>فاز :</label>
-                    <input type="text" id="txtMavaredPhaze" tabindex="25" class="form-control" />  
+                    <input type="text" id="txtMavaredPhaze" tabindex="17" class="form-control" />  
                 </div>
                 <div class="col-md-3">
                     <label>ولتاژ :</label>
-                    <input  type="text" id="txtMavaredVoltage" tabindex="24" class="form-control" />
+                    <input  type="text" id="txtMavaredVoltage" tabindex="16" class="form-control" />
                 </div>
                 <div class="col-md-3">
                     <label>مصرف :</label>
-                    <input type="text" id="txtMavaredMasraf" tabindex="23" class="form-control" />
+                    <input type="text" id="txtMavaredMasraf" tabindex="15" class="form-control" />
                 </div>
             </div>
         </div>
@@ -154,7 +154,7 @@
         <div class="row" style="margin: 0; direction: rtl; text-align: right;">
             <div style="display: block; padding-right: 15px;">
                 <label class="checklabel">
-                    <input type="checkbox" tabindex="27" id="chkgaz"/>
+                    <input type="checkbox" tabindex="19" id="chkgaz"/>
                     گاز
                 </label>
             </div>
@@ -162,7 +162,7 @@
                 <div class="col-md-9"></div>
                 <div class="col-md-3">
                     <label>فشار :</label>
-                    <input type="text" id="txtMavaredGazPressure" tabindex="28" class="form-control" />
+                    <input type="text" id="txtMavaredGazPressure" tabindex="20" class="form-control" />
                 </div>
             </div>
         </div>
@@ -170,7 +170,7 @@
         <div class="row" style="margin: 0; direction: rtl; text-align: right;">
             <div style="display: block; padding-right: 15px;">
                 <label class="checklabel">
-                    <input type="checkbox" tabindex="29" id="chkhava"/>
+                    <input type="checkbox" tabindex="21" id="chkhava"/>
                     هوا
                 </label>
             </div>
@@ -178,7 +178,7 @@
                 <div class="col-md-9"></div>
                 <div class="col-md-3">
                     <label>فشار :</label>
-                    <input type="text" id="txtMavaredAirPressure" tabindex="30" class="form-control" />
+                    <input type="text" id="txtMavaredAirPressure" tabindex="22" class="form-control" />
                 </div>
             </div>
         </div>
@@ -186,7 +186,7 @@
         <div class="row" style="margin: 0; direction: rtl; text-align: right;">
             <div style="display: block; padding-right: 15px;">
                 <label class="checklabel">
-                    <input type="checkbox" tabindex="31" id="chksokht"/>
+                    <input type="checkbox" tabindex="23" id="chksokht"/>
                     سوخت مایع
                 </label>
             </div>
@@ -194,18 +194,18 @@
                 <div class="col-md-6"></div>
                 <div class="col-md-3">
                     <label>میزان مصرف :</label>
-                    <input type="text" id="txtMavaredSookhtMasraf" tabindex="33" class="form-control" />
+                    <input type="text" id="txtMavaredSookhtMasraf" tabindex="25" class="form-control" />
                 </div>
                 <div class="col-md-3">
                     <label>نوع سوخت :</label>
-                    <input type="text" id="txtMavaredSookhtType" tabindex="32" class="form-control" />
+                    <input type="text" id="txtMavaredSookhtType" tabindex="24" class="form-control" />
                 </div>
             </div>
         </div>
     </div>
     <div class="panel-footer">
         <button type="button" class="button fa fa-arrow-right" title="صفحه قبل" id="btnMavaredeMasrafiBack"></button>
-        <button type="button" class="button fa fa-arrow-left" title="صفحه بعد" tabindex="34" id="btnMavaredeMasrafiFor"></button>
+        <button type="button" class="button fa fa-arrow-left" title="صفحه بعد" tabindex="26" id="btnMavaredeMasrafiFor"></button>
     </div>
 </div>
     
@@ -217,19 +217,16 @@
         <div class="row" style="margin: 0; direction: rtl; text-align: right;">
             <div class="col-md-12">
                 <label>مورد کنترلی :</label>
-                <input id="txtControliMoredControl" tabindex="35" class="form-control"/>
+                <input id="txtControliMoredControl" tabindex="27" class="form-control"/>
             </div>
-        </div>
-        <hr/>
-      
+        </div>  
         <div class="row" style="margin: 0; direction: rtl; text-align: right;margin-top: 15px;">
-            <div class="col-md-6">
-              
+            <div class="col-md-6">             
             </div>
             <div class="col-md-6">
                 <label style="margin-bottom: 5px;">عملیات</label>
                 <select class="form-control" id="drcontroliOpr">
-                    <option value="1">برق</option>
+                    <option value="1" tabindex="28">برق</option>
                     <option value="2">چک و بازدید</option>
                     <option value="3">روانکاری</option>
                 </select>
@@ -238,18 +235,18 @@
         <div class="row" style="margin: 0; direction: rtl; text-align: right;margin-top: 15px;">
             <div class="col-lg-12">
                 <label>توضیحات :</label>
-                <input class="form-control" tabindex="38" id="txtMavaredComment"/>
+                <input class="form-control" tabindex="29" id="txtMavaredComment"/>
             </div>
         </div>
     </div>
     <div class="panel-footer">
         <button class="button" style="display: none;" type="button" id="btnEditControls" onclick="EditControliItems();">ویرایش</button>
         <button class="button" style="display: none;" type="button" id="btnCancelEditCotntrols" onclick="EmptyControls();">انصراف</button>
-        <button type="button" tabindex="39" id="btnAddControli" class="button" onclick="addControli();">
+        <button type="button" tabindex="30" id="btnAddControli" class="button" onclick="addControli();">
             <span class="fa fa-plus" style="vertical-align:middle;margin-left:5px;"></span>ثبت
         </button>
         <button type="button" class="button fa fa-arrow-right" title="صفحه قبل" id="btnMavaredControlBack"></button>
-        <button type="button" class="button fa fa-arrow-left" title="صفحه بعد" tabindex="40" id="btnMavaredControlFor"></button>
+        <button type="button" class="button fa fa-arrow-left" title="صفحه بعد" tabindex="31" id="btnMavaredControlFor"></button>
     </div>
     <div class="panel-footer">
         <table class="table" id="gridMavaredControli">
@@ -429,8 +426,8 @@
             <div class="panel-body" style="text-align: center;">
                 <strong style="color: red;">** کاربر گرامی **</strong>
                 <p style="font-weight: 800;">
-                    در صورت حذف مورد کنترلی کلیه سوابق ثبت شده سرویسکاری مربوط به آن نیز حذف خواهد شد!<br>
-                    آیا مایل به حذف هستید؟
+                   
+                    آیا مایل به حذف این مورد کنترلی هستید؟
                 </p>
                 <div style="text-align: center;">
                     <button class="button" type="button" onclick="DeleteControls();">حذف</button>
@@ -457,12 +454,14 @@
         </div>
     </div>
 </div>
-
-
-
-<script src="Scripts/MachineBaseJS.js"></script>
-<script src="Scripts/SubSystemJS.js"></script>
+<script src="Scripts/SubSystemBaseJS .js"></script>
 <script src="Scripts/SearchParts.js"></script>
 <script src="Scripts/MachineCode.js"></script>
 <script src="Scripts/copyMachineData.js"></script>
+<script src="Scripts/MachineBaseJS.js"></script>
+
 </asp:Content>
+
+
+
+ 

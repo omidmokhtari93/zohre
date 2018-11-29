@@ -215,6 +215,7 @@
     <Content Include="Scripts\Reply.js" />
     <Content Include="Scripts\SearchParts.js" />
     <Content Include="Scripts\StopReport.js" />
+    <Content Include="Scripts\SubSystemBaseJS .js" />
     <Content Include="Scripts\SubSystemJS.js" />
     <Content Include="Scripts\SubSystemPage.js" />
     <Content Include="Scripts\Tags.js" />

@@ -238,7 +238,28 @@ namespace CMMS
             _cnn.Close();
             return mid;
         }
-
+        [WebMethod]
+        public string BaseMachineInfo(string mid, MachineMainInfo minfo) //Base Information
+        {
+            _cnn.Open();
+            if (Convert.ToInt32(mid) == 0)
+            {
+                var inserMachInfo = new SqlCommand("INSERT INTO [dbo].[b_machine]([name],[imp],[creator],[maModel]," +
+                                                   "[catGroup],[catState],[selinfo],[supinfo])VALUES " +
+                                                   "('" + minfo.Name + "' , " + minfo.Ahamiyat + " , '" + minfo.Creator + "'" +
+                                                   ",'" + minfo.Model + "' ,"+ minfo.CatGroup + " , " + minfo.VaziatTajhiz + " ,'" + minfo.SellInfo + "' , '" + minfo.SuppInfo + "') "+
+                                                   " SELECT CAST(scope_identity() AS int)", _cnn);
+                return inserMachInfo.ExecuteScalar().ToString();
+            }
+            var updateMachine = new SqlCommand(" delete from b_machine where id= "+mid +" " +
+                                               " INSERT INTO [dbo].[b_machine]([name],[imp],[creator],[maModel]," +
+                                               " ,[catGroup],[catState],[selinfo],[supinfo])VALUES " +
+                                               " ('" + minfo.Name + "' , " + minfo.Ahamiyat + " , '" + minfo.Creator + "'" +
+                                               " ,'" + minfo.Model + "' ," + minfo.CatGroup + " , " + minfo.VaziatTajhiz + " ,'" + minfo.SellInfo + "' , '" + minfo.SuppInfo + "') ", _cnn);
+            updateMachine.ExecuteNonQuery();
+            _cnn.Close();
+            return mid;
+        }
         [WebMethod]
         public void SendMasrafi(int mid, MasrafiMain masrafiMain)
         {
@@ -276,7 +297,43 @@ namespace CMMS
             insertFuel.ExecuteNonQuery();
             _cnn.Close();
         }
-
+        [WebMethod]
+        public void BSendMasrafi(int mid, MasrafiMain masrafiMain) //Base Information
+        {
+            _cnn.Open();
+            var insertFuel = new SqlCommand(
+                "if (select count(Mid) from b_fuel where Mid = " + mid + ") <> 0  " +
+                "UPDATE [dbo].[b_fuel] " +
+                "SET[length] = '" + masrafiMain.Length + "' " +
+                ",[width] = '" + masrafiMain.Width + "' " +
+                ",[height] = '" + masrafiMain.Height + "' " +
+                ",[weight] = '" + masrafiMain.Weight + "' " +
+                ",[ele] = " + masrafiMain.BarghChecked + " " +
+                ",[masraf] = '" + masrafiMain.Masraf + "' " +
+                ",[voltage] = '" + masrafiMain.Voltage + "' " +
+                ",[phase] = '" + masrafiMain.Phase + "' " +
+                ",[cycle] = '" + masrafiMain.Cycle + "' " +
+                ",[gas] = " + masrafiMain.GasChecked + " " +
+                ",[gasPres] = '" + masrafiMain.GasPressure + "' " +
+                ",[air] = " + masrafiMain.AirChecked + " " +
+                ",[airPres] = '" + masrafiMain.AirPressure + "' " +
+                ",[fuel] = " + masrafiMain.FuelChecked + " " +
+                ",[fuelType] = '" + masrafiMain.FuelType + "' " +
+                ",[fueltot] = '" + masrafiMain.FuelMasraf + "' " +
+                "WHERE Mid = " + mid + " " +
+                " else " +
+                "INSERT INTO [dbo].[b_fuel]([Mid],[length],[width],[height],[weight],[ele],[masraf] " +
+                ",[voltage],[phase],[cycle],[gas],[gasPres],[air],[airPres],[fuel],[fuelType],[fueltot]) " +
+                "VALUES(" + mid + ",'" + masrafiMain.Length + "','" + masrafiMain.Width + "','" +
+                masrafiMain.Height + "','" + masrafiMain.Weight + "'," +
+                " " + masrafiMain.BarghChecked + " , '" + masrafiMain.Masraf + "' , '" + masrafiMain.Voltage + "','" +
+                masrafiMain.Phase + "','" + masrafiMain.Cycle + "'," +
+                " " + masrafiMain.GasChecked + ",'" + masrafiMain.GasPressure + "'," + masrafiMain.AirChecked + ",'" +
+                masrafiMain.AirPressure + "'," + masrafiMain.FuelChecked + "" +
+                ",'" + masrafiMain.FuelType + "','" + masrafiMain.FuelMasraf + "')", _cnn);
+            insertFuel.ExecuteNonQuery();
+            _cnn.Close();
+        }
         [WebMethod]
         public void DeleteControlItem(int controlId)
         {
@@ -286,8 +343,15 @@ namespace CMMS
             deleteItems.ExecuteNonQuery();
             _cnn.Close();
         }
+        [WebMethod]
+        public void BDeleteControlItem(int controlId)//Base Information
+        {
+            _cnn.Open();
+            var deleteItems = new SqlCommand("delete from b_control where id =" + controlId + " ", _cnn);
+            deleteItems.ExecuteNonQuery();
+            _cnn.Close();
+        }
 
-       
         public void InsertControli(string IdCon,string Tarikh,int Kind,string week,string other)
         {            
             var Pmcontrol =
@@ -442,7 +506,20 @@ namespace CMMS
             }
             _cnn.Close();
         }
+        [WebMethod]
+        public void BSendGridControli(int mid, List<Controls> controls) //Base Information
+        {
+            _cnn.Open();
+            foreach (var item in controls)
+            {
+                var selectrepeatrow = new SqlCommand("delete from b_control where Mid="+mid+""+
+                    "INSERT INTO [dbo].[b_control]([Mid],[contName],[opr],[comment])" +
+                    "VALUES(" + mid + ",'" + item.Control + "'," + item.Operation + "," + "'" + item.Comment + "')", _cnn);
 
+                selectrepeatrow.ExecuteNonQuery();               
+            }
+            _cnn.Close();
+        }
         [WebMethod]
         public void SendSubSystem(int mid, List<SubSystems> subSystem)
         {
@@ -458,7 +535,21 @@ namespace CMMS
             }
             _cnn.Close();
         }
-
+        [WebMethod]
+        public void BSendSubSystem(int mid, List<SubSystems> subSystem) //Base Information
+        {
+            _cnn.Open();
+            var checkExistSub = new SqlCommand("delete from b_subsystem where Mid = " + mid + " ", _cnn);
+            checkExistSub.ExecuteNonQuery();
+            foreach (var item in subSystem)
+            {
+                var insertParts = new SqlCommand(
+                    "INSERT INTO [dbo].[b_subsystem](Mid , subId)" +
+                    "VALUES(" + mid + "," + item.SubSystemId + ")", _cnn);
+                insertParts.ExecuteNonQuery();
+            }
+            _cnn.Close();
+        }
         [WebMethod]
         public void DeletePartItem(int partId)
         {
@@ -468,7 +559,28 @@ namespace CMMS
             deleteItems.ExecuteNonQuery();
             _cnn.Close();
         }
-
+        [WebMethod]
+        public void BDeletePartItem(int partId)//base information
+        {
+            _cnn.Open();
+            var deleteItems = new SqlCommand("delete from b_parts where id =" + partId + "  ", _cnn);
+            deleteItems.ExecuteNonQuery();
+            _cnn.Close();
+        }
+        [WebMethod]
+        public void BSendGridGhataat(int mid, List<Parts> parts) //Base Information
+        {
+            _cnn.Open();
+            foreach (var item in parts)
+            {
+                var insertParts = new SqlCommand("delete from b_parts where Mid="+mid+" "+
+                     "INSERT INTO [dbo].[b_parts]([Mid],[PartId],[mYear],[min],[max]) " +
+                    "VALUES(" + mid + "," + item.PartId + " ,'" + item.UsePerYear + "','" + item.Min + "'," +
+                    "'" + item.Max + "') ", _cnn);
+                insertParts.ExecuteNonQuery();
+            }
+            _cnn.Close();
+        }
         [WebMethod]
         public void SendGridGhataat(int mid, List<Parts> parts)
         {
@@ -539,7 +651,21 @@ namespace CMMS
             }
             _cnn.Close();
         }
-
+        [WebMethod]
+        public void BSendInstru(int mid, string dastoor) //Base Information
+        {
+            _cnn.Open();
+            var insertInstruct = new SqlCommand(
+                "if (select count(Mid) from b_inst where Mid = " + mid + ") <> 0 " +
+                "UPDATE [dbo].[m_inst] " +
+                "SET[inst] = '" + dastoor + "' " +
+                "WHERE Mid = " + mid + " " +
+                " else " +
+                "INSERT INTO [dbo].[b_inst]([Mid],[inst])VALUES" +
+                "(" + mid + ",'" + dastoor + "')", _cnn);
+            insertInstruct.ExecuteNonQuery();
+            _cnn.Close();
+        }
         [WebMethod]
         public void SendInstru(int mid, List<Instructions> instructions, string dastoor)
         {
@@ -953,7 +1079,7 @@ namespace CMMS
             _cnn.Close();
             return new JavaScriptSerializer().Serialize(filteredSubList);
         }
-
+       
         [WebMethod]
         public string FilterTagedDevices(string device)
         {

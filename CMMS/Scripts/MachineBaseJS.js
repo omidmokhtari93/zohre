@@ -24,9 +24,6 @@ $(document).ready(function () {
         , gotoToday: true
     }
     kamaDatepicker('txtDastoorTarikh', customOptions);
-    kamaDatepicker('txtStartPMDate', customOptions);
-    kamaDatepicker('txtGhatatChangePeriod', customOptions);
-    Pageload();
 });
 
 $('#chkbargh').change(function () {
@@ -74,27 +71,27 @@ $('#chkModiriatEnergy').change(function () {
         $("#pnlModiriatEnergy").fadeOut();
     }
 });
-$('#drControliZaman').change(function() {
-    if ($('#drControliZaman :selected').val() !== 0 &&
-        $('#drControliZaman :selected').val() !== 6) {
-        $('#pnlcontroliRooz').show();
-        $('#pnlControliWeek').hide();
-        $('#pnlcontroliRooz').find('label').text('روزپیش بینی شده در ماه :');
-    }
-    if ($('#drControliZaman :selected').val() == 6) {
-        $('#pnlControliWeek').show();   
-        $('#pnlcontroliRooz').hide();
-    }
-    if ($('#drControliZaman :selected').val() == 0) {
-        $('#pnlControliWeek').hide();
-        $('#pnlcontroliRooz').hide();
-    }
-    if ($('#drControliZaman :selected').val() == 5) {
-        $('#pnlcontroliRooz').show();
-        $('#pnlControliWeek').hide();
-        $('#pnlcontroliRooz').find('label').text('دوره تکرار :');
-    }
-});
+//$('#drControliZaman').change(function() {
+//    if ($('#drControliZaman :selected').val() !== 0 &&
+//        $('#drControliZaman :selected').val() !== 6) {
+//        $('#pnlcontroliRooz').show();
+//        $('#pnlControliWeek').hide();
+//        $('#pnlcontroliRooz').find('label').text('روزپیش بینی شده در ماه :');
+//    }
+//    if ($('#drControliZaman :selected').val() == 6) {
+//        $('#pnlControliWeek').show();   
+//        $('#pnlcontroliRooz').hide();
+//    }
+//    if ($('#drControliZaman :selected').val() == 0) {
+//        $('#pnlControliWeek').hide();
+//        $('#pnlcontroliRooz').hide();
+//    }
+//    if ($('#drControliZaman :selected').val() == 5) {
+//        $('#pnlcontroliRooz').show();
+//        $('#pnlControliWeek').hide();
+//        $('#pnlcontroliRooz').find('label').text('دوره تکرار :');
+//    }
+//});
 $('#btnNewMachineFor').on('click', function () {
    
     if ($('#txtmachineName').val() === '') {
@@ -117,52 +114,23 @@ $('#btnNewMachineFor').on('click', function () {
 
 function checkControliInputs() {
     var flag = 0;
-    if (checkPastDate('txtStartPMDate') == false) {RedAlert('txtStartPMDate', "!!تاریخ شروع سرویسکاری باید بزرگتر از  تاریخ امروز باشد"); flag = 1;}
-    if ($('#txtControliMoredControl').val() == '') {RedAlert('txtControliMoredControl', "!!لطفا مورد کنترلی را وارد نمایید");flag = 1;}
-    if ($('#txtStartPMDate').val() == '') {RedAlert('txtStartPMDate', "!!لطفا تاریخ شروع سرویسکاری را مشخص نمایید");flag = 1;}
-    if ($('#drControliZaman :selected').val() != 6 && $('#drControliZaman :selected').val() != 0 && $('#drControliZaman :selected').val() != 5 && $('#txtControliRooz').val() == '') { RedAlert('txtControliRooz', "!!لطفا مدت زمان پیش بینی شده را مشخص کنید"); flag = 1; }
-    if ($('#drControliZaman :selected').val() != 6 && $('#drControliZaman :selected').val() != 0 && $('#drControliZaman :selected').val() != 5 && $('#txtControliRooz').val() === '31') { RedAlert('txtControliRooz', "!!این مقدار نمیتواند به عنون روز پیش بینی شده ثبت گردد"); flag = 1; }
-    if ($('#drControliZaman :selected').val() == 5 && $('#txtControliRooz').val() == '') {RedAlert('txtControliRooz', "!!لطفا دوره تکرار را مشخص کنید");flag = 1;}
+  
+    if ($('#txtControliMoredControl').val() === '') {RedAlert('txtControliMoredControl', "!!لطفا مورد کنترلی را وارد نمایید");flag = 1;}
+   
     return flag;
 }
 function addControli() {
     if (checkControliInputs() === 0) {
-        var mdControl = document.getElementById('servicebale');
-        var mdcont = 'خیر';
-        var mdCountValue = 0;
-        if (mdControl.checked) {
-            mdcont = 'بله';
-            mdCountValue = 1;
-        }
+       
         var mored = $('#txtControliMoredControl').val();
-        var zaman = $('#drControliZaman :selected').text();
-        var zamanValue = $('#drControliZaman :selected').val();
-        var rooz = $('#txtControliRooz').val();
-        var roozValue = 0;
-        if (zamanValue == 6) {
-            rooz = $('#drControlWeek :selected').text();
-            roozValue = $('#drControlWeek :selected').val(); 
-        }
-        if (zamanValue == 0) {
-            rooz = '----';
-        }
-        if (zamanValue == 5) {
-            rooz = 'هر ' + $('#txtControliRooz').val() + ' روز';
-            roozValue = $('#txtControliRooz').val(); 
-        }
-        if (zamanValue != 6 && zamanValue != 0 && zamanValue != 5) {
-            roozValue = $('#txtControliRooz').val();
-            rooz = $('#txtControliRooz').val();
-        }
+       
         var comm = $('#txtMavaredComment').val();
         var head = '<thead>' +
             '<tr>' +
             '<th>مورد کنترلی</th>' +
-            '<th>دوره تکرار</th>' +
-            '<th>روز پیش بینی شده</th>' +
-            '<th>نمایش برای سرویسکاری</th>' +
+           
             '<th>عملیات</th>' +
-            '<th>تاریخ شروع سرویسکاری</th>' +
+          
             '<th>ملاحظات</th>' +
             '<th></th>' +
             '<th></th>' +
@@ -172,18 +140,14 @@ function addControli() {
         var row = '<tr>' +
             '<td style="display:none;">0</td>' +
             '<td style="display:none;">' + mored + '</td>' +
-            '<td style="display:none;">' + zamanValue + '</td>' +
-            '<td style="display:none;">' + roozValue + '</td>' +
-            '<td style="display:none;">' + mdCountValue + '</td>' +
+          
             '<td style="display:none;">' + $('#drcontroliOpr :selected').val() + '</td>' +
-            '<td style="display:none;">' + $('#txtStartPMDate').val() + '</td>' +
+          
             '<td style="display:none;">' + comm + '</td>' +
             '<td>' + mored + '</td>' +
-            '<td>' + zaman + '</td>' +
-            '<td>' + rooz + '</td>' +
-            '<td>' + mdcont + '</td>' +
+            
             '<td>' + $('#drcontroliOpr :selected').text() + '</td>' +
-            '<td>' + $('#txtStartPMDate').val() + '</td>' +
+           
             '<td>' + comm + '</td>' +
             '<td><a id="edit">ویرایش</a></td>' +
             '<td><a id="delete">حذف</a></td>' +
@@ -211,36 +175,16 @@ $("#gridMavaredControli").on("click", "tr a#edit", function () {
     target_tr = $(this).parent().parent();
     controlId = $(this).parent().parent().find('td:eq(0)').text();
     rowItems.push({
-        Name: $(this).parent().parent().find('td:eq(1)').text(),
-        Period: $(this).parent().parent().find('td:eq(2)').text(),
-        Day: $(this).parent().parent().find('td:eq(3)').text(),
-        Service: $(this).parent().parent().find('td:eq(4)').text(),
-        Operation: $(this).parent().parent().find('td:eq(5)').text(),
-        Date: $(this).parent().parent().find('td:eq(6)').text(),
-        Comment: $(this).parent().parent().find('td:eq(7)').text()
+        Name: $(this).parent().parent().find('td:eq(1)').text(),      
+        Operation: $(this).parent().parent().find('td:eq(2)').text(),     
+        Comment: $(this).parent().parent().find('td:eq(3)').text()
     });
     FillControls(rowItems);
 });
 
 function FillControls(items) {
-    $('#txtControliMoredControl').val(items[0].Name);
-    $('#drControliZaman').val(items[0].Period);
-    if (items[0].Period != 0 && items[0].Period != 6) {
-        $('#pnlControliWeek').hide();
-        $('#pnlcontroliRooz').show();
-        $('#txtControliRooz').val(items[0].Day);
-    } else if (items[0].Period == 6) {
-        $('#pnlControliWeek').show();
-        $('#pnlcontroliRooz').hide();
-        $('#drControlWeek').val(items[0].Day);
-    }
-    if (items[0].Service == 1) {
-        document.getElementById('servicebale').checked = true;
-    } else {
-        document.getElementById('servicekheyr').checked = true;
-    }
+    $('#txtControliMoredControl').val(items[0].Name);   
     $('#drcontroliOpr').val(items[0].Operation);
-    $('#txtStartPMDate').val(items[0].Date);
     $('#txtMavaredComment').val(items[0].Comment);
     $('#btnEditControls').show();
     $('#btnCancelEditCotntrols').show();
@@ -248,7 +192,7 @@ function FillControls(items) {
 function DeleteControls() {
     $.ajax({
         type: "POST",
-        url: "WebService.asmx/DeleteControlItem",
+        url: "WebService.asmx/BDeleteControlItem",
         data: "{controlId : " + controlId + "}",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -271,50 +215,23 @@ function DeleteControls() {
 function EditControliItems() {
     if (checkControliInputs() === 0) {
         $(target_tr).find('td:eq(1)').text($('#txtControliMoredControl').val());
-        $(target_tr).find('td:eq(8)').text($('#txtControliMoredControl').val());
-        $(target_tr).find('td:eq(2)').text($('#drControliZaman :selected').val());
-        $(target_tr).find('td:eq(9)').text($('#drControliZaman :selected').text());
-        var period = $('#drControliZaman :selected').val();
-        if (period == 6) {
-            $(target_tr).find('td:eq(3)').text($('#drControlWeek :selected').val());
-            $(target_tr).find('td:eq(10)').text($('#drControlWeek :selected').text());
-        }
-        if (period == 0) {
-            $(target_tr).find('td:eq(3)').text(0);
-            $(target_tr).find('td:eq(10)').text('----');
-        }
-        if (period == 5) {
-            $(target_tr).find('td:eq(3)').text($('#txtControliRooz').val());
-            $(target_tr).find('td:eq(10)').text('هر ' + $('#txtControliRooz').val() + ' روز');
-        }
-        if (period != 6 && period != 0 && period != 5) {
-            $(target_tr).find('td:eq(3)').text($('#txtControliRooz').val());
-            $(target_tr).find('td:eq(10)').text($('#txtControliRooz').val());
-        }
-        if ($('#servicebale').is(':checked')) {
-            $(target_tr).find('td:eq(4)').text(1);
-            $(target_tr).find('td:eq(11)').text('بله');
-        } else {
-            $(target_tr).find('td:eq(4)').text(0);
-            $(target_tr).find('td:eq(11)').text('خیر');
-        }
-        $(target_tr).find('td:eq(5)').text($('#drcontroliOpr :selected').val());
-        $(target_tr).find('td:eq(12)').text($('#drcontroliOpr :selected').text());
-        $(target_tr).find('td:eq(6)').text($('#txtStartPMDate').val());
-        $(target_tr).find('td:eq(13)').text($('#txtStartPMDate').val());
-        $(target_tr).find('td:eq(7)').text($('#txtMavaredComment').val());
-        $(target_tr).find('td:eq(14)').text($('#txtMavaredComment').val());
+        $(target_tr).find('td:eq(4)').text($('#txtControliMoredControl').val());
+        
+        $(target_tr).find('td:eq(2)').text($('#drcontroliOpr :selected').val());
+        $(target_tr).find('td:eq(5)').text($('#drcontroliOpr :selected').text());
+       
+        $(target_tr).find('td:eq(3)').text($('#txtMavaredComment').val());
+        $(target_tr).find('td:eq(6)').text($('#txtMavaredComment').val());
         EmptyControls();
         GreenAlert(target_tr,"✔ مورد کنترلی ویرایش شد");
     }
 }
 function EmptyControls() {
     ClearFields('pnlMavaredControli');
-    $('#pnlControliWeek').hide();
-    $('#pnlcontroliRooz').hide();
+  
     $('#btnEditControls').hide();
     $('#btnCancelEditCotntrols').hide();
-    document.getElementById('servicebale').checked = true;
+   
     rowItems = [];
 }
 function addParts() {
@@ -337,8 +254,6 @@ function addParts() {
             '<th>مصرف در سال</th>' +
             '<th>حداقل</th>' +
             '<th>حداکثر</th>' +
-            '<th>پریود تعویض</th>' +
-            '<th>ملاحظات</th>' +
             '<th></th>' +
             '<th></th>' +
             '</tr>' +
@@ -350,8 +265,6 @@ function addParts() {
             '<td>' + $('#txtGhatatPerYear').val() + '</td>' +
             '<td>' + $('#txtGhatatMin').val() + '</td>' +
             '<td>' + $('#txtGhatatMax').val() + '</td>' +
-            '<td>' + $('#txtGhatatChangePeriod').val() + '</td>' +
-            '<td>' + $('#txtGhatatCom').val() + '</td>' +
             '<td><a id="editPart">ویرایش</a></td>' +
             '<td><a id="deletePart">حذف</a></td>' +
             '</tr>';
@@ -372,7 +285,7 @@ function addParts() {
 }
 function checkPartInputs() {
     var flag = 0;
-    if ($('#txtGhatatChangePeriod').val() != '') {if (checkPastDate('txtGhatatChangePeriod') == false) { RedAlert('txtGhatatChangePeriod', "!!تاریخ انتخاب شده باید بزرگتر از  تاریخ امروز باشد"); flag = 1; }}
+   
     if ($('#txtGhatatMax').val() == '') { RedAlert('txtGhatatMax', "!!لطفا حداکثر قطعه مصرفی در سال را مشخص کنید"); flag = 1; }
     if ($('#txtGhatatMin').val() == '') { RedAlert('txtGhatatMin', "!!لطفا حداقل قطعه مصرفی در سال را مشخص کنید"); flag = 1; }
     if ($('#txtGhatatPerYear').val() == '') { RedAlert('txtGhatatPerYear', "!!لطفا میزان مصرف در سال را مشخص کنید"); flag = 1; }
@@ -397,8 +310,6 @@ $("#gridGhataatMasrafi").on("click", "tr a#editPart", function () {
     $('#txtGhatatPerYear').val($(this).parent().parent().find('td:eq(3)').text());
     $('#txtGhatatMin').val($(this).parent().parent().find('td:eq(4)').text());
     $('#txtGhatatMax').val($(this).parent().parent().find('td:eq(5)').text());
-    $('#txtGhatatChangePeriod').val($(this).parent().parent().find('td:eq(6)').text());
-    $('#txtGhatatCom').val($(this).parent().parent().find('td:eq(7)').text());
     $('#btnEditPart').show();
     $('#btnCancelEditPart').show();
 });
@@ -432,8 +343,6 @@ function editParts() {
         $(target_tr).find('td:eq(3)').text($('#txtGhatatPerYear').val());
         $(target_tr).find('td:eq(4)').text($('#txtGhatatMin').val());
         $(target_tr).find('td:eq(5)').text($('#txtGhatatMax').val());
-        $(target_tr).find('td:eq(6)').text($('#txtGhatatChangePeriod').val());
-        $(target_tr).find('td:eq(7)').text($('#txtGhatatCom').val());
         ClearFields('pnlGhatatMasrafi');
         $('#PartBadgeArea').find('div').remove();
         partData = [];
@@ -447,7 +356,7 @@ function editParts() {
 function DeletePart() {
     $.ajax({
         type: "POST",
-        url: "WebService.asmx/DeletePartItem",
+        url: "WebService.asmx/BDeletePartItem",
         data: "{partId : " + partId + "}",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -512,91 +421,15 @@ $('#btnGhatatFor').on('click', function () {
         $('#pnlGhatatMasrafi').hide();
         $('#pnlDastoor').fadeIn();
 });
-function checkModEnergy() {
-    if ($('#txtDastoorTarikh').val() == '') {
-        RedAlert('txtDastoorTarikh', "!!لطفا تاریخ مراجعه را وارد کنید");
-    }
-    if ($('#txtDastoorMachineType').val() == '') {
-        RedAlert('txtDastoorMachineType', "!!لطفا نوع دستگاه را مشخص کنید");
-    }
-    if ($('#txtDastoorAmper1').val() == '') {
-        RedAlert('txtDastoorAmper1', "!!لطفا آمپر فاز 1 را مشخص کنید");
-    }
-    if ($('#txtDastoorVP1').val() == '') {
-        RedAlert('txtDastoorVP1', "!!لطفا ولتاژ فاز 1 را مشخص کنید");
-    }
-}
-function insertEnergy() {
-    if ($('#txtDastoorTarikh').val() == '' || $('#txtDastoorMachineType').val() == ''
-        || $('#txtDastoorAmper1').val() == '' || $('#txtDastoorVP1').val() == '') {
-        checkModEnergy();
-    } else {
-        createEnergyTable();
-    }
-}
-$("#gridEnergy").on("click", "tr a", function () {
-    var row = $('#gridEnergy tr').length;
-    if (row == 2) {
-        $("#gridEnergy thead").remove();
-        $("#gridEnergy tbody").remove();
-    } else {
-        $(this).parent().parent().remove();
-    }
-});
-function createEnergyTable() {
-    var head = '<thead>' +
-        '<tr>' +
-        '<th>تاریخ مراجعه</th>' +
-        '<th>نام دستگاه</th>' +
-        '<th>آمپرفاز 1</th>' +
-        '<th>آمپرفاز 2</th>' +
-        '<th>آمپرفاز 3</th>' +
-        '<th>ولتاژفاز 1</th>' +
-        '<th>ولتاژفاز 2</th>' +
-        '<th>ولتاژفاز 3</th>' +
-        '<th>PF</th>' +
-        '<th></th>' +
-        '</tr>' +
-        '</thead>';
-    var body = '<tbody></tbody>';
-    var row = '<tr>' +
-        '<td>' + $('#txtDastoorTarikh').val() + '</td>' +
-        '<td>' + $('#txtDastoorMachineType').val() + '</td>' +
-        '<td>' + $('#txtDastoorAmper1').val() + '</td>' +
-        '<td>' + $('#txtDastoorAmper2').val() + '</td>' +
-        '<td>' + $('#txtDastoorAmper3').val() + '</td>' +
-        '<td>' + $('#txtDastoorVP1').val() + '</td>' +
-        '<td>' + $('#txtDastoorVP2').val() + '</td>' +
-        '<td>' + $('#txtDastoorVP3').val() + '</td>' +
-        '<td>' + $('#txtDastoorPF').val() + '</td>' +
-        '<td><a>حذف</a></td>' +
-        '</tr>';
-    if ($('#gridEnergy tr').length != 0) {
-        $("#gridEnergy tbody").append(row);
-    } else {
-        $("#gridEnergy").append(head);
-        $("#gridEnergy").append(body);
-        $("#gridEnergy tbody").append(row);
-    }
-    ClearFields('pnlModiriatEnergy');
-}
+
+
+
+
 $('#btnDastoorBack').on('click', function () {
     $('#pnlDastoor').hide();
     $('#pnlGhatatMasrafi').fadeIn();
 });
-$('#haveCatalog').change(function () {
-    if (document.getElementById('haveCatalog').checked) {
-        $('#pnlCatalog').show();
-    }
-});
-$('#noCatalog').change(function () {
-    if (document.getElementById('noCatalog').checked) {
-        $('#pnlCatalog').hide();
-        $('#file1').val('');
-        $('#txtcatcode').val('');
-        $('#txtcatname').val('');
-    }
-});
+
 function SendTablesToDB() {
     $('#btnFinalSave').animate({ 'padding-left': '40px', 'padding-right': '10px' });
     $('#btnFinalLoading').fadeIn(20);
@@ -605,26 +438,18 @@ function SendTablesToDB() {
     function machinMainData() {
         var obj = {};
         obj.Name = $('#txtmachineName').val();
-        obj.Code = $('#txtmachineCode').val();
-        obj.Catalog = $(document).find('input[name=switch_1]:checked').attr('value');
-        obj.CatName = $('#txtcatname').val();
-        obj.CatCode = $('#txtcatcode').val();
+        
+       
         obj.Ahamiyat = $(document).find('input[name=switch_2]:checked').attr('value');
         obj.Creator = $('#txtMachineManufacturer').val();
-        obj.InsDate = $('#txtMachineNasbDate').val();
+       
         obj.Model = $('#txtMachineModel').val();
-        obj.Tarikh = $('#txtmachineTarikh').val();
-        obj.Location = $('#drMAchineLocateion :selected').val();
-        obj.Line = $('#drLine :selected').val();
-        obj.Faz = $('#drFaz :selected').val();
-        obj.Power = $('#txtMachinePower').val();
-        if ($('#txtstopperhour').val() == '') {obj.StopCostPerHour = 0;} else {obj.StopCostPerHour = $('#txtstopperhour').val();}
+       
+       
+        
         obj.CatGroup = $('#drCatGroup :selected').val();
         obj.VaziatTajhiz = $(document).find('input[name=switch_21]:checked').attr('value');
-        obj.MtbfH = $('#txttargetMTBF').val();
-        obj.MtbfD = $('#txtAdmissionperiodMTBF').val();
-        obj.MttrH = $('#txttargetMTTR').val();
-        obj.MttrD = $('#txtAdmissionperiodMTTR').val();
+       
         obj.SellInfo = $('#txtSelInfo').val();
         obj.SuppInfo = $('#txtSupInfo').val();
         return obj;
@@ -638,7 +463,7 @@ function SendTablesToDB() {
         }
         $.ajax({
             type: "POST",
-            url: "WebService.asmx/MachineInfo",
+            url: "WebService.asmx/BaseMachineInfo",
             data: JSON.stringify({ 'mid': machineId,'minfo': machinMainData() }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -699,7 +524,7 @@ function SendTablesToDB() {
     function sendMasrafi() {
         $.ajax({
             type: "POST",
-            url: "WebService.asmx/SendMasrafi",
+            url: "WebService.asmx/BSendMasrafi",
             data: JSON.stringify({'mid': machinId, 'masrafiMain': masrafiDataMain()}),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -722,17 +547,15 @@ function SendTablesToDB() {
             controliArr.push({
                 Idcontrol: table.rows[i].cells[0].innerHTML,
                 Control: table.rows[i].cells[1].innerHTML,
-                Time: table.rows[i].cells[2].innerHTML,
-                Day: table.rows[i].cells[3].innerHTML,
-                MDservice: table.rows[i].cells[4].innerHTML,
-                Operation: table.rows[i].cells[5].innerHTML,
-                PmDate: table.rows[i].cells[6].innerHTML,
-                Comment: table.rows[i].cells[7].innerHTML
+              
+                Operation: table.rows[i].cells[2].innerHTML,
+              
+                Comment: table.rows[i].cells[3].innerHTML
             });
         }
         $.ajax({
             type: "POST",
-            url: "WebService.asmx/SendGridControli",
+            url: "WebService.asmx/BSendGridControli",
             data: JSON.stringify({ 'mid': machinId, 'controls': controliArr }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -757,7 +580,7 @@ function SendTablesToDB() {
         }
         $.ajax({
             type: "POST",
-            url: "WebService.asmx/SendSubSystem",
+            url: "WebService.asmx/BSendSubSystem",
             data: JSON.stringify({ 'mid': machinId, 'subSystem': subSystem }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -785,14 +608,13 @@ function SendTablesToDB() {
                 PartId: table.rows[i].cells[1].innerHTML,
                 UsePerYear: table.rows[i].cells[3].innerHTML,
                 Min: table.rows[i].cells[4].innerHTML,
-                Max: table.rows[i].cells[5].innerHTML,
-                ChangePeriod: table.rows[i].cells[6].innerHTML,
-                Comment: table.rows[i].cells[7].innerHTML
+                Max: table.rows[i].cells[5].innerHTML
+               
             });
         }
         $.ajax({
             type: "POST",
-            url: "WebService.asmx/SendGridGhataat",
+            url: "WebService.asmx/BSendGridGhataat",
             data: JSON.stringify({ 'mid': machinId, 'parts': partsArr }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -807,26 +629,12 @@ function SendTablesToDB() {
         });
     }
     function sendInstr() {
-        var table = document.getElementById("gridEnergy");
-        var energyArr = [];
-        for (var i = 1; i < table.rows.length; i++) {
-            energyArr.push({
-                Tarikh: table.rows[i].cells[0].innerHTML,
-                MachineType: table.rows[i].cells[1].innerHTML,
-                AP1: table.rows[i].cells[2].innerHTML,
-                AP2: table.rows[i].cells[3].innerHTML,
-                AP3: table.rows[i].cells[4].innerHTML,
-                VP1: table.rows[i].cells[5].innerHTML,
-                VP2: table.rows[i].cells[6].innerHTML,
-                VP3: table.rows[i].cells[7].innerHTML,
-                PF: table.rows[i].cells[8].innerHTML
-            });
-        }
+        
         var dastoorText =  $('#txtInstruc').val();
         $.ajax({
             type: "POST",
-            url: "WebService.asmx/SendInstru",
-            data: JSON.stringify({ 'mid': machinId, 'instructions': energyArr, 'dastoor': dastoorText}),
+            url: "WebService.asmx/BSendInstru",
+            data: JSON.stringify({ 'mid': machinId, 'dastoor': dastoorText}),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function () {
@@ -900,7 +708,7 @@ function SendTablesToDB() {
     }
 }
 
-
+Pageload();
 function Pageload() {
     FillPopUpToolsTable();
     GetMachineTooltipData();
