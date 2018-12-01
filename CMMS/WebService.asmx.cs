@@ -251,11 +251,17 @@ namespace CMMS
                                                    " SELECT CAST(scope_identity() AS int)", _cnn);
                 return inserMachInfo.ExecuteScalar().ToString();
             }
-            var updateMachine = new SqlCommand(" delete from b_machine where id= "+mid +" " +
-                                               " INSERT INTO [dbo].[b_machine]([name],[imp],[creator],[maModel]," +
-                                               " ,[catGroup],[catState],[selinfo],[supinfo])VALUES " +
-                                               " ('" + minfo.Name + "' , " + minfo.Ahamiyat + " , '" + minfo.Creator + "'" +
-                                               " ,'" + minfo.Model + "' ," + minfo.CatGroup + " , " + minfo.VaziatTajhiz + " ,'" + minfo.SellInfo + "' , '" + minfo.SuppInfo + "') ", _cnn);
+            var updateMachine = new SqlCommand("UPDATE [dbo].[m_machine] " +
+                                               "SET[name] = '" + minfo.Name + "' " +
+                                               ",[code] = '" + minfo.Code + "' " +
+                                               ",[imp] = " + minfo.Ahamiyat + " " +
+                                               ",[creator] = '" + minfo.Creator + "' " +                                          
+                                               ",[maModel] = '" + minfo.Model + "' " +                                              
+                                               ",[catGroup] = " + minfo.CatGroup + " " +
+                                               ",[catState] = " + minfo.VaziatTajhiz + " " +                                      
+                                               ",[selinfo] = '" + minfo.SellInfo + "' " +
+                                               ",[supinfo] = '" + minfo.SuppInfo + "' " +
+                                               "WHERE id = " + mid + " ", _cnn);
             updateMachine.ExecuteNonQuery();
             _cnn.Close();
             return mid;
@@ -510,10 +516,11 @@ namespace CMMS
         public void BSendGridControli(int mid, List<Controls> controls) //Base Information
         {
             _cnn.Open();
+            var cmdDellControlBefor=new SqlCommand("delete from b_control where Mid=" + mid + "", _cnn);
+            cmdDellControlBefor.ExecuteNonQuery();
             foreach (var item in controls)
             {
-                var selectrepeatrow = new SqlCommand("delete from b_control where Mid="+mid+""+
-                    "INSERT INTO [dbo].[b_control]([Mid],[contName],[opr],[comment])" +
+                var selectrepeatrow = new SqlCommand("INSERT INTO [dbo].[b_control]([Mid],[contName],[opr],[comment])" +
                     "VALUES(" + mid + ",'" + item.Control + "'," + item.Operation + "," + "'" + item.Comment + "')", _cnn);
 
                 selectrepeatrow.ExecuteNonQuery();               
@@ -571,10 +578,11 @@ namespace CMMS
         public void BSendGridGhataat(int mid, List<Parts> parts) //Base Information
         {
             _cnn.Open();
+            var cmdDellPart= new SqlCommand("delete from b_parts where Mid=" + mid + " ",_cnn);
+            cmdDellPart.ExecuteNonQuery();
             foreach (var item in parts)
             {
-                var insertParts = new SqlCommand("delete from b_parts where Mid="+mid+" "+
-                     "INSERT INTO [dbo].[b_parts]([Mid],[PartId],[mYear],[min],[max]) " +
+                var insertParts = new SqlCommand("INSERT INTO [dbo].[b_parts]([Mid],[PartId],[mYear],[min],[max]) " +
                     "VALUES(" + mid + "," + item.PartId + " ,'" + item.UsePerYear + "','" + item.Min + "'," +
                     "'" + item.Max + "') ", _cnn);
                 insertParts.ExecuteNonQuery();
@@ -753,7 +761,37 @@ namespace CMMS
             _cnn.Close();
             return new JavaScriptSerializer().Serialize(minfo);
         }
-
+        [WebMethod]
+        public string GetMachineBaseTbl(int mid)
+        {
+            var minfo = new List<MachineMainInfo>();
+            _cnn.Open();
+            var getMachInfo = new SqlCommand(
+                " SELECT dbo.b_machine.name,dbo.b_machine.imp, dbo.b_machine.creator, dbo.b_machine.maModel, " +
+                " dbo.b_machine.catGroup, dbo.b_machine.catState, " +
+                " dbo.b_machine.selinfo, dbo.b_machine.supinfo " +
+                " FROM dbo.b_machine WHERE(dbo.b_machine.id = " + mid + ") ", _cnn);
+            var rd = getMachInfo.ExecuteReader();
+            if (rd.Read())
+            {
+                minfo.AddRange(new List<MachineMainInfo>
+                {
+                    new MachineMainInfo
+                    {
+                        Name = rd["name"].ToString(),                      
+                        Ahamiyat = rd["imp"].ToString(),
+                        Creator = rd["creator"].ToString(),                      
+                        Model = rd["maModel"].ToString(),                       
+                        CatGroup = Convert.ToInt32(rd["catGroup"]),
+                        VaziatTajhiz = Convert.ToInt32(rd["catState"]),                      
+                        SellInfo = rd["selinfo"].ToString(),
+                        SuppInfo = rd["supinfo"].ToString()
+                    }
+                });
+            }
+            _cnn.Close();
+            return new JavaScriptSerializer().Serialize(minfo);
+        }
         [WebMethod]
         public string GetMasrafiTbl(int mid)
         {
@@ -794,6 +832,44 @@ namespace CMMS
         }
 
         [WebMethod]
+        public string BGetMasrafiTbl(int mid)
+        {
+            var masrafiList = new List<MasrafiMain>();
+            _cnn.Open();
+            var getSookht = new SqlCommand(
+                "select [Mid],[length],[width],[height],[weight],[ele],[masraf],[voltage],[phase]," +
+                "[cycle],[gas],[gasPres],[air],[airPres],[fuel],[fuelType],[fueltot] from b_fuel where Mid = " + mid +
+                " ", _cnn);
+            var rdS = getSookht.ExecuteReader();
+            if (rdS.Read())
+            {
+                masrafiList.AddRange(new List<MasrafiMain>()
+                {
+                    new MasrafiMain()
+                    {
+                        Length = rdS["length"].ToString(),
+                        Width = rdS["width"].ToString(),
+                        Height = rdS["height"].ToString(),
+                        Weight = rdS["weight"].ToString(),
+                        BarghChecked = Convert.ToInt32(rdS["ele"]),
+                        Masraf = rdS["masraf"].ToString(),
+                        Voltage = rdS["voltage"].ToString(),
+                        Phase = rdS["phase"].ToString(),
+                        Cycle = rdS["cycle"].ToString(),
+                        GasChecked = Convert.ToInt32(rdS["gas"]),
+                        GasPressure = rdS["gasPres"].ToString(),
+                        AirChecked = Convert.ToInt32(rdS["air"]),
+                        AirPressure = rdS["airPres"].ToString(),
+                        FuelChecked = Convert.ToInt32(rdS["fuel"]),
+                        FuelType = rdS["fuelType"].ToString(),
+                        FuelMasraf = rdS["fueltot"].ToString()
+                    }
+                });
+            }
+            _cnn.Close();
+            return new JavaScriptSerializer().Serialize(masrafiList);
+        }
+        [WebMethod]
         public string GetC(int mid)
         {
             var controliList = new List<Controls>();
@@ -821,7 +897,30 @@ namespace CMMS
             _cnn.Close();
             return new JavaScriptSerializer().Serialize(controliList);
         }
-
+        [WebMethod]
+        public string BGetC(int mid) //get Base information  
+        {
+            var controliList = new List<Controls>();
+            _cnn.Open();
+            var getControls =
+                new SqlCommand("SELECT [id],[contName],[opr],[comment]FROM [dbo].[b_control] where Mid = " + mid + "", _cnn);
+            var rd = getControls.ExecuteReader();
+            while (rd.Read())
+            {
+                controliList.AddRange(new List<Controls>
+                {
+                    new Controls
+                    {
+                        Idcontrol = Convert.ToInt32(rd["id"]),
+                        Control = rd["contName"].ToString(),                       
+                        Operation = Convert.ToInt32(rd["opr"]),                        
+                        Comment = rd["comment"].ToString()
+                    }
+                });
+            }
+            _cnn.Close();
+            return new JavaScriptSerializer().Serialize(controliList);
+        }
         [WebMethod]
         public string GetSubSystems(int mid)
         {
@@ -841,7 +940,25 @@ namespace CMMS
             _cnn.Close();
             return new JavaScriptSerializer().Serialize(subSystemList);
         }
-
+        [WebMethod]
+        public string BGetSubSystems(int mid)//get Base information
+        {
+            var subSystemList = new List<SubSystems>();
+            _cnn.Open();
+            var subs = new SqlCommand("SELECT dbo.subsystem.name, dbo.b_subsystem.subId FROM " +
+                                      "dbo.subsystem INNER JOIN dbo.b_subsystem ON dbo.subsystem.id " +
+                                      "= dbo.b_subsystem.subId WHERE(dbo.b_subsystem.Mid = " + mid + ")", _cnn);
+            var rd = subs.ExecuteReader();
+            while (rd.Read())
+            {
+                subSystemList.AddRange(new List<SubSystems>()
+                {
+                    new SubSystems(){SubSystemId = Convert.ToInt32(rd["subId"]) , SubSystemName = rd["name"].ToString()}
+                });
+            }
+            _cnn.Close();
+            return new JavaScriptSerializer().Serialize(subSystemList);
+        }
         [WebMethod]
         public string GetG(int mid)
         {
@@ -872,7 +989,35 @@ namespace CMMS
             _cnn.Close();
             return new JavaScriptSerializer().Serialize(partsList);
         }
-
+        [WebMethod]
+        public string BGetG(int mid) //get Base information
+        {
+            _cnn.Open();
+            var partsList = new List<Parts>();
+            var getParts =
+                new SqlCommand(
+                    "SELECT id,b_parts.PartId,Part.PartName,mYear,min,max FROM CMMS.dbo.b_parts" +
+                    " inner join sgdb.inv.Part on Part.Serial = b_parts.PartId where Mid = " + mid + " ", _cnn);
+            var rd = getParts.ExecuteReader();
+            while (rd.Read())
+            {
+                partsList.AddRange(new List<Parts>
+                {
+                    new Parts
+                    {
+                        Id = Convert.ToInt32(rd["id"]),
+                        PartId = Convert.ToInt32(rd["PartId"]),
+                        PartName = rd["PartName"].ToString(),
+                        UsePerYear = rd["mYear"].ToString(),                     
+                        Min = rd["min"].ToString(),
+                        Max =rd["max"].ToString()
+                       
+                    }
+                });
+            }
+            _cnn.Close();
+            return new JavaScriptSerializer().Serialize(partsList);
+        }
         [WebMethod]
         public string GetEnergy(int mid)
         {

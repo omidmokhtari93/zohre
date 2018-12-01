@@ -1,14 +1,10 @@
-﻿$('#drunitMachineCopy').change(function () {
-    FilterMachineByUnit('drunitMachineCopy','drMachinesCopy');
-});
+﻿//$('#drunitMachineCopy').change(function () {
+//    FilterMachineByUnit('drunitMachineCopy','drMachinesCopy');
+//});
 
 function CopyData() {
     var machineId = $('#drMachinesCopy :selected').val();
-    var unit = $('#drunitMachineCopy :selected').val();
-    if (unit == '-1') {
-        RedAlert('drunitMachineCopy', 'لطفا واحد را مشخص نمایید');
-        return;
-    }
+   
     if (machineId == '-1') {
         RedAlert('drMachinesCopy', 'لطفا دستگاه را مشخص نمایید');
         return;
@@ -19,33 +15,25 @@ function CopyData() {
     getMachineInfo();
     function getMachineInfo() {
         data.push({
-            url: "WebService.asmx/GetMachineTbl",
+            url: "WebService.asmx/GetMachineBaseTbl",
             parameters: [{ mid: machineId }],
             func: copyMachineInfo
         });
         AjaxCall(data);
         function copyMachineInfo(e) {
             var mInfo = JSON.parse(e.d);
-            //var havecatalog = document.getElementById('haveCatalog');
+          
             var gheyrkelidi = document.getElementById('gheyrkelidi');
             var deact = document.getElementById('deact');
             var fail = document.getElementById('fail');
             $('#txtmachineName').val(mInfo[0].Name);
-            //$('#txtmachineCode').val(mInfo[0].Code);
+            
             $('#txtMachineManufacturer').val(mInfo[0].Creator);
-            $('#txtMachineNasbDate').val(mInfo[0].InsDate);
+          
             $('#txtMachineModel').val(mInfo[0].Model);
-            $('#txtmachineTarikh').val(mInfo[0].Tarikh);
-            $('#drLine').val(mInfo[0].Line);
-            $('#drFaz').val(mInfo[0].Faz);
-            $('#drMAchineLocateion').val(mInfo[0].Location);
-            $('#txtMachinePower').val(mInfo[0].Power);
-            $('#txtstopperhour').val(mInfo[0].StopCostPerHour);
+           
             $('#drCatGroup').val(mInfo[0].CatGroup);
-            $('#txttargetMTBF').val(mInfo[0].MtbfH);
-            $('#txtAdmissionperiodMTBF').val(mInfo[0].MtbfD);
-            $('#txttargetMTTR').val(mInfo[0].MttrH);
-            $('#txtAdmissionperiodMTTR').val(mInfo[0].MttrD);
+          
             $('#txtSelInfo').val(mInfo[0].SellInfo);
             $('#txtSupInfo').val(mInfo[0].SuppInfo);
             if (mInfo[0].Ahamiyat == "False") { gheyrkelidi.checked = true; }
@@ -58,7 +46,7 @@ function CopyData() {
     function getMachineMasrafi() {
         data = [];
         data.push({
-            url: "WebService.asmx/GetMasrafiTbl",
+            url: "WebService.asmx/BGetMasrafiTbl",
             parameters: [{ mid: machineId }],
             func: copyMasrafi
         });
@@ -108,7 +96,7 @@ function CopyData() {
     function getMachineControli() {
         data = [];
         data.push({
-            url: "WebService.asmx/GetC",
+            url: "WebService.asmx/BGetC",
             parameters: [{ mid: machineId }],
             func: copyControli
         });
@@ -135,31 +123,15 @@ function CopyData() {
                 $('#gridMavaredControli').append(tblBody);
                 var period, rooz, mdSer, mdserValue, opr;
                 for (var i = 0; i < controliData.length; i++) {
-                    if (controliData[i].Time == '0') { period = "روزانه"; rooz = '----' }
-                    if (controliData[i].Time == '6') {
-                        period = "هفتگی";
-                        if (controliData[i].Day == "0") { rooz = 'شنبه' }
-                        if (controliData[i].Day == "1") { rooz = 'یکشنبه' }
-                        if (controliData[i].Day == "2") { rooz = 'دوشنبه' }
-                        if (controliData[i].Day == "3") { rooz = 'سه شنبه' }
-                        if (controliData[i].Day == "4") { rooz = 'چهارشنبه' }
-                        if (controliData[i].Day == "5") { rooz = 'پنجشنبه' }
-                        if (controliData[i].Day == "6") { rooz = 'جمعه' }
-                    }
-                    if (controliData[i].Time == "1") { period = "ماهیانه"; rooz = controliData[i].Day; }
-                    if (controliData[i].Time == "2") { period = "سه ماهه"; rooz = controliData[i].Day; }
-                    if (controliData[i].Time == "3") { period = "شش ماهه"; rooz = controliData[i].Day; }
-                    if (controliData[i].Time == "4") { period = "یکساله"; rooz = controliData[i].Day; }
-                    if (controliData[i].Time == "5") {
-                        period = "غیره";
-                        rooz = 'هر ' + controliData[i].Day + ' روز';
-                    }
+                    period = "روزانه";
+                    rooz = '----';
+                   
                     if (controliData[i].Operation == 1) { opr = 'برق' }
                     if (controliData[i].Operation == 2) { opr = 'چک و بازدید' }
                     if (controliData[i].Operation == 3) { opr = 'روانکاری' }
-                    if (controliData[i].MDservice == "1") { mdSer = "بله"; mdserValue = 1; }
-                    if (controliData[i].MDservice == "0") { mdSer = "خیر"; mdserValue = 0; }
-                    if (controliData[i].Comment == null) { controliData[i].Comment = " "; }
+                    mdSer = "بله"; mdserValue = 1; 
+                   
+                    controliData[i].Comment = " "; 
                     tblBody = '<tr>' +
                         '<td style="display:none;">0</td>' +
                         '<td style="display:none;">' + controliData[i].Control + '</td>' +
@@ -174,7 +146,7 @@ function CopyData() {
                         + '<td>' + rooz + '</td>'
                         + '<td>' + mdSer + '</td>'
                         + '<td>' + opr + '</td>'
-                        + '<td>' + controliData[i].PmDate + '</td>'
+                        + '<td>1400/01/01</td>'
                         + '<td>' + controliData[i].Comment + '</td>'
                         + '<td><a id="edit">ویرایش</a></td><td><a id="delete">حذف</a></td></tr>';
                     $('#gridMavaredControli tbody').append(tblBody);
@@ -187,7 +159,7 @@ function CopyData() {
     function getMachineSubsystem() {
         data = [];
         data.push({
-            url: "WebService.asmx/GetSubSystems",
+            url: "WebService.asmx/BGetSubSystems",
             parameters: [{ mid: machineId }],
             func: copySubSystem
         });
@@ -223,7 +195,7 @@ function CopyData() {
     function getMachineParts() {
         data = [];
         data.push({
-            url: "WebService.asmx/GetG",
+            url: "WebService.asmx/BGetG",
             parameters: [{ mid: machineId }],
             func: copyParts
         });
@@ -246,8 +218,8 @@ function CopyData() {
                         + '<td>' + partsData[i].UsePerYear + '</td>'
                         + '<td>' + partsData[i].Min + '</td>'
                         + '<td>' + partsData[i].Max + '</td>'
-                        + '<td>' + partsData[i].ChangePeriod + '</td>'
-                        + '<td>' + partsData[i].Comment + '</td>'
+                        + '<td> 1400/01/01 </td>'
+                        + '<td> ندارد </td>'
                         + '<td><a id="editPart">ویرایش</a></td>' +
                         '<td><a id="deletePart">حذف</a></td></tr>';
                     $('#gridGhataatMasrafi tbody').append(tblBody);

@@ -71,27 +71,7 @@ $('#chkModiriatEnergy').change(function () {
         $("#pnlModiriatEnergy").fadeOut();
     }
 });
-//$('#drControliZaman').change(function() {
-//    if ($('#drControliZaman :selected').val() !== 0 &&
-//        $('#drControliZaman :selected').val() !== 6) {
-//        $('#pnlcontroliRooz').show();
-//        $('#pnlControliWeek').hide();
-//        $('#pnlcontroliRooz').find('label').text('روزپیش بینی شده در ماه :');
-//    }
-//    if ($('#drControliZaman :selected').val() == 6) {
-//        $('#pnlControliWeek').show();   
-//        $('#pnlcontroliRooz').hide();
-//    }
-//    if ($('#drControliZaman :selected').val() == 0) {
-//        $('#pnlControliWeek').hide();
-//        $('#pnlcontroliRooz').hide();
-//    }
-//    if ($('#drControliZaman :selected').val() == 5) {
-//        $('#pnlcontroliRooz').show();
-//        $('#pnlControliWeek').hide();
-//        $('#pnlcontroliRooz').find('label').text('دوره تکرار :');
-//    }
-//});
+
 $('#btnNewMachineFor').on('click', function () {
    
     if ($('#txtmachineName').val() === '') {
@@ -703,7 +683,7 @@ function SendTablesToDB() {
         if (uri.indexOf("?") > 0) {
             var cleanUri = uri.substring(0, uri.indexOf("?"));
             window.history.replaceState({}, document.title, cleanUri);
-            setTimeout(function () { window.location.replace("/editMachine.aspx"); }, 2000);
+            setTimeout(function () { window.location.replace("/EditMainMachine.aspx"); }, 2000);
         }
     }
 }
@@ -717,7 +697,7 @@ function Pageload() {
         $('#loadingPage').show();
         $.ajax({
             type: "POST",
-            url: "WebService.asmx/GetMachineTbl",
+            url: "WebService.asmx/GetMachineBaseTbl",
             data: "{mid : " + mid + "}",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -732,34 +712,21 @@ function Pageload() {
     }
 }
 function fillMachineControls(mInfo) {
-    var havecatalog = document.getElementById('haveCatalog');
+    //var havecatalog = document.getElementById('haveCatalog');
     var gheyrkelidi = document.getElementById('gheyrkelidi');
     var deact = document.getElementById('deact');
     var fail = document.getElementById('fail');
     $('#txtmachineName').val(mInfo[0].Name);
-    $('#txtmachineCode').val(mInfo[0].Code);
+   
     $('#txtMachineManufacturer').val(mInfo[0].Creator);
-    $('#txtMachineNasbDate').val(mInfo[0].InsDate);
+    
     $('#txtMachineModel').val(mInfo[0].Model);
-    $('#txtmachineTarikh').val(mInfo[0].Tarikh);
-    $('#drLine').val(mInfo[0].Line);
-    $('#drFaz').val(mInfo[0].Faz);
-    $('#drMAchineLocateion').val(mInfo[0].Location);
-    $('#txtMachinePower').val(mInfo[0].Power);
-    $('#txtstopperhour').val(mInfo[0].StopCostPerHour);
+    
     $('#drCatGroup').val(mInfo[0].CatGroup);
-    $('#txttargetMTBF').val(mInfo[0].MtbfH);
-    $('#txtAdmissionperiodMTBF').val(mInfo[0].MtbfD);
-    $('#txttargetMTTR').val(mInfo[0].MttrH);
-    $('#txtAdmissionperiodMTTR').val(mInfo[0].MttrD);
+   
     $('#txtSelInfo').val(mInfo[0].SellInfo);
     $('#txtSupInfo').val(mInfo[0].SuppInfo);
-    if (mInfo[0].Catalog == 1) {
-        havecatalog.checked = true;
-        $('#pnlCatalog').show();
-        $('#txtcatname').val(mInfo[0].CatName);
-        $('#txtcatcode').val(mInfo[0].CatCode);
-    }
+    
     if (mInfo[0].Ahamiyat == "False") { gheyrkelidi.checked = true;}
     if (mInfo[0].VaziatTajhiz == 2) { fail.checked = true; }
     if (mInfo[0].VaziatTajhiz == 0) { deact.checked = true; }
@@ -768,7 +735,7 @@ function getMasrafiData() {
     var Mid = $('#Mid').val();
     $.ajax({
         type: "POST",
-        url: "WebService.asmx/GetMasrafiTbl",
+        url: "WebService.asmx/BGetMasrafiTbl",
         data: "{mid : " + Mid + "}",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -823,7 +790,7 @@ function GetC() {
     var Mid = $('#Mid').val();
     $.ajax({
         type: "POST",
-        url: "WebService.asmx/GetC",
+        url: "WebService.asmx/BGetC",
         data: "{ mid : " + Mid + "}",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -833,11 +800,7 @@ function GetC() {
                 var tblHead = '<thead>' +
                     '<tr>' +
                     '<th>مورد کنترلی</th>' +
-                    '<th>دوره تکرار</th>' +
-                    '<th>روز پیش بینی شده</th>' +
-                    '<th>نمایش برای سرویس کاری</th>' +
                     '<th>عملیات</th>' +
-                    '<th>شروع سرویسکاری</th>' +
                     '<th>ملاحظات</th>' +
                     '<th></th>' +
                     '<th></th>' +
@@ -848,46 +811,20 @@ function GetC() {
                 $('#gridMavaredControli').append(tblBody);
                 var  period, rooz, mdSer ,mdserValue ,opr;
                 for (var i = 0; i < controliData.length; i++) {
-                    if (controliData[i].Time == '0') { period = "روزانه"; rooz = '----'}
-                    if (controliData[i].Time == '6') {
-                        period = "هفتگی";
-                        if (controliData[i].Day == "0") { rooz = 'شنبه' }
-                        if (controliData[i].Day == "1") { rooz = 'یکشنبه' }
-                        if (controliData[i].Day == "2") { rooz = 'دوشنبه' }
-                        if (controliData[i].Day == "3") { rooz = 'سه شنبه' }
-                        if (controliData[i].Day == "4") { rooz = 'چهارشنبه' }
-                        if (controliData[i].Day == "5") { rooz = 'پنجشنبه' }
-                        if (controliData[i].Day == "6") { rooz = 'جمعه' }
-                    }
-                    if (controliData[i].Time == "1") { period = "ماهیانه"; rooz = controliData[i].Day;}
-                    if (controliData[i].Time == "2") { period = "سه ماهه"; rooz = controliData[i].Day;}
-                    if (controliData[i].Time == "3") { period = "شش ماهه"; rooz = controliData[i].Day;}
-                    if (controliData[i].Time == "4") { period = "یکساله"; rooz = controliData[i].Day;}
-                    if (controliData[i].Time == "5") {
-                        period = "غیره";
-                        rooz = 'هر ' + controliData[i].Day + ' روز';
-                    }
+ 
                     if (controliData[i].Operation == 1) { opr = 'برق' }
                     if (controliData[i].Operation == 2) { opr = 'چک و بازدید' }
                     if (controliData[i].Operation == 3) { opr = 'روانکاری' }
-                    if (controliData[i].MDservice == "1") { mdSer = "بله"; mdserValue = 1;}
-                    if (controliData[i].MDservice == "0") { mdSer = "خیر"; mdserValue = 0;}
                     if (controliData[i].Comment == null) { controliData[i].Comment = " "; }
                     tblBody = '<tr>' +
                         '<td style="display:none;">' + controliData[i].Idcontrol + '</td>' +
-                        '<td style="display:none;">' + controliData[i].Control + '</td>' +
-                        '<td style="display:none;">' + controliData[i].Time + '</td>' +
-                        '<td style="display:none;">' + controliData[i].Day + '</td>' +
-                        '<td style="display:none;">' + mdserValue + '</td>' +
+                        '<td style="display:none;">' + controliData[i].Control + '</td>' +                    
                         '<td style="display:none;">' + controliData[i].Operation + '</td>' +
-                        '<td style="display:none;">' + controliData[i].PmDate + '</td>' +
                         '<td style="display:none;">' + controliData[i].Comment + '</td>' +
                         '<td>' + controliData[i].Control + '</td>'
-                        + '<td>' + period + '</td>'
-                        + '<td>' + rooz + '</td>'
-                        + '<td>' + mdSer + '</td>'
+                       
                         + '<td>' + opr + '</td>'
-                        + '<td>' + controliData[i].PmDate + '</td>'
+                  
                         + '<td>' + controliData[i].Comment + '</td>'
                         + '<td><a id="edit">ویرایش</a></td><td><a id="delete">حذف</a></td></tr>';
                     $('#gridMavaredControli tbody').append(tblBody);
@@ -902,7 +839,7 @@ function GetSubSystems() {
     var Mid = $('#Mid').val();
     $.ajax({
         type: "POST",
-        url: "WebService.asmx/GetSubSystems",
+        url: "WebService.asmx/BGetSubSystems",
         data: "{ mid : " + Mid + "}",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -937,7 +874,7 @@ function GetG() {
     var Mid = $('#Mid').val();
     $.ajax({
         type: "POST",
-        url: "WebService.asmx/GetG",
+        url: "WebService.asmx/BGetG",
         data: "{ mid : " + Mid + "}",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -950,8 +887,7 @@ function GetG() {
                     '<th>مصرف در سال</th>' +
                     '<th>حداقل</th>' +
                     '<th>حداکثر</th>' +
-                    '<th>پریود تعویض</th>' +
-                    '<th>ملاحظات</th>' +
+                    
                     '<th></th>' +
                     '<th></th>' +
                     '</tr>' +
@@ -967,8 +903,7 @@ function GetG() {
                         + "<td>" + partsData[i].UsePerYear + "</td>"
                         + "<td>" + partsData[i].Min + "</td>"
                         + "<td>" + partsData[i].Max + "</td>"
-                        + "<td>" + partsData[i].ChangePeriod + "</td>"
-                        + "<td>" + partsData[i].Comment + "</td>"
+                     
                         + '<td><a id="editPart">ویرایش</a></td>' +
                         '<td><a id="deletePart">حذف</a></td></tr>';
                     $('#gridGhataatMasrafi tbody').append(tblBody);
@@ -978,55 +913,4 @@ function GetG() {
         }
     });
 }
-function GetEnergy() {
-    var Mid = $('#Mid').val();
-    $.ajax({
-        type: "POST",
-        url: "WebService.asmx/GetEnergy",
-        data: "{ mid : " + Mid + "}",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (data) {
-            var energyData = JSON.parse(data.d);
-            if (energyData[0].Dastoor !== null) {
-                $('#txtInstruc').val(energyData[0].Dastoor);   
-            }
-            if (energyData.length > 1) {
-                if (energyData[1].Tarikh != null) {
-                    var tblHead = '<thead>' +
-                        '<tr>' +
-                        '<th>تاریخ مراجعه</th>' +
-                        '<th>نوع دستگاه</th>' +
-                        '<th>آمپرفاز 1</th>' +
-                        '<th>آمپرفاز 2</th>' +
-                        '<th>آمپرفاز 3</th>' +
-                        '<th>ولتاژفاز 1</th>' +
-                        '<th>ولتاژفاز 2</th>' +
-                        '<th>ولتاژفاز 3</th>' +
-                        '<th>PF</th>' +
-                        '<th></th>' +
-                        '</tr>' +
-                        '</thead>';
-                    var tblBody = "<tbody></tbody>";
-                    $('#gridEnergy').append(tblHead);
-                    $('#gridEnergy').append(tblBody);
-                    for (var i = 1; i < energyData.length; i++) {
-                        tblBody = '<tr>'
-                            + "<td>" + energyData[i].Tarikh + "</td>"
-                            + "<td>" + energyData[i].MachineType + "</td>"
-                            + "<td>" + energyData[i].AP1 + "</td>"
-                            + "<td>" + energyData[i].AP2 + "</td>"
-                            + "<td>" + energyData[i].AP3 + "</td>"
-                            + "<td>" + energyData[i].VP1 + "</td>"
-                            + "<td>" + energyData[i].VP2 + "</td>"
-                            + "<td>" + energyData[i].VP3 + "</td>"
-                            + "<td>" + energyData[i].PF + "</td>"
-                            + '<td><a>حذف</a></td></tr>';
-                        $('#gridEnergy tbody').append(tblBody);
-                    }
-                } 
-            }
-            $('#loadingPage').hide();
-        }
-    });
-}
+

@@ -683,17 +683,17 @@
                        <label>&nbsp;</label>
                        <button type="button" class="button" style="display: block; width: 100%;" onclick="CopyData();">کپی</button>
                    </div>
-                   <div class="col-lg-4">
+                   <div class="col-lg-8">
                        نام ماشین
-                       <select class="form-control" id="drMachinesCopy"></select>
-                   </div>
-                   <div class="col-lg-4">
-                       نام واحد
-                       <asp:DropDownList runat="server" ID="drunitMachineCopy" CssClass="form-control" ClientIDMode="Static" AppendDataBoundItems="True" 
-                                         DataSourceID="sqlUnits" DataTextField="unit_name" DataValueField="unit_code" >
-                           <asp:ListItem Value="-1">انتخاب کنید</asp:ListItem>
+                      
+                       <asp:DropDownList ID="drMachinesCopy" AppendDataBoundItems="True" CssClass="form-control" runat="server" ClientIDMode="Static" DataSourceID="SqlMAchineBase" DataTextField="name" DataValueField="id">
+                           <asp:ListItem Value="0">نام ماشین / دستگاه را انتخاب نمایید</asp:ListItem>
                        </asp:DropDownList>
+                       <asp:SqlDataSource ID="SqlMAchineBase" runat="server"  ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, name FROM b_machine"></asp:SqlDataSource>
                    </div>
+                  
+                   
+                 
                </div>
             </div>
         </div>

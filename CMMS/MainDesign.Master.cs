@@ -277,5 +277,10 @@ namespace CMMS
         {
             Response.Redirect("MachineBase.aspx");
         }
+
+        protected void btnEditMainMachine_OnClick(object sender, EventArgs e)
+        {
+           Response.Redirect("EditMainMachine.aspx");
+        }
     }
 }

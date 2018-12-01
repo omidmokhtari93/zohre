@@ -175,12 +175,21 @@ namespace CMMS {
         protected global::System.Web.UI.WebControls.HiddenField chEnergy;
         
         /// <summary>
-        /// drunitMachineCopy control.
+        /// drMachinesCopy control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList drunitMachineCopy;
+        protected global::System.Web.UI.WebControls.DropDownList drMachinesCopy;
+        
+        /// <summary>
+        /// SqlMAchineBase control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource SqlMAchineBase;
     }
 }

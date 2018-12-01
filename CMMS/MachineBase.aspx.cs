@@ -9,6 +9,7 @@ namespace CMMS
 {
     public partial class MachineBase : System.Web.UI.Page
     {
+        private string _machineId;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
@@ -22,7 +23,17 @@ namespace CMMS
                         break;
 
                 }
-               
+                _machineId = Request.Params.Get("mid");
+                if (string.IsNullOrEmpty(_machineId)) return;
+                try
+                {
+                    Mid.Value = Crypto.Decrypt(_machineId);
+                }
+                catch
+                {
+                    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "cancel();", true);
+                }
+
             }
         }
     }
