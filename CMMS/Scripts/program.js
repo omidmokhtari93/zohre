@@ -53,13 +53,11 @@ function GetProgram() {
         flag = 1;
     }
     if (flag === 0) {
-        var data = [];
-        data.push({
+        AjaxData({
             url: 'Reports.asmx/GetPmControlProgram',
-            parameters: [{ s: ss, e: ee, mid: midd ,opr : $('#drOpr :selected').val()}],
+            param: { s: ss, e: ee, mid: midd, opr: $('#drOpr :selected').val() },
             func: createProgram
         });
-        AjaxCall(data);
         function createProgram(e) {
             $('#pnlReportArea').show();
             $('#tblcontrols tbody').empty();
@@ -86,11 +84,12 @@ function GetProgram() {
                 var dates = DatesBetween2Date(ss, ee);
                 var dailyLength = p.daily.length;
                 var body = [];
+                if (!dailyLength) return;
                 $('#tblsubheader tbody').append('<tr style="text-align: right;">' +
                     '<td style="width:40%;">نام مجری : </td>' +
                     '<td >دوره بازدید : روزانه</td>' +
                     '<td > نوع عملیات : '+$('#drOpr :selected').text()+'</td>' +
-                    '</tr>');
+                  '</tr>');
                 body.push('<tr><td colspan="5" style="background: #d6d5d5;text-align:center;">شرح بازدید , کنترل و سرویس</td></tr>');
                 for (var i = 0; i < dailyLength; i++) {
                     body.push('<tr style="border:none;text-align:right;">' +
