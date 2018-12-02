@@ -318,7 +318,7 @@ label {
     background-color: #eef5ff;
     box-shadow: 0px 0px 3px rgba(1,1,1,1);
     width: 100%;
-    height: 100%;
+    min-height: 100%;
 }
 .form-group {
     font-family: myfont;
