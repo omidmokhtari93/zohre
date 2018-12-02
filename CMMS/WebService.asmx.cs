@@ -246,23 +246,28 @@ namespace CMMS
             {
                 var inserMachInfo = new SqlCommand("INSERT INTO [dbo].[b_machine]([name],[imp],[creator],[maModel]," +
                                                    "[catGroup],[catState],[selinfo],[supinfo])VALUES " +
-                                                   "('" + minfo.Name + "' , " + minfo.Ahamiyat + " , '" + minfo.Creator + "'" +
-                                                   ",'" + minfo.Model + "' ,"+ minfo.CatGroup + " , " + minfo.VaziatTajhiz + " ,'" + minfo.SellInfo + "' , '" + minfo.SuppInfo + "') "+
+                                                   "('" + minfo.Name + "' , " + minfo.Ahamiyat + " , '" +
+                                                   minfo.Creator + "'" +
+                                                   ",'" + minfo.Model + "' ," + minfo.CatGroup + " , " +
+                                                   minfo.VaziatTajhiz + " ,'" + minfo.SellInfo + "' , '" +
+                                                   minfo.SuppInfo + "') " +
                                                    " SELECT CAST(scope_identity() AS int)", _cnn);
                 return inserMachInfo.ExecuteScalar().ToString();
             }
-            var updateMachine = new SqlCommand("UPDATE [dbo].[m_machine] " +
-                                               "SET[name] = '" + minfo.Name + "' " +
-                                               ",[code] = '" + minfo.Code + "' " +
-                                               ",[imp] = " + minfo.Ahamiyat + " " +
-                                               ",[creator] = '" + minfo.Creator + "' " +                                          
-                                               ",[maModel] = '" + minfo.Model + "' " +                                              
-                                               ",[catGroup] = " + minfo.CatGroup + " " +
-                                               ",[catState] = " + minfo.VaziatTajhiz + " " +                                      
-                                               ",[selinfo] = '" + minfo.SellInfo + "' " +
-                                               ",[supinfo] = '" + minfo.SuppInfo + "' " +
-                                               "WHERE id = " + mid + " ", _cnn);
-            updateMachine.ExecuteNonQuery();
+            else
+            {
+                var updateMachine = new SqlCommand("UPDATE [dbo].[b_machine] " +
+                                                   "SET [name] = '" + minfo.Name + "' " +
+                                                   ",[imp] = " + minfo.Ahamiyat + " " +
+                                                   ",[creator] = '" + minfo.Creator + "' " +
+                                                   ",[maModel] = '" + minfo.Model + "' " +
+                                                   ",[catGroup] = " + minfo.CatGroup + " " +
+                                                   ",[catState] = " + minfo.VaziatTajhiz + " " +
+                                                   ",[selinfo] = '" + minfo.SellInfo + "' " +
+                                                   ",[supinfo] = '" + minfo.SuppInfo + "' " +
+                                                   "WHERE id = " + mid + " ", _cnn);
+                updateMachine.ExecuteNonQuery();
+            }
             _cnn.Close();
             return mid;
         }

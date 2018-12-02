@@ -139,7 +139,7 @@ function CopyData() {
                         '<td style="display:none;">' + controliData[i].Day + '</td>' +
                         '<td style="display:none;">' + mdserValue + '</td>' +
                         '<td style="display:none;">' + controliData[i].Operation + '</td>' +
-                        '<td style="display:none;">' + controliData[i].PmDate + '</td>' +
+                        '<td style="display:none;">1400/01/01</td>' +
                         '<td style="display:none;">' + controliData[i].Comment + '</td>' +
                         '<td>' + controliData[i].Control + '</td>'
                         + '<td>' + period + '</td>'
@@ -148,7 +148,8 @@ function CopyData() {
                         + '<td>' + opr + '</td>'
                         + '<td>1400/01/01</td>'
                         + '<td>' + controliData[i].Comment + '</td>'
-                        + '<td><a id="edit">ویرایش</a></td><td><a id="delete">حذف</a></td></tr>';
+                        + '<td><a id="edit">ویرایش</a></td><td>' +
+                        '<a id="delete">حذف</a></td></tr>';
                     $('#gridMavaredControli tbody').append(tblBody);
                 }
             }
@@ -218,7 +219,7 @@ function CopyData() {
                         + '<td>' + partsData[i].UsePerYear + '</td>'
                         + '<td>' + partsData[i].Min + '</td>'
                         + '<td>' + partsData[i].Max + '</td>'
-                        + '<td> 1400/01/01 </td>'
+                        + '<td>1400/01/01</td>'
                         + '<td> ندارد </td>'
                         + '<td><a id="editPart">ویرایش</a></td>' +
                         '<td><a id="deletePart">حذف</a></td></tr>';
