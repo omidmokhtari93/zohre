@@ -88,16 +88,14 @@
                     
                 </Columns>
             </asp:GridView>
-            <asp:SqlDataSource ID="SqlUsers" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT users.id as uid,users.name,
- users.username,
-  users.password, 
-  case when users.usrlevel = 0 then 'فنی و مهندسی'
-   when users.usrlevel = 1 then 'مدیریت' when users.usrlevel = 2 then 'کاربر عادی' end as usrlevel,
-   users.permit,
-    users.tell,
-	 users.email,
-	  i_units.unit_name AS unit
-	   FROM users INNER JOIN i_units ON users.unit = i_units.unit_code"></asp:SqlDataSource>
+            <asp:SqlDataSource ID="SqlUsers" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT       dbo.users.id AS uid, dbo.users.name, dbo.users.username, dbo.users.password, CASE WHEN users.usrlevel = 0 THEN 'فنی و مهندسی' WHEN users.usrlevel = 1 THEN 'مدیریت' WHEN users.usrlevel = 2 THEN 'کاربر عادی' END AS usrlevel, 
+                         dbo.users.permit, dbo.users.tell, dbo.users.email, CASE WHEN users.unit = '-1' THEN 'مدیریت' ELSE i_units.unit_name END AS unit
+FROM            dbo.users INNER JOIN
+                         dbo.i_units ON dbo.users.unit = dbo.i_units.unit_code 
+union all
+SELECT       dbo.users.id AS uid, dbo.users.name, dbo.users.username, dbo.users.password, CASE WHEN users.usrlevel = 0 THEN 'فنی و مهندسی' WHEN users.usrlevel = 1 THEN 'مدیریت' WHEN users.usrlevel = 2 THEN 'کاربر عادی' END AS usrlevel, 
+                         dbo.users.permit, dbo.users.tell, dbo.users.email, CASE WHEN users.unit = '-1' THEN 'مدیریت'  END AS unit
+from users where unit='-1'"></asp:SqlDataSource>
         </div>
     </div>
     <script>
@@ -127,7 +125,7 @@
                 setTimeout(function () { $('#txtTell').removeClass('form-controlError'); }, 4000);
                 $.notify("!!لطفا شماره تماس را وارد نمایید", { globalPosition: 'top left' });
             }
-            if ($('#drUnitname :selected').val() == "-1") {
+            if ($('#drUnitname :selected').val() == "-1" && $('#draccessLevel :selected').val() != "1") {
                 $('#drUnitname').addClass('form-controlError');
                 setTimeout(function () { $('#drUnitname').removeClass('form-controlError'); }, 4000);
                 $.notify("!!لطفا واحد انتخاب نمایید", { globalPosition: 'top left' });
