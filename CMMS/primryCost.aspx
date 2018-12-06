@@ -22,26 +22,26 @@
         <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
             <div class="col-md-4">
                 <label>حقوق سرشیفت : </label>
-                <asp:TextBox ClientIDMode="Static" TabIndex="4"  ID="txtheadworker" placeholder="ریال" runat="server" CssClass="form-control"></asp:TextBox>    
+                <asp:TextBox ClientIDMode="Static" TabIndex="4" dir="ltr"  ID="txtheadworker" placeholder="ریال" runat="server" CssClass="form-control"  ></asp:TextBox>    
             </div>
             <div class="col-md-4">
                 <label>حقوق سرپرست : </label>
-                <asp:TextBox ClientIDMode="Static" TabIndex="3" ID="txtmanager" placeholder="ریال" CssClass="form-control" runat="server"></asp:TextBox>   
+                <asp:TextBox ClientIDMode="Static" TabIndex="3" dir="ltr" ID="txtmanager" placeholder="ریال" CssClass="form-control" runat="server" ></asp:TextBox>   
             </div>
             <div class="col-md-4">
                 <label>حقوق مدیر فنی : </label>
-                <asp:TextBox ClientIDMode="Static" TabIndex="2"  ID="txttechnicalmanager" placeholder="ریال" runat="server" CssClass="form-control"></asp:TextBox>        
+                <asp:TextBox ClientIDMode="Static" TabIndex="2" dir="ltr"  ID="txttechnicalmanager" placeholder="ریال" runat="server" CssClass="form-control"></asp:TextBox>        
             </div>
         </div>
         <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
             <div class="col-md-4"></div>
             <div class="col-md-4">
                 <label>حقوق نیروی معمولی : </label>
-                <asp:TextBox ClientIDMode="Static" TabIndex="6"  ID="txtworker" placeholder="ریال" CssClass="form-control" runat="server"></asp:TextBox> 
+                <asp:TextBox ClientIDMode="Static" TabIndex="6" dir="ltr"  ID="txtworker" placeholder="ریال" CssClass="form-control" runat="server"></asp:TextBox> 
             </div>
             <div class="col-md-4">
                 <label>حقوق نیروی ماهر: </label>
-                <asp:TextBox ClientIDMode="Static" TabIndex="5"  ID="txtexpert" placeholder="ریال" CssClass="form-control" runat="server"></asp:TextBox>
+                <asp:TextBox ClientIDMode="Static" TabIndex="5"  dir="ltr" ID="txtexpert" placeholder="ریال" CssClass="form-control" runat="server"></asp:TextBox>
                       
             </div>
         </div>
@@ -66,4 +66,31 @@
             </asp:GridView>
     </div>
  </div>
+   <script>
+       $.fn.Digit = function () {
+           if ($(this).val()=='') {
+               return;
+           }
+           var num = $(this).val().replace(/,/g, "");
+           var intnumber = parseInt(num);
+           $(this).val(intnumber.toLocaleString());
+       }
+
+       $('#txtheadworker').on('keyup', function() {
+           $(this).Digit();
+       });
+       $('#txtmanager').on('keyup', function () {
+           $(this).Digit();
+       });
+       $('#txttechnicalmanager').on('keyup', function () {
+           $(this).Digit();
+       });
+       $('#txtworker').on('keyup', function () {
+           $(this).Digit();
+       });
+       $('#txtexpert').on('keyup', function () {
+           $(this).Digit();
+       });
+   </script>
 </asp:Content>
+

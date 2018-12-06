@@ -2092,11 +2092,11 @@ namespace CMMS
             _partsConnection.Open();
             var list = new List<string[]>();
             var partlist = new List<string[]>();
-            var getAnbar = new SqlCommand("SELECT [partcode],[partname],[Mojodi] FROM [sgdb].[dbo].[kalaMojodi] where PartRef = "+partid+" ",_partsConnection);
+            var getAnbar = new SqlCommand("SELECT [PartRef],[partname],[Mojodi] FROM [sgdb].[dbo].[kalaMojodi] where PartRef = " + partid+" ",_partsConnection);
             var rd = getAnbar.ExecuteReader();
             while (rd.Read())
             {
-                partlist.Add(new[] { rd["partname"].ToString(), rd["partcode"].ToString(), rd["Mojodi"].ToString() });
+                partlist.Add(new[] { rd["partname"].ToString(), rd["PartRef"].ToString(), rd["Mojodi"].ToString() });
             }
             list.AddRange(partlist);
             _partsConnection.Close();

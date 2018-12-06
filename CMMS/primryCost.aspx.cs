@@ -30,6 +30,11 @@ namespace CMMS
         protected void btnSabt_Click(object sender, EventArgs e)
         {
             cnn.Open();
+            txtexpert.Text=txtexpert.Text.Replace(",","");
+            txtheadworker.Text=txtheadworker.Text.Replace(",", "");
+            txtmanager.Text=txtmanager.Text.Replace(",", "");
+            txttechnicalmanager.Text=txttechnicalmanager.Text.Replace(",", "");
+            txtworker.Text=txtworker.Text.Replace(",", "");
             var cmdinsertCosts = new SqlCommand("insert into i_costs (cost_year,worker,expert,headworker,manager,technical_manager)" +
                                                 " values('" + drYear.SelectedValue + "'," + txtworker.Text + "," +
                                                 txtexpert.Text + "," + txtheadworker.Text + "," + txtmanager.Text + ","+txttechnicalmanager.Text+")",cnn);
@@ -70,6 +75,11 @@ namespace CMMS
 
         protected void btnEdit_Click(object sender, EventArgs e)
         {
+            txtexpert.Text = txtexpert.Text.Replace(",", "");
+            txtheadworker.Text = txtheadworker.Text.Replace(",", "");
+            txtmanager.Text = txtmanager.Text.Replace(",", "");
+            txttechnicalmanager.Text = txttechnicalmanager.Text.Replace(",", "");
+            txtworker.Text = txtworker.Text.Replace(",", "");
             cnn.Open();
             var cmdUpcost=new SqlCommand("update i_costs set cost_year='"+drYear.SelectedValue+"',worker="+txtworker.Text+",expert="+txtexpert.Text+",headworker="+txtheadworker.Text+",manager="+txtmanager.Text+ ",technical_manager="+txttechnicalmanager.Text+" where id=" + ViewState["id"]+" ",cnn);
             cmdUpcost.ExecuteNonQuery();
