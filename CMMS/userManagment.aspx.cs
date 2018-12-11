@@ -33,7 +33,7 @@ namespace CMMS
         protected void btnSabt_OnClick(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtName.Text) || string.IsNullOrEmpty(txtUserName.Text) || string.IsNullOrEmpty(txtTell.Text)
-                || string.IsNullOrEmpty(txtPassword.Text) || string.IsNullOrEmpty(txtPasswordRep.Text) || drUnitname.SelectedValue == "-1" || txtPassword.Text != txtPasswordRep.Text)
+                || string.IsNullOrEmpty(txtPassword.Text) || string.IsNullOrEmpty(txtPasswordRep.Text) || (drUnitname.SelectedValue == "-1" && draccessLevel.SelectedValue!="1") || txtPassword.Text != txtPasswordRep.Text)
             {
                 ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "Err();", true);
                 return;
@@ -100,7 +100,7 @@ namespace CMMS
         protected void btnEdit_OnClick(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtName.Text) || string.IsNullOrEmpty(txtUserName.Text) || string.IsNullOrEmpty(txtTell.Text)
-                || string.IsNullOrEmpty(txtPassword.Text) || string.IsNullOrEmpty(txtPasswordRep.Text) || drUnitname.SelectedValue == "-1" || txtPassword.Text != txtPasswordRep.Text)
+                || string.IsNullOrEmpty(txtPassword.Text) || string.IsNullOrEmpty(txtPasswordRep.Text) || (drUnitname.SelectedValue == "-1" && draccessLevel.SelectedValue != "1") || txtPassword.Text != txtPasswordRep.Text)
             {
                 ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "Err();", true);
                 return;

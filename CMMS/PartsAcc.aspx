@@ -14,7 +14,7 @@
         #gridParts tr { cursor: pointer;}
         .lbl{display: block; text-align: right; direction: ltr;}
         label{ margin: 0;}
-        .badgelbl{ background-color: lightblue;padding: 2px 5px;border-radius: 5px;}
+        .badgelbl{white-space: nowrap; background-color: lightblue;padding: 2px 5px;border-radius: 5px;}
         .partcheckRes{display: block; margin-top: 10px; padding: 10px; direction: rtl; background-color: aliceblue; vertical-align: middle;}
         #txtSubSearchPart{ width: 100%;outline: none;padding: 0px 3px 0 0;font-weight: 800;border: none;border-radius: 3px;}
         .imgfilter{ position: absolute;top: 7px;right: 6px;width: 17px;height: 17px;}
