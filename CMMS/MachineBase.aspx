@@ -40,7 +40,7 @@
             </div>
             <div class="col-md-6">
                 نام دستگاه :
-                <input id="txtmachineName" tabindex="1"  class="form-control"/>
+                <input id="txtmachineName" ClientIDMode="Static" runat="server" tabindex="1" disabled class="form-control"/>
             </div>
         </div>
         <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">

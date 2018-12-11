@@ -49,6 +49,15 @@ namespace CMMS {
         protected global::System.Web.UI.WebControls.HiddenField vaziatTajhiz;
         
         /// <summary>
+        /// txtmachineName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtmachineName;
+        
+        /// <summary>
         /// drCatGroup control.
         /// </summary>
         /// <remarks>

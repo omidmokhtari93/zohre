@@ -94,6 +94,18 @@ namespace CMMS
                 Session["deviceid"] = gridDevice.DataKeys[index]["DeviceCode"];
                 pnlDelete.Visible = true;
             }
+            if (e.CommandName == "ins")
+            {
+                var index = int.Parse(e.CommandArgument.ToString());
+                var gridDeviceDataKey = gridDevice.DataKeys[index];
+                if (gridDeviceDataKey != null)
+                {
+                    var mCode = gridDeviceDataKey["DeviceCode"];
+                    var hashedMid = Crypto.Crypt(mCode.ToString());
+                    var mName= gridDevice.DataKeys[index]["DeviceName"];
+                    Response.Redirect("MachineBase.aspx?mid=" + hashedMid+"&mname="+mName);
+                }
+            }
         }
 
         protected void btnedit_OnClick(object sender, EventArgs e)
@@ -118,9 +130,16 @@ namespace CMMS
                                               " else if(select count(id) from i_devices where DeviceName = '" + txtDeviceName.Text + "' " +
                                                "and id<>" + Convert.ToInt32(ViewState["id"]) + ")= 1 begin select 2 as ret end ", cnn);
 
+            var updateMachineBase=new SqlCommand("update b_machine set name='"+txtDeviceName.Text+"',code= "+ txtDeviceCode.Text+ " where code="+ViewState["code"]+"" +
+                                                 "update b_control set Mid=" + txtDeviceCode.Text + " where Mid=" + ViewState["code"] + " " +
+                                                 "update b_fuel set Mid=" + txtDeviceCode.Text + " where Mid=" + ViewState["code"] + "" +
+                                                 "update b_inst set Mid=" + txtDeviceCode.Text + " where Mid=" + ViewState["code"] + "" +
+                                                 "update b_parts set Mid=" + txtDeviceCode.Text + " where Mid=" + ViewState["code"] + "" +
+                                                 "update b_subsystem set Mid=" + txtDeviceCode.Text + " where Mid=" + ViewState["code"] + "", cnn);
             if (UpdatetDevice.ExecuteScalar().ToString() == "0")
             {
                 UpdatetDevice.ExecuteNonQuery();
+                updateMachineBase.ExecuteNonQuery();
                 gridDevice.DataBind();
                 txtDeviceName.Text = "";
                 txtDeviceCode.Text = "";
@@ -211,6 +230,14 @@ namespace CMMS
                                                " delete from m_machine where id in (SELECT distinct(id) FROM dbo.m_machine WHERE(SUBSTRING(CAST(code AS nvarchar), 3, 3) = "+Session["deviceid"]+"))" +
                                                " DELETE FROM [dbo].[i_devices] where DeviceCode = " + Session["deviceid"] + "", cnn);
             dellsubsyestem.ExecuteNonQuery();
+            var C = Convert.ToString(Session["deviceid"]);
+            var deletMAchine = new SqlCommand("DELETE FROM b_fuel where Mid =" + Session["deviceid"] +  " " +
+                                              "DELETE FROM b_inst where Mid =" + Session["deviceid"] + " " +
+                                              "DELETE FROM b_subsystem where Mid  =" + Session["deviceid"] + " " +
+                                              "DELETE FROM b_control where Mid  =" + Session["deviceid"] + " " +
+                                              "DELETE FROM b_parts where Mid  =" + Session["deviceid"] + " " +
+                                              "Delete from b_machine where code = " + Session["deviceid"] + "", cnn);
+            deletMAchine.ExecuteNonQuery();
             cnn.Close();
         }
 

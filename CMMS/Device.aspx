@@ -26,15 +26,16 @@
             <asp:Button id="btnedit" runat="server" Visible="False" CssClass="button" Text="ویرایش" TabIndex="6" OnClick="btnedit_OnClick" OnClientClick="getRadio();getactRadio();"/>
             <asp:Button id="btncancel" runat="server" Visible="False" CssClass="button" Text="انصراف" TabIndex="7" OnClick="btncancel_OnClick"/>
         </div>
+        
         <div class="panel-footer" style="text-align: center !important;">
             <div ClientIDMode="Static" Visible="False" runat="server" id="pnlDelete">
-                <label style="display: block;">** کلیه دستگاه های ثبت شده با این کد حذف خواهند شد **</label>
+                <label style="display: block;">** کاربر گرامی کلیه دستگاه های ثبت شده و اطلاعات اولیه با این کددستگاه حذف خواهند شد **</label>
                 <label style="display: block;">آیا مایل به حذف هستید؟</label>
                 <asp:Button runat="server" Text="بله" CssClass="button" ID="btnyes" OnClick="btnyes_OnClick"/>
                 <asp:Button runat="server" Text="خیر" ID="btnno" CssClass="button" OnClick="btnno_OnClick"/>
             </div>
             <div class="tablescroll">
-            <asp:GridView runat="server" CssClass="table" AutoGenerateColumns="False" DataSourceID="SqlDevice" DataKeyNames="id,DeviceCode" ID="gridDevice" OnRowCommand="gridDevice_OnRowCommand">
+            <asp:GridView runat="server" CssClass="table" AutoGenerateColumns="False" DataSourceID="SqlDevice" DataKeyNames="id,DeviceCode,DeviceName" ID="gridDevice" OnRowCommand="gridDevice_OnRowCommand">
                 <Columns>
                     <asp:BoundField DataField="id">
                         <ItemStyle CssClass="hidethis"></ItemStyle>
@@ -43,12 +44,17 @@
                     <asp:BoundField DataField="rownum" HeaderText="ردیف" ReadOnly="True"/>
                     <asp:BoundField DataField="DeviceName" HeaderText="نام دستگاه" SortExpression="DeviceName" />
                     <asp:BoundField DataField="DeviceCode" HeaderText="کد دستگاه" SortExpression="DeviceCode" />
+                    <asp:ButtonField Text="ثبت/ویرایش اطلاعات اولیه دستگاه" CommandName="ins">
+                    <ItemStyle ForeColor="#009900" />
+                    </asp:ButtonField>
                     <asp:ButtonField Text="ویرایش" CommandName="ed"/>
-                    <asp:ButtonField Text="حذف" CommandName="del"/>
+                    <asp:ButtonField Text="حذف" CommandName="del">
+                    <ItemStyle ForeColor="Red" />
+                    </asp:ButtonField>
                 </Columns>
             </asp:GridView>
             </div>
-            <asp:SqlDataSource ID="SqlDevice" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT ROW_NUMBER() OVER (ORDER BY id) AS rownum, id, DeviceName, DeviceCode FROM i_devices" >
+            <asp:SqlDataSource ID="SqlDevice" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT ROW_NUMBER() OVER (ORDER BY id) AS rownum, id, DeviceName, DeviceCode FROM i_devices order by DeviceCode" >
                 <UpdateParameters>
                     <asp:Parameter Name="DeviceName" />
                     <asp:Parameter Name="DeviceCode" />

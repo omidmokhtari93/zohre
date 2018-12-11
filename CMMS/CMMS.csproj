@@ -84,7 +84,6 @@
     <Content Include="DailyWork.aspx" />
     <Content Include="Device.aspx" />
     <Content Include="editMachine.aspx" />
-    <Content Include="EditMainMachine.aspx" />
     <Content Include="Effective.aspx" />
     <Content Include="Feeview.txt" />
     <Content Include="FinancialReport.aspx" />
@@ -370,13 +369,6 @@
     </Compile>
     <Compile Include="editMachine.aspx.designer.cs">
       <DependentUpon>editMachine.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="EditMainMachine.aspx.cs">
-      <DependentUpon>EditMainMachine.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="EditMainMachine.aspx.designer.cs">
-      <DependentUpon>EditMainMachine.aspx</DependentUpon>
     </Compile>
     <Compile Include="Effective.aspx.cs">
       <DependentUpon>Effective.aspx</DependentUpon>

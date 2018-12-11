@@ -238,7 +238,7 @@ function RepairCost() {
                 total += parseInt(pc[i][0]);
                 body.push('<tr>' +
                     '<td>' + parseInt(i + 1) + '</td>' +
-                    '<td>' + parseInt(pc[i][1]).toLocaleString() + '</td>' +
+                    '<td>' + pc[i][1].toLocaleString() + '</td>' +
                     '<td>' + parseInt(pc[i][0]).toLocaleString() + '</td>' +
                     '</tr>');
             }

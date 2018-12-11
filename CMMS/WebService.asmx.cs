@@ -242,16 +242,19 @@ namespace CMMS
         public string BaseMachineInfo(string mid, MachineMainInfo minfo) //Base Information
         {
             _cnn.Open();
-            if (Convert.ToInt32(mid) == 0)
+            var checkcode=new SqlCommand("select code from b_machine where code="+mid+"",_cnn);
+            object check = checkcode.ExecuteScalar();
+
+            if (check==null)
             {
                 var inserMachInfo = new SqlCommand("INSERT INTO [dbo].[b_machine]([name],[imp],[creator],[maModel]," +
-                                                   "[catGroup],[catState],[selinfo],[supinfo])VALUES " +
+                                                   "[catGroup],[catState],[selinfo],[supinfo],[code])VALUES " +
                                                    "('" + minfo.Name + "' , " + minfo.Ahamiyat + " , '" +
                                                    minfo.Creator + "'" +
                                                    ",'" + minfo.Model + "' ," + minfo.CatGroup + " , " +
                                                    minfo.VaziatTajhiz + " ,'" + minfo.SellInfo + "' , '" +
-                                                   minfo.SuppInfo + "') " +
-                                                   " SELECT CAST(scope_identity() AS int)", _cnn);
+                                                   minfo.SuppInfo + "',"+mid+") " +
+                                                   " SELECT " + mid + "", _cnn);
                 return inserMachInfo.ExecuteScalar().ToString();
             }
             else
@@ -265,7 +268,7 @@ namespace CMMS
                                                    ",[catState] = " + minfo.VaziatTajhiz + " " +
                                                    ",[selinfo] = '" + minfo.SellInfo + "' " +
                                                    ",[supinfo] = '" + minfo.SuppInfo + "' " +
-                                                   "WHERE id = " + mid + " ", _cnn);
+                                                   "WHERE code = " + mid + " ", _cnn);
                 updateMachine.ExecuteNonQuery();
             }
             _cnn.Close();
@@ -775,7 +778,7 @@ namespace CMMS
                 " SELECT dbo.b_machine.name,dbo.b_machine.imp, dbo.b_machine.creator, dbo.b_machine.maModel, " +
                 " dbo.b_machine.catGroup, dbo.b_machine.catState, " +
                 " dbo.b_machine.selinfo, dbo.b_machine.supinfo " +
-                " FROM dbo.b_machine WHERE(dbo.b_machine.id = " + mid + ") ", _cnn);
+                " FROM dbo.b_machine WHERE(dbo.b_machine.code = " + mid + ") ", _cnn);
             var rd = getMachInfo.ExecuteReader();
             if (rd.Read())
             {

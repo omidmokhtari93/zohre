@@ -80,13 +80,10 @@ $('#btnNewMachineFor').on('click', function () {
     if ($('#txtMachineManufacturer').val() === '') {
         RedAlert('txtMachineManufacturer', "!!لطفا مشخصات سازنده را وارد نمایید");
     }
-    if ($('#txtMachineModel').val() === '') {
-        RedAlert('txtMachineModel', "!!لطفا مدل دستگاه را وارد نمایید");
-    }
     if ($('#txtSelInfo').val() === '') {
         RedAlert('txtSelInfo', "!!لطفا مشخصات فروشنده را وارد نمایید");
     }
-    if ($('#txtmachineName').val() !== '' && $('#txtMachineManufacturer').val() !== '' && $('#txtMachineModel').val() !== '' && $('#txtSelInfo').val() !== '') {
+    if ($('#txtmachineName').val() !== '' && $('#txtMachineManufacturer').val() !== ''  && $('#txtSelInfo').val() !== '') {
         $('#pnlNewMachine').hide();
         $('#pnlMavaredMasrafi').fadeIn();}
     
@@ -683,7 +680,7 @@ function SendTablesToDB() {
         if (uri.indexOf("?") > 0) {
             var cleanUri = uri.substring(0, uri.indexOf("?"));
             window.history.replaceState({}, document.title, cleanUri);
-            setTimeout(function () { window.location.replace("/EditMainMachine.aspx"); }, 2000);
+            setTimeout(function () { window.location.replace("/Device.aspx"); }, 2000);
         }
     }
 }

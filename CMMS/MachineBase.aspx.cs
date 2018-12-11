@@ -10,6 +10,7 @@ namespace CMMS
     public partial class MachineBase : System.Web.UI.Page
     {
         private string _machineId;
+        private string _machineName;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
@@ -21,9 +22,10 @@ namespace CMMS
                     default:
                         Response.Redirect("login.aspx");
                         break;
-
                 }
                 _machineId = Request.Params.Get("mid");
+                _machineName = Request.Params.Get("mname");
+                txtmachineName.Value = _machineName;
                 if (string.IsNullOrEmpty(_machineId)) return;
                 try
                 {
