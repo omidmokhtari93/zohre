@@ -20,7 +20,7 @@
     <script src="Scripts/chart/exporting.js"></script>
     <script src="Scripts/chart/export-data.js"></script>
     <link href="Images/icon.ico" rel="shortcut icon"/>
-    <title>سامانه تعمیر و نگهداری تجهیزات برنا</title>
+    <title>سامانه نگهداری و تعمیر تجهیزات برنا</title>
 </head>
 <body class="background_pattern">
 <form id="form1" runat="server">

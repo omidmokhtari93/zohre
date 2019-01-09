@@ -686,10 +686,10 @@
                    <div class="col-lg-8">
                        نام ماشین
                       
-                       <asp:DropDownList ID="drMachinesCopy" AppendDataBoundItems="True" CssClass="form-control" runat="server" ClientIDMode="Static" DataSourceID="SqlMAchineBase" DataTextField="name" DataValueField="id">
+                       <asp:DropDownList ID="drMachinesCopy" AppendDataBoundItems="True" CssClass="form-control" runat="server" ClientIDMode="Static" DataSourceID="SqlMAchineBase" DataTextField="name" DataValueField="code">
                            <asp:ListItem Value="0">نام ماشین / دستگاه را انتخاب نمایید</asp:ListItem>
                        </asp:DropDownList>
-                       <asp:SqlDataSource ID="SqlMAchineBase" runat="server"  ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, name FROM b_machine"></asp:SqlDataSource>
+                       <asp:SqlDataSource ID="SqlMAchineBase" runat="server"  ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT code, name FROM b_machine"></asp:SqlDataSource>
                    </div>
                   
                    

@@ -15,7 +15,7 @@
     <link href="Scripts/font-awesome.min.css" rel="stylesheet" />
     <script src="Scripts/notify.min.js"></script>
     <link href="Images/icon.ico" rel="shortcut icon"/>
-    <title>سامانه تعمیر و نگهداری تجهیزات برنا</title>
+    <title>سامانه نگهداری و تعمیر تجهیزات برنا</title>
     <style>
     </style>
 </head>
