@@ -57,6 +57,8 @@
                 vertical-align: middle !important;
                 border: 1px solid #625f5f;
             }
+            #gridsubsystems tr td:nth-child(2){ text-align: right;padding-right: 5px!important;}
+            #gridControli tr td:nth-child(2){ text-align: right;padding-right: 5px!important;}
         </style>
         <div style="padding: 5px 12px 5px 5px;width: 210mm; min-height: 297mm;" class="print">
         <div style="border: 1px solid #625f5f; padding-bottom: 2px; min-height: 297mm; position: relative;">
@@ -151,7 +153,7 @@
                 </tr>
                 <tr>
                     <td colspan="2" style="border: none; padding: 0;"> 
-                        <asp:GridView runat="server" Width="100%" CssClass="tbl" ID="gridsubsystems" AutoGenerateColumns="False" DataSourceID="sqlsubsystems">
+                        <asp:GridView runat="server" Width="100%" CssClass="tbl" ID="gridsubsystems" AutoGenerateColumns="False" DataSourceID="sqlsubsystems" ClientIDMode="Static">
                             <Columns>
                                 <asp:BoundField DataField="rn" HeaderText="ردیف" ReadOnly="True" SortExpression="rn" />
                                 <asp:BoundField DataField="name" HeaderText="نام تجهیز" SortExpression="name" />
@@ -195,7 +197,7 @@ WHERE (dbo.m_machine.id = @id)">
                 </tr>
                 <tr>
                     <td colspan="2" style="border: none; padding: 0;"> 
-                        <asp:GridView runat="server" Width="100%" CssClass="tbl" ID="gridControli" AutoGenerateColumns="False" DataSourceID="sqlControli">
+                        <asp:GridView runat="server" Width="100%" CssClass="tbl" ID="gridControli" AutoGenerateColumns="False" DataSourceID="sqlControli" ClientIDMode="Static">
                             <Columns>
                                 <asp:BoundField DataField="rn" HeaderText="ردیف" ReadOnly="True" SortExpression="rn" />
                                 <asp:BoundField DataField="contName" HeaderText="مورد کنترلی" SortExpression="contName" />

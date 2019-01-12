@@ -56,6 +56,7 @@
             vertical-align: middle !important;
             border: 1px solid #625f5f;
         }
+        #gridPersonel tr td:nth-child(2){ text-align: right;padding-right: 5px !important;}
     </style>
     <div style="padding: 5px 12px 5px 5px;width: 210mm; min-height: 297mm;" class="print">
         <div style="border: 1px solid #625f5f; padding-bottom: 2px; min-height: 297mm; position: relative;">
@@ -75,7 +76,7 @@
                 </tr>
                 <tr>
                     <td colspan="2" style="border: none; padding: 0;"> 
-                        <asp:GridView runat="server" Width="100%" CssClass="tbl" ID="gridPersonel" AutoGenerateColumns="False" DataSourceID="sqlunit">
+                        <asp:GridView runat="server" Width="100%" CssClass="tbl" ID="gridPersonel" ClientIDMode="Static" AutoGenerateColumns="False" DataSourceID="sqlunit">
                             <Columns>
                                 <asp:BoundField DataField="rownum" HeaderText="ردیف" ReadOnly="True" SortExpression="rownum" />
                                 <asp:BoundField DataField="unit_name" HeaderText="نام واحد" SortExpression="unit_name" />
