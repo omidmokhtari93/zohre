@@ -55,4 +55,21 @@
         </div>
     </div>
     <script src="Scripts/MachineRepor.js"></script>
+    <script>
+        function expToExc() {
+            $("#subbodycontent").tableExport({
+                headings: true,                    
+                footers: true,                     
+                formats: ["xls"],    
+                fileName: "id",                    
+                bootstrap: false,                  
+                position: "top",                
+                ignoreRows: null,                  
+                ignoreCols: null,                  
+                ignoreCSS: ".tableexport-ignore",  
+                emptyCSS: ".tableexport-empty",    
+                trimWhitespace: false             
+            });
+        }
+    </script>
 </asp:Content>
