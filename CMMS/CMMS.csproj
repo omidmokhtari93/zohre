@@ -194,10 +194,7 @@
     <Content Include="Scripts\chart\exporting.js" />
     <Content Include="Scripts\chart\highcharts.js" />
     <Content Include="Scripts\copyMachineData.js" />
-    <Content Include="Scripts\excel\Blob.min.js" />
-    <Content Include="Scripts\excel\FileSaver.min.js" />
-    <Content Include="Scripts\excel\tableexport.js" />
-    <Content Include="Scripts\excel\xls.core.min.js" />
+    <Content Include="Scripts\excel\table2excel.js" />
     <Content Include="Scripts\FinancialReports.js" />
     <Content Include="Scripts\Fazline.js" />
     <Content Include="Scripts\Intrupt.js" />

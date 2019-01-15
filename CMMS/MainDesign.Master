@@ -230,10 +230,7 @@
     <link href="Scripts/contactus.css" rel="stylesheet" />
     <script src="Scripts/contactusJS.js"></script>
     <script src="Scripts/Notifications.js"></script>
-    <script src="Scripts/excel/FileSaver.min.js"></script>
-    <script src="Scripts/excel/Blob.min.js"></script>
-    <script src="Scripts/excel/xls.core.min.js"></script>
-    <script src="Scripts/excel/tableexport.js"></script>
+    <script src="Scripts/excel/table2excel.js"></script>
 </form>
 </body>
 </html>
