@@ -45,6 +45,12 @@ function GreenAlert(ele, txt) {
     $.notify(txt, { className: 'success', clickToHide: false, autoHide: true, position: 'top left' });
 }
 
+function ExportToExcel(e) {
+    $("#" + e).table2excel({
+        filename: e + ".xls"
+    });
+}
+
 function ClearFields(div) {
     $('#' + div).find('input:text').val('');
     $('#' + div).find('textarea').val('');

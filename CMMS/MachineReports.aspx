@@ -55,11 +55,4 @@
         </div>
     </div>
     <script src="Scripts/MachineRepor.js"></script>
-    <script>
-        function expToExc() {
-            $("#tblCustomers").table2excel({
-                filename: "Table.xls"
-            });
-        }
-    </script>
 </asp:Content>

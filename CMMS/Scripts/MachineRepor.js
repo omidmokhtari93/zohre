@@ -33,6 +33,7 @@ function SubsystemReport() {
     $.get("Content/A4.html", function (e) {
         e = e.replace('#ReportArea#', 'subsystem');
         e = e.replace('printDiv', 'printDiv(1);');
+        e = e.replace('ExportToExcel();', 'ExportToExcel(\'subbodycontent\');');
         e = e.replace('#RP#', 'لیست تجهیزات');
         e = e.replace('#cnt#', 'subbodycontent');
         e = e.replace('#unit#', unit);
