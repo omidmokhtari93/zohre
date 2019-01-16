@@ -89,19 +89,6 @@
     <div class="panel-body">
         <div class="inputsarea" id="inputsarea">
             <div class="elemArea">
-                <div class="row">
-                    <div class="col-md-6">
-                        ماشین
-                        <select class="form-control" dir="rtl" id="drMachines"></select>
-                    </div>
-                    <div class="col-md-6">
-                        واحد
-                        <asp:DropDownList runat="server" ID="drunit" CssClass="form-control" ClientIDMode="Static" AppendDataBoundItems="True" 
-                                        dir="rtl"  DataSourceID="sqlUnits" DataTextField="unit_name" DataValueField="unit_code" >
-                            <asp:ListItem Value="-1">انتخاب کنید</asp:ListItem>
-                        </asp:DropDownList>
-                    </div>
-                </div>
                 <div class="row" style="direction: rtl;">
                     <div class="col-md-4">
                         کد مدرک :
@@ -124,33 +111,18 @@
             </div>
         </div>
         <div class="row searcharea">
-            <div class="col-lg-3" style="padding: 5px;">
+            <div class="col-md-6" style="padding: 5px;">
                 <label class="lbl"> : کد مدرک</label>
                 <div class="brdr">
                     <input type="text" id="txtCodeSearch" class="searchbox"/>
                     <button type="button" class="searchButton" id="btnSearchCode" onclick="getAllFiles();"></button>
                 </div>
             </div>
-            <div class="col-lg-3" style="padding: 5px;">
+            <div class="col-md-6" style="padding: 5px;">
                 <label class="lbl"> : نام مدرک</label>
                 <div class="brdr">
                     <input type="text" id="txtSearch" class="searchbox"/>
                     <button type="button" class="searchButton" id="btnSearch" onclick="getAllFiles();"></button>
-                </div>
-            </div>
-            <div class="col-lg-3" style="padding: 5px;">
-                <label class="lbl">نام ماشین</label>
-                <div class="brdr">
-                    <select class="searchbox" dir="rtl" id="drmachinesearch"></select>
-                </div>
-            </div>
-            <div class="col-lg-3" style="padding: 5px;">
-                <label class="lbl"> : محل استقرار</label>
-                <div class="brdr">
-                    <asp:DropDownList runat="server" CssClass="form-control" AppendDataBoundItems="True" ClientIDMode="Static" DataSourceID="Sqlunits" DataTextField="unit_name" DataValueField="unit_code" ID="drUnits">
-                        <asp:ListItem Value="0">همه واحدها</asp:ListItem>
-                    </asp:DropDownList>
-                    <asp:SqlDataSource ID="Sqlunits" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT unit_code, unit_name FROM i_units"></asp:SqlDataSource>
                 </div>
             </div>
         </div>

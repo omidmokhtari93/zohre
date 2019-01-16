@@ -2323,12 +2323,11 @@ namespace CMMS
         }
 
         [WebMethod]
-        public string GetCatalogFiles(string name ,string code ,int unit ,int mid)
+        public string GetCatalogFiles(string name ,string code)
         {
             _cnn.Open();
             var e = new List<CatalogFiles>();
             var selfiles = new SqlCommand("select id,name,code,address from catalog where " +
-                                          "(mid = "+mid+" or "+mid+" = -1) AND " +
                                           "(name like '%"+name+"%' or '"+name+"' = '') AND " +
                                           "(code like '%"+code+"%' or '"+code+"' = '')", _cnn);
             var r = selfiles.ExecuteReader();

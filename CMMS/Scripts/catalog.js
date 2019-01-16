@@ -4,17 +4,11 @@
 function getAllFiles() {
     $('.bodyarea').empty();
     var d = [];
-    var midd = -1;
-    if ($('#drmachinesearch :selected').val() !== undefined) {
-        midd = $('#drmachinesearch :selected').val();
-    }
     d.push({
         url: 'WebService.asmx/GetCatalogFiles',
         parameters: [{
             name: $('#txtSearch').val(),
-            code: $('#txtCodeSearch').val(),
-            unit: $('#drUnits :selected').val(),
-            mid: midd
+            code: $('#txtCodeSearch').val()
         }],
         func: createDownloadLinks
     });
@@ -55,27 +49,11 @@ function getAllFiles() {
     }
 }
 
-$('#drunit').change(function () {
-    FilterMachineByUnit('drunit','drMachines');
-});
-
-$('#drUnits').change(function () {
-    FilterMachineByUnit('drUnits', 'drmachinesearch');
-});
-
 $('#drmachinesearch').change(function () {
     getAllFiles();
 });
 
 function uploadFile() {
-    if ($('#drunit :selected').val() === '-1') {
-        RedAlert('drunit', 'لطفا واحد را مشخص نمایید');
-        return;
-    }
-    if ($('#drMachines :selected').val() === '-1') {
-        RedAlert('drMachines', 'لطفا دستگاه را مشخص نمایید');
-        return;
-    }
     if ($('#catfile').val() == '') {
         RedAlert('catalgBorder', 'هیچ فایلی انتخاب نشده است');
         return;

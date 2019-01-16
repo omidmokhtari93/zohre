@@ -28,8 +28,8 @@ namespace CMMS
             var filePath = "files/" + fileName + fileExtension;
             file.SaveAs(fname);
             _cnn.Open();
-            var insertToTabel = new SqlCommand("insert into catalog (mid,address,name,code)values" +
-                                               "("+fileData.MachineId+",'"+ filePath + "','"+fileData.Filename+"','"+fileData.FileCode+"')",_cnn);
+            var insertToTabel = new SqlCommand("insert into catalog (address,name,code)values" +
+                                               "('"+ filePath + "','"+fileData.Filename+"','"+fileData.FileCode+"')",_cnn);
             insertToTabel.ExecuteNonQuery();
         }
 
