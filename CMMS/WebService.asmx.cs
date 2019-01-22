@@ -268,7 +268,15 @@ namespace CMMS
                                                    ",[catState] = " + minfo.VaziatTajhiz + " " +
                                                    ",[selinfo] = '" + minfo.SellInfo + "' " +
                                                    ",[supinfo] = '" + minfo.SuppInfo + "' " +
-                                                   "WHERE code = " + mid + " ", _cnn);
+                                                   " WHERE code = " + mid + " " +
+                                                   " UPDATE [dbo].[m_machine] " +//Update other machine with this property in main table 
+                                                   " SET  [imp] = " + minfo.Ahamiyat + " " +
+                                                   ",[creator] = '" + minfo.Creator + "' " +
+                                                   ",[maModel] = '" + minfo.Model + "' " +
+                                                   ",[catGroup] = " + minfo.CatGroup + " " +
+                                                   ",[catState] = " + minfo.VaziatTajhiz + " " +
+                                                   ",[selinfo] = '" + minfo.SellInfo + "' " +
+                                                   ",[supinfo] = '" + minfo.SuppInfo + "' where SUBSTRING(CONVERT(varchar(8), code), 3, 3) ="+mid+" ", _cnn);
                 updateMachine.ExecuteNonQuery();
             }
             _cnn.Close();
@@ -307,7 +315,7 @@ namespace CMMS
                 masrafiMain.Phase + "','" + masrafiMain.Cycle + "'," +
                 " " + masrafiMain.GasChecked + ",'" + masrafiMain.GasPressure + "'," + masrafiMain.AirChecked + ",'" +
                 masrafiMain.AirPressure + "'," + masrafiMain.FuelChecked + "" +
-                ",'" + masrafiMain.FuelType + "','" + masrafiMain.FuelMasraf + "')", _cnn);
+                ",'" + masrafiMain.FuelType + "','" + masrafiMain.FuelMasraf + "') " , _cnn);
             insertFuel.ExecuteNonQuery();
             _cnn.Close();
         }
@@ -344,7 +352,26 @@ namespace CMMS
                 masrafiMain.Phase + "','" + masrafiMain.Cycle + "'," +
                 " " + masrafiMain.GasChecked + ",'" + masrafiMain.GasPressure + "'," + masrafiMain.AirChecked + ",'" +
                 masrafiMain.AirPressure + "'," + masrafiMain.FuelChecked + "" +
-                ",'" + masrafiMain.FuelType + "','" + masrafiMain.FuelMasraf + "')", _cnn);
+                ",'" + masrafiMain.FuelType + "','" + masrafiMain.FuelMasraf + "')" +
+                " " +//update m-fuel with this property in main table
+                " UPDATE [dbo].[m_fuel] " +
+                "SET[length] = '" + masrafiMain.Length + "' " +
+                ",[width] = '" + masrafiMain.Width + "' " +
+                ",[height] = '" + masrafiMain.Height + "' " +
+                ",[weight] = '" + masrafiMain.Weight + "' " +
+                ",[ele] = " + masrafiMain.BarghChecked + " " +
+                ",[masraf] = '" + masrafiMain.Masraf + "' " +
+                ",[voltage] = '" + masrafiMain.Voltage + "' " +
+                ",[phase] = '" + masrafiMain.Phase + "' " +
+                ",[cycle] = '" + masrafiMain.Cycle + "' " +
+                ",[gas] = " + masrafiMain.GasChecked + " " +
+                ",[gasPres] = '" + masrafiMain.GasPressure + "' " +
+                ",[air] = " + masrafiMain.AirChecked + " " +
+                ",[airPres] = '" + masrafiMain.AirPressure + "' " +
+                ",[fuel] = " + masrafiMain.FuelChecked + " " +
+                ",[fuelType] = '" + masrafiMain.FuelType + "' " +
+                ",[fueltot] = '" + masrafiMain.FuelMasraf + "' " +
+                " WHERE Mid = (select id from m_machine where SUBSTRING(CONVERT(varchar(8), code), 3, 3)= " + mid + " )", _cnn);
             insertFuel.ExecuteNonQuery();
             _cnn.Close();
         }
@@ -560,9 +587,37 @@ namespace CMMS
             {
                 var insertParts = new SqlCommand(
                     "INSERT INTO [dbo].[b_subsystem](Mid , subId)" +
-                    "VALUES(" + mid + "," + item.SubSystemId + ")", _cnn);
+                    "VALUES(" + mid + "," + item.SubSystemId + ")" , _cnn);
                 insertParts.ExecuteNonQuery();
             }
+            var deleteM = new SqlCommand("delete from m_subsystem where Mid = (select id from m_machine where SUBSTRING(CONVERT(varchar(8), code), 3, 3)= " + mid + " ) ", _cnn);
+            deleteM.ExecuteNonQuery();
+            _cnn.Close();
+
+            //============================================
+            _cnn.Open();
+            List<string> machinelist = new List<string>();
+            var machine=new SqlCommand("select id from m_machine where SUBSTRING(CONVERT(varchar(8), code), 3, 3)= " + mid+ "" , _cnn);
+            var rd = machine.ExecuteReader();
+            while (rd.Read())
+            {
+                machinelist.Add(rd["id"].ToString()); 
+            }
+            _cnn.Close();
+            _cnn.Open();
+            foreach (var Mid in machinelist)
+            {
+                foreach (var item in subSystem)
+                {
+
+                    var insertParts = new SqlCommand(
+                        "INSERT INTO [dbo].[m_subsystem](Mid , subId)" +
+                        "VALUES(" +Mid + "," + item.SubSystemId + ")", _cnn);
+                   
+                    insertParts.ExecuteNonQuery();
+                }
+            }
+            
             _cnn.Close();
         }
         [WebMethod]
@@ -675,7 +730,7 @@ namespace CMMS
                 "if (select count(Mid) from b_inst where Mid = " + mid + ") <> 0 " +
                 "UPDATE [dbo].[m_inst] " +
                 "SET[inst] = '" + dastoor + "' " +
-                "WHERE Mid = " + mid + " " +
+                "WHERE Mid = (select id from m_machine where SUBSTRING(CONVERT(varchar(8), code), 3, 3)= " + mid + " ) " +
                 " else " +
                 "INSERT INTO [dbo].[b_inst]([Mid],[inst])VALUES" +
                 "(" + mid + ",'" + dastoor + "')", _cnn);
