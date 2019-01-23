@@ -1014,7 +1014,8 @@ function SubmitPartChange(btn) {
         if ($('#drPartChangeParts > option').length < 1) {
             $(btn).hide();
             GreenAlert('n', "✔ پایان تعمیر با موفقیت ثبت شد");
-            setTimeout(function () { window.location.replace("/ShowRequests.aspx"); }, 2000);   
+            $('#PartChangeModal').hide();
+            //setTimeout(function () { window.location.replace("/ShowRequests.aspx"); }, 2000);   
         }
         CheckAffectedMachines();
     }
