@@ -714,7 +714,7 @@ namespace CMMS
                         {
                             var Insertforecast =new SqlCommand(
                                     "INSERT INTO [dbo].[p_forecast]([m_partId],[tarikh],[PartId],[act]) VALUES (" +
-                                    idmPart + ",'" + item.ChangePeriod + "'," + item.PartId + ",0)", _cnn);
+                                    idmPart + ",'" + item.ChangePeriod.Trim() + "'," + item.PartId + ",0)", _cnn);
                             Insertforecast.ExecuteNonQuery();
                         }
                         break;
