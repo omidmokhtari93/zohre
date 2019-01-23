@@ -1013,7 +1013,7 @@ function SubmitPartChange(btn) {
         GreenAlert('n', "ثبت شد");
         if ($('#drPartChangeParts > option').length < 1) {
             $(btn).hide();
-            GreenAlert('n', "✔ پایان تعمیر با موفقیت ثبت شد");
+            //GreenAlert('n', "✔ پایان تعمیر با موفقیت ثبت شد");
             $('#PartChangeModal').hide();
             //setTimeout(function () { window.location.replace("/ShowRequests.aspx"); }, 2000);   
         }
