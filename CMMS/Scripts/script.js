@@ -166,7 +166,7 @@ function GetChartData(obj) {
             if (obj.chartype == 'categorycolumn') {
                 CreateMultipleColumnChart(obj.kind, obj.comment1, obj.comment2,obj.label,obj.header, data, obj.element, obj.chartype);
             }
-            
+            CreateTableForChart(data);
         },
         error: function () {
             RedAlert('no', '!!خطا در دریافت اطلاعات');
@@ -349,23 +349,6 @@ function CreateMultipleColumnChart(kind,c1,c2,lbl,reportName, reportData, chartE
     });
 }
 
-
-function GetTableDataFromSQL(obj) {
-    $.ajax({
-        type: "POST",
-        url: "WebService.asmx/" + obj[0].url,
-        data: JSON.stringify(obj[0].data[0]),
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (e) {
-            var dataa = JSON.parse(e.d);
-            var func = eval(obj[0].func);
-            func(dataa, obj[0].element);
-        }
-    });
-}
-
-
 function AjaxCall(obj) {
     $.ajax({
         type: 'POST',
@@ -396,18 +379,19 @@ function AjaxData(obj) {
 
 function FilterMachineByUnit(unit , machine) {
     var location = $("#" + unit + " :selected").val();
-    var data = {
+    AjaxData({
         url: 'WebService.asmx/FilterMachineOrderByLocation',
         param: { loc: location },
         func: fillelement
-    }
-    AjaxData(data);
+    });
     function fillelement(e) {
         var data = JSON.parse(e.d);
         $('#' + machine).empty();
+        var options = [];
         $('#' + machine).append($("<option></option>").attr("value", -1).text('انتخاب کنید'));
         for (var i = 0; i < data.length; i++) {
-            $('#' + machine).append($("<option></option>").attr("value", data[i].MachineId).text(data[i].MachineName));
+          options.push('<option value="' + data[i].MachineId + '">' + data[i].MachineName+'</option>');
         }
+        $('#' + machine).append(options);
     }
 }

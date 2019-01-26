@@ -102,5 +102,9 @@
             });
             GetChartData(obj);
         }
+
+        function CreateTableForChart(data) {
+            if ($("#" + "PartsChart").length < 1) return;
+        }
     </script>
 </asp:Content>
