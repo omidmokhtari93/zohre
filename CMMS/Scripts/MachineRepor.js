@@ -22,7 +22,40 @@ function machineTypes() {
     };
     GetChartData(obj);
 }
+function CreateTableForChart(data) {
+    if ($('#ActiveMachine').hasClass('active')) {
+        $('#gridActMachine').empty();
+        if (data.length > 0) {
+            var body = [];
+            body.push('<tr><th>ردیف</th><th> وضعیت</th><th>تعداد</th></tr>');
+            for (var i = 0; i < data.length; i++) {
+                body.push('<tr>' +
+                    '<td>' + (i + 1) + '</td>' +
+                    '<td>' + data[i][0] + '</td>' +
+                    '<td>' + data[i][1] + '</td>' +                   
+                    '</tr>');
+            }
+            $('#gridActMachine').append(body.join(''));
+        }
+    }
+    if ($('#MachineTypes').hasClass('active')) {
+        $('#gridTypMachine').empty();
+        if (data.length > 0) {
+            var body = [];
+            body.push('<tr><th>ردیف</th><th>نوع دستگاه</th><th>تعداد</th></tr>');
+            for (var i = 0; i < data.length; i++) {
+                body.push('<tr>' +
+                    '<td>' + (i + 1) + '</td>' +
+                    '<td>' + data[i][0] + '</td>' +
+                    '<td>' + data[i][1] + '</td>' +
+                    '</tr>');
+            }
+            $('#gridTypMachine').append(body.join(''));
+        }
+    }
+   
 
+}
 function SubsystemReport() {
     var unit;
     if ($('#drsubsystemunits :selected').val() !== '0') {

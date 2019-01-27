@@ -34,6 +34,57 @@ $('#drStopLine').on('change', function () {
         $('#drStopUnits').val('-1');
     }
 });
+function CreateTableForChart(data) {
+    if ($('#StopPerline').hasClass('active')) {
+        $('#gridStopPerline').empty();
+        if (data.Machine.length > 0) {
+            var body = [];
+            body.push('<tr><th>ردیف</th><th>نام دستگاه</th><th>توقف الکتریکی</th><th>توقف مکانیکی</th></tr>');
+            for (var i = 0; i < data.Machine.length; i++) {
+                body.push('<tr>' +
+                    '<td>' + (i + 1) + '</td>' +
+                    '<td>' + data.Machine[i] + '</td>' +
+                    '<td>' + data.Mtt[i] + '  دقیقه</td>' +
+                    '<td>' + data.MttH[i] + '  دقیقه</td>' +
+                    '</tr>');
+            }
+            $('#gridStopPerline').append(body.join(''));
+        }
+    }
+    if ($('#StopPerSubsystem').hasClass('active')) {
+        $('#gridStopPerSubsystem').empty();
+        if (data.Machine.length > 0) {
+            var body = [];
+            body.push('<tr><th>ردیف</th><th>نام تجهیز</th><th>توقف الکتریکی</th><th>توقف مکانیکی</th></tr>');
+            for (var i = 0; i < data.Machine.length; i++) {
+                body.push('<tr>' +
+                    '<td>' + (i + 1) + '</td>' +
+                    '<td>' + data.Machine[i] + '</td>' +
+                    '<td>' + data.Mtt[i] + '  دقیقه</td>' +
+                    '<td>' + data.MttH[i] + '  دقیقه</td>' +
+                    '</tr>');
+            }
+            $('#gridStopPerSubsystem').append(body.join(''));
+        }
+    }
+    if ($('#StopProduct').hasClass('active')) {
+        $('#gridStopProduct').empty();
+        if (data.Strings.length > 0) {
+            var body = [];
+            body.push('<tr><th>ردیف</th><th>نام دستگاه</th><th>توقف تولید</th></tr>');
+            for (var i = 0; i < data.Strings.length; i++) {
+                body.push('<tr>' +
+                    '<td>' + (i + 1) + '</td>' +
+                    '<td>' + data.Strings[i] + '  دقیقه</td>' +
+                    '<td>' + data.Integers[i] + '  دقیقه</td>' +
+                   
+                    '</tr>');
+            }
+            $('#gridStopProduct').append(body.join(''));
+        }
+    }
+
+}
 function Stop() {
     ClearReprtArea();
     var startDate = $('#txtunitlineStartDate').val();

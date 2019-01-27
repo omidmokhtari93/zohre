@@ -49,6 +49,10 @@
                     <button type="button" class="btn btn-info" style="width: 100%;" onclick="CreateFailTypeChart();">دریافت گزارش</button>
                 </div>
                 <div id="FailTypeChart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 10px auto;"></div>  
+                <hr 5/>
+                <table dir="rtl" id="gridFailTypes" class="table">
+                    <tbody></tbody>
+                </table>
             </div>
         </div>
         <div id="RepReqTypes" class="tab-pane fade">
@@ -78,6 +82,10 @@
                     <button type="button" class="btn btn-info" style="width: 100%;" onclick="CreateRepReqChart();">دریافت گزارش</button>
                 </div>
                 <div id="RepReqTypeChart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 10px auto;"></div>  
+                <hr 5/>
+                <table dir="rtl" id="gridRepReqTypes" class="table">
+                    <tbody></tbody>
+                </table>
             </div>
         </div>
         <div id="MostRepReq" class="tab-pane fade">
@@ -105,7 +113,11 @@
                 <div style="padding: 15px;">
                     <button type="button" class="btn btn-info" style="width: 100%;" onclick="CreateMostRepReqChart();">دریافت گزارش</button>
                 </div>
-                <div id="MostRepReqChart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 10px auto;"></div>  
+                <div id="MostRepReqChart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 10px auto;"></div> 
+                <hr 5/>
+                <table dir="rtl" id="gridMostRepReq" class="table">
+                    <tbody></tbody>
+                </table>
             </div>
         </div>
         <div id="MostFails" class="tab-pane fade">
@@ -135,6 +147,10 @@
                     <button type="button" class="btn btn-info" style="width: 100%;" onclick="CreateMostFailsChart();">دریافت گزارش</button>
                 </div>
                 <div id="MostFailsChart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 10px auto;"></div>
+                <hr 5/>
+                <table dir="rtl" id="gridMostFails" class="table">
+                    <tbody></tbody>
+                </table>
             </div>
         </div>
         <div id="MostDelays" class="tab-pane fade">
@@ -195,6 +211,10 @@
                     <button type="button" class="btn btn-info" style="width: 100%;" onclick="CreateRepairActionChart();">دریافت گزارش</button>
                 </div>
                 <div id="RepairActionChart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 10px auto;"></div>
+                <hr 5/>
+                <table dir="rtl" id="gridRepairAction" class="table">
+                    <tbody></tbody>
+                </table>
             </div>
         </div>
         <div id="RepairSub" class="tab-pane fade">
@@ -232,6 +252,10 @@
                     <button type="button" class="btn btn-info" style="width: 100%;" onclick="CreateSubsystemChart();">دریافت گزارش</button>
                 </div>
                 <div id="RepairsubChart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 10px auto;"></div>
+                <hr 5/>
+                <table dir="rtl" id="gridRepairSub" class="table">
+                    <tbody></tbody>
+                </table>
             </div>
         </div>
         <div id="RepairTime" class="tab-pane fade">

@@ -56,6 +56,10 @@
                     <button type="button" class="btn btn-info" style="width: 100%;" onclick="EmPmTimeChart();">دریافت گزارش</button>
                 </div>
                 <div id="EmPmChart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 10px auto;"></div>
+                <div>
+                    <table id="gridEmPm" dir="rtl" class="table">
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -134,7 +138,7 @@
                 url: 'EmPmtimePersonel',
                 data: [],
                 element: 'EmPmChart',
-                header: 'بیشترین خرابی اجزاء',
+                header: 'نفر ساعت کارکرد ',
                 chartype: 'column'
             };
             obj.data.push({
@@ -143,6 +147,23 @@
                 dateE: eDate
             });
             GetChartData(obj);
+        }
+        function CreateTableForChart(data) {
+           
+            $('#gridEmPm').empty();
+                if (data.Strings.length > 0) {
+                    var body = [];
+                    body.push('<tr><th>ردیف</th><th>نوع کارکرد</th><th>زمان به دقیقه</th></tr>');
+                    for (var i = 0; i < data.Strings.length; i++) {
+                        body.push('<tr>' +
+                            '<td>' + (i + 1) + '</td>' +
+                            '<td>' + data.Strings[i] + '</td>' +
+                            '<td>' + data.Integers[i] + '</td>' +
+                            
+                            '</tr>');
+                    }
+                    $('#gridEmPm').append(body.join(''));
+                }
         }
     </script>
 </asp:Content>

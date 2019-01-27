@@ -10,7 +10,7 @@
     </div>
     <ul class="nav nav-tabs" style="padding: 0px 15px 0 15px; margin-top: 10px;">
         <li class="active"><a data-toggle="tab" href="#ActiveMachine">گزارش تجهیزات فعال</a></li>
-        <li><a data-toggle="tab" href="#MachineTypes" onclick="machineTypes();">نوع ماشین آلات</a></li>
+        <li><a data-toggle="tab" href="#MachineTypes">نوع ماشین آلات</a></li>
         <li><a data-toggle="tab" href="#machinelist">لیست دستگاه ها</a></li>
         <li><a data-toggle="tab" href="#subsystemlist">لیست تجهیزات</a></li>
     </ul>
@@ -25,11 +25,20 @@
                     <option value="4">حمل و نقل</option>
                 </select>
                 <div id="ActiveMachineChart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 10px auto;"></div>  
+                <div>
+                    <table id="gridActMachine" dir="rtl" class="table">
+                    </table>
+                </div>
             </div>
         </div>
         <div id="MachineTypes" class="tab-pane fade">
             <div class="menubody">
+                <button type="button" style="width: 100%;" class="btn btn-info" onclick="machineTypes();">دریافت گزارش</button>
                 <div id="MachineTypesChart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 10px auto;"></div>  
+                <div>
+                    <table id="gridTypMachine" dir="rtl" class="table">
+                    </table>
+                </div>
             </div>
         </div>
         <div id="machinelist" class="tab-pane fade">

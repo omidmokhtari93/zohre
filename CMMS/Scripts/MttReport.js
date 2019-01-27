@@ -83,10 +83,63 @@ function Mtbf() {
         faz:fazz
     });
     GetChartData(obj);
+
     $.get("Content/report.html", function (data) {
         data = data.replace("#btn#", 'onclick="MtbfReport();"');
         $("#MtbfReportArea").html(data);
     });
+}
+
+function CreateTableForChart(data) {
+    if ($('#Mtbf').hasClass('active')) {
+        $('#gridMtbfReport').empty();
+        if (data.Machine.length > 0) {
+            var body = [];
+            body.push('<tr><th>ردیف</th><th>نام دستگاه</th><th>MTBF</th><th>MTBF-Goal</th></tr>');
+            for (var i = 0; i < data.Machine.length; i++) {
+                body.push('<tr>' +
+                    '<td>' + (i + 1) + '</td>' +
+                    '<td>' + data.Machine[i] + '</td>' +
+                    '<td>' + data.Mtt[i] + '</td>' +
+                    '<td>' + data.MttH[i] + '</td>' +
+                    '</tr>');
+            }
+            $('#gridMtbfReport').append(body.join(''));
+        }
+    }
+    if ($('#MttrPerRepiar').hasClass('active')) {
+        $('#gridMttrRReport').empty();
+        if (data.Machine.length > 0) {
+            var body = [];
+            body.push('<tr><th>ردیف</th><th>نام دستگاه</th><th>MTTR</th><th>MTTR-Goal</th></tr>');
+            for (var i = 0; i < data.Machine.length; i++) {
+                body.push('<tr>' +
+                    '<td>' + (i + 1) + '</td>' +
+                    '<td>' + data.Machine[i] + '</td>' +
+                    '<td>' + data.Mtt[i] + '</td>' +
+                    '<td>' + data.MttH[i] + '</td>' +
+                    '</tr>');
+            }
+            $('#gridMttrRReport').append(body.join(''));
+        }
+    }
+    if ($('#MttrPerStop').hasClass('active')) {
+        $('#gridMttrSReport').empty();
+        if (data.Machine.length > 0) {
+            var body = [];
+            body.push('<tr><th>ردیف</th><th>نام دستگاه</th><th>MTTR</th><th>MTTR-Goal</th></tr>');
+            for (var i = 0; i < data.Machine.length; i++) {
+                body.push('<tr>' +
+                    '<td>' + (i + 1) + '</td>' +
+                    '<td>' + data.Machine[i] + '</td>' +
+                    '<td>' + data.Mtt[i] + '</td>' +
+                    '<td>' + data.MttH[i] + '</td>' +
+                    '</tr>');
+            }
+            $('#gridMttrSReport').append(body.join(''));
+        }
+    }
+    
 }
 
 $('#drMttrPerRepiar').on('change', function() {
@@ -221,6 +274,7 @@ function MtbfReport() {
         function mtbfReportDone() {
             GreenAlert('no', 'با موفقیت ثبت شد MTBF گزارش');
             $('#MtbfReportArea').empty();
+           
         }
     }
 }

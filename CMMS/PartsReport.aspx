@@ -37,6 +37,10 @@
                 <button type="button" class="btn btn-info" style="width: 100%;" onclick="CreatePartsChart();">دریافت گزارش</button>
             </div>
             <div id="PartsChart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 10px auto;"></div>  
+            <div>
+                <table id="gridParts" dir="rtl" class="table">
+                </table>
+            </div>
         </div>
     </div>
     <script>
@@ -102,9 +106,22 @@
             });
             GetChartData(obj);
         }
-
         function CreateTableForChart(data) {
-            if ($("#" + "PartsChart").length < 1) return;
+           
+            $('#gridParts').empty();
+            if (data.Strings.length > 0) {
+                    var body = [];
+                    body.push('<tr><th>ردیف</th><th> نام قطعه</th><th>تعداد</th></tr>');
+                    for (var i = 0; i < data.Strings.length; i++) {
+                        body.push('<tr>' +
+                            '<td>' + (i + 1) + '</td>' +
+                            '<td>' + data.Strings[i] + '</td>' +
+                            '<td>' + data.Integers[i] + '</td>' +
+                            '</tr>');
+                    }
+                    $('#gridParts').append(body.join(''));
+                }
         }
+       
     </script>
 </asp:Content>

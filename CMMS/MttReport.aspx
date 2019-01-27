@@ -50,7 +50,12 @@
                 <button type="button" class="btn btn-info" style="width: 100%;" onclick="Mtbf();">MTBF_دریافت گزارش</button>
             </div>
             <a onclick="printDiv();" class="fa fa-print print" title="پرینت"></a>
-            <div id="MtbfChart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 10px auto;"></div>  
+            <div id="MtbfChart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 10px auto;"></div> 
+            <div>
+                <table id="gridMtbfReport" dir="rtl" class="table">
+                </table>
+            </div>
+            <br/>
             <div id="MtbfReportArea"></div>
             <script>
                 function printDiv() {
@@ -97,7 +102,13 @@
                     <button type="button" class="btn btn-info" style="width: 100%;" onclick="MttrPerRepiar();">بر مبنای تعمیر  MTTR دریافت گزارش</button>
                 </div>
                 <div id="MttrPerRepiarChart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 10px auto;"></div>  
+                <div>
+                    <table id="gridMttrRReport" dir="rtl" class="table">
+                    </table>
+                </div>
+                <br/>
                 <div id="MttrPerRepiarReport"></div>
+
             </div>
         </div>
    
@@ -133,7 +144,12 @@
                 <div style="padding: 15px;">
                     <button type="button" class="btn btn-info" style="width: 100%;" onclick="MttrPerStop();"> بر مبنای توقف  MTTR دریافت گزارش</button>
                 </div>
-                <div id="MttrPerstopChart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 10px auto;"></div>  
+                <div id="MttrPerstopChart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 10px auto;"></div> 
+                <div>
+                    <table id="gridMttrSReport" dir="rtl" class="table">
+                    </table>
+                </div>
+                <br/>
                 <div id="MttrPerStopReport"></div>
             </div>
         </div>

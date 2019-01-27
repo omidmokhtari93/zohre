@@ -180,6 +180,101 @@ $(document).ready(function () {
         $('#txtRepairTimeCount').removeAttr('disabled');
     }
 });
+//=================================================================Table 
+function CreateTableForChart(data) {
+    if ($('#FailTypes').hasClass('active')) {
+        $('#gridFailTypes').empty();
+        if (data.length > 0) {
+            var body = [];
+            body.push('<tr><th>ردیف</th><th>نوع خرابی</th><th>تعداد</th></tr>');
+            for (var i = 0; i < data.length; i++) {
+                body.push('<tr>' +
+                    '<td>' + (i + 1) + '</td>' +
+                    '<td>' + data[i][0] + '</td>' +
+                    '<td>' + data[i][1] + '</td>' +
+                    '</tr>');
+            }
+            $('#gridFailTypes').append(body.join(''));
+        }
+    }
+    if ($('#RepReqTypes').hasClass('active')) {
+        $('#gridRepReqTypes').empty();
+        if (data.length > 0) {
+            var body = [];
+            body.push('<tr><th>ردیف</th><th>نوع درخواست تعمیر</th><th>تعداد</th></tr>');
+            for (var i = 0; i < data.length; i++) {
+                body.push('<tr>' +
+                    '<td>' + (i + 1) + '</td>' +
+                    '<td>' + data[i][0] + '</td>' +
+                    '<td>' + data[i][1] + '</td>' +
+                    '</tr>');
+            }
+            $('#gridRepReqTypes').append(body.join(''));
+        }
+    }
+    if ($('#MostRepReq').hasClass('active')) {
+        $('#gridMostRepReq').empty();
+        if (data.Strings.length > 0) {
+            var body = [];
+            body.push('<tr><th>ردیف</th><th>نام دستگاه</th><th>تعداد</th></tr>');
+            for (var i = 0; i < data.Strings.length; i++) {
+                body.push('<tr>' +
+                    '<td>' + (i + 1) + '</td>' +
+                    '<td>' + data.Strings[i] + '</td>' +
+                    '<td>' + data.Integers[i] + '</td>' +
+                    '</tr>');
+            }
+            $('#gridMostRepReq').append(body.join(''));
+        }
+    }
+    if ($('#MostFails').hasClass('active')) {
+        $('#gridMostFails').empty();
+        if (data.Strings.length > 0) {
+            var body = [];
+            body.push('<tr><th>ردیف</th><th>علت خرابی</th><th>تعداد</th></tr>');
+            for (var i = 0; i < data.Strings.length; i++) {
+                body.push('<tr>' +
+                    '<td>' + (i + 1) + '</td>' +
+                    '<td>' + data.Strings[i] + '</td>' +
+                    '<td>' + data.Integers[i] + '</td>' +
+                    '</tr>');
+            }
+            $('#gridMostFails').append(body.join(''));
+        }
+    }
+    if ($('#RepairAction').hasClass('active')) {
+        $('#gridRepairAction').empty();
+        if (data.length > 0) {
+            var body = [];
+            body.push('<tr><th>ردیف</th><th>عملیات تعمیرکاری</th><th>تعداد</th></tr>');
+            for (var i = 0; i < data.length; i++) {
+                body.push('<tr>' +
+                    '<td>' + (i + 1) + '</td>' +
+                    '<td>' + data[i][0] + '</td>' +
+                    '<td>' + data[i][1] + '</td>' +
+                    '</tr>');
+            }
+            $('#gridRepairAction').append(body.join(''));
+        }
+    }
+    if ($('#RepairSub').hasClass('active')) {
+        $('#gridRepairSub').empty();
+        if (data.Strings.length > 0) {
+            var body = [];
+            body.push('<tr><th>ردیف</th><th>نام اجزاء</th><th>تعداد</th></tr>');
+            for (var i = 0; i < data.Strings.length; i++) {
+                body.push('<tr>' +
+                    '<td>' + (i + 1) + '</td>' +
+                    '<td>' + data.Strings[i] + '</td>' +
+                    '<td>' + data.Integers[i] + '</td>' +
+                    '</tr>');
+            }
+            $('#gridRepairSub').append(body.join(''));
+        }
+    }
+
+}
+//=================================================================
 $('#drunitfail').on('change', function () {
     if ($('#drunitfail :selected').val() !== '-1') {
         $('#drlinefail').val('-1');

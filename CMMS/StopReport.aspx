@@ -42,6 +42,10 @@
                     <button type="button" class="btn btn-info" style="width: 100%;" onclick="Stop();">دریافت گزارش</button>
                 </div>
                 <div id="StopChart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 10px auto;"></div>  
+                <hr 5/>
+                <table dir="rtl" id="gridStopPerline" class="table">
+                    <tbody></tbody>
+                </table>
                
                
             </div>
@@ -73,6 +77,10 @@
                     <button type="button" class="btn btn-info" style="width: 100%;" onclick="StopSub();">دریافت گزارش</button>
                 </div>
                 <div id="StopSubChart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 10px auto;"></div>  
+                <hr 5/>
+                <table dir="rtl" id="gridStopPerSubsystem" class="table">
+                    <tbody></tbody>
+                </table>
                
                
             </div>
@@ -105,6 +113,10 @@
                     <button type="button" class="btn btn-info" style="width: 100%;" onclick="StopProduct();">دریافت گزارش</button>
                 </div>
                 <div id="StopProductChart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 10px auto;"></div>  
+                <hr 5/>
+                <table dir="rtl" id="gridStopProduct" class="table">
+                    <tbody></tbody>
+                </table>
                
                
             </div>
