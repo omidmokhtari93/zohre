@@ -108,6 +108,7 @@
     <Content Include="Images\MainMachine.png" />
     <Content Include="Images\MainMachineUp.png" />
     <Content Include="Images\PersonelChart.png" />
+    <Content Include="Images\proposal.png" />
     <Content Include="Images\Rchecklist.png" />
     <Content Include="Images\Rchecklistempty.png" />
     <Content Include="Images\RepairChart.png" />
@@ -182,6 +183,7 @@
     <Content Include="primryCost.aspx" />
     <Content Include="Program.aspx" />
     <Content Include="RepairHistory.aspx" />
+    <Content Include="RepairRecordReport.aspx" />
     <Content Include="RepairRecordReview.aspx" />
     <Content Include="RepairReport.aspx" />
     <Content Include="RepairRequestPrint.aspx" />
@@ -213,6 +215,7 @@
     <Content Include="Scripts\MachineStyles.css" />
     <Content Include="Scripts\PartAcc.js" />
     <Content Include="Scripts\program.js" />
+    <Content Include="Scripts\RepairRecordReport.js" />
     <Content Include="Scripts\RepairReport.js" />
     <Content Include="Scripts\Reply.js" />
     <Content Include="Scripts\SearchParts.js" />
@@ -530,6 +533,13 @@
     </Compile>
     <Compile Include="RepairHistory.aspx.designer.cs">
       <DependentUpon>RepairHistory.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RepairRecordReport.aspx.cs">
+      <DependentUpon>RepairRecordReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RepairRecordReport.aspx.designer.cs">
+      <DependentUpon>RepairRecordReport.aspx</DependentUpon>
     </Compile>
     <Compile Include="RepairRecordReview.aspx.cs">
       <DependentUpon>RepairRecordReview.aspx</DependentUpon>

@@ -282,5 +282,11 @@ namespace CMMS
         {
            Response.Redirect("EditMainMachine.aspx");
         }
+
+
+        protected void btn_RepairHistory_OnClick(object sender, EventArgs e)
+        {
+           Response.Redirect("RepairRecordReport.aspx");
+        }
     }
 }

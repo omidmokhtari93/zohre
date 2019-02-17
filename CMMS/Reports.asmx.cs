@@ -549,6 +549,46 @@ namespace CMMS
             infoTools.Integers.AddRange(list2);
             return new JavaScriptSerializer().Serialize(infoTools);
         }
+
+        [WebMethod]
+        public string ToolsReport(int toolsId, string dateS, string dateE)
+        {
+            var infoTools=new List<string[]>();
+            cnn.Open();
+            var cmdToolsReport=new SqlCommand(" SELECT CMMS.dbo.i_units.unit_name,CMMS.dbo.m_machine.name,sgdb.inv.Part.PartName , SUM(CMMS.dbo.r_tools.count) AS countt " +
+                                              " FROM CMMS.dbo.m_machine INNER JOIN " +
+                                              " CMMS.dbo.i_units ON CMMS.dbo.m_machine.loc = CMMS.dbo.i_units.unit_code INNER JOIN " +
+                                              " CMMS.dbo.r_request ON CMMS.dbo.m_machine.id = CMMS.dbo.r_request.machine_code INNER JOIN " +
+                                              " CMMS.dbo.r_reply ON CMMS.dbo.r_request.req_id = CMMS.dbo.r_reply.idreq INNER JOIN " +
+                                              " CMMS.dbo.r_tools ON CMMS.dbo.r_reply.id = CMMS.dbo.r_tools.id_rep INNER JOIN " +
+                                              " sgdb.inv.Part on CMMS.dbo.r_tools.tools_id = sgdb.inv.Part.Serial " +
+                                              " where CMMS.dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "' and CMMS.dbo.r_tools.tools_id = " + toolsId+" " +
+                                              " GROUP BY  dbo.i_units.unit_name, dbo.m_machine.name, sgdb.inv.Part.PartName",cnn);
+            var cmdNullToolsReport = new SqlCommand(" SELECT CMMS.dbo.i_units.unit_name,CMMS.dbo.m_machine.name,sgdb.inv.Part.PartName , SUM(CMMS.dbo.r_tools.count) AS countt " +
+                                                " FROM CMMS.dbo.m_machine INNER JOIN " +
+                                                " CMMS.dbo.i_units ON CMMS.dbo.m_machine.loc = CMMS.dbo.i_units.unit_code INNER JOIN " +
+                                                " CMMS.dbo.r_request ON CMMS.dbo.m_machine.id = CMMS.dbo.r_request.machine_code INNER JOIN " +
+                                                " CMMS.dbo.r_reply ON CMMS.dbo.r_request.req_id = CMMS.dbo.r_reply.idreq INNER JOIN " +
+                                                " CMMS.dbo.r_tools ON CMMS.dbo.r_reply.id = CMMS.dbo.r_tools.id_rep INNER JOIN " +
+                                                " sgdb.inv.Part on CMMS.dbo.r_tools.tools_id = sgdb.inv.Part.Serial " +
+                                                " where CMMS.dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "' " +
+                                                " GROUP BY  dbo.i_units.unit_name, dbo.m_machine.name, sgdb.inv.Part.PartName", cnn);
+            SqlDataReader rd;
+            if (toolsId == -1)
+            {
+                rd = cmdNullToolsReport.ExecuteReader();
+            }
+            else
+            {
+                rd = cmdToolsReport.ExecuteReader();
+            }
+           
+            while (rd.Read())
+            {
+                infoTools.Add(new []{rd["unit_name"].ToString(),rd["name"].ToString(),rd["PartName"].ToString(),rd["countt"].ToString() });
+            }
+            return new JavaScriptSerializer().Serialize(infoTools);
+        }
         [WebMethod]
 
         public string Personel(int kind,string dateS, string dateE)
@@ -2330,6 +2370,70 @@ namespace CMMS
                 });
             }
             return new JavaScriptSerializer().Serialize(e);
+        }
+        [WebMethod]
+        public string RepairHistory(int machine, int unit, string dateS, string dateE)// سوابق تعمیر/ سرویس کاری == گزارش سوابق تعمیر
+        {
+            var infoRepairHistory = new List<string[]>();
+            cnn.Open();
+            var cmdRepair = new SqlCommand("select idreq,name,start_repdate,Treq,Sub,rep_time,stop_time from" +
+                                             " (SELECT TOP (100) PERCENT dbo.r_reply.idreq, dbo.m_machine.name, dbo.r_reply.start_repdate, " +
+                                             " CASE WHEN r_request.type_req = 1 THEN 'اضطراری' WHEN r_request.type_req = 2 THEN 'پیش بینانه' ELSE 'پیش گیرانه' END AS Treq," +
+                                             " dbo.subsystem.name AS Sub, dbo.r_reply.rep_time,dbo.r_reply.stop_time  FROM dbo.r_request INNER JOIN" +
+                                             " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN " +
+                                             " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id INNER JOIN " +
+                                             " dbo.subsystem ON dbo.r_reply.subsystem = dbo.subsystem.id" +
+                                             " where r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "'" +
+                                             " and r_request.unit_id="+unit+" and r_request.machine_code="+machine+" "+
+                                             " union all " +
+                                             " SELECT TOP(100) PERCENT dbo.r_reply.idreq, dbo.m_machine.name, dbo.r_reply.start_repdate, " +
+                                             " CASE WHEN r_request.type_req = 1 THEN 'اضطراری' WHEN r_request.type_req = 2 THEN 'پیش بینانه' ELSE 'پیش گیرانه' END AS Treq," +
+                                             " '------' AS Sub, dbo.r_reply.rep_time, dbo.r_reply.stop_time" +
+                                             " FROM dbo.r_request INNER JOIN " +
+                                             " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN " +
+                                             " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
+                                             " where subsystem = 0 and r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "'" +
+                                             " and r_request.unit_id = "+unit+" and r_request.machine_code = "+machine+" ) i " +
+                                             " order by start_repdate, idreq", cnn);
+            var cmdOnlyunit = new SqlCommand("select idreq,name,start_repdate,Treq,Sub,rep_time,stop_time from" +
+                                           " (SELECT TOP (100) PERCENT dbo.r_reply.idreq, dbo.m_machine.name, dbo.r_reply.start_repdate, " +
+                                           " CASE WHEN r_request.type_req = 1 THEN 'اضطراری' WHEN r_request.type_req = 2 THEN 'پیش بینانه' ELSE 'پیش گیرانه' END AS Treq," +
+                                           " dbo.subsystem.name AS Sub, dbo.r_reply.rep_time,dbo.r_reply.stop_time  FROM dbo.r_request INNER JOIN" +
+                                           " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN " +
+                                           " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id INNER JOIN " +
+                                           " dbo.subsystem ON dbo.r_reply.subsystem = dbo.subsystem.id" +
+                                           " where r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "'" +
+                                           " and r_request.unit_id=" + unit + " " +
+                                           " union all " +
+                                           " SELECT TOP(100) PERCENT dbo.r_reply.idreq, dbo.m_machine.name, dbo.r_reply.start_repdate, " +
+                                           " CASE WHEN r_request.type_req = 1 THEN 'اضطراری' WHEN r_request.type_req = 2 THEN 'پیش بینانه' ELSE 'پیش گیرانه' END AS Treq," +
+                                           " '------' AS Sub, dbo.r_reply.rep_time, dbo.r_reply.stop_time" +
+                                           " FROM dbo.r_request INNER JOIN " +
+                                           " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN " +
+                                           " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
+                                           " where subsystem = 0 and r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "'" +
+                                           " and r_request.unit_id = " + unit + "  ) i " +
+                                           " order by start_repdate, idreq", cnn);
+            SqlDataReader rd;
+            if (machine != -1)
+            {
+                rd = cmdRepair.ExecuteReader();
+
+            }
+            else
+            {
+                rd = cmdOnlyunit.ExecuteReader();
+            }
+           
+            while (rd.Read())
+            {
+                var strList = new List<string[]>
+                {
+                    new[] { Crypto.Crypt(rd["idreq"].ToString()), rd["idreq"].ToString(), rd["name"].ToString(), rd["start_repdate"].ToString(), rd["Treq"].ToString(), rd["Sub"].ToString(), rd["rep_time"].ToString(), rd["stop_time"].ToString() }
+                };
+                infoRepairHistory.AddRange(strList);
+            }
+            return new JavaScriptSerializer().Serialize(infoRepairHistory);
         }
     }
 }

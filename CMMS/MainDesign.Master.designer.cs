@@ -148,6 +148,15 @@ namespace CMMS {
         protected global::System.Web.UI.WebControls.Button btn_RepairReport;
         
         /// <summary>
+        /// btn_RepairHistory control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btn_RepairHistory;
+        
+        /// <summary>
         /// btn_StopReport control.
         /// </summary>
         /// <remarks>

@@ -29,7 +29,7 @@
             <div class="tab-content" id="opFrom">
                 <div id="PartsAcc" class="tab-pane fade in active">
                     <div class="menubody" style="position: relative;">
-                        <label>نام قطعه پر مصرف</label>
+                        <label>نام قطعه</label>
                         <div id="PartBadgeArea" style="position: relative;">
                             <input autocomplete="off" dir="rtl" class="form-control text-right" id="txtPartsSearch" placeholder="جستجوی قطعه ..."/>
                             <img src="Images/loading.png" id="partsLoading"/>
