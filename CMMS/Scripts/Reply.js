@@ -100,7 +100,7 @@ function doneTypingPartRequest() {
                 var tableRows = '';
                 var filteredParts = JSON.parse(e.d);
                 for (var i = 0; i < filteredParts.length; i++) {
-                    tableRows += '<tr id="sel"><td partid="' + filteredParts[i].PartId + '">' + filteredParts[i].PartName + '</td></tr>';
+                    tableRows += '<tr id="sel"><td partid="' + filteredParts[i].PartId + '",>' + filteredParts[i].PartName + '</td></tr>';
                 }
                 $('#griRequestParts tbody').append(tableRows);
                 rows = $('#griRequestParts tr').clone();
@@ -129,6 +129,7 @@ $('#griRequestParts').on('click', 'tr#sel', function () {
             return;
         }
     }
+    $('#Drmeasurement').val();
     $('#PartRequestSearchResult').hide();
     $('#txtSearchRequestedPart').val('');
     createRequestPartBadge($text, $value);
@@ -434,6 +435,7 @@ function doneTypinghelp() {
             error: function () {
             }
         });
+       
     } if (($helpinput).val().length <= 2 && ($helpinput).val() != '') {
         $.notify("!!حداقل سه حرف از نام قطعه را وارد نمایید", { globalPosition: 'top left' });
     }
@@ -595,6 +597,18 @@ $('#gridPartsResault').on('click', 'tr', function () {
     $('#txtPartsSearch').val('');
     $('#txtPartsSearch').removeAttr('placeholder');
     createPartBadge($text, $value);
+    var data = [];
+    data.push({
+        url: 'WebService.asmx/PartsMeasur',
+        parameters: [{ partid: $value }],
+        func: filterMeasurement
+    });
+    AjaxCall(data);
+    function filterMeasurement(e) {
+        var dr = JSON.parse(e.d);
+        $('#Drmeasurement').val(dr);
+
+    }
 });
 function createPartBadge(text, val) {
     var badgeHtml = '<div class="PartsBadge" ' +
@@ -645,11 +659,14 @@ function AddParts() {
     }
     if ($('#txtPartsCount').val() != '' && partData.length != 0) {
         var partCount = $('#txtPartsCount').val();
-        var partTableHeader = '<tr><th>قطعات</th><th>تعداد</th><th></th></tr>';
+        var measur = $('#Drmeasurement :selected').text();
+        var partTableHeader = '<tr><th>قطعات</th><th>تعداد</th><th>واحد</th><th></th></tr>';
         var partTableBody = '<tr>' +
             '<td style="display:none;">' + partData[0].PartId + '</td>' +
             '<td>' + partData[0].PartName + '</td>' +
             '<td>' + partCount + '</td>' +
+            '<td>' + measur + '</td>' +
+            '<td style="display:none;">' + $('#Drmeasurement').val() + '</td>' +
             '<td><a>حذف</a></td>' +
             '</tr>';
         if ($('#gridParts tr').length !== 0) {
@@ -883,7 +900,8 @@ function SendDataToDB(btn) {
         for (var d = 1; d < table.rows.length; d++) {
             parts.push({
                 Part: table.rows[d].cells[0].innerHTML,
-                Count: table.rows[d].cells[2].innerHTML
+                Count: table.rows[d].cells[2].innerHTML,
+                Measur: table.rows[d].cells[4].innerHTML
             });
         }
         table = document.getElementById('gridRepairers');

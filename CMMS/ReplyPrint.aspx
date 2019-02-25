@@ -192,7 +192,7 @@
                             $('#partTable').append('<tr>' +
                                 '<td  style="text-align: center;">' + parseInt(d + 1) + '</td>' +
                                 '<td  style="text-align: center;">' + data.partsList[d].PartName + '</td>' +
-                                '<td colspan="2" style="text-align: center;">' + data.partsList[d].Count + '</td>' +
+                                '<td colspan="2" style="text-align: center;">' + data.partsList[d].Count + ' ' + data.partsList[d].Measur + '</td>' +
                                 '</tr>');
                         }
 

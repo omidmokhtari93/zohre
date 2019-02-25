@@ -85,6 +85,15 @@ namespace CMMS {
         protected global::System.Web.UI.WebControls.Button btn_stops;
         
         /// <summary>
+        /// btn_measurment control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btn_measurment;
+        
+        /// <summary>
         /// btnHazine control.
         /// </summary>
         /// <remarks>

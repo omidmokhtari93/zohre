@@ -555,24 +555,28 @@ namespace CMMS
         {
             var infoTools=new List<string[]>();
             cnn.Open();
-            var cmdToolsReport=new SqlCommand(" SELECT CMMS.dbo.i_units.unit_name,CMMS.dbo.m_machine.name,sgdb.inv.Part.PartName , SUM(CMMS.dbo.r_tools.count) AS countt " +
+            var cmdToolsReport=new SqlCommand(" SELECT CMMS.dbo.i_units.unit_name,CMMS.dbo.m_machine.name,sgdb.inv.Part.PartName , SUM(CMMS.dbo.r_tools.count) AS countt,CMMS.dbo.i_measurement.measurement AS Measur " +
                                               " FROM CMMS.dbo.m_machine INNER JOIN " +
                                               " CMMS.dbo.i_units ON CMMS.dbo.m_machine.loc = CMMS.dbo.i_units.unit_code INNER JOIN " +
                                               " CMMS.dbo.r_request ON CMMS.dbo.m_machine.id = CMMS.dbo.r_request.machine_code INNER JOIN " +
                                               " CMMS.dbo.r_reply ON CMMS.dbo.r_request.req_id = CMMS.dbo.r_reply.idreq INNER JOIN " +
                                               " CMMS.dbo.r_tools ON CMMS.dbo.r_reply.id = CMMS.dbo.r_tools.id_rep INNER JOIN " +
-                                              " sgdb.inv.Part on CMMS.dbo.r_tools.tools_id = sgdb.inv.Part.Serial " +
+                                              " sgdb.inv.Part on CMMS.dbo.r_tools.tools_id = sgdb.inv.Part.Serial INNER JOIN " +
+                                              " CMMS.dbo.i_measurement_part ON CMMS.dbo.r_tools.tools_id = CMMS.dbo.i_measurement_part.Serial INNER JOIN " +
+                                              " CMMS.dbo.i_measurement ON CMMS.dbo.i_measurement_part.measurement = CMMS.dbo.i_measurement.id " +
                                               " where CMMS.dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "' and CMMS.dbo.r_tools.tools_id = " + toolsId+" " +
-                                              " GROUP BY  dbo.i_units.unit_name, dbo.m_machine.name, sgdb.inv.Part.PartName",cnn);
-            var cmdNullToolsReport = new SqlCommand(" SELECT CMMS.dbo.i_units.unit_name,CMMS.dbo.m_machine.name,sgdb.inv.Part.PartName , SUM(CMMS.dbo.r_tools.count) AS countt " +
-                                                " FROM CMMS.dbo.m_machine INNER JOIN " +
-                                                " CMMS.dbo.i_units ON CMMS.dbo.m_machine.loc = CMMS.dbo.i_units.unit_code INNER JOIN " +
-                                                " CMMS.dbo.r_request ON CMMS.dbo.m_machine.id = CMMS.dbo.r_request.machine_code INNER JOIN " +
-                                                " CMMS.dbo.r_reply ON CMMS.dbo.r_request.req_id = CMMS.dbo.r_reply.idreq INNER JOIN " +
-                                                " CMMS.dbo.r_tools ON CMMS.dbo.r_reply.id = CMMS.dbo.r_tools.id_rep INNER JOIN " +
-                                                " sgdb.inv.Part on CMMS.dbo.r_tools.tools_id = sgdb.inv.Part.Serial " +
+                                              " GROUP BY  dbo.i_units.unit_name, dbo.m_machine.name, sgdb.inv.Part.PartName,CMMS.dbo.i_measurement.measurement", cnn);
+            var cmdNullToolsReport = new SqlCommand(" SELECT CMMS.dbo.i_units.unit_name,CMMS.dbo.m_machine.name,sgdb.inv.Part.PartName , SUM(CMMS.dbo.r_tools.count) AS countt ,CMMS.dbo.i_measurement.measurement AS Measur " +
+                                                    " FROM CMMS.dbo.m_machine INNER JOIN " +
+                                                    " CMMS.dbo.i_units ON CMMS.dbo.m_machine.loc = CMMS.dbo.i_units.unit_code INNER JOIN " +
+                                                    " CMMS.dbo.r_request ON CMMS.dbo.m_machine.id = CMMS.dbo.r_request.machine_code INNER JOIN " +
+                                                    " CMMS.dbo.r_reply ON CMMS.dbo.r_request.req_id = CMMS.dbo.r_reply.idreq INNER JOIN " +
+                                                    " CMMS.dbo.r_tools ON CMMS.dbo.r_reply.id = CMMS.dbo.r_tools.id_rep INNER JOIN " +
+                                                    " sgdb.inv.Part on CMMS.dbo.r_tools.tools_id = sgdb.inv.Part.Serial INNER JOIN " +
+                                                    " CMMS.dbo.i_measurement_part ON CMMS.dbo.r_tools.tools_id = CMMS.dbo.i_measurement_part.Serial INNER JOIN " +
+                                                    " CMMS.dbo.i_measurement ON CMMS.dbo.i_measurement_part.measurement = CMMS.dbo.i_measurement.id " +
                                                 " where CMMS.dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "' " +
-                                                " GROUP BY  dbo.i_units.unit_name, dbo.m_machine.name, sgdb.inv.Part.PartName", cnn);
+                                                " GROUP BY  dbo.i_units.unit_name, dbo.m_machine.name, sgdb.inv.Part.PartName,CMMS.dbo.i_measurement.measurement", cnn);
             SqlDataReader rd;
             if (toolsId == -1)
             {
@@ -585,7 +589,7 @@ namespace CMMS
            
             while (rd.Read())
             {
-                infoTools.Add(new []{rd["unit_name"].ToString(),rd["name"].ToString(),rd["PartName"].ToString(),rd["countt"].ToString() });
+                infoTools.Add(new []{rd["unit_name"].ToString(),rd["name"].ToString(),rd["PartName"].ToString(),rd["countt"].ToString(), rd["Measur"].ToString() });
             }
             return new JavaScriptSerializer().Serialize(infoTools);
         }

@@ -288,5 +288,10 @@ namespace CMMS
         {
            Response.Redirect("RepairRecordReport.aspx");
         }
+
+        protected void btn_measurment_OnClick(object sender, EventArgs e)
+        {
+           Response.Redirect("measurement.aspx");
+        }
     }
 }

@@ -96,6 +96,9 @@
             <div style="padding: 15px;">
                 <button type="button" class="btn btn-info" style="width: 100%;" onclick="CreateTableTools();">دریافت گزارش</button>
             </div>
+            <div style="display: block; text-align: center;">
+                <a class="fa fa-print" onclick="SendParameterstoPrint()"></a>
+            </div>
             <div id="ToolsTable" style=" margin: 10px auto;"></div>  
             <hr 5/>
             <table dir="rtl" id="gridReportTools" class="table">
@@ -292,7 +295,7 @@
                                   '<td>' + pc[i][0] + '</td>' +
                                   '<td>' + pc[i][1] + '</td>' +
                                   '<td>' + pc[i][2] + '</td>' +
-                                  '<td>' + pc[i][3] + '</td>' +
+                            '<td>' + pc[i][3] + '  ' + pc[i][4] + '</td>' +
                                   '</tr>');
                     }
 
@@ -326,6 +329,23 @@
 
             }
            
+        }
+        //============Print Report =========
+        function SendParameterstoPrint() {
+            var sDate = $('#txtPartStartDate').val();
+            var eDate = $('#txtPartEndDate').val();
+            if (sDate == '' || eDate == '') {
+                RedAlert('no', '!!فیلدهای خالی را تکمیل کنید');
+                return;
+            }
+            if ($('#txtPartsSearch').val() === '') {
+                value = -1;
+            }
+            if (CheckPastTime(sDate, '12:00', eDate, '12:00') === false) {
+                RedAlert('no', '!!تاریخ شروع باید کوچکتر از تاریخ پایان باشد');
+                return;
+            }
+            window.open('PartsReportPrint.aspx?part='+value+'&sdate='+sDate+'&edate='+eDate+'', '_blank');
         }
 
     </script>

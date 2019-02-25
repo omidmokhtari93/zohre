@@ -438,9 +438,15 @@
     <div class="panel-heading">ثبت قطعات مصرفی</div>
     <div class="panel-body">
         <div class="row" style="margin: 0; direction: rtl; text-align: right;">
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <label>مصرف در سال :</label>
                 <input id="txtGhatatPerYear" tabindex="42" class="form-control"/>
+            </div>
+            <div class="col-md-3">
+                <label>واحد :</label>
+                <asp:DropDownList Dir="rtl" class="form-control" ClientIDMode="Static"  ID="Drmeasurement" runat="server" style=" display: inline-block; padding: 0;" DataSourceID="SqlMeasurement" DataTextField="measurement" DataValueField="id">
+                </asp:DropDownList>
+                <asp:SqlDataSource ID="SqlMeasurement" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, measurement FROM i_measurement"></asp:SqlDataSource>
             </div>
             <div class="col-md-6" style="position: relative;">
                 <label>نام قطعه پر مصرف :</label>

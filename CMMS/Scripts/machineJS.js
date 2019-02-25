@@ -235,7 +235,24 @@ $("#gridMavaredControli").on("click", "tr a#edit", function () {
     });
     FillControls(rowItems);
 });
+$('#gridParts').on('click', 'tr', function () {
+    var $row = $(this).find("td");
+    var $text = $row.text();
+    var $value = $row.attr('partid');
+  
+    var data = [];
+    data.push({
+        url: 'WebService.asmx/PartsMeasur',
+        parameters: [{ partid: $value }],
+        func: filterMeasurement
+    });
+    AjaxCall(data);
+    function filterMeasurement(e) {
+        var dr = JSON.parse(e.d);
+        $('#Drmeasurement').val(dr);
 
+    }
+});
 function FillControls(items) {
     $('#txtControliMoredControl').val(items[0].Name);
     $('#drControliZaman').val(items[0].Period);
@@ -348,6 +365,7 @@ function addParts() {
             '<tr>' +
             '<th style="display:none;"></th>' +
             '<th>نام قطعه</th>' +
+            '<th>واحد</th>' +
             '<th>مصرف در سال</th>' +
             '<th>حداقل</th>' +
             '<th>حداکثر</th>' +
@@ -360,7 +378,9 @@ function addParts() {
         var row = '<tr>' +
             '<td style="display:none;">0</td>' +
             '<td style="display:none;">' + partData[0].PartId + '</td>' +
+            '<td style="display:none;">' + $('#Drmeasurement').val() + '</td>' +
             '<td>' + partData[0].PartName + '</td>' +
+            '<td>' + $('#Drmeasurement :selected').text() + '</td>'+ 
             '<td>' + $('#txtGhatatPerYear').val() + '</td>' +
             '<td>' + $('#txtGhatatMin').val() + '</td>' +
             '<td>' + $('#txtGhatatMax').val() + '</td>' +
@@ -405,14 +425,15 @@ $("#gridGhataatMasrafi").on("click", "tr a#editPart", function () {
     }
     target_tr = $(this).parent().parent();
     var partid = $(this).parent().parent().find('td:eq(1)').text();
-    var partname = $(this).parent().parent().find('td:eq(2)').text();
+    var partname = $(this).parent().parent().find('td:eq(3)').text();
     createPartBadge(partname, partid);
+    $('#Drmeasurement').val($(this).parent().parent().find('td:eq(2)').text());
     $('#txtPartsSearch').removeAttr('placeholder');
-    $('#txtGhatatPerYear').val($(this).parent().parent().find('td:eq(3)').text());
-    $('#txtGhatatMin').val($(this).parent().parent().find('td:eq(4)').text());
-    $('#txtGhatatMax').val($(this).parent().parent().find('td:eq(5)').text());
-    $('#txtGhatatChangePeriod').val($(this).parent().parent().find('td:eq(6)').text());
-    $('#txtGhatatCom').val($(this).parent().parent().find('td:eq(7)').text());
+    $('#txtGhatatPerYear').val($(this).parent().parent().find('td:eq(5)').text());
+    $('#txtGhatatMin').val($(this).parent().parent().find('td:eq(6)').text());
+    $('#txtGhatatMax').val($(this).parent().parent().find('td:eq(7)').text());
+    $('#txtGhatatChangePeriod').val($(this).parent().parent().find('td:eq(8)').text());
+    $('#txtGhatatCom').val($(this).parent().parent().find('td:eq(9)').text());
     $('#btnEditPart').show();
     $('#btnCancelEditPart').show();
 });
@@ -442,12 +463,13 @@ function editParts() {
     var flag = checkPartInputs();
     if (flag === 0 && partData.length === 1) {
         $(target_tr).find('td:eq(1)').text(partData[0].PartId);
-        $(target_tr).find('td:eq(2)').text(partData[0].PartName);
-        $(target_tr).find('td:eq(3)').text($('#txtGhatatPerYear').val());
-        $(target_tr).find('td:eq(4)').text($('#txtGhatatMin').val());
-        $(target_tr).find('td:eq(5)').text($('#txtGhatatMax').val());
-        $(target_tr).find('td:eq(6)').text($('#txtGhatatChangePeriod').val());
-        $(target_tr).find('td:eq(7)').text($('#txtGhatatCom').val());
+        $(target_tr).find('td:eq(3)').text(partData[0].PartName);
+
+        $(target_tr).find('td:eq(5)').text($('#txtGhatatPerYear').val());
+        $(target_tr).find('td:eq(6)').text($('#txtGhatatMin').val());
+        $(target_tr).find('td:eq(7)').text($('#txtGhatatMax').val());
+        $(target_tr).find('td:eq(8)').text($('#txtGhatatChangePeriod').val());
+        $(target_tr).find('td:eq(9)').text($('#txtGhatatCom').val());
         ClearFields('pnlGhatatMasrafi');
         $('#PartBadgeArea').find('div').remove();
         partData = [];
@@ -797,11 +819,12 @@ function SendTablesToDB() {
             partsArr.push({
                 Id: table.rows[i].cells[0].innerHTML,
                 PartId: table.rows[i].cells[1].innerHTML,
-                UsePerYear: table.rows[i].cells[3].innerHTML,
-                Min: table.rows[i].cells[4].innerHTML,
-                Max: table.rows[i].cells[5].innerHTML,
-                ChangePeriod: table.rows[i].cells[6].innerHTML,
-                Comment: table.rows[i].cells[7].innerHTML
+                MeasurId: table.rows[i].cells[2].innerHTML,
+                UsePerYear: table.rows[i].cells[5].innerHTML,
+                Min: table.rows[i].cells[6].innerHTML,
+                Max: table.rows[i].cells[7].innerHTML,
+                ChangePeriod: table.rows[i].cells[8].innerHTML,
+                Comment: table.rows[i].cells[9].innerHTML
             });
         }
         $.ajax({
@@ -1152,7 +1175,9 @@ function GetG() {
             if (partsData.length > 0) {
                 var tblHead = '<thead>' +
                     '<tr>' +
+                    
                     '<th>نام قطعه</th>' +
+                    '<th>واحد</th>'+
                     '<th>مصرف در سال</th>' +
                     '<th>حداقل</th>' +
                     '<th>حداکثر</th>' +
@@ -1169,7 +1194,9 @@ function GetG() {
                     tblBody = '<tr>'
                         + '<td style="display: none;">' + partsData[i].Id + "</td>"
                         + '<td style="display: none;">' + partsData[i].PartId + "</td>"
+                        + '<td style="display: none;">' + partsData[i].MeasurId + "</td>"
                         + "<td>" + partsData[i].PartName + "</td>"
+                        + "<td>" + partsData[i].Measurement + "</td>"
                         + "<td>" + partsData[i].UsePerYear + "</td>"
                         + "<td>" + partsData[i].Min + "</td>"
                         + "<td>" + partsData[i].Max + "</td>"

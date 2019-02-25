@@ -121,6 +121,24 @@ namespace CMMS {
         protected global::System.Web.UI.WebControls.SqlDataSource sqlhelpunit;
         
         /// <summary>
+        /// Drmeasurement control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList Drmeasurement;
+        
+        /// <summary>
+        /// SqlMeasurement control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource SqlMeasurement;
+        
+        /// <summary>
         /// drelec control.
         /// </summary>
         /// <remarks>

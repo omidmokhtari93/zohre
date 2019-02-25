@@ -80,11 +80,14 @@ namespace CMMS
         public int Id { get; set; }
         public int PartId { get; set; }
         public string PartName { get; set; }
+        public string Measurement { get; set; }
+        public int MeasurId { get; set; }
         public string UsePerYear { get; set; }
         public string Min { get; set; }
         public string Max { get; set; }
         public string ChangePeriod { get; set; }
         public string Comment { get; set; }
+
     }
 
     public class Instructions
@@ -203,6 +206,7 @@ namespace CMMS
         public int Part { get; set; }
         public string PartName { get; set; }
         public int Count { get; set; }
+        public string Measur { get; set; }
     }
 
     public class RepairerOfRepairRedords
@@ -210,6 +214,7 @@ namespace CMMS
         public int Repairer { get; set; }
         public string PersonelName { get; set; }
         public string RepairTime { get; set; }
+        
     }
 
     public class ContractorsOfRepairRecords

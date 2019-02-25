@@ -74,6 +74,7 @@
     <Content Include="CmChecked.aspx" />
     <Content Include="Content\A4.html" />
     <Content Include="Content\A5.html" />
+    <Content Include="Content\Toolsprint.html" />
     <Content Include="Content\personelprint.html" />
     <Content Include="Content\report.html" />
     <Content Include="Content\kamadatepicker.css" />
@@ -107,6 +108,7 @@
     <Content Include="Images\machine.png" />
     <Content Include="Images\MainMachine.png" />
     <Content Include="Images\MainMachineUp.png" />
+    <Content Include="Images\measur.png" />
     <Content Include="Images\PersonelChart.png" />
     <Content Include="Images\proposal.png" />
     <Content Include="Images\Rchecklist.png" />
@@ -172,10 +174,12 @@
     <Content Include="MachinePrint.aspx" />
     <Content Include="MachineReports.aspx" />
     <Content Include="MainDesign.Master" />
+    <Content Include="measurement.aspx" />
     <Content Include="MttReport.aspx" />
     <Content Include="MttReportPrint.aspx" />
     <Content Include="PartsAcc.aspx" />
     <Content Include="PartsReport.aspx" />
+    <Content Include="PartsReportPrint.aspx" />
     <Content Include="personel.aspx" />
     <Content Include="PersonelPrint.aspx" />
     <Content Include="PersonelReport.aspx" />
@@ -199,6 +203,7 @@
     <Content Include="Scripts\excel\table2excel.js" />
     <Content Include="Scripts\FinancialReports.js" />
     <Content Include="Scripts\Fazline.js" />
+    <Content Include="Scripts\Measurement.js" />
     <Content Include="Scripts\Intrupt.js" />
     <Content Include="Scripts\MachineBaseJS.js" />
     <Content Include="Scripts\MachineRepor.js" />
@@ -441,6 +446,13 @@
       <DependentUpon>MainDesign.Master</DependentUpon>
     </Compile>
     <Compile Include="MClass.cs" />
+    <Compile Include="measurement.aspx.cs">
+      <DependentUpon>measurement.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="measurement.aspx.designer.cs">
+      <DependentUpon>measurement.aspx</DependentUpon>
+    </Compile>
     <Compile Include="MttReport.aspx.cs">
       <DependentUpon>MttReport.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -482,6 +494,13 @@
     </Compile>
     <Compile Include="PartsReport.aspx.designer.cs">
       <DependentUpon>PartsReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PartsReportPrint.aspx.cs">
+      <DependentUpon>PartsReportPrint.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PartsReportPrint.aspx.designer.cs">
+      <DependentUpon>PartsReportPrint.aspx</DependentUpon>
     </Compile>
     <Compile Include="PersianCulture.cs" />
     <Compile Include="personel.aspx.cs">

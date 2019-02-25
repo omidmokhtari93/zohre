@@ -649,6 +649,9 @@ namespace CMMS
                     "VALUES(" + mid + "," + item.PartId + " ,'" + item.UsePerYear + "','" + item.Min + "'," +
                     "'" + item.Max + "') ", _cnn);
                 insertParts.ExecuteNonQuery();
+                var insertMeasurement = new SqlCommand("if(select count(Serial) from i_measurement_part where Serial=" + item.PartId + ")=0" +
+                                                       "begin insert into i_measurement_part (Serial,measurement) VALUES (" + item.PartId + "," + item.MeasurId + ") end ", _cnn);
+                insertMeasurement.ExecuteNonQuery();
             }
             _cnn.Close();
         }
@@ -719,6 +722,9 @@ namespace CMMS
                         }
                         break;
                 }
+                var insertMeasurement = new SqlCommand("if(select count(Serial) from i_measurement_part where Serial=" + item.PartId + ")=0" +
+                                                       "begin insert into i_measurement_part (Serial,measurement) VALUES (" + item.PartId + "," + item.MeasurId + ") end ", _cnn);
+                insertMeasurement.ExecuteNonQuery();
             }
             _cnn.Close();
         }
@@ -1029,8 +1035,11 @@ namespace CMMS
             var partsList = new List<Parts>();
             var getParts =
                 new SqlCommand(
-                    "SELECT id,m_parts.PartId,Part.PartName,mYear,min,max,chPeriod,m_parts.comment FROM CMMS.dbo.m_parts" +
-                    " inner join sgdb.inv.Part on Part.Serial = m_parts.PartId where Mid = " + mid + " ", _cnn);
+                    "SELECT m_parts.id,m_parts.PartId,Part.PartName,mYear,min,max,chPeriod,m_parts.comment,i_measurement.measurement,i_measurement.id as measurid FROM CMMS.dbo.m_parts" +
+                    " inner join sgdb.inv.Part on Part.Serial = m_parts.PartId inner join " +
+                    " dbo.i_measurement_part ON dbo.m_parts.PartId =i_measurement_part.Serial INNER JOIN " +
+                    " dbo.i_measurement ON dbo.i_measurement_part.measurement = dbo.i_measurement.id " +
+                    " where Mid = " + mid + " ", _cnn);
             var rd = getParts.ExecuteReader();
             while (rd.Read())
             {
@@ -1041,6 +1050,8 @@ namespace CMMS
                         Id = Convert.ToInt32(rd["id"]),
                         PartId = Convert.ToInt32(rd["PartId"]),
                         PartName = rd["PartName"].ToString(),
+                        Measurement = rd["measurement"].ToString(),
+                        MeasurId = Convert.ToInt32(rd["measurid"]),
                         UsePerYear = rd["mYear"].ToString(),
                         ChangePeriod = rd["chPeriod"].ToString(),
                         Min = rd["min"].ToString(),
@@ -1266,6 +1277,21 @@ namespace CMMS
             }
             _partsConnection.Close();
             return new JavaScriptSerializer().Serialize(filteredPartList);
+        }
+
+        [WebMethod]
+        public string PartsMeasur(string partid)
+        {
+
+            _cnn.Open();
+            string result = "1";
+            var parts = new SqlCommand("select measurement from i_measurement_part where Serial= " + partid + " ",
+                _cnn);
+            object read = parts.ExecuteScalar();
+            if (read != null)
+                result = parts.ExecuteScalar().ToString();
+            _cnn.Close();
+            return new JavaScriptSerializer().Serialize(result);
         }
 
         [WebMethod]
@@ -1594,6 +1620,10 @@ namespace CMMS
                 var insertParts = new SqlCommand("INSERT INTO [dbo].[r_tools]([id_rep],[tools_id],[count])VALUES" +
                                                  "("+replyId+","+part.Part+","+part.Count+")",_cnn);
                 insertParts.ExecuteNonQuery();
+                
+                var insertMeasurement=new SqlCommand("if(select count(Serial) from i_measurement_part where Serial="+part.Part+")=0" +
+                                                      "begin insert into i_measurement_part (Serial,measurement) VALUES ("+ part.Part + ","+part.Measur+ ") end ",_cnn);
+                insertMeasurement.ExecuteNonQuery();
             }
 
             foreach (var person in obj.Personel)
@@ -1722,11 +1752,22 @@ namespace CMMS
             }
             _cnn.Close();
             _cnn.Open();
-            var selectParts = new SqlCommand("select Part.PartName,r_tools.count from CMMS.dbo.r_tools inner join sgdb.inv.Part on r_tools.tools_id = Part.Serial where r_tools.id_rep = " + replyId+" ",_cnn);
+            var selectParts = new SqlCommand(" SELECT sgdb.inv.Part.PartName, dbo.r_tools.count, dbo.i_measurement.measurement AS Measur " +
+                                             " FROM dbo.r_tools INNER JOIN " +
+                                             " sgdb.inv.Part ON dbo.r_tools.tools_id = sgdb.inv.Part.Serial INNER JOIN " +
+                                             " dbo.i_measurement_part ON dbo.r_tools.tools_id = dbo.i_measurement_part.Serial INNER JOIN " +
+                                             " dbo.i_measurement ON dbo.i_measurement_part.measurement = dbo.i_measurement.id " +
+                                             " WHERE(dbo.r_tools.id_rep = " + replyId + ") " +
+                                             " union all " +
+                                             " SELECT sgdb.inv.Part.PartName, dbo.r_tools.count, 'عدد' as Measur " +
+                                             " FROM dbo.r_tools INNER JOIN " +
+                                             " sgdb.inv.Part ON dbo.r_tools.tools_id = sgdb.inv.Part.Serial " +
+                                             " WHERE        (dbo.r_tools.id_rep = " + replyId + " and r_tools.tools_id not in (select Serial from i_measurement_part)) ", _cnn);
+
             var readParts = selectParts.ExecuteReader();
             while (readParts.Read())
             {
-                partsList.Add(new PartsRepairRecords(){PartName = readParts["PartName"].ToString(),Count = Convert.ToInt32(readParts["count"])});
+                partsList.Add(new PartsRepairRecords(){PartName = readParts["PartName"].ToString(),Count = Convert.ToInt32(readParts["count"]),Measur = readParts["Measur"].ToString()});
             }
             _cnn.Close();
             _cnn.Open();
@@ -1923,7 +1964,22 @@ namespace CMMS
             _cnn.Close();
             return new JavaScriptSerializer().Serialize(list);
         }
-
+        [WebMethod]
+        public string GetMeasurement()
+        {
+            _cnn.Open();
+            var list = new List<string[]>();
+            var array = new List<string[]>();
+            var selectAllStop = new SqlCommand("SELECT [id],[measurement]FROM [dbo].[i_measurement]", _cnn);
+            var rd = selectAllStop.ExecuteReader();
+            while (rd.Read())
+            {
+                array.Add(new[] { rd["id"].ToString(), rd["measurement"].ToString() });
+            }
+            list.AddRange(array);
+            _cnn.Close();
+            return new JavaScriptSerializer().Serialize(list);
+        }
         [WebMethod]
         public string GetStopReasonTable()
         {
@@ -1989,7 +2045,26 @@ namespace CMMS
             _cnn.Close();
             return new JavaScriptSerializer().Serialize(list);
         }
-
+        [WebMethod]
+        public string GetMeasurementPartTable()
+        {
+            _cnn.Open();
+            var list = new List<string[]>();
+            var array = new List<string[]>();
+            var selectAll = new SqlCommand(" SELECT [CMMS].dbo.i_measurement_part.id,CMMS.dbo.i_measurement.[measurement],sgdb.inv.Part.PartName,CMMS.dbo.i_measurement.id as mid " +
+                                           " FROM[CMMS].dbo.i_measurement  INNER JOIN " +
+                                           " [CMMS].dbo.i_measurement_part ON[CMMS].dbo.i_measurement.id = [CMMS].dbo.i_measurement_part.measurement " +
+                                           " inner join sgdb.inv.Part on sgdb.inv.Part.Serial = CMMS.dbo.i_measurement_part.Serial " +
+                                           " order by PartName", _cnn);
+            var rd = selectAll.ExecuteReader();
+            while (rd.Read())
+            {
+                array.Add(new[] { rd["id"].ToString(), rd["PartName"].ToString(), rd["measurement"].ToString(), rd["mid"].ToString() });
+            }
+            list.AddRange(array);
+            _cnn.Close();
+            return new JavaScriptSerializer().Serialize(list);
+        }
         [WebMethod]
         public string GetFailReasonTable()
         {
@@ -2023,7 +2098,34 @@ namespace CMMS
             _cnn.Close();
             return new JavaScriptSerializer().Serialize(list);
         }
-
+        [WebMethod]
+        public string InsertAndUpdatePartMeasure(int text, int editId)
+        {
+            _cnn.Open();
+            if (editId == 0)
+            {
+                return "i";
+            }
+            var cmdUpMeasur = new SqlCommand("update i_measurement_part set measurement=" + text + " where id=" + editId + " ", _cnn);
+            cmdUpMeasur.ExecuteNonQuery();
+            _cnn.Close();
+            return "e";
+        }
+        [WebMethod]
+        public string InsertAndUpdateMeasurement(string text, int editId)
+        {
+            _cnn.Open();
+            if (editId == 0)
+            {
+                var cmdinsertmeasur = new SqlCommand("insert into i_measurement (measurement) values ('" + text + "')", _cnn);
+                cmdinsertmeasur.ExecuteNonQuery();
+                return "i";
+            }
+            var cmdUpMeasur = new SqlCommand("update i_measurement set measurement='" + text + "' where id=" + editId + " ", _cnn);
+            cmdUpMeasur.ExecuteNonQuery();
+            _cnn.Close();
+            return "e";
+        }
         [WebMethod]
         public string InsertAndUpdateStopReason(string text , int editId)
         {
