@@ -99,6 +99,7 @@
     <Content Include="Images\delaystop.png" />
     <Content Include="Images\Donat.png" />
     <Content Include="Images\effectt.png" />
+    <Content Include="Images\FailureAnalys.png" />
     <Content Include="Images\funnel.png" />
     <Content Include="Images\Gchecklist.png" />
     <Content Include="Images\icon.ico" />
@@ -186,6 +187,7 @@
     <Content Include="PmChecked.aspx" />
     <Content Include="primryCost.aspx" />
     <Content Include="Program.aspx" />
+    <Content Include="RCFA.aspx" />
     <Content Include="RepairHistory.aspx" />
     <Content Include="RepairRecordReport.aspx" />
     <Content Include="RepairRecordReview.aspx" />
@@ -206,7 +208,7 @@
     <Content Include="Scripts\Measurement.js" />
     <Content Include="Scripts\Intrupt.js" />
     <Content Include="Scripts\MachineBaseJS.js" />
-    <Content Include="Scripts\MachineRepor.js" />
+    <Content Include="Scripts\MachineReport.js" />
     <Content Include="Scripts\MttReport.js" />
     <Content Include="Scripts\Notifications.js" />
     <Content Include="Scripts\DailyReport.js" />
@@ -220,6 +222,7 @@
     <Content Include="Scripts\MachineStyles.css" />
     <Content Include="Scripts\PartAcc.js" />
     <Content Include="Scripts\program.js" />
+    <Content Include="Scripts\RCFA.js" />
     <Content Include="Scripts\RepairRecordReport.js" />
     <Content Include="Scripts\RepairReport.js" />
     <Content Include="Scripts\Reply.js" />
@@ -546,6 +549,13 @@
       <DependentUpon>Program.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RCFA.aspx.cs">
+      <DependentUpon>RCFA.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RCFA.aspx.designer.cs">
+      <DependentUpon>RCFA.aspx</DependentUpon>
+    </Compile>
     <Compile Include="RepairHistory.aspx.cs">
       <DependentUpon>RepairHistory.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

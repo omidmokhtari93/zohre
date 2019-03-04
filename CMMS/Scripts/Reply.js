@@ -813,6 +813,7 @@ $("#gridContractors").on("click", "tr a", function () {
 });
 
 var CmParts;
+
 function SendDataToDB(btn) {
     var flag = 0;
     if (CheckPastTime($('#StartRepairDate').val(), $('#StartRepiarTime').val(), $('#EndRepairDate').val(), $('#EndRepairTime').val()) === false) {
@@ -942,7 +943,9 @@ function SendDataToDB(btn) {
                         option.push('<option value="' + CmParts[i].PartId + '" forecast="' + CmParts[i].ForeCastId +'"' +
                             ' machinid="'+CmParts[i].MachineId+'">' + CmParts[i].PartName + '' +
                             '&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp; برنامه زمانی تعویض اصلی : ' + CmParts[i].CmDate + '</option>');
+                        
                     }
+                    
                     $('#drPartChangeParts').append(option.join(''));
                     $('#PartChangeModal').show();
                     return;

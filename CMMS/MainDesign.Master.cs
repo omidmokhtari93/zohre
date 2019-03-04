@@ -293,5 +293,10 @@ namespace CMMS
         {
            Response.Redirect("measurement.aspx");
         }
+
+        protected void btn_RCFA_OnClick(object sender, EventArgs e)
+        {
+            Response.Redirect("RCFA.aspx");
+        }
     }
 }

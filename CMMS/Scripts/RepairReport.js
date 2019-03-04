@@ -158,22 +158,18 @@ $(document).ready(function () {
         , sync: true
         , gotoToday: true
     }
-    kamaDatepicker('txtFailTypeStartDate', customOptions);
-    kamaDatepicker('txtFailTypeEndDate', customOptions);
+   
     kamaDatepicker('txtRepReqTypeStartDate', customOptions);
     kamaDatepicker('txtRepReqTypeEndDate', customOptions);
     kamaDatepicker('txtMostRepReqEndDate', customOptions);
-    kamaDatepicker('txtMostRepReqStartDate', customOptions);
-    kamaDatepicker('txtMostFailsEndDate', customOptions);
-    kamaDatepicker('txtMostFailsStartDate', customOptions);
+    kamaDatepicker('txtMostRepReqStartDate', customOptions);  
     kamaDatepicker('txtMostDelaysEndDate', customOptions);
     kamaDatepicker('txtMostDelaysStartDate', customOptions);
     kamaDatepicker('txtRepairActionEndDate', customOptions);
     kamaDatepicker('txtRepairActionStartDate', customOptions);
     kamaDatepicker('txtRepairTimeEndDate', customOptions);
     kamaDatepicker('txtRepairTimeStartDate', customOptions);
-    kamaDatepicker('txtSubStartDate', customOptions);
-    kamaDatepicker('txtSubEndDate', customOptions);
+
     if ($('#drRepiarTime :selected').val() === '0') {
         $('#txtRepairTimeCount').attr('disabled', 'disabled');
     } else {
@@ -182,21 +178,7 @@ $(document).ready(function () {
 });
 //=================================================================Table 
 function CreateTableForChart(data) {
-    if ($('#FailTypes').hasClass('active')) {
-        $('#gridFailTypes').empty();
-        if (data.length > 0) {
-            var body = [];
-            body.push('<tr><th>ردیف</th><th>نوع خرابی</th><th>تعداد</th></tr>');
-            for (var i = 0; i < data.length; i++) {
-                body.push('<tr>' +
-                    '<td>' + (i + 1) + '</td>' +
-                    '<td>' + data[i][0] + '</td>' +
-                    '<td>' + data[i][1] + '</td>' +
-                    '</tr>');
-            }
-            $('#gridFailTypes').append(body.join(''));
-        }
-    }
+    
     if ($('#RepReqTypes').hasClass('active')) {
         $('#gridRepReqTypes').empty();
         if (data.length > 0) {
@@ -227,21 +209,7 @@ function CreateTableForChart(data) {
             $('#gridMostRepReq').append(body.join(''));
         }
     }
-    if ($('#MostFails').hasClass('active')) {
-        $('#gridMostFails').empty();
-        if (data.Strings.length > 0) {
-            var body = [];
-            body.push('<tr><th>ردیف</th><th>علت خرابی</th><th>تعداد</th></tr>');
-            for (var i = 0; i < data.Strings.length; i++) {
-                body.push('<tr>' +
-                    '<td>' + (i + 1) + '</td>' +
-                    '<td>' + data.Strings[i] + '</td>' +
-                    '<td>' + data.Integers[i] + '</td>' +
-                    '</tr>');
-            }
-            $('#gridMostFails').append(body.join(''));
-        }
-    }
+    
     if ($('#RepairAction').hasClass('active')) {
         $('#gridRepairAction').empty();
         if (data.length > 0) {
@@ -257,21 +225,7 @@ function CreateTableForChart(data) {
             $('#gridRepairAction').append(body.join(''));
         }
     }
-    if ($('#RepairSub').hasClass('active')) {
-        $('#gridRepairSub').empty();
-        if (data.Strings.length > 0) {
-            var body = [];
-            body.push('<tr><th>ردیف</th><th>نام اجزاء</th><th>تعداد</th></tr>');
-            for (var i = 0; i < data.Strings.length; i++) {
-                body.push('<tr>' +
-                    '<td>' + (i + 1) + '</td>' +
-                    '<td>' + data.Strings[i] + '</td>' +
-                    '<td>' + data.Integers[i] + '</td>' +
-                    '</tr>');
-            }
-            $('#gridRepairSub').append(body.join(''));
-        }
-    }
+    
 
 }
 //=================================================================
@@ -382,91 +336,9 @@ function CreateMostRepReqChart() {
     });
     GetChartData(obj);
 }
-$('#drunitmostfail').on('change', function () {
-    if ($('#drunitmostfail :selected').val() !== '-1') {
-        $('#drlinemostfail').val('-1');
-    }
-});
-$('#drlinemostfail').on('change', function () {
-    if ($('#drlinemostfail :selected').val() !== '-1') {
-        $('#drunitmostfail').val('-1');
-    }
-});
 
-function CreateMostFailsChart() {
-    var unitt = $('#drunitmostfail :selected').val();
-    var linee = $('#drlinemostfail :selected').val();
-    var sDate = $('#txtMostFailsStartDate').val();
-    var eDate = $('#txtMostFailsEndDate').val();
-   
-    if ($('#txtMostFailsEndDate').val() == '' || $('#txtMostFailsStartDate').val() == '') {
-        RedAlert('no', '!!فیلدهای خالی را تکمیل کنید');
-        return;
-    }
-    if (CheckPastTime(sDate, '12:00', eDate, '12:00') === false) {
-        RedAlert('no', '!!تاریخ شروع باید کوچکتر از تاریخ پایان باشد');
-        return;
-    }
-    var obj = {
-        lblkind: 'تعداد',
-        url: 'Failreason',
-        data: [],
-        element: 'MostFailsChart',
-        header: 'علت خرابی',
-        chartype: 'column'
-    };
-    obj.data.push({
-       
-        line: linee,
-        unit: unitt,
-        dateS: sDate,
-        dateE: eDate
-    });
-    GetChartData(obj);
-}
-$('#drunitrepsub').on('change', function () {
-    if ($('#drunitrepsub :selected').val() !== '-1') {
-        $('#drlinerepsub').val('-1');
-    }
-});
-$('#drlinerepsub').on('change', function () {
-    if ($('#drlinerepsub :selected').val() !== '-1') {
-        $('#drunitrepsub').val('-1');
-    }
-});
-function CreateSubsystemChart() {
-    var unitt = $('#drunitrepsub :selected').val();
-    var linee = $('#drlinerepsub :selected').val();
-    var count = $('#txtSubCount').val();
-    var sDate = $('#txtSubStartDate').val();
-    var eDate = $('#txtSubEndDate').val();
-   
-    if ($('#txtSubEndDate').val() == '' || $('#txtSubStartDate').val() == '' || $('#txtSubCount').val() == '') {
-        RedAlert('no', '!!فیلدهای خالی را تکمیل کنید');
-        return;
-    }
-    if (CheckPastTime(sDate, '12:00', eDate, '12:00') === false) {
-        RedAlert('no', '!!تاریخ شروع باید کوچکتر از تاریخ پایان باشد');
-        return;
-    }
-    var obj = {
-        lblkind: 'تعداد',
-        url: 'Maxsubsystem',
-        data: [],
-        element: 'RepairsubChart',
-        header: 'بیشترین خرابی اجزاء',
-        chartype: 'column'
-    };
-    obj.data.push({
-       
-        line: linee,
-        unit:unitt,
-        count: count,
-        dateS: sDate,
-        dateE: eDate
-    });
-    GetChartData(obj);
-}
+
+
 $('#drunitmostdelay').on('change', function () {
     if ($('#drunitmostdelay :selected').val() !== '-1') {
         $('#drlinemostdelay').val('-1');

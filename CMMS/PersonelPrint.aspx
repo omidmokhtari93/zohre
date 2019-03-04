@@ -95,8 +95,13 @@
             .tbl td {
                 padding: 0 !important;
                 vertical-align: middle !important;
-                border: 1px solid #625f5f;
+                border: 1px solid #625f5f; 
             }
+           
+            #printArea tr td:nth-child(2){ text-align: right;padding-right: 5px!important;}
+            #printArea tr td:nth-child(4){ text-align: right;padding-right: 5px!important;}
+            #printArea tr td:nth-child(5){ text-align: right;padding-right: 5px!important;}
+           
         </style>
     </div>
     <script>

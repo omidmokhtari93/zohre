@@ -24,27 +24,38 @@
         <div id="RepairCost" class="tab-pane fade in active">
             <div class="menubody">
                 <div class="row" style="margin: 0; text-align: right; direction: ltr;">
-                    <div class="col-md-3">
-                        <label style="display: block;"> : خط</label>
-                        
+                    <div class="col-md-6">
+                        <label style="display: block;"> : تا تاریخ</label>
+                        <input class="form-control text-center" autocomplete="off" id="txtEndDateRepairCost"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label style="display: block;"> : از تاریخ</label>
+                        <input class="form-control text-center" autocomplete="off" id="txtStartDateRepairCost"/>
+                    </div>
+               
+                </div>
+                <div class="row" style="margin: 0; text-align: right; direction: ltr;">
+                    <div class="col-md-4">
+                        <label style="display: block;"> : ماشین</label>
+                        <select class="form-control dr" id="drMachines"></select>
+                    </div>
+                   
+                    <div class="col-md-4">
+                        <label style="display: block;"> : خط</label>                    
                         <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drRepairLine" CssClass="form-control" DataSourceID="Sqlline" DataTextField="line_name" DataValueField="id"><asp:ListItem Value="-1">خط را انتخاب کنید</asp:ListItem></asp:DropDownList>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label style="display: block;"> : واحد</label>
                         <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drRepairUnit" CssClass="form-control" DataSourceID="Sqlunit" DataTextField="unit_name" DataValueField="unit_code"><asp:ListItem Value="-1">واحد را انتخاب کنید</asp:ListItem></asp:DropDownList>  
                         <asp:SqlDataSource ID="Sqlunit" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT unit_name, unit_code FROM i_units"></asp:SqlDataSource>
                     </div>
-                    <div class="col-md-3">
-                        <label style="display: block;"> : تا تاریخ</label>
-                        <input class="form-control text-center" autocomplete="off" id="txtEndDateRepairCost"/>
-                    </div>
-                    <div class="col-md-3">
-                        <label style="display: block;"> : از تاریخ</label>
-                        <input class="form-control text-center" autocomplete="off" id="txtStartDateRepairCost"/>
-                    </div>
+                   
                 </div>
                 <div style="padding: 15px;">
                     <button type="button" class="btn btn-info" style="width: 100%;" onclick="RepairCost();">دریافت گزارش</button>
+                </div>
+                <div style="padding: 5px;">
+                    <label id="lblTotalComment"  class="badgelbl"> </label>
                 </div>
                 <table dir="rtl" id="gridRepairCost" class="table">
                     <tbody></tbody>

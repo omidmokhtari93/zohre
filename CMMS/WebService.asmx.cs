@@ -1683,8 +1683,8 @@ namespace CMMS
             var inserPforecast = new SqlCommand("INSERT INTO [dbo].[p_forecast]([m_partId],[tarikh],[PartId],[act])VALUES" +
                                                 "("+obj.MachineId+",'"+obj.Tarikh+"',"+obj.PartId+",0)", _cnn);
             inserPforecast.ExecuteNonQuery();
-            var updatePforecast = new SqlCommand("UPDATE [dbo].[p_forecast]SET [tarikh] = '"+obj.ReplyDate+"'" +
-                                                 ",[act] = 1 ,[inforeason] = '"+obj.Info+"' WHERE id = "+obj.ForeCastId+" ", _cnn);
+            var updatePforecast = new SqlCommand("UPDATE [dbo].[p_forecast]SET [permaturely_tarikh] = '"+obj.ReplyDate+"'" +
+                                                 ",[act] = 1 ,[inforeason] = '"+obj.Info+"', WHERE id = "+obj.ForeCastId+" ", _cnn);
             updatePforecast.ExecuteNonQuery();
             _cnn.Close();
         }

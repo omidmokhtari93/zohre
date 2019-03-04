@@ -205,7 +205,7 @@ function CopyData() {
             $('#gridGhataatMasrafi').empty();
             var partsData = JSON.parse(e.d);
             if (partsData.length > 0) {
-                var tblHead = '<thead><tr><th>نام قطعه</th><th>مصرف در سال</th>' +
+                var tblHead = '<thead><tr><th>نام قطعه</th><th> واحد</th><th>مصرف در سال</th>' +
                     '<th>حداقل</th><th>حداکثر</th><th>پریود تعویض</th><th>ملاحظات</th>' +
                     '<th></th><th></th></tr></thead>';
                 var tblBody = "<tbody></tbody>";
@@ -213,9 +213,11 @@ function CopyData() {
                 $('#gridGhataatMasrafi').append(tblBody);
                 for (var i = 0; i < partsData.length; i++) {
                     tblBody = '<tr>' +
-                        '<td style="display: none;">0</td>' +
-                        '<td style="display: none;">' + partsData[i].PartId + '</td>'
+                        '<td style="display: none;">0</td>'
+                        + '<td style="display: none;">' + partsData[i].PartId + '</td>'
+                        + '<td style="display: none;">1</td>'
                         + '<td>' + partsData[i].PartName + '</td>'
+                        + '<td>عدد</td>'
                         + '<td>' + partsData[i].UsePerYear + '</td>'
                         + '<td>' + partsData[i].Min + '</td>'
                         + '<td>' + partsData[i].Max + '</td>'

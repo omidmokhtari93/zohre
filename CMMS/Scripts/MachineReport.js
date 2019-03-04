@@ -56,6 +56,8 @@ function CreateTableForChart(data) {
    
 
 }
+
+
 function SubsystemReport() {
     var unit;
     if ($('#drsubsystemunits :selected').val() !== '0') {
@@ -102,10 +104,28 @@ function SubsystemReport() {
         }
     }
 }
-
+$('#drmachineunits').on('change',
+    function () {
+        $('#drline').val(-1);
+        $('#drfaz').val(-1);
+    });
+$('#drline').on('change',
+    function () {
+        $('#drmachineunits').val(0);
+        $('#drfaz').val(-1);
+    });
+$('#drfaz').on('change',
+    function () {
+        $('#drline').val(-1);
+        $('#drmachineunits').val(0);
+    });
 function MachineReport() {
     var unit;
-    if ($('#drmachineunits :selected').val() !== '0') {
+    if ($('#drline :selected').val() !== '-1')
+        unit = $('#drline :selected').text();
+    else if ($('#drfaz :selected').val() !== '-1')
+        unit = $('#drfaz :selected').text();
+    else if ($('#drmachineunits :selected').val() !== '0') {
         unit = 'واحد ' + $('#drmachineunits :selected').text();
     } else {
         unit = $('#drmachineunits :selected').text();
@@ -125,7 +145,7 @@ function MachineReport() {
         var e = [];
         e.push({
             url: 'Reports.asmx/FilterMachines',
-            parameters: [{ loc: $('#drmachineunits :selected').val() }],
+            parameters: [{ loc: $('#drmachineunits :selected').val(), line: $('#drline :selected').val(),faz:$('#drfaz :selected').val()}],
             func: createmachineReport
         });
         AjaxCall(e);

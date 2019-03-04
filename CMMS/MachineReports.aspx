@@ -11,7 +11,7 @@
     <ul class="nav nav-tabs" style="padding: 0px 15px 0 15px; margin-top: 10px;">
         <li class="active"><a data-toggle="tab" href="#ActiveMachine">گزارش تجهیزات فعال</a></li>
         <li><a data-toggle="tab" href="#MachineTypes">نوع ماشین آلات</a></li>
-        <li><a data-toggle="tab" href="#machinelist">لیست دستگاه ها</a></li>
+        <li><a data-toggle="tab" href="#machinelist">لیست دستگاه ها/ماشین آلات</a></li>
         <li><a data-toggle="tab" href="#subsystemlist">لیست تجهیزات</a></li>
     </ul>
     <div class="tab-content">
@@ -43,12 +43,36 @@
         </div>
         <div id="machinelist" class="tab-pane fade">
             <div class="menubody">
-                <asp:DropDownList dir="rtl" runat="server" ID="drmachineunits" CssClass="form-control" AppendDataBoundItems="True" ClientIDMode="Static" DataSourceID="Sqlunits" DataTextField="unit_name" DataValueField="unit_code">
-                    <asp:ListItem Value="0">همه واحدها</asp:ListItem>
-                </asp:DropDownList>
-                <a class="btn btn-info btns" onclick="MachineReport();">مشاهده</a>
-                <asp:SqlDataSource ID="Sqlunits" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT unit_code, unit_name FROM i_units"></asp:SqlDataSource>
-                <div id="MachineListPrint">
+                <div class="row" style="margin: 0; text-align: right; direction: ltr;">
+                    <div class="col-md-4">
+                        <label style="display: block;"> : خط</label>
+                         
+                        <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drline" CssClass="form-control" DataSourceID="Sqlline" DataTextField="line_name" DataValueField="id">
+                            <asp:ListItem Value="-1">خط را انتخاب کنید</asp:ListItem>
+                        </asp:DropDownList>
+                      
+                    </div>
+                    <div class="col-md-4">
+                        <label style="display: block;"> : فاز</label>
+                        <asp:DropDownList dir="rtl" runat="server" AppendDataBoundItems="True" ID="drfaz" ClientIDMode="Static" CssClass="form-control" DataSourceID="Sqlfaz" DataTextField="faz_name" DataValueField="id">
+                            <asp:ListItem Value="-1">فاز را انتخاب کنید</asp:ListItem>
+                        </asp:DropDownList>  
+                      
+                    </div>
+                    <div class="col-md-4">
+                        <label style="display: block;"> : واحد</label>
+                        <asp:DropDownList dir="rtl" runat="server" ID="drmachineunits" CssClass="form-control" AppendDataBoundItems="True" ClientIDMode="Static" DataSourceID="Sqlunits" DataTextField="unit_name" DataValueField="unit_code">
+                            <asp:ListItem Value="0">همه واحدها</asp:ListItem>
+                        </asp:DropDownList>
+                    </div>
+               </div>
+                <div style="padding: 15px;">
+                     <a class="btn btn-info btns" onclick="MachineReport();">مشاهده</a>
+                     <asp:SqlDataSource ID="Sqlunits" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT unit_code, unit_name FROM i_units"></asp:SqlDataSource>
+                    <asp:SqlDataSource ID="Sqlline" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, line_name FROM i_lines"></asp:SqlDataSource>
+                    <asp:SqlDataSource ID="Sqlfaz" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, faz_name FROM i_faz"></asp:SqlDataSource>
+                  <div id="MachineListPrint">
+                  </div>
                 </div>
             </div>
         </div>
@@ -57,11 +81,12 @@
                 <asp:DropDownList dir="rtl" ID="drsubsystemunits" runat="server" CssClass="form-control" AppendDataBoundItems="True" ClientIDMode="Static" DataSourceID="Sqlunits" DataTextField="unit_name" DataValueField="unit_code">
                     <asp:ListItem Value="0">همه واحدها</asp:ListItem>
                 </asp:DropDownList>
+
                 <a class="btn btn-info btns" onclick="SubsystemReport();">مشاهده</a>
                 <div id="SubsystemListPrint">
                 </div>
             </div>
         </div>
     </div>
-    <script src="Scripts/MachineRepor.js"></script>
+    <script src="Scripts/MachineReport.js"></script>
 </asp:Content>

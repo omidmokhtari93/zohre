@@ -435,6 +435,8 @@ namespace CMMS
         public int PartId { get; set; }
         public string ReplyDate { get; set; }
         public string Tarikh { get; set; }
+        public string MainDate { get; set; }
+
     }
 
     public class CatalogFiles

@@ -29,6 +29,9 @@
     kamaDatepicker('txtStartDatePrStopCost', customOptions);
     
 });
+$('#drRepairUnit').change(function () {
+    FilterMachineByUnit('drRepairUnit', 'drMachines');
+});
 $('#drPersonelUnit').on('change', function () {
     if ($('#drPersonelUnit :selected').val() !== '-1') {
         $('#drPersonelLine').val('-1');
@@ -207,6 +210,9 @@ $('#drRepairLine').on('change', function () {
 function RepairCost() {
     var linee = $('#drRepairLine :selected').val();
     var unitt = $('#drRepairUnit :selected').val();
+    var machinee = $('#drMachines').val();
+    if (machinee === null)
+        machinee = '-1';
     var sDate = $('#txtStartDateRepairCost').val();
     var eDate = $('#txtEndDateRepairCost').val();
     if (sDate === '' || eDate === '') {
@@ -221,7 +227,7 @@ function RepairCost() {
     var data = [];
     data.push({
         url: 'Reports.asmx/TotalCost',
-        parameters: [{ line: linee, unit: unitt,dateS: sDate, dateE: eDate }],
+        parameters: [{ line: linee, unit: unitt,machine:machinee,dateS: sDate, dateE: eDate }],
         func: repairCostt
     });
     AjaxCall(data);
@@ -246,6 +252,19 @@ function RepairCost() {
             $('#gridRepairCost tbody').append(body.join(''));
         }
         $('#lblRepairCost').text(parseInt(total).toLocaleString() + ' ریال ');
+        if ($('#drRepairUnit').val() !== '-1')
+            var U = ' واحد '+$('#drRepairUnit :selected').text();
+        else
+            U = '';
+        if ($('#drRepairLine').val() !== '-1')
+            var L = $('#drRepairLine :selected').text();
+        else
+            L = '';
+        if ($('#drMachines').val() !== '-1' && $('#drMachines').val() !=null )
+            var M = ' ماشین ' +$('#drMachines :selected').text();
+        else
+            M = '';
+        $('#lblTotalComment').text('گزاش هزینه تعمیرات  ' + U + L + M + '    از تاریخ:  ' + $('#txtStartDateRepairCost').val() + '   تا تاریخ:   ' + $('#txtEndDateRepairCost').val());
     }
 }
 function RequestCost() {

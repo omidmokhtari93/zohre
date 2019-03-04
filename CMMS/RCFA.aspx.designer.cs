@@ -10,7 +10,7 @@
 namespace CMMS {
     
     
-    public partial class RepairReport {
+    public partial class RCFA {
         
         /// <summary>
         /// SqlUnit control.
@@ -31,84 +31,57 @@ namespace CMMS {
         protected global::System.Web.UI.WebControls.SqlDataSource Sqlline;
         
         /// <summary>
-        /// drlinereqtype control.
+        /// drlinefail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList drlinereqtype;
+        protected global::System.Web.UI.WebControls.DropDownList drlinefail;
         
         /// <summary>
-        /// drunitreqtype control.
+        /// drunitfail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList drunitreqtype;
+        protected global::System.Web.UI.WebControls.DropDownList drunitfail;
         
         /// <summary>
-        /// drunitrepreq control.
+        /// drlinemostfail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList drunitrepreq;
+        protected global::System.Web.UI.WebControls.DropDownList drlinemostfail;
         
         /// <summary>
-        /// drlinemostdelay control.
+        /// drunitmostfail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList drlinemostdelay;
+        protected global::System.Web.UI.WebControls.DropDownList drunitmostfail;
         
         /// <summary>
-        /// drunitmostdelay control.
+        /// drlinerepsub control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList drunitmostdelay;
+        protected global::System.Web.UI.WebControls.DropDownList drlinerepsub;
         
         /// <summary>
-        /// drlinerepction control.
+        /// drunitrepsub control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList drlinerepction;
-        
-        /// <summary>
-        /// drunitrepaction control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList drunitrepaction;
-        
-        /// <summary>
-        /// drlinereptime control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList drlinereptime;
-        
-        /// <summary>
-        /// drunitreptime control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList drunitreptime;
+        protected global::System.Web.UI.WebControls.DropDownList drunitrepsub;
     }
 }

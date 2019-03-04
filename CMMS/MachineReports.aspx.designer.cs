@@ -13,6 +13,24 @@ namespace CMMS {
     public partial class MachineReports {
         
         /// <summary>
+        /// drline control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drline;
+        
+        /// <summary>
+        /// drfaz control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drfaz;
+        
+        /// <summary>
         /// drmachineunits control.
         /// </summary>
         /// <remarks>
@@ -29,6 +47,24 @@ namespace CMMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource Sqlunits;
+        
+        /// <summary>
+        /// Sqlline control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource Sqlline;
+        
+        /// <summary>
+        /// Sqlfaz control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource Sqlfaz;
         
         /// <summary>
         /// drsubsystemunits control.

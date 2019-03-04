@@ -447,6 +447,36 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(infoFail);
         }
         [WebMethod]
+        public string PremanurelyFail(string dateS, string dateE)//خرابی های زودتر از موعد 
+        {
+            var infopremanurely = new List<string[]>();
+            cnn.Open();
+            var cmdPremanurely = new SqlCommand(" SELECT dbo.p_forecast.inforeason, dbo.i_fail_reason.fail, dbo.p_forecast.permaturely_tarikh, " +
+                                                " dbo.p_forecast.tarikh, sgdb.inv.Part.PartName, dbo.m_machine.name " +
+                                                " FROM dbo.p_forecast INNER JOIN dbo.p_forcastFail ON dbo.p_forecast.id = dbo.p_forcastFail.id_forecast INNER JOIN " +
+                                                " dbo.i_fail_reason ON dbo.p_forcastFail.fail_id = dbo.i_fail_reason.id INNER JOIN " +
+                                                " dbo.m_parts ON dbo.p_forecast.m_partId = dbo.m_parts.id INNER JOIN " +
+                                                " dbo.m_machine ON dbo.m_parts.Mid = dbo.m_machine.id INNER JOIN " +
+                                                " sgdb.inv.Part on CMMS.dbo.p_forecast.PartId = sgdb.inv.Part.Serial  " +
+                                                " where p_forecast.permaturely_tarikh BETWEEN '" + dateS + "' AND '" + dateE + "' " +
+                                                " order by dbo.p_forecast.tarikh ", cnn);
+           
+               var rd = cmdPremanurely.ExecuteReader();
+           
+            while (rd.Read())
+            {
+                var strList = new List<string[]>
+                {
+                    new[]
+                    {
+                        rd["name"].ToString(),rd["PartName"].ToString(), rd["tarikh"].ToString(),rd["permaturely_tarikh"].ToString(),rd["fail"].ToString(), rd["inforeason"].ToString()
+                    }
+                };
+                infopremanurely.AddRange(strList);
+            }
+            return new JavaScriptSerializer().Serialize(infopremanurely);
+        }
+        [WebMethod]
         public string MachinType()//نوع ماشین آلات
         {
             var machineList = new List<string[]>();
@@ -1581,7 +1611,7 @@ namespace CMMS
         }
       
         [WebMethod]
-        public string TotalCost(int line,int unit,string dateS, string dateE)// هزینه کلی تعمیرات
+        public string TotalCost(int line,int unit,int machine,string dateS, string dateE)// هزینه کلی تعمیرات
         {
             var infoCost = new List<string[]>();
             cnn.Open();
@@ -1791,8 +1821,91 @@ namespace CMMS
                                              " dbo.s_subhistory ON dbo.s_subpersonel.id_reptag = dbo.s_subhistory.id " +
                                              " WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "') AND s_subhistory.new_line = " + line + ") AS derivedtbl_1 " +
                                              " GROUP BY per_name, per_id) as Tmain group by per_id,per_name)P ", cnn);
+
+            var cmdCostsMachine = new SqlCommand("select CASE WHEN (sum(Tot)) IS NULL THEN 0 ELSE sum(Tot) END as Total,'هزینه قطعات' as kind from " +
+                                              " (SELECT sgdb.dbo.Fee.perFee * SUM(i.count) AS Tot, sgdb.dbo.Fee.perFee, SUM(i.count) AS count," +
+                                              " sgdb.dbo.Fee.partname FROM(SELECT dbo.r_tools.tools_id, SUM(dbo.r_tools.count) AS count" +
+                                              " FROM dbo.r_reply INNER JOIN dbo.r_tools ON dbo.r_reply.id = dbo.r_tools.id_rep INNER JOIN " +
+                                              " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
+                                              " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
+                                              " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.id = " + machine + ") " +
+                                              " GROUP BY dbo.r_tools.tools_id  UNION ALL SELECT dbo.s_subtools.tools_id, SUM(dbo.s_subtools.count) AS count " +
+                                              " FROM dbo.s_subhistory INNER JOIN  " +
+                                              " dbo.s_subtools ON dbo.s_subhistory.id = dbo.s_subtools.id_reptag INNER JOIN " +
+                                              " dbo.r_reply ON dbo.r_reply.idreq = dbo.s_subhistory.rep_num INNER JOIN " +
+                                              " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
+                                              " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
+                                              " WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "') AND( dbo.r_request.machine_code = " + machine + ") " +
+                                              " GROUP BY dbo.s_subtools.tools_id) AS i INNER JOIN sgdb.dbo.Fee ON i.tools_id = sgdb.dbo.Fee.Partref " +
+                                              " GROUP BY i.tools_id, sgdb.dbo.Fee.partname, sgdb.dbo.Fee.perFee)T " +
+                                              " union all " +
+                                              " select CASE WHEN (sum(cost)) IS NULL THEN 0 ELSE sum(cost) END as  Total, 'هزینه پیمانکاران' as kind from( select name, sum(cost) as cost from " +
+                                              " (SELECT dbo.s_subcontract.contract_id AS id, dbo.i_contractor.name, SUM(dbo.s_subcontract.cost) AS cost " +
+                                              " FROM dbo.s_subcontract INNER JOIN " +
+                                              " dbo.i_contractor ON dbo.s_subcontract.contract_id = dbo.i_contractor.id INNER JOIN " +
+                                              " dbo.s_subhistory ON dbo.s_subcontract.id_reptag = dbo.s_subhistory.id INNER JOIN " +
+                                              " dbo.r_reply ON dbo.r_reply.idreq = dbo.s_subhistory.rep_num INNER JOIN " +
+                                              " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
+                                              " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
+                                              " WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.r_request.machine_code = " + machine + ") " +
+                                              " GROUP BY dbo.s_subcontract.contract_id, dbo.i_contractor.name union all " +
+                                              " SELECT        dbo.i_contractor.id, dbo.i_contractor.name, SUM(dbo.r_contract.cost) AS cost " +
+                                              " FROM          dbo.i_contractor INNER JOIN " +
+                                              " dbo.r_contract ON dbo.i_contractor.id = dbo.r_contract.contract_id INNER JOIN " +
+                                              " dbo.r_reply ON dbo.r_contract.id_rep = dbo.r_reply.id INNER JOIN " +
+                                              " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
+                                              " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
+                                              " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.id = " + machine + ") " +
+                                              " GROUP BY dbo.i_contractor.name, dbo.i_contractor.id) i group by id, name)C " +
+                                              " union all " +
+                                              " SELECT        CASE WHEN (sum(price)) IS NULL THEN 0 ELSE sum(price) END AS Total, 'هزینه پرسنل' as kind from( " +
+                                              " select per_name, per_id, sum(Price) as price from(SELECT per_name, per_id, SUM(min * (salary / 30 / 440)) AS Price " +
+                                              " FROM(SELECT        dbo.i_personel.per_name, dbo.i_personel.per_id, " +
+                                              " -(1 * DATEDIFF(minute, dbo.r_personel.time_work, 0)) AS min, CASE WHEN(task = 0) THEN " +
+                                              " (SELECT        worker " +
+                                              " FROM            i_costs " +
+                                              " WHERE        cost_year = " +
+                                              " (SELECT        SUBSTRING('" + dateS + "', 1, 4) AS Year)) WHEN task = 1 THEN " +
+                                              " (SELECT        expert " +
+                                              " FROM i_costs " +
+                                              " WHERE        cost_year = " +
+                                              " (SELECT        SUBSTRING('" + dateS + "', 1, 4) AS Year)) WHEN task = 2 THEN (SELECT        headworker FROM            i_costs " +
+                                              " WHERE        cost_year = (SELECT        SUBSTRING('" + dateS + "', 1, 4) AS Year)) WHEN task = 3 THEN " +
+                                              " (SELECT manager FROM            i_costs WHERE        cost_year =" +
+                                              " (SELECT        SUBSTRING('" + dateS + "', 1, 4) AS Year)) WHEN task = 4 THEN " +
+                                              " (SELECT        technical_manager " +
+                                              " FROM            i_costs WHERE        cost_year = " +
+                                              " (SELECT        SUBSTRING('" + dateS + "', 1, 4) AS Year)) END AS salary, dbo.r_personel.time_work " +
+                                              " FROM            dbo.i_personel INNER JOIN dbo.r_personel ON dbo.i_personel.id = dbo.r_personel.per_id INNER JOIN " +
+                                              " dbo.r_reply ON dbo.r_personel.id_rep = dbo.r_reply.id INNER JOIN " +
+                                              " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id " +
+                                              " INNER JOIN dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
+                                              " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') and m_machine.id = " + machine + ") AS derivedtbl_1 " +
+                                              " GROUP BY per_name, per_id " +
+                                              " union all " +
+                                              " SELECT        per_name, per_id, SUM(min * (salary / 30 / 440)) AS Price " +
+                                              " FROM(SELECT        dbo.i_personel.per_name, dbo.i_personel.per_id, -(1 * DATEDIFF(minute, dbo.s_subpersonel.time_work, 0)) AS min, CASE WHEN(task = 0) THEN " +
+                                              " (SELECT        worker FROM  i_costs WHERE  cost_year = " +
+                                              " (SELECT SUBSTRING('" + dateS + "', 1, 4) AS Year)) WHEN task = 1 THEN(SELECT expert FROM  i_costs WHERE cost_year = " +
+                                              " (SELECT SUBSTRING('" + dateS + "', 1, 4) AS Year)) WHEN task = 2 THEN(SELECT headworker FROM   i_costs WHERE  cost_year = " +
+                                              " (SELECT   SUBSTRING('" + dateS + "', 1, 4) AS Year)) WHEN task = 3 THEN(SELECT  manager FROM i_costs WHERE cost_year = " +
+                                              " (SELECT SUBSTRING('" + dateS + "', 1, 4) AS Year)) WHEN task = 4 THEN(SELECT technical_manager FROM  i_costs WHERE cost_year = " +
+                                              " (SELECT SUBSTRING('" + dateS + "', 1, 4) AS Year)) END AS salary, dbo.s_subpersonel.time_work " +
+                                              " FROM  dbo.i_personel INNER JOIN " +
+                                              " dbo.s_subpersonel ON dbo.i_personel.id = dbo.s_subpersonel.per_id INNER JOIN " +
+                                              " dbo.s_subhistory ON dbo.s_subpersonel.id_reptag = dbo.s_subhistory.id INNER JOIN " +
+                                              " dbo.r_reply ON dbo.r_reply.idreq = dbo.s_subhistory.rep_num INNER JOIN " +
+                                              " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
+                                              " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
+                                              " WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "') AND dbo.r_request.machine_code = " + machine + ") AS derivedtbl_1 " +
+                                              " GROUP BY per_name, per_id) as Tmain group by per_id,per_name)P ", cnn);
             SqlDataReader rd;
-            if (line != -1)
+            if (machine != -1)
+            {
+                rd = cmdCostsMachine.ExecuteReader();
+
+            }
+            else if (line != -1)
             {
                 rd = cmdCostLine.ExecuteReader();
 
@@ -2355,22 +2468,44 @@ namespace CMMS
         }
 
         [WebMethod]
-        public string FilterMachines(int loc)
+        public string FilterMachines(int loc,int line,int faz)
         {
             cnn.Open();
             var e = new List<MachineMainInfo>();
-            var sel = new SqlCommand("SELECT dbo.m_machine.name, dbo.m_machine.code, dbo.i_units.unit_name, " +
+            var unitt = new SqlCommand("SELECT dbo.m_machine.name, dbo.m_machine.code, dbo.i_units.unit_name, " +
                                      "dbo.m_machine.imp, dbo.m_machine.creator, dbo.m_machine.maModel, dbo.m_machine.startDate " +
                                      "FROM dbo.m_machine INNER JOIN dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code " +
                                      "WHERE(dbo.m_machine.loc = " + loc + " OR " +loc+ " = 0) order by dbo.m_machine.code", cnn);
-            var r = sel.ExecuteReader();
-            while (r.Read())
+
+            var linee = new SqlCommand("SELECT dbo.m_machine.name, dbo.m_machine.code, dbo.i_units.unit_name, " +
+                                      "dbo.m_machine.imp, dbo.m_machine.creator, dbo.m_machine.maModel, dbo.m_machine.startDate " +
+                                      "FROM dbo.m_machine INNER JOIN dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code " +
+                                      "WHERE(dbo.m_machine.line = " + line + ") order by dbo.m_machine.code", cnn);
+
+            var fazz = new SqlCommand("SELECT dbo.m_machine.name, dbo.m_machine.code, dbo.i_units.unit_name, " +
+                                      "dbo.m_machine.imp, dbo.m_machine.creator, dbo.m_machine.maModel, dbo.m_machine.startDate " +
+                                      "FROM dbo.m_machine INNER JOIN dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code " +
+                                      "WHERE(dbo.m_machine.faz = " + faz + " ) order by dbo.m_machine.code", cnn);
+            SqlDataReader rd;
+            if (faz != -1)
+            {
+                rd = fazz.ExecuteReader();
+            }
+            else if (line != -1)
+            {
+                rd = linee.ExecuteReader();
+            }
+            else
+            {
+                rd = unitt.ExecuteReader();
+            }
+            while (rd.Read())
             {
                 e.Add(new MachineMainInfo()
                 {
-                    Name = r["name"].ToString(),Code = r["code"].ToString(),LocationName = r["unit_name"].ToString(),
-                    Ahamiyat = r["imp"].ToString(),Creator = r["creator"].ToString(),Model = r["maModel"].ToString(),
-                    Tarikh = r["startDate"].ToString()
+                    Name = rd["name"].ToString(),Code = rd["code"].ToString(),LocationName = rd["unit_name"].ToString(),
+                    Ahamiyat = rd["imp"].ToString(),Creator = rd["creator"].ToString(),Model = rd["maModel"].ToString(),
+                    Tarikh = rd["startDate"].ToString()
                 });
             }
             return new JavaScriptSerializer().Serialize(e);
