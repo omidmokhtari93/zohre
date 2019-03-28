@@ -77,7 +77,7 @@
                                 </li>
                                 <li class='has-sub' id="machine" runat="server"><a href='#'><span>ساماندهی ماشین آلات و تجهیزات</span></a>
                                     <ul>
-                                        <li><a href='#'><div class="Icon1" style="background-image: url(/images/MainMachine.png);"></div><asp:Button ID="btn_device"  runat="server" CssClass="textstyle" Text="کد گذاری ماشین آلات / دستگاه ها" OnClick="btn_device_OnClick"></asp:Button></a></li>
+                                        <li><a href='#'><div class="Icon1" style="background-image: url(/images/MainMachine.png);"></div><asp:Button ID="btn_device"  runat="server" CssClass="textstyle" Text="طبقه بندی ماشین آلات / دستگاه ها" OnClick="btn_device_OnClick"></asp:Button></a></li>
                                         <li><a href='#'><div class="Icon1" style="background-image: url(/images/subSystem.png);"></div><asp:Button ID="btn_subsystem"  runat="server" CssClass="textstyle" Text="ثبت اجزا ماشین آلات" OnClick="btn_subsystem_OnClick"></asp:Button></a></li>
                                         <li><a href='#'><div class="Icon1" style="background-image: url(/images/tag.png);"></div><asp:Button ID="btn_tag"  runat="server" CssClass="textstyle" Text="پلاک گذاری / ثبت سابقه اجزا" OnClick="btn_tag_OnClick"></asp:Button></a></li>
                                         <li><a href='#'><div class="Icon1" style="background-image: url(/images/newMachin.png);"></div><asp:Button ID="btn_newdevice"  runat="server" CssClass="textstyle" Text="ثبت ماشین / دستگاه" OnClick="btn_newdevice_OnClick" ></asp:Button></a></li>

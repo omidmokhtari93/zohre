@@ -184,6 +184,7 @@
                             '<tr>' +
                             '<td  style=" background: #f3f3f3; text-align: center;">ردیف</td>' +
                             '<td  style=" background: #f3f3f3; text-align: center;">نام قطعه</td>' +
+                            '<td  style=" background: #f3f3f3; text-align: center;">عملیات</td>' +
                             '<td colspan="2" style=" background: #f3f3f3; text-align: center;">تعداد</td>' +
                             '</tr>' +
                             '</table>');
@@ -192,6 +193,7 @@
                             $('#partTable').append('<tr>' +
                                 '<td  style="text-align: center;">' + parseInt(d + 1) + '</td>' +
                                 '<td  style="text-align: center;">' + data.partsList[d].PartName + '</td>' +
+                                '<td  style="text-align: center;">' + data.partsList[d].Rptooltip + '</td>' +
                                 '<td colspan="2" style="text-align: center;">' + data.partsList[d].Count + ' ' + data.partsList[d].Measur + '</td>' +
                                 '</tr>');
                         }

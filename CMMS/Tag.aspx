@@ -85,21 +85,10 @@
     </style>
 <asp:HiddenField runat="server" ClientIDMode="Static" ID="TagID"/>
     <div class="panel panel-primary" id="pnlMachineTag" runat="server">
-        <div class="panel-heading">ثبت پلاک قطعات</div>
-        <div class="panel-body">
-            <div class="row" style="margin: 0;">
-                <div class="col-lg-6">
-                    شماره پلاک
-                    <input type="text" readonly runat="server" ClientIDMode="Static" class="form-control text-center" id="txtsubCode"/>
-                </div>
-                <div class="col-lg-6">
-                    نام قطعه
-                    <input dir="rtl" placeholder="نام قطعه ..." class="form-control" id="txtsubName" runat="server" ClientIDMode="Static"/>
-                </div>
-            </div>
-        </div>
+        <div class="panel-heading">سابقه تعمیراتی قطعات</div>
+
         <div class="panel-footer">
-            <asp:Button runat="server" CssClass="button" ID="btnSabt" OnClick="btnSabt_OnClick" ClientIDMode="Static" Text="ثبت"/>
+          
         </div>
         <div class="panel-footer">
             <div class="row" style="margin: 0; border: 1px solid rgb(190, 190, 190);border-radius: 5px; background-color: #dfecfe;">
@@ -131,21 +120,25 @@
                     </asp:Panel>
                 </div>
             </div>
-            <asp:GridView runat="server" ClientIDMode="Static" CssClass="table" ID="gridTags" AutoGenerateColumns="False" DataKeyNames="id" DataSourceID="SqlTags" OnRowCommand="gridTags_OnRowCommand">
+            <asp:GridView runat="server" ClientIDMode="Static" CssClass="table" ID="gridTags" DataKeyNames="id" AutoGenerateColumns="False" DataSourceID="SqlTags" OnRowCommand="gridTags_OnRowCommand">
                 <Columns>
-                    <asp:BoundField DataField="id" SortExpression="id" />
-                    <asp:BoundField DataField="device" HeaderText="نام قطعه" SortExpression="subname" />
-                    <asp:BoundField DataField="tag" HeaderText="شماره پلاک" SortExpression="tag"/>
+                   
+                    <asp:BoundField DataField="row" HeaderText="ردیف" SortExpression="row" />
+                    <asp:BoundField DataField="subname" HeaderText="نام قطعه" SortExpression="subname" />
+                    <asp:BoundField DataField="name" HeaderText="نام ماشین" SortExpression="name"/>
+                    <asp:BoundField DataField="code" HeaderText="شماره پلاک" SortExpression="code"/>
                     <asp:ButtonField CommandName="show" Text="مشاهده سوابق"/>
                     <asp:ButtonField CommandName="sabt" Text="ثبت سوابق"/>
-                    <asp:CommandField ShowEditButton="True" EditText="ویرایش" />
+                    
                 </Columns>
             </asp:GridView>
-            <asp:SqlDataSource ID="SqlTags" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, device, tag FROM dbo.s_subtag ORDER BY id DESC" UpdateCommand="UPDATE s_subtag SET device = @device,tag = @tag WHERE (id = @id)">
-                <UpdateParameters>
-                    <asp:Parameter Name="device" />
-                    <asp:Parameter Name="tag" />
-                </UpdateParameters>
+            <asp:SqlDataSource ID="SqlTags" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT ROW_NUMBER() OVER(ORDER BY dbo.m_subsystem.code) as row,  m_subsystem.id, dbo.m_subsystem.code, dbo.m_machine.name, dbo.subsystem.name AS subname
+FROM dbo.m_subsystem INNER JOIN
+                         dbo.subsystem ON dbo.m_subsystem.subId = dbo.subsystem.id INNER JOIN
+                         dbo.m_machine ON dbo.m_subsystem.Mid = dbo.m_machine.id
+WHERE (dbo.m_subsystem.code IS NOT NULL)
+ORDER BY dbo.m_subsystem.code ">
+               
             </asp:SqlDataSource>
         </div>
     </div>
@@ -174,16 +167,16 @@
             </Columns>
         </asp:GridView>
         <asp:SqlDataSource ID="SqlRepairRecords" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="
-SELECT ROW_NUMBER()over(order by(select null))as rn, dbo.s_subtag.tag,
+SELECT  ROW_NUMBER()over(order by(select null))as rn,dbo.m_subsystem.code,
 CASE WHEN s_subhistory.CR = 1 THEN 'تعمیر' ELSE 'تعویض' END AS rc,
 dbo.s_subhistory.rep_num, dbo.s_subhistory.tarikh, dbo.s_subhistory.id AS subid, dbo.i_units.unit_name AS nunit, 
-dbo.i_lines.line_name AS nline, i_units_1.unit_name AS runit, i_lines_1.line_name AS rline FROM dbo.s_subtag INNER JOIN
-dbo.s_subhistory ON dbo.s_subtag.id = dbo.s_subhistory.tagid INNER JOIN
-dbo.i_units ON dbo.s_subhistory.new_unit = dbo.i_units.unit_code INNER JOIN
+dbo.i_lines.line_name AS nline, i_units_1.unit_name AS runit, i_lines_1.line_name AS rline FROM dbo.m_subsystem INNER JOIN
+dbo.s_subhistory ON dbo.m_subsystem.id = dbo.s_subhistory.tagid INNER JOIN
+dbo.i_units ON dbo.s_subhistory.new_unit = dbo.i_units.id INNER JOIN
 dbo.i_lines ON dbo.s_subhistory.new_line = dbo.i_lines.id INNER JOIN
-dbo.i_units AS i_units_1 ON dbo.s_subhistory.rec_unit = i_units_1.unit_code INNER JOIN
+dbo.i_units AS i_units_1 ON dbo.s_subhistory.rec_unit = i_units_1.id INNER JOIN
 dbo.i_lines AS i_lines_1 ON dbo.s_subhistory.rec_line = i_lines_1.id
-where s_subtag.id = @id">
+where m_subsystem.id = @id">
             <SelectParameters>
                 <asp:SessionParameter Name="id" SessionField="subtagId" />
             </SelectParameters>

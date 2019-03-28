@@ -51,20 +51,7 @@ namespace CMMS
             gridTags.DataBind();
         }
 
-        protected void btnSabt_OnClick(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(txtsubName.Value))
-            {
-                ScriptManager.RegisterStartupScript(Page, GetType(), "script", "cancel();", true);
-                return;
-            }
-            cnn.Open();
-            var insert = new SqlCommand("INSERT INTO [dbo].[s_subtag]([device],[tag])VALUES('"+ txtsubName.Value+"', "+txtsubCode.Value+")", cnn);
-            insert.ExecuteNonQuery();
-            gridTags.DataBind();
-            txtsubName.Value = "";
-            ScriptManager.RegisterStartupScript(Page, GetType(), "script", "save();", true);
-        }
+       
 
         protected void gridTags_OnRowCommand(object sender, GridViewCommandEventArgs e)
         {
@@ -73,14 +60,20 @@ namespace CMMS
                 var index = int.Parse(e.CommandArgument.ToString());
                 var tagId = (int) gridTags.DataKeys[index]["id"];
                 var repairNumber = GetRepairNumber();
-                var selectTagDetails = new SqlCommand("SELECT id,tag,device FROM dbo.s_subtag where id = "+ tagId+ " ",cnn);
+                var selectTagDetails = new SqlCommand(" SELECT ROW_NUMBER() OVER(ORDER BY dbo.m_subsystem.code) as row, m_subsystem.id, dbo.m_subsystem.code," +
+                                                      " dbo.m_machine.name, dbo.subsystem.name AS subname " +
+                                                      " FROM dbo.m_subsystem INNER JOIN " +
+                                                      " dbo.subsystem ON dbo.m_subsystem.subId = dbo.subsystem.id INNER JOIN " +
+                                                      " dbo.m_machine ON dbo.m_subsystem.Mid = dbo.m_machine.id " +
+                                                      " WHERE(dbo.m_subsystem.code IS NOT NULL) AND  m_subsystem.id = " + tagId + " " +
+                                                      " ORDER BY dbo.m_subsystem.code  ",cnn);
                 var rd = selectTagDetails.ExecuteReader();
                 if (rd.Read())
                 {
                     txtRepairNumber.Value = repairNumber.ToString();
                     TagID.Value = tagId.ToString();
-                    txtRepairedSub.Value = rd["device"].ToString();
-                    txtTagNumber.Value = rd["tag"].ToString();
+                    txtRepairedSub.Value = rd["subname"].ToString();
+                    txtTagNumber.Value = rd["code"].ToString();
                     pnlMachineTag.Visible = false;
                     pnlRepairRecord.Visible = true;
                 }
@@ -90,12 +83,18 @@ namespace CMMS
                 var index = int.Parse(e.CommandArgument.ToString());
                 Session["subtagId"] = (int)gridTags.DataKeys[index]["id"];
                 cnn.Open();
-                var subInfo = new SqlCommand("SELECT device,tag FROM dbo.s_subtag where s_subtag.id ="+ Session["subtagId"] + " ",cnn);
+                var subInfo = new SqlCommand("SELECT ROW_NUMBER() OVER(ORDER BY dbo.m_subsystem.code) as row, m_subsystem.id, dbo.m_subsystem.code," +
+                                             " dbo.m_machine.name, dbo.subsystem.name AS subname " +
+                                             " FROM dbo.m_subsystem INNER JOIN " +
+                                             " dbo.subsystem ON dbo.m_subsystem.subId = dbo.subsystem.id INNER JOIN " +
+                                             " dbo.m_machine ON dbo.m_subsystem.Mid = dbo.m_machine.id " +
+                                             " WHERE(dbo.m_subsystem.code IS NOT NULL) AND  m_subsystem.id=" + Session["subtagId"] + " " +
+                                             " ORDER BY dbo.m_subsystem.code", cnn);
                 var rd = subInfo.ExecuteReader();
                 if (rd.Read())
                 {
-                    lblSubtagName.InnerText = rd["device"].ToString();
-                    lblSubtagPelak.InnerText = rd["tag"].ToString();
+                    lblSubtagName.InnerText = rd["subname"].ToString();
+                    lblSubtagPelak.InnerText = rd["code"].ToString();
                 } 
                 gridRepairRecords.DataBind();
                 pnlMachineTag.Visible = false;

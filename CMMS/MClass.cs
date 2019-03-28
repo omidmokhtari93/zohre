@@ -13,6 +13,7 @@ namespace CMMS
     public class MachineMainInfo
     {
         public string Name { get; set; }
+        
         public string Code { get; set; }
         public string Ahamiyat { get; set; }
         public string Creator { get; set; }
@@ -73,6 +74,9 @@ namespace CMMS
     {
         public string SubSystemName { get; set; }
         public int SubSystemId { get; set; }
+        public string SubSystemCode { get; set; }
+        public string SubSystemMachine { get; set; }
+        public string FazName { get; set; }
     }
 
     public class Parts
@@ -207,6 +211,9 @@ namespace CMMS
         public string PartName { get; set; }
         public int Count { get; set; }
         public string Measur { get; set; }
+        public Boolean Rptools { get; set; }
+        public string Rptooltip { get; set; }
+
     }
 
     public class RepairerOfRepairRedords
@@ -319,13 +326,19 @@ namespace CMMS
         public List<string> Machine { get; set; }
         public List<int> Mtt { get; set; }
         public List<int> MttH { get; set; }
+        public List<string> Fazname { get; set; }
+        public List<string> Linename { get; set; }
 
         public MtMachines()
         {
             Machine = new List<string>();
             Mtt = new List<int>();
             MttH = new List<int>();
+            Fazname= new List<string>();
+            Linename=new List<string>();
         }
+
+        
     }
     public class RepairRequest
     {

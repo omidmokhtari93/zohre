@@ -82,6 +82,7 @@ $('#gridMachines').on("click", "td", function () {
                 var code = JSON.parse(e.d);
                 if (code !== '') {
                     $('#txtmachineCode').val(code);
+                    $('#txtSubPelak').val(code + '-');
                 }
                 $('#machineTooltip').css('visibility', 'hidden');
                 $('#machineTooltip').css('opacity', '0');

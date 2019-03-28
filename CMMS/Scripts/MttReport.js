@@ -95,11 +95,13 @@ function CreateTableForChart(data) {
         $('#gridMtbfReport').empty();
         if (data.Machine.length > 0) {
             var body = [];
-            body.push('<tr><th>ردیف</th><th>نام دستگاه</th><th>MTBF</th><th>MTBF-Goal</th></tr>');
+            body.push('<tr><th>ردیف</th><th>نام دستگاه</th><th>فاز</th><th>خط</th><th>MTBF</th><th>MTBF-Goal</th></tr>');
             for (var i = 0; i < data.Machine.length; i++) {
                 body.push('<tr>' +
                     '<td>' + (i + 1) + '</td>' +
                     '<td>' + data.Machine[i] + '</td>' +
+                    '<td>' + data.Fazname[i] + '</td>' +
+                    '<td>' + data.Linename[i] + '</td>' +
                     '<td>' + data.Mtt[i] + '</td>' +
                     '<td>' + data.MttH[i] + '</td>' +
                     '</tr>');
@@ -111,11 +113,13 @@ function CreateTableForChart(data) {
         $('#gridMttrRReport').empty();
         if (data.Machine.length > 0) {
             var body = [];
-            body.push('<tr><th>ردیف</th><th>نام دستگاه</th><th>MTTR</th><th>MTTR-Goal</th></tr>');
+            body.push('<tr><th>ردیف</th><th>نام دستگاه</th><th>فاز</th><th>خط</th><th>MTTR</th><th>MTTR-Goal</th></tr>');
             for (var i = 0; i < data.Machine.length; i++) {
                 body.push('<tr>' +
                     '<td>' + (i + 1) + '</td>' +
                     '<td>' + data.Machine[i] + '</td>' +
+                    '<td>' + data.Fazname[i] + '</td>' +
+                    '<td>' + data.Linename[i] + '</td>' +
                     '<td>' + data.Mtt[i] + '</td>' +
                     '<td>' + data.MttH[i] + '</td>' +
                     '</tr>');
@@ -127,11 +131,13 @@ function CreateTableForChart(data) {
         $('#gridMttrSReport').empty();
         if (data.Machine.length > 0) {
             var body = [];
-            body.push('<tr><th>ردیف</th><th>نام دستگاه</th><th>MTTR</th><th>MTTR-Goal</th></tr>');
+            body.push('<tr><th>ردیف</th><th>نام دستگاه</th><th>فاز</th><th>خط</th><th>MTTR</th><th>MTTR-Goal</th></tr>');
             for (var i = 0; i < data.Machine.length; i++) {
                 body.push('<tr>' +
                     '<td>' + (i + 1) + '</td>' +
                     '<td>' + data.Machine[i] + '</td>' +
+                    '<td>' + data.Fazname[i] + '</td>' +
+                    '<td>' + data.Linename[i] + '</td>' +
                     '<td>' + data.Mtt[i] + '</td>' +
                     '<td>' + data.MttH[i] + '</td>' +
                     '</tr>');

@@ -48,7 +48,7 @@ namespace CMMS
             if (!rd.Read()) return new JavaScriptSerializer().Serialize(new { flag = 0, message = "! نام کاربری یا رمز عبور اشتباه است" });
             var permit = Convert.ToInt32(rd["permit"]);
             var userId = Convert.ToInt32(rd["id"]);
-            var unit = Convert.ToInt32(rd["unit"]);
+            var unit = (rd["unit"]);
             var userLevel = Convert.ToInt32(rd["usrlevel"]);
             var userPassword = rd["password"].ToString();
             _cnn.Close();
@@ -187,10 +187,10 @@ namespace CMMS
         }
 
         [WebMethod]
-        public string CheckDuplicateMachineCode(int machinCode , int mid)
+        public string CheckDuplicateMachineCode(string machinCode , int mid)
         {
             _cnn.Open();
-            var checkDuplicate = new SqlCommand("select count(id) from m_machine where code = "+ machinCode + " and id <> "+mid+" ",_cnn);
+            var checkDuplicate = new SqlCommand("select count(id) from m_machine where code = '"+ machinCode + "' and id <> "+mid+" ",_cnn);
             var chk = checkDuplicate.ExecuteScalar().ToString();
             _cnn.Close();
             return chk;
@@ -220,7 +220,7 @@ namespace CMMS
                                                ",[insDate] = '" + minfo.InsDate + "' " +
                                                ",[maModel] = '" + minfo.Model + "' " +
                                                ",[startDate] = '" + minfo.Tarikh + "' " +
-                                               ",[loc] = " + minfo.Location + " " +
+                                               ",[loc] = '" + minfo.Location + "' " +
                                                ",[line] = " + minfo.Line + " " +
                                                ",[faz] = " + minfo.Faz + " " +
                                                ",[pow] = '" + minfo.Power + "' " +
@@ -371,7 +371,7 @@ namespace CMMS
                 ",[fuel] = " + masrafiMain.FuelChecked + " " +
                 ",[fuelType] = '" + masrafiMain.FuelType + "' " +
                 ",[fueltot] = '" + masrafiMain.FuelMasraf + "' " +
-                " WHERE Mid = (select id from m_machine where SUBSTRING(CONVERT(varchar(8), code), 3, 3)= " + mid + " )", _cnn);
+                " WHERE Mid in (select id from m_machine where SUBSTRING(code,3,3)= " + mid + " )", _cnn);
             insertFuel.ExecuteNonQuery();
             _cnn.Close();
         }
@@ -571,8 +571,8 @@ namespace CMMS
             foreach (var item in subSystem)
             {
                 var insertParts = new SqlCommand(
-                    "INSERT INTO [dbo].[m_subsystem](Mid , subId)" +
-                    "VALUES(" + mid + "," + item.SubSystemId + ")", _cnn);
+                    "INSERT INTO [dbo].[m_subsystem](Mid , subId,code)" +
+                    "VALUES(" + mid + "," + item.SubSystemId + ",'"+item.SubSystemCode+"')", _cnn);
                 insertParts.ExecuteNonQuery();
             }
             _cnn.Close();
@@ -590,7 +590,7 @@ namespace CMMS
                     "VALUES(" + mid + "," + item.SubSystemId + ")" , _cnn);
                 insertParts.ExecuteNonQuery();
             }
-            var deleteM = new SqlCommand("delete from m_subsystem where Mid = (select id from m_machine where SUBSTRING(CONVERT(varchar(8), code), 3, 3)= " + mid + " ) ", _cnn);
+            var deleteM = new SqlCommand("delete from m_subsystem where Mid in (select id from m_machine where SUBSTRING(CONVERT(varchar(8), code), 3, 3)= " + mid + " ) ", _cnn);
             deleteM.ExecuteNonQuery();
             _cnn.Close();
 
@@ -736,7 +736,7 @@ namespace CMMS
                 "if (select count(Mid) from b_inst where Mid = " + mid + ") <> 0 " +
                 "UPDATE [dbo].[m_inst] " +
                 "SET[inst] = '" + dastoor + "' " +
-                "WHERE Mid = (select id from m_machine where SUBSTRING(CONVERT(varchar(8), code), 3, 3)= " + mid + " ) " +
+                "WHERE Mid in (select id from m_machine where SUBSTRING(CONVERT(varchar(8), code), 3, 3)= " + mid + " ) " +
                 " else " +
                 "INSERT INTO [dbo].[b_inst]([Mid],[inst])VALUES" +
                 "(" + mid + ",'" + dastoor + "')", _cnn);
@@ -995,7 +995,7 @@ namespace CMMS
         {
             var subSystemList = new List<SubSystems>();
             _cnn.Open();
-            var subs = new SqlCommand("SELECT dbo.subsystem.name, dbo.m_subsystem.subId FROM " +
+            var subs = new SqlCommand("SELECT dbo.subsystem.name, dbo.m_subsystem.subId ,dbo.m_subsystem.code FROM " +
                                       "dbo.subsystem INNER JOIN dbo.m_subsystem ON dbo.subsystem.id " +
                                       "= dbo.m_subsystem.subId WHERE(dbo.m_subsystem.Mid = "+mid+")",_cnn);
             var rd = subs.ExecuteReader();
@@ -1003,7 +1003,7 @@ namespace CMMS
             {
                 subSystemList.AddRange(new List<SubSystems>()
                 {
-                    new SubSystems(){SubSystemId = Convert.ToInt32(rd["subId"]) , SubSystemName = rd["name"].ToString()}
+                    new SubSystems(){SubSystemId = Convert.ToInt32(rd["subId"]) , SubSystemName = rd["name"].ToString(), SubSystemCode = rd["code"].ToString()}
                 });
             }
             _cnn.Close();
@@ -1014,7 +1014,7 @@ namespace CMMS
         {
             var subSystemList = new List<SubSystems>();
             _cnn.Open();
-            var subs = new SqlCommand("SELECT dbo.subsystem.name, dbo.b_subsystem.subId FROM " +
+            var subs = new SqlCommand("SELECT dbo.subsystem.name, dbo.b_subsystem.subId ,'----' as code FROM " +
                                       "dbo.subsystem INNER JOIN dbo.b_subsystem ON dbo.subsystem.id " +
                                       "= dbo.b_subsystem.subId WHERE(dbo.b_subsystem.Mid = " + mid + ")", _cnn);
             var rd = subs.ExecuteReader();
@@ -1022,7 +1022,7 @@ namespace CMMS
             {
                 subSystemList.AddRange(new List<SubSystems>()
                 {
-                    new SubSystems(){SubSystemId = Convert.ToInt32(rd["subId"]) , SubSystemName = rd["name"].ToString()}
+                    new SubSystems(){SubSystemId = Convert.ToInt32(rd["subId"]) , SubSystemName = rd["name"].ToString(),SubSystemCode = rd["code"].ToString()}
                 });
             }
             _cnn.Close();
@@ -1363,12 +1363,13 @@ namespace CMMS
         }
 
         [WebMethod]
-        public string GetLatestMachineCode(int machineCode)
+        public string GetLatestMachineCode(string machineCode)
         {
             _cnn.Open();
             var selectCode = new SqlCommand("if (SELECT count(code) FROM [dbo].[m_machine] where code like '"+ machineCode + "%') <> 0 "+
-                                            "begin SELECT max(code + 1) FROM[dbo].[m_machine] where code like '" + machineCode + "%' end else begin select '' end", _cnn);
-            var code = selectCode.ExecuteScalar();
+                                            "begin SELECT max(substring(code,3,6) + 1) as Ncode FROM[dbo].[m_machine] where code like '" + machineCode + "%' end else begin select '' end", _cnn);
+            var code = selectCode.ExecuteScalar().ToString();
+            code = machineCode.Substring(0, 2)+code;
             _cnn.Close();
             return new JavaScriptSerializer().Serialize(code);
         }
@@ -1616,9 +1617,14 @@ namespace CMMS
             }
 
             foreach (var part in obj.Parts)
-            {
-                var insertParts = new SqlCommand("INSERT INTO [dbo].[r_tools]([id_rep],[tools_id],[count])VALUES" +
-                                                 "("+replyId+","+part.Part+","+part.Count+")",_cnn);
+                                                          {
+                var rp = 0;
+                if (part.Rptools==true)
+                {
+                    rp = 1;
+                }
+                var insertParts = new SqlCommand("INSERT INTO [dbo].[r_tools]([id_rep],[tools_id],[count],[rptools])VALUES" +
+                                                 "("+replyId+","+part.Part+","+part.Count+","+rp+")",_cnn);
                 insertParts.ExecuteNonQuery();
                 
                 var insertMeasurement=new SqlCommand("if(select count(Serial) from i_measurement_part where Serial="+part.Part+")=0" +
@@ -1684,7 +1690,7 @@ namespace CMMS
                                                 "("+obj.MachineId+",'"+obj.Tarikh+"',"+obj.PartId+",0)", _cnn);
             inserPforecast.ExecuteNonQuery();
             var updatePforecast = new SqlCommand("UPDATE [dbo].[p_forecast]SET [permaturely_tarikh] = '"+obj.ReplyDate+"'" +
-                                                 ",[act] = 1 ,[inforeason] = '"+obj.Info+"', WHERE id = "+obj.ForeCastId+" ", _cnn);
+                                                 ",[act] = 1 ,[inforeason] = '"+obj.Info+"' WHERE id = "+obj.ForeCastId+" ", _cnn);
             updatePforecast.ExecuteNonQuery();
             _cnn.Close();
         }
@@ -1752,14 +1758,14 @@ namespace CMMS
             }
             _cnn.Close();
             _cnn.Open();
-            var selectParts = new SqlCommand(" SELECT sgdb.inv.Part.PartName, dbo.r_tools.count, dbo.i_measurement.measurement AS Measur " +
+            var selectParts = new SqlCommand(" SELECT sgdb.inv.Part.PartName, dbo.r_tools.count, dbo.i_measurement.measurement AS Measur,case when dbo.r_tools.rptools=1 then 'تعمیر' else 'تعویض' end as rptool " +
                                              " FROM dbo.r_tools INNER JOIN " +
                                              " sgdb.inv.Part ON dbo.r_tools.tools_id = sgdb.inv.Part.Serial INNER JOIN " +
                                              " dbo.i_measurement_part ON dbo.r_tools.tools_id = dbo.i_measurement_part.Serial INNER JOIN " +
                                              " dbo.i_measurement ON dbo.i_measurement_part.measurement = dbo.i_measurement.id " +
                                              " WHERE(dbo.r_tools.id_rep = " + replyId + ") " +
                                              " union all " +
-                                             " SELECT sgdb.inv.Part.PartName, dbo.r_tools.count, 'عدد' as Measur " +
+                                             " SELECT sgdb.inv.Part.PartName, dbo.r_tools.count, 'عدد' as Measur,case when dbo.r_tools.rptools=1 then 'تعمیر' else 'تعویض' end as rptool " +
                                              " FROM dbo.r_tools INNER JOIN " +
                                              " sgdb.inv.Part ON dbo.r_tools.tools_id = sgdb.inv.Part.Serial " +
                                              " WHERE        (dbo.r_tools.id_rep = " + replyId + " and r_tools.tools_id not in (select Serial from i_measurement_part)) ", _cnn);
@@ -1767,7 +1773,7 @@ namespace CMMS
             var readParts = selectParts.ExecuteReader();
             while (readParts.Read())
             {
-                partsList.Add(new PartsRepairRecords(){PartName = readParts["PartName"].ToString(),Count = Convert.ToInt32(readParts["count"]),Measur = readParts["Measur"].ToString()});
+                partsList.Add(new PartsRepairRecords(){PartName = readParts["PartName"].ToString(),Count = Convert.ToInt32(readParts["count"]),Measur = readParts["Measur"].ToString(), Rptooltip =readParts["rptool"].ToString() });
             }
             _cnn.Close();
             _cnn.Open();
@@ -1815,12 +1821,12 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(obj);
         }
         [WebMethod]
-        public string FilterMachineOrderByLocation(int loc)
+        public string FilterMachineOrderByLocation(string loc)
         {
             _cnn.Open();
             var listMachines = new List<Machines>();
             var filter = new SqlCommand("SELECT dbo.m_machine.id, dbo.m_machine.name FROM dbo.m_machine INNER JOIN " +
-                                        "dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code where i_units.unit_code = "+loc+" ",_cnn);
+                                        "dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code where i_units.unit_code = '"+loc+"' ",_cnn);
             var rd = filter.ExecuteReader();
             while (rd.Read())
             {

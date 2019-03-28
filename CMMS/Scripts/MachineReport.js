@@ -88,13 +88,14 @@ function SubsystemReport() {
         function createSubsystemReport(s) {
             var d = JSON.parse(s.d);
             var body = [];
-            body.push('<table><tr><th>ردیف</th><th>نام تجهیز</th><th>کد تجهیز</th></tr>');
+            body.push('<table><tr><th>ردیف</th><th>نام تجهیز</th><th>دستگاه مربوطه</th><th>فاز</th></tr>');
             if (d.length > 0) {
                 for (var i = 0; i < d.length; i++) {
                     body.push('<tr>' +
                         '<td>' + (i+1) + '</td>' +
                         '<td>' + d[i].SubSystemName + '</td>' +
-                        '<td>' + d[i].SubSystemId + '</td>' +
+                        '<td>' + d[i].SubSystemMachine + '</td>' +
+                        '<td>' + d[i].FazName + '</td>' +
                         '</tr>');
                 }
                 body.push('</table>');
@@ -130,9 +131,12 @@ function MachineReport() {
     } else {
         unit = $('#drmachineunits :selected').text();
     }
+   
+
     $.get("Content/A4.html", function (e) {
         e = e.replace('#ReportArea#', 'machine');
         e = e.replace('printDiv', 'printDiv(0);');
+        e = e.replace('ExportToExcel();', 'ExportToExcel(\'machinebodycontent\');');
         e = e.replace('#RP#', 'لیست ماشین آلات');
         e = e.replace('#cnt#', 'machinebodycontent');
         e = e.replace('#unit#', unit);
@@ -153,7 +157,7 @@ function MachineReport() {
             var d = JSON.parse(s.d);
             var body = [];
             if (d.length > 0) {
-                body.push('<table><tr><th>ردیف</th><th>نام دستگاه</th><th>کد دستگاه</th><th>محل اسقرار</th>' +
+                body.push('<table><tr><th>ردیف</th><th>نام دستگاه</th><th>کد دستگاه</th><th>فاز</th><th>خط</th><th>محل اسقرار</th>' +
                     '<th>کلیدی</th><th>سازنده</th><th>مدل</th><th>تاریخ بهره برداری</th></tr>');
                 for (var i = 0; i < d.length; i++) {
                     var imp = d[i].Ahamiyat == 'True' ? '<input type="checkbox" checked disabled/>' : '<input type="checkbox" disabled/>';
@@ -161,6 +165,8 @@ function MachineReport() {
                         '<td>' + (i+1) + '</td>' +
                         '<td>' + d[i].Name + '</td>' +
                         '<td>' + d[i].Code + '</td>' +
+                        '<td>' + d[i].FazName + '</td>' +
+                        '<td>' + d[i].LineName + '</td>' +                    
                         '<td>' + d[i].LocationName + '</td>' +
                         '<td>' + imp + '</td>' +
                         '<td>' + d[i].Creator + '</td>' +

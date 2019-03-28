@@ -788,7 +788,8 @@ function SendTablesToDB() {
         var table = document.getElementById("subSystemTable");
         for (var i = 1; i < table.rows.length; i++) {
             subSystem.push({
-                SubSystemId: table.rows[i].cells[0].innerHTML
+                SubSystemId: table.rows[i].cells[0].innerHTML,
+                SubSystemCode: table.rows[i].cells[3].innerHTML
             });
         }
         $.ajax({
@@ -967,6 +968,7 @@ function fillMachineControls(mInfo) {
     var fail = document.getElementById('fail');
     $('#txtmachineName').val(mInfo[0].Name);
     $('#txtmachineCode').val(mInfo[0].Code);
+    $('#txtSubPelak').val(mInfo[0].Code+'-');
     $('#txtMachineManufacturer').val(mInfo[0].Creator);
     $('#txtMachineNasbDate').val(mInfo[0].InsDate);
     $('#txtMachineModel').val(mInfo[0].Model);
@@ -1142,6 +1144,7 @@ function GetSubSystems() {
                 var tblHead = '<thead><tr>' +
                     '<th>ردیف</th>' +
                     '<th>نام تجهیز</th>' +
+                    '<th>شماره پلاک</th>' +
                     '<th></th>' +
                     '</tr></thead>';
                 var tblBody = "<tbody></tbody>";
@@ -1152,6 +1155,7 @@ function GetSubSystems() {
                         '<td style="display:none;">' + subData[i].SubSystemId + '</td>' +
                         '<td>' + j + '</td>' +
                         '<td>' + subData[i].SubSystemName + '</td>' +
+                        '<td>' + subData[i].SubSystemCode + '</td>' +
                         '<td><a>حذف</a></td>' +
                         '</tr>';
                     $('#subSystemTable tbody').append(tblBody);

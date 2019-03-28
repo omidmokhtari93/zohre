@@ -42,22 +42,59 @@ namespace CMMS
 
         protected void gridpersonel_OnRowCommand(object sender, GridViewCommandEventArgs e)
         {
-            if (e.CommandName != "ed") return;
             var index = int.Parse(e.CommandArgument.ToString());
             ViewState["id"] = gridpersonel.DataKeys[index]["id"];
-            cnn.Open();
-            var getUser = new SqlCommand("SELECT [per_id],[per_name],[unit],[task],[permit] FROM [dbo].[i_personel] where id = " + Convert.ToInt32(ViewState["id"]) + " ", cnn);
-            var rd = getUser.ExecuteReader();
-            if (!rd.Read()) return;
-            txtname.Text = rd["per_name"].ToString();
-            txtper.Text = rd["per_id"].ToString();
-            userState.Value = rd["unit"].ToString();
-            userActive.Value = rd["permit"].ToString();
-            drsemat.SelectedValue = rd["task"].ToString();
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "setRadio();setactRadio();", true);
-            btninsert.Visible = false;
-            btncancel.Visible = true;
-            btnedit.Visible = true;
+
+            if (e.CommandName == "ed")
+            {
+                cnn.Open();
+                var getUser =
+                    new SqlCommand(
+                        "SELECT [per_id],[per_name],[unit],[task],[permit] FROM [dbo].[i_personel] where id = " +
+                        Convert.ToInt32(ViewState["id"]) + " ", cnn);
+                var rd = getUser.ExecuteReader();
+                if (!rd.Read()) return;
+                txtname.Text = rd["per_name"].ToString();
+                txtper.Text = rd["per_id"].ToString();
+                userState.Value = rd["unit"].ToString();
+                userActive.Value = rd["permit"].ToString();
+                drsemat.SelectedValue = rd["task"].ToString();
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "setRadio();setactRadio();",
+                    true);
+
+                btninsert.Visible = false;
+                btncancel.Visible = true;
+                btnedit.Visible = true;
+                cnn.Close();
+            }
+            else if (e.CommandName == "del")
+            {
+                cnn.Open();
+                var getUser =
+                    new SqlCommand(
+                        "SELECT per_id FROM r_personel where per_id = " + Convert.ToInt32(ViewState["id"]) + " ", cnn);
+                var rd = getUser.ExecuteReader();
+                if (!rd.Read())
+                {
+                    cnn.Close();
+                    cnn.Open();
+                    var delcommand=new SqlCommand("delete from i_personel where id= " + Convert.ToInt32(ViewState["id"]) + "", cnn);
+                    delcommand.ExecuteNonQuery();
+                    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "save();", true);
+                    cnn.Close();
+                    gridpersonel.DataBind();
+
+                }
+                else
+                {
+                    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "DelErr();", true);
+                }
+            }
+            else
+            {
+                return;
+            }
+           
         }
 
         protected void btnedit_Click(object sender, EventArgs e)

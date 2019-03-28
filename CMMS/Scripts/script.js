@@ -29,6 +29,14 @@ function Uperror() {
         position: 'bottom center'
     });
 }
+function DelErr() {
+    $.notify("☓ شما قادر به حذف این کاربر نیستید.لطفا ویرایش نمایید", {
+        className: 'error',
+        clickToHide: false,
+        autoHide: true,
+        position: 'top left'
+    });
+}
 function RedAlert(ele, txt) {
     var element;
     if (typeof ele == "string") {element = $("#" + ele);} else {element = ele;}

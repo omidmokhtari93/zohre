@@ -68,10 +68,12 @@
                </div>
                 <div style="padding: 15px;">
                      <a class="btn btn-info btns" onclick="MachineReport();">مشاهده</a>
+                    
                      <asp:SqlDataSource ID="Sqlunits" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT unit_code, unit_name FROM i_units"></asp:SqlDataSource>
                     <asp:SqlDataSource ID="Sqlline" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, line_name FROM i_lines"></asp:SqlDataSource>
                     <asp:SqlDataSource ID="Sqlfaz" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, faz_name FROM i_faz"></asp:SqlDataSource>
-                  <div id="MachineListPrint">
+                
+                    <div id="MachineListPrint" >
                   </div>
                 </div>
             </div>
@@ -83,10 +85,12 @@
                 </asp:DropDownList>
 
                 <a class="btn btn-info btns" onclick="SubsystemReport();">مشاهده</a>
+                
                 <div id="SubsystemListPrint">
                 </div>
             </div>
         </div>
     </div>
     <script src="Scripts/MachineReport.js"></script>
+   
 </asp:Content>

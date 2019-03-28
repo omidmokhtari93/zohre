@@ -117,46 +117,55 @@ $("#gridContractors").on("click", "tr a", function () {
         CalculateCost();
     }
 });
+var rows;
 var typingTimer;
 var doneTypingInterval = 2000;
-var $input = $('#txtPartsSearch');
-$input.on('keyup', function () {
+var $requestPartinput = $('#txtPartsSearch');
+$requestPartinput.on('keyup', function () {
     clearTimeout(typingTimer);
-    typingTimer = setTimeout(doneTyping, doneTypingInterval);
+    typingTimer = setTimeout(doneTypingPartRequest, doneTypingInterval);
     $('#partsLoading').show();
+    $('#txtPartRequestSubSearch').val('');
     $('#gridPartsResault tbody').empty();
     if ($('#txtPartsSearch').val() === '') {
         $('#PartsSearchResulat').hide();
     }
 });
-$input.on('keydown', function () {
+$requestPartinput.on('keydown', function () {
     clearTimeout(typingTimer);
 });
-function doneTyping() {
-    if (($input).val().length > 2) {
-        AjaxData({
+function doneTypingPartRequest() {
+    if (($requestPartinput).val().length > 2) {
+        $.ajax({
+            type: "POST",
             url: "WebService.asmx/PartsFilter",
-            param: { partname: $input.val() },
-            func:createparttable
-        });
-        function createparttable(e) {
-            var tableRows = '';
-            var filteredParts = JSON.parse(e.d);
-            for (var i = 0; i < filteredParts.length; i++) {
-                tableRows += '<tr><td partid="' + filteredParts[i].PartId + '">' + filteredParts[i].PartName + '</td></tr>';
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify({ 'partName': $requestPartinput.val() }),
+            success: function (e) {
+                var tableRows = '';
+                var filteredParts = JSON.parse(e.d);
+                for (var i = 0; i < filteredParts.length; i++) {
+                    tableRows += '<tr id="sel"><td partid="' + filteredParts[i].PartId + '",>' + filteredParts[i].PartName + '</td></tr>';
+                }
+                $('#gridPartsResault tbody').append(tableRows);
+                rows = $('#griRequestParts tr').clone();
+                $('#partsLoading').hide();
+                $('#PartsSearchResulat').show();
+            },
+            error: function () {
             }
-            $('#gridPartsResault tbody').append(tableRows);
-            rowss = $('#gridPartsResault tr').clone();
-        }
-    } if (($input).val().length <= 2 && ($input).val() != '') {
-        RedAlert('n', "!!حداقل سه حرف از نام قطعه را وارد نمایید");
+        });
+    } if (($requestPartinput).val().length <= 2 && ($requestPartinput).val() != '') {
+        $.notify("!!حداقل سه حرف از نام قطعه را وارد نمایید", { globalPosition: 'top left' });
     }
-    $('#partsLoading').hide();
-    $('#PartsSearchResulat').show();
     if ($('#txtPartsSearch').val() === '') {
         $('#PartsSearchResulat').hide();
+        $('#partsLoading').hide();
     }
 }
+
+
 
 $('#txtSubSearchPart').keyup(function () {
     var val = $(this).val();

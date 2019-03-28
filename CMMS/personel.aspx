@@ -97,6 +97,8 @@
                     <asp:BoundField DataField="task" HeaderText="سمت" SortExpression="task" />
                     <asp:CheckBoxField DataField="permit" HeaderText="وضعیت" SortExpression="permit" />
                     <asp:ButtonField Text="ویرایش" CommandName="ed"/>
+                    <asp:ButtonField Text="حذف" CommandName="del"/>
+                        
                 </Columns>
             </asp:GridView>
         </div>

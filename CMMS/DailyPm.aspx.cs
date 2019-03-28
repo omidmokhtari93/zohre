@@ -60,7 +60,7 @@ namespace CMMS
                 gridDailyPM.DataBind();
                 return;
             }
-            SqlDailyPM.FilterExpression = "loc = " + drUnits.SelectedValue + "";
+            SqlDailyPM.FilterExpression = "loc = '" + drUnits.SelectedValue + "'";
             SqlDailyPM.DataBind();
             gridDailyPM.DataBind();
         }

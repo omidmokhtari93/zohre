@@ -11,32 +11,35 @@
 });
 
 var subData = [];
-function CreateBadge(text, val) {
+function CreateBadge(text, val ) {
     var badgeHtml = '<div class="Subsystembadge" ' +
         'onclick="removeThis($(this));$(this).remove();">' +
         '<label style="direction:rtl;">' + text + '</label>' +
+       
         '<p style="display:none;">' + val + '</p>' +
         '<span>&times;</span>' +
         '</div>';
     if ($('#badgeArea').text().indexOf(text) > -1) {
         RedAlert('n', "!!این مورد قبلا انتخاب شده است");
     } else {
-        $('#badgeArea').append(badgeHtml);
+        $('#subPanel').append(badgeHtml);
         subData.push({ Name: text, Id: val });
+        $('#txtSearchSubsystem').val('');
+        $('#txtSearchSubsystem').attr('disabled', 'disabled');
+        $('#subSystemSearchRes').hide();
     }
 }
+
 $('.SubSystemTable').on('click', 'tr', function () {
     var $row = $(this).closest("tr");
     var $text = $row.find("td").eq(0).html();
     var $value = $row.find("td").eq(1).html();
+  
     CreateBadge($text, $value);
 });
 function removeThis(e) {
-    for (var i = 0; i < subData.length; i++) {
-        if (subData[i].Id === e.children('p').html()) {
-            subData.splice(i, 1);
-        }
-    }
+    subData = [];
+    $('#txtSearchSubsystem').removeAttr('disabled');
 }
 $(document).click(function (e) {
     if ($(e.target).closest('#subSearchArea').length === 0) {
@@ -49,62 +52,48 @@ function CreateSubTable() {
     var j = 1;
     var rn = 0; 
     var i, a, b, c;
-    var dupFlag = 0;
     var array = [];
     if (subData.length === 0) {
         RedAlert('txtSearchSubsystem', "!!حداقل یک مورد را انتخاب نمایید");
         return;
     }
-    var rowsCount = $('#subSystemTable tr').length;
-    var table = document.getElementById('subSystemTable');
-    for (a = 1; a < rowsCount ; a++) {
-        var tableText = table.rows[a].cells[2].innerText;
-        var ele = findElementByText(tableText);
-        for (b = 0; b < subData.length; b++) {
-            if (ele.length !== 0) {
-                RedAlert(ele,'');
-                dupFlag = 1;
-            }
-        }
-    }
-    if (dupFlag === 1) {
-        RedAlert('no', '!!این مورد قبلا ثبت شده است');
+    
+    if ($('#subSystemTable tr td:contains(' + $('#txtSubPelak').val() + ')').length > 0) {
+        RedAlert('no', '!!این پلاک قبلا ثبت شده است');
         return;
     }
-    if (rowsCount !== 0) {
-        for (c = 0; c < subData.length; c++) {
-            array.push('<tr>' +
-                '<td style="display:none;">' + subData[c].Id + '</td>' +
-                '<td>' + j + '</td>' +
-                '<td>' + subData[c].Name + '</td>' +
-                '<td><a>حذف</a></td>' +
-                '</tr>');
-        }
+    if ($('#subSystemTable tr').length !== 0) {
+        array.push('<tr>' +
+            '<td style="display:none;">' + subData[0].Id + '</td>' +
+            '<td>' + j + '</td>' +
+            '<td>' + subData[0].Name + '</td>' +
+            '<td>' + $('#txtSubPelak').val() + '</td>' +
+            '<td><a>حذف</a></td>' +
+            '</tr>');
         $('#subSystemTable tbody').append(array.join(''));
         $('#subSystemTable tr').each(function () {
             $(this).closest('tr').find('td:eq(1)').text(rn);
             rn++;
         });
     } else {
-        $('#subSystemTable ').append('<thead><th>ردیف</th><th>نام تجهیز</th><th></th></thead>');
+        $('#subSystemTable ').append('<thead><th>ردیف</th><th>نام تجهیز</th><th>شماره پلاک</th><th></th></thead>');
         $('#subSystemTable ').append('<tbody></tbody>');
         for (i = 0; i < subData.length; i++) {
             array.push('<tr>' +
                 '<td style="display:none;">' + subData[i].Id + '</td>' +
                 '<td>' + j + '</td>' +
                 '<td>' + subData[i].Name + '</td>' +
+                '<td>' + subData[i].SubP + '</td>' +
                 '<td><a>حذف</a></td>' +
                 '</tr>');
             j++;
         }
         $('#subSystemTable tbody').append(array.join(''));
     }
-    $('#badgeArea').empty();
     subData = [];
-}
-
-function findElementByText(text) {
-    return $('#badgeArea :contains(' + text + ')').find('label').parent();
+    $('#txtSearchSubsystem').removeAttr('disabled');
+    $('.Subsystembadge').remove();
+    $('#txtSubPelak').val($('#txtSubPelak').val().substr(0, $('#txtSubPelak').val().indexOf('-') + 1));
 }
 
 $("#subSystemTable").on("click", "tr a", function () {

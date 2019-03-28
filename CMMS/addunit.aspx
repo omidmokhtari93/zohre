@@ -24,10 +24,12 @@
         </div>
         <div class="panel-footer">
             <asp:Button runat="server" ClientIDMode="Static" CssClass="button" TabIndex="4" Text="ثبت" ID="btnSave" OnClick="btnSave_OnClick"/>
+            <asp:Button runat="server" ClientIDMode="Static" CssClass="button" TabIndex="5" Text="ویرایش" ID="btnEdit" OnClick="btnEdit_OnClick" Visible="False"/>
+            <asp:Button runat="server" ClientIDMode="Static" CssClass="button" TabIndex="6" Text="انصراف" ID="btnCancel" OnClick="btnCancel_OnClick" Visible="False"/>
         </div>
         <div class="panel-footer">
             <a href="UnitPrint.aspx" class="fa fa-print print" target="_blank" title="پرینت"></a>
-            <asp:GridView runat="server" CssClass="table" AutoGenerateColumns="False" DataSourceID="SqlUnits" DataKeyNames="id" ID="gridUnits">
+            <asp:GridView runat="server" CssClass="table" AutoGenerateColumns="False" DataSourceID="SqlUnits" DataKeyNames="id,unit_code" ID="gridUnits" OnRowCommand="gridUnits_OnRowCommand">
                 <Columns>
                     <asp:BoundField DataField="id">
                         <ItemStyle CssClass="hidethis"></ItemStyle>
@@ -37,17 +39,13 @@
                     <asp:BoundField DataField="unit_name" HeaderText="نام واحد" SortExpression="unit_name" />
                     <asp:BoundField DataField="unit_manager" HeaderText="سرپرست واحد" SortExpression="unit_manager" />
                     <asp:BoundField DataField="unit_code" HeaderText="کد واحد" SortExpression="unit_code" />
-                    <asp:CommandField EditText="ویرایش" CancelText="لغو" ShowEditButton="True" UpdateText="ویرایش"/>
+                    <asp:ButtonField Text="ویرایش" CommandName="edt"/>
+                    <asp:ButtonField Text="حذف" CommandName="del"/>
                     
                 </Columns>
             </asp:GridView>
-            <asp:SqlDataSource ID="SqlUnits" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT ROW_NUMBER() OVER (ORDER BY id) AS rownum, id, unit_name, unit_manager,unit_code FROM i_units" UpdateCommand="UPDATE i_units SET unit_name = @unit_name, unit_manager = @unit_manager, unit_code=@unit_code WHERE (id = @id)">
-                <UpdateParameters>
-                    <asp:Parameter Name="unit_name" />
-                    <asp:Parameter Name="unit_manager" />
-                    <asp:Parameter Name="unit_code" />
-                    <asp:Parameter Name="id" />
-                </UpdateParameters>
+            <asp:SqlDataSource ID="SqlUnits" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT ROW_NUMBER() OVER (ORDER BY unit_name) AS rownum, id, unit_name, unit_manager,unit_code FROM i_units order by unit_name" >
+                
             </asp:SqlDataSource>
         </div>
     </div>
@@ -58,6 +56,22 @@
                 clickToHide: false,
                 autoHide: true,
                 position: 'bottom center'
+            });
+        }
+        function DellError() {
+            $.notify("☓ .این واحد در برنامه استفاده شده است.بررسی نمایید", {
+                className: 'error',
+                clickToHide: false,
+                autoHide: true,
+                position: 'bottom center'
+            });
+        }
+        function Dellsucsess() {
+            $.notify("واحدبا موفقیت حذف گردید", {
+                className:'save',
+                clickToHide: false,
+                autoHide: true,
+                position: 'top left'
             });
         }
         function Err() {

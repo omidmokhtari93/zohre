@@ -509,13 +509,13 @@ namespace CMMS
                                          " FROM(SELECT help.PartName, dbo.r_tools.count, help.Serial "+
                                          " FROM dbo.r_tools INNER JOIN "+
                                          " sgdb.inv.Part AS help ON help.Serial = dbo.r_tools.tools_id INNER JOIN "+
-                                         " dbo.r_reply ON dbo.r_tools.id_rep = dbo.r_reply.id "+
-                                         " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
+                                         " dbo.r_reply ON dbo.r_tools.id_rep = dbo.r_reply.id  " +
+                                         " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') and dbo.r_tools.rptools = 0 " +
                                          " UNION ALL "+
                                          " SELECT help.PartName, dbo.s_subtools.count, help.Serial "+
                                          " FROM dbo.s_subtools INNER JOIN "+
                                          " sgdb.inv.Part AS help ON help.Serial = dbo.s_subtools.tools_id INNER JOIN "+
-                                         " dbo.s_subhistory ON dbo.s_subtools.id_reptag = dbo.s_subhistory.id "+
+                                         " dbo.s_subhistory ON dbo.s_subtools.id_reptag = dbo.s_subhistory.id  " +
                                          " WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "')) AS tools " +
                                          " GROUP BY PartName, Serial "+
                                          " ORDER BY tedad DESC", cnn);
@@ -527,7 +527,7 @@ namespace CMMS
                                         " dbo.r_reply ON dbo.r_tools.id_rep = dbo.r_reply.id INNER JOIN " +
                                         " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
                                         " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
-                                        " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.loc = "+unit+") " +
+                                        " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND dbo.r_tools.rptools = 0 AND(dbo.m_machine.loc = " + unit+") " +
                                         " UNION ALL " +
                                         " SELECT help.PartName, dbo.s_subtools.count, help.Serial " +
                                         " FROM dbo.s_subtools INNER JOIN " +
@@ -544,7 +544,7 @@ namespace CMMS
                                               " dbo.r_reply ON dbo.r_tools.id_rep = dbo.r_reply.id INNER JOIN " +
                                               " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
                                               " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
-                                              " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.line = "+line+") " +
+                                              " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND dbo.r_tools.rptools = 0 AND(dbo.m_machine.line = " + line+") " +
                                               " UNION ALL " +
                                               " SELECT help.PartName, dbo.s_subtools.count, help.Serial " +
                                               " FROM dbo.s_subtools INNER JOIN " +
@@ -594,7 +594,7 @@ namespace CMMS
                                               " sgdb.inv.Part on CMMS.dbo.r_tools.tools_id = sgdb.inv.Part.Serial INNER JOIN " +
                                               " CMMS.dbo.i_measurement_part ON CMMS.dbo.r_tools.tools_id = CMMS.dbo.i_measurement_part.Serial INNER JOIN " +
                                               " CMMS.dbo.i_measurement ON CMMS.dbo.i_measurement_part.measurement = CMMS.dbo.i_measurement.id " +
-                                              " where CMMS.dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "' and CMMS.dbo.r_tools.tools_id = " + toolsId+" " +
+                                              " where CMMS.dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "' and CMMS.dbo.r_tools.tools_id = " + toolsId+ " AND dbo.r_tools.rptools = 0 " +
                                               " GROUP BY  dbo.i_units.unit_name, dbo.m_machine.name, sgdb.inv.Part.PartName,CMMS.dbo.i_measurement.measurement", cnn);
             var cmdNullToolsReport = new SqlCommand(" SELECT CMMS.dbo.i_units.unit_name,CMMS.dbo.m_machine.name,sgdb.inv.Part.PartName , SUM(CMMS.dbo.r_tools.count) AS countt ,CMMS.dbo.i_measurement.measurement AS Measur " +
                                                     " FROM CMMS.dbo.m_machine INNER JOIN " +
@@ -605,7 +605,7 @@ namespace CMMS
                                                     " sgdb.inv.Part on CMMS.dbo.r_tools.tools_id = sgdb.inv.Part.Serial INNER JOIN " +
                                                     " CMMS.dbo.i_measurement_part ON CMMS.dbo.r_tools.tools_id = CMMS.dbo.i_measurement_part.Serial INNER JOIN " +
                                                     " CMMS.dbo.i_measurement ON CMMS.dbo.i_measurement_part.measurement = CMMS.dbo.i_measurement.id " +
-                                                " where CMMS.dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "' " +
+                                                " where CMMS.dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "' AND dbo.r_tools.rptools = 0 " +
                                                 " GROUP BY  dbo.i_units.unit_name, dbo.m_machine.name, sgdb.inv.Part.PartName,CMMS.dbo.i_measurement.measurement", cnn);
             SqlDataReader rd;
             if (toolsId == -1)
@@ -1243,7 +1243,7 @@ namespace CMMS
             var cmdtoolscost=new SqlCommand("SELECT sgdb.dbo.Fee.perFee * SUM(i.count) AS Tot, sgdb.dbo.Fee.perFee, SUM(i.count) AS count," +
                                             " sgdb.dbo.Fee.partname FROM(SELECT dbo.r_tools.tools_id, SUM(dbo.r_tools.count) AS count "+
                                             " FROM dbo.r_reply INNER JOIN  dbo.r_tools ON dbo.r_reply.id = dbo.r_tools.id_rep "+
-                                            " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
+                                            " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND dbo.r_tools.rptools=0 " +
                                             " GROUP BY dbo.r_tools.tools_id  UNION ALL "+
                                             " SELECT dbo.s_subtools.tools_id, SUM(dbo.s_subtools.count) AS count "+
                                             " FROM dbo.s_subhistory INNER JOIN "+
@@ -1258,7 +1258,7 @@ namespace CMMS
                                                   " FROM dbo.r_reply INNER JOIN dbo.r_tools ON dbo.r_reply.id = dbo.r_tools.id_rep INNER JOIN " +
                                                   " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
                                                   " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
-                                                  " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND (dbo.m_machine.loc = "+unit+") " +
+                                                  " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND dbo.r_tools.rptools=0 AND (dbo.m_machine.loc = " + unit+") " +
                                                   " GROUP BY dbo.r_tools.tools_id  UNION ALL " +
                                                   " SELECT dbo.s_subtools.tools_id, SUM(dbo.s_subtools.count) AS count " +
                                                   " FROM dbo.s_subhistory INNER JOIN " +
@@ -1273,7 +1273,7 @@ namespace CMMS
                                                   " FROM dbo.r_reply INNER JOIN dbo.r_tools ON dbo.r_reply.id = dbo.r_tools.id_rep INNER JOIN " +
                                                   " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
                                                   " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
-                                                  " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND (dbo.m_machine.line = " + line + ") " +
+                                                  " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND dbo.r_tools.rptools=0 AND (dbo.m_machine.line = " + line + ") " +
                                                   " GROUP BY dbo.r_tools.tools_id  UNION ALL " +
                                                   " SELECT dbo.s_subtools.tools_id, SUM(dbo.s_subtools.count) AS count " +
                                                   " FROM dbo.s_subhistory INNER JOIN " +
@@ -1323,7 +1323,7 @@ namespace CMMS
                                             " dbo.r_tools ON dbo.r_reply.id = dbo.r_tools.id_rep INNER JOIN " +
                                             " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
                                             " dbo.m_machine AS m_machine_2 ON dbo.r_request.machine_code = m_machine_2.id " +
-                                            " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
+                                            " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND dbo.r_tools.rptools=0 " +
                                             " GROUP BY dbo.r_tools.tools_id, dbo.r_reply.idreq) AS i_1 INNER JOIN " +
                                             " sgdb.dbo.Fee ON i_1.tools_id = sgdb.dbo.Fee.Partref " +
                                             " GROUP BY sgdb.dbo.Fee.perFee, i_1.idreq) AS Tmain " +
@@ -1621,7 +1621,7 @@ namespace CMMS
                                           " FROM dbo.r_reply INNER JOIN dbo.r_tools ON dbo.r_reply.id = dbo.r_tools.id_rep INNER JOIN " +
                                           " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
                                           " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
-                                          " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
+                                          " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND dbo.r_tools.rptools=0 " +
                                           " GROUP BY dbo.r_tools.tools_id  UNION ALL SELECT dbo.s_subtools.tools_id, SUM(dbo.s_subtools.count) AS count " +
                                           " FROM dbo.s_subhistory INNER JOIN " +
                                           " dbo.s_subtools ON dbo.s_subhistory.id = dbo.s_subtools.id_reptag " +
@@ -1690,7 +1690,7 @@ namespace CMMS
                                               " FROM dbo.r_reply INNER JOIN dbo.r_tools ON dbo.r_reply.id = dbo.r_tools.id_rep INNER JOIN " +
                                               " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
                                               " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
-                                              " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.loc = " + unit + ") " +
+                                              " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND dbo.r_tools.rptools=0 AND(dbo.m_machine.loc = " + unit + ") " +
                                               " GROUP BY dbo.r_tools.tools_id  UNION ALL SELECT dbo.s_subtools.tools_id, SUM(dbo.s_subtools.count) AS count " +
                                               " FROM dbo.s_subhistory INNER JOIN " +
                                               " dbo.s_subtools ON dbo.s_subhistory.id = dbo.s_subtools.id_reptag " +
@@ -1759,7 +1759,7 @@ namespace CMMS
                                              " FROM dbo.r_reply INNER JOIN dbo.r_tools ON dbo.r_reply.id = dbo.r_tools.id_rep INNER JOIN " +
                                              " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
                                              " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
-                                             " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.line = " + line + ") " +
+                                             " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND dbo.r_tools.rptools=0 AND(dbo.m_machine.line = " + line + ") " +
                                              " GROUP BY dbo.r_tools.tools_id  UNION ALL SELECT dbo.s_subtools.tools_id, SUM(dbo.s_subtools.count) AS count " +
                                              " FROM dbo.s_subhistory INNER JOIN " +
                                              " dbo.s_subtools ON dbo.s_subhistory.id = dbo.s_subtools.id_reptag " +
@@ -1828,7 +1828,7 @@ namespace CMMS
                                               " FROM dbo.r_reply INNER JOIN dbo.r_tools ON dbo.r_reply.id = dbo.r_tools.id_rep INNER JOIN " +
                                               " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
                                               " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
-                                              " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.id = " + machine + ") " +
+                                              " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND dbo.r_tools.rptools=0 AND(dbo.m_machine.id = " + machine + ") " +
                                               " GROUP BY dbo.r_tools.tools_id  UNION ALL SELECT dbo.s_subtools.tools_id, SUM(dbo.s_subtools.count) AS count " +
                                               " FROM dbo.s_subhistory INNER JOIN  " +
                                               " dbo.s_subtools ON dbo.s_subhistory.id = dbo.s_subtools.id_reptag INNER JOIN " +
@@ -2012,36 +2012,60 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(obj);
         }
         [WebMethod]
-        public string MTBF_Report(string dateS, string dateE,int unit,int line,int faz)// MTBF گزارش
+        public string MTBF_Report(string dateS, string dateE,string unit,int line,int faz)// MTBF گزارش
         {
             var obj = new MtMachines();
             cnn.Open();
-            var cmdMtbf = new SqlCommand("SELECT dbo.m_machine.name, dbo.m_machine.code, SUM(dbo.r_reply.mtbf) AS BF," +
-                                         " COUNT(dbo.m_machine.code) AS Fail, SUM(dbo.r_reply.mtbf) / COUNT(dbo.m_machine.code) AS MTBF, dbo.m_machine.mtbfH" +
-                                         " FROM dbo.m_machine INNER JOIN" +
-                                         " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN" +
-                                         " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN" +
-                                         " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code" +
-                                         " WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine.loc = " + unit+")" +
-                                         " GROUP BY dbo.m_machine.name, dbo.m_machine.code, dbo.m_machine.mtbfH", cnn);
+            var cmdMtbf = new SqlCommand("SELECT dbo.m_machine.name AS MachineName,dbo.i_lines.line_name , dbo.i_faz.faz_name, dbo.m_machine.code, SUM(dbo.r_reply.mtbf) AS BF, "+
+                                         "COUNT(dbo.m_machine.code) AS Fail, SUM(dbo.r_reply.mtbf) / COUNT(dbo.m_machine.code) AS MTBF, dbo.m_machine.mtbfH "+
+                                         "FROM dbo.m_machine INNER JOIN " +
+                                         "dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
+                                         "dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN " +
+                                         "dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code INNER JOIN " +
+                                         "dbo.i_faz ON dbo.m_machine.faz = dbo.i_faz.id INNER JOIN " +
+                                         "dbo.i_lines ON dbo.m_machine.line = dbo.i_lines.id " +
+                                         "WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine.loc = '" + unit+"') " +
+                                         "GROUP BY dbo.m_machine.name, dbo.m_machine.code, dbo.m_machine.mtbfH, dbo.i_faz.faz_name, dbo.i_lines.line_name " +
+                                         "union all " +
+                                         "SELECT dbo.m_machine.name as MachineName, '----' as line_name, '----' as faz_name, dbo.m_machine.code, SUM(dbo.r_reply.mtbf) AS BF, " +
+                                         "COUNT(dbo.m_machine.code) AS Fail, SUM(dbo.r_reply.mtbf) / COUNT(dbo.m_machine.code) AS MTBF, dbo.m_machine.mtbfH " +
+                                         "FROM dbo.m_machine INNER JOIN " +
+                                         "dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
+                                         "dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN " +
+                                         "dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code " +
+                                         "WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine.loc = '" + unit + "') and dbo.m_machine.code not in " +
+                                         "(SELECT dbo.m_machine.code " +
+                                         "FROM dbo.m_machine INNER JOIN " +
+                                         "dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
+                                         "dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN " +
+                                         "dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code INNER JOIN " +
+                                         "dbo.i_faz ON dbo.m_machine.faz = dbo.i_faz.id INNER JOIN " +
+                                         "dbo.i_lines ON dbo.m_machine.line = dbo.i_lines.id " +
+                                         "WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine.loc = '" + unit + "') " +
+                                         "GROUP BY dbo.m_machine.code) " +
+                                         "GROUP BY dbo.m_machine.name, dbo.m_machine.code, dbo.m_machine.mtbfH", cnn);
 
-            var cmdMtbfLine = new SqlCommand("SELECT dbo.m_machine.name, dbo.m_machine.code, SUM(dbo.r_reply.mtbf) AS BF," +
-                                         " COUNT(dbo.m_machine.code) AS Fail, SUM(dbo.r_reply.mtbf) / COUNT(dbo.m_machine.code) AS MTBF, dbo.m_machine.mtbfH" +
-                                         " FROM dbo.m_machine INNER JOIN" +
-                                         " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN" +
-                                         " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN" +
-                                         " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code" +
-                                         " WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine.line = " + line + ")" +
-                                         " GROUP BY dbo.m_machine.name, dbo.m_machine.code, dbo.m_machine.mtbfH", cnn);
-
-            var cmdMtbffaz = new SqlCommand("SELECT dbo.m_machine.name, dbo.m_machine.code, SUM(dbo.r_reply.mtbf) AS BF," +
+            var cmdMtbfLine = new SqlCommand("SELECT dbo.m_machine.name MachineName,  dbo.i_lines.line_name, dbo.i_faz.faz_name, dbo.m_machine.code, SUM(dbo.r_reply.mtbf) AS BF," +
                                              " COUNT(dbo.m_machine.code) AS Fail, SUM(dbo.r_reply.mtbf) / COUNT(dbo.m_machine.code) AS MTBF, dbo.m_machine.mtbfH" +
-                                             " FROM dbo.m_machine INNER JOIN" +
-                                             " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN" +
-                                             " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN" +
-                                             " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code" +
+                                             " FROM dbo.m_machine INNER JOIN " +
+                                             " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
+                                             " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN " +
+                                             " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code INNER JOIN " +
+                                             " dbo.i_faz ON dbo.m_machine.faz = dbo.i_faz.id INNER JOIN " +
+                                             " dbo.i_lines ON dbo.m_machine.line = dbo.i_lines.id " +
+                                         " WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine.line = " + line + ")" +
+                                         " GROUP BY dbo.m_machine.name, dbo.m_machine.code, dbo.m_machine.mtbfH, dbo.i_faz.faz_name, dbo.i_lines.line_name", cnn);
+
+            var cmdMtbffaz = new SqlCommand("SELECT dbo.m_machine.name AS MachineName, dbo.i_lines.line_name , dbo.i_faz.faz_name, dbo.m_machine.code, SUM(dbo.r_reply.mtbf) AS BF," +
+                                            " COUNT(dbo.m_machine.code) AS Fail, SUM(dbo.r_reply.mtbf) / COUNT(dbo.m_machine.code) AS MTBF, dbo.m_machine.mtbfH" +
+                                            " FROM dbo.m_machine INNER JOIN " +
+                                            " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
+                                            " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN " +
+                                            " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code INNER JOIN " +
+                                            " dbo.i_faz ON dbo.m_machine.faz = dbo.i_faz.id INNER JOIN " +
+                                            " dbo.i_lines ON dbo.m_machine.line = dbo.i_lines.id " +
                                              " WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine.faz = " + faz + ")" +
-                                             " GROUP BY dbo.m_machine.name, dbo.m_machine.code, dbo.m_machine.mtbfH", cnn);
+                                             " GROUP BY dbo.m_machine.name, dbo.m_machine.code, dbo.m_machine.mtbfH, dbo.i_faz.faz_name, dbo.i_lines.line_name", cnn);
             SqlDataReader rd;
 
             if (line != -1)
@@ -2049,7 +2073,7 @@ namespace CMMS
                 rd = cmdMtbfLine.ExecuteReader();
 
             }
-            else if(unit != -1)
+            else if(unit != "-1")
             {
                 rd = cmdMtbf.ExecuteReader();
 
@@ -2060,49 +2084,78 @@ namespace CMMS
             }
             while (rd.Read())
             {
-                obj.Machine.Add(rd["name"].ToString());
+                obj.Machine.Add(rd["MachineName"].ToString());
+                obj.Fazname.Add((rd["faz_name"]).ToString());
+                obj.Linename.Add((rd["line_name"]).ToString());
                 obj.Mtt.Add(Convert.ToInt32(rd["MTBF"]));
                 obj.MttH.Add(Convert.ToInt32(rd["mtbfH"]));
             }
             return new JavaScriptSerializer().Serialize(obj);
         }
         [WebMethod]
-        public string MTTR_Per_Repair(string dateS, string dateE, int unit,int line, int faz)// MTTRگزارش بر مبنی تعمیر  
+        public string MTTR_Per_Repair(string dateS, string dateE, string unit,int line, int faz)// MTTRگزارش بر مبنی تعمیر  
         {
             var infoMttr = new MtMachines();
             cnn.Open();
-            var cmdMttrR = new SqlCommand("SELECT        dbo.m_machine.name, dbo.m_machine.code, SUM(DATEDIFF(minute, 0, dbo.r_reply.rep_time_help)) AS TR, COUNT(dbo.m_machine.code) AS Trcount," +
-                                          " SUM(DATEDIFF(minute, 0, dbo.r_reply.rep_time_help)) / 60 / COUNT(dbo.m_machine.code) AS MTTRrep, dbo.m_machine.mttrH" +
-                                          " FROM dbo.m_machine INNER JOIN" +
+            var cmdMttrR = new SqlCommand("SELECT dbo.m_machine.name AS MachineName, dbo.i_lines.line_name ,dbo.i_faz.faz_name," +
+                                          " SUM(DATEDIFF(minute, 0, dbo.r_reply.rep_time_help)) AS TR, COUNT(dbo.m_machine.code) AS Trcount," +
+                                          " SUM(DATEDIFF(minute, 0, dbo.r_reply.rep_time_help)) / 60 / COUNT(dbo.m_machine.code) AS MTTRrep, dbo.m_machine.mttrH " +
+                                          " FROM dbo.m_machine INNER JOIN " +
                                           " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
-                                          " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN" +
-                                          " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code" +
-                                          " WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine.loc = " + unit + ")" +
-                                          " GROUP BY dbo.m_machine.name, dbo.m_machine.code, dbo.m_machine.mttrH", cnn);
+                                          " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN " +
+                                          " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code INNER JOIN " +
+                                          " dbo.i_faz ON dbo.m_machine.faz = dbo.i_faz.id INNER JOIN " +
+                                          " dbo.i_lines ON dbo.m_machine.line = dbo.i_lines.id " +
+                                          " WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine.loc = '"+unit+"') " +
+                                          " GROUP BY dbo.m_machine.name, dbo.m_machine.mttrH, dbo.i_faz.faz_name, dbo.i_lines.line_name "+
+                                          " union all "+
+                                          " SELECT dbo.m_machine.name AS MachineName, '----' as line_name, '----' as faz_name, " +
+                                          " SUM(DATEDIFF(minute, 0, dbo.r_reply.rep_time_help)) AS TR, COUNT(dbo.m_machine.code) AS Trcount, " +
+                                          " SUM(DATEDIFF(minute, 0, dbo.r_reply.rep_time_help)) / 60 / COUNT(dbo.m_machine.code) AS MTTRrep, dbo.m_machine.mttrH" +
+                                          " FROM dbo.m_machine INNER JOIN " +
+                                          " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
+                                          " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN " +
+                                          " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code " +
+                                          " WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine.loc = '" + unit + "')" +
+                                          " and m_machine.code not in (SELECT dbo.m_machine.code " +
+                                          " FROM dbo.m_machine INNER JOIN " +
+                                          " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
+                                          " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN " +
+                                          " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code INNER JOIN " +
+                                          " dbo.i_faz ON dbo.m_machine.faz = dbo.i_faz.id INNER JOIN " +
+                                          " dbo.i_lines ON dbo.m_machine.line = dbo.i_lines.id " +
+                                          " WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine.loc = '" + unit + "') " +
+                                          " GROUP BY dbo.m_machine.code) " +
+                                          " GROUP BY dbo.m_machine.name, dbo.m_machine.mttrH", cnn);
 
-            var cmdMttrRLine = new SqlCommand("SELECT        dbo.m_machine.name, dbo.m_machine.code, SUM(DATEDIFF(minute, 0, dbo.r_reply.rep_time_help)) AS TR, COUNT(dbo.m_machine.code) AS Trcount," +
+            var cmdMttrRLine = new SqlCommand("SELECT dbo.m_machine.name + ' _ ' + dbo.i_lines.line_name AS MachineName,dbo.i_faz.faz_name, SUM(DATEDIFF(minute, 0, dbo.r_reply.rep_time_help)) AS TR, COUNT(dbo.m_machine.code) AS Trcount," +
                                          " SUM(DATEDIFF(minute, 0, dbo.r_reply.rep_time_help)) / 60 / COUNT(dbo.m_machine.code) AS MTTRrep, dbo.m_machine.mttrH" +
-                                         " FROM dbo.m_machine INNER JOIN" +
-                                         " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
-                                         " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN" +
-                                         " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code" +
-                                         " WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine.line = " + line + ")" +
-                                         " GROUP BY dbo.m_machine.name, dbo.m_machine.code, dbo.m_machine.mttrH", cnn);
-            var cmdMttrRFaz = new SqlCommand("SELECT        dbo.m_machine.name, dbo.m_machine.code, SUM(DATEDIFF(minute, 0, dbo.r_reply.rep_time_help)) AS TR, COUNT(dbo.m_machine.code) AS Trcount," +
-                                              " SUM(DATEDIFF(minute, 0, dbo.r_reply.rep_time_help)) / 60 / COUNT(dbo.m_machine.code) AS MTTRrep, dbo.m_machine.mttrH" +
-                                              " FROM dbo.m_machine INNER JOIN" +
+                                              " FROM dbo.m_machine INNER JOIN " +
                                               " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
-                                              " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN" +
-                                              " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code" +
+                                              " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN " +
+                                              " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code INNER JOIN " +
+                                              " dbo.i_faz ON dbo.m_machine.faz = dbo.i_faz.id INNER JOIN " +
+                                              " dbo.i_lines ON dbo.m_machine.line = dbo.i_lines.id " +
+                                         " WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine.line = " + line + ")" +
+                                         " GROUP BY dbo.m_machine.name, dbo.m_machine.mttrH,dbo.i_faz.faz_name,dbo.i_lines.line_name", cnn);
+
+            var cmdMttrRFaz = new SqlCommand("SELECT dbo.m_machine.name + ' _ ' + dbo.i_lines.line_name AS MachineName,dbo.i_faz.faz_name,SUM(DATEDIFF(minute, 0, dbo.r_reply.rep_time_help)) AS TR, COUNT(dbo.m_machine.code) AS Trcount," +
+                                              " SUM(DATEDIFF(minute, 0, dbo.r_reply.rep_time_help)) / 60 / COUNT(dbo.m_machine.code) AS MTTRrep, dbo.m_machine.mttrH" +
+                                             " FROM dbo.m_machine INNER JOIN " +
+                                             " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
+                                             " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN " +
+                                             " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code INNER JOIN " +
+                                             " dbo.i_faz ON dbo.m_machine.faz = dbo.i_faz.id INNER JOIN " +
+                                             " dbo.i_lines ON dbo.m_machine.line = dbo.i_lines.id " +
                                               " WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine.faz = " + faz + ")" +
-                                              " GROUP BY dbo.m_machine.name, dbo.m_machine.code, dbo.m_machine.mttrH", cnn);
+                                              " GROUP BY dbo.m_machine.name, dbo.m_machine.mttrH,dbo.i_faz.faz_name,dbo.i_lines.line_name", cnn);
             SqlDataReader rd;
             if (line != -1)
             {
                 rd = cmdMttrRLine.ExecuteReader();
 
             }
-            else if (unit != -1)
+            else if (unit != "-1")
             {
                 rd = cmdMttrR.ExecuteReader();
 
@@ -2113,52 +2166,80 @@ namespace CMMS
             }
             while (rd.Read())
             {
-                infoMttr.Machine.Add(rd["name"].ToString());
+                infoMttr.Machine.Add(rd["MachineName"].ToString());
+                infoMttr.Fazname.Add(rd["faz_name"].ToString());
+                infoMttr.Linename.Add(rd["line_name"].ToString());
                 infoMttr.Mtt.Add(Convert.ToInt32(rd["mttrH"]));
                 infoMttr.MttH.Add(Convert.ToInt32(rd["MTTRrep"]));
             }
             return new JavaScriptSerializer().Serialize(infoMttr);
         }
         [WebMethod]
-        public string MTTR_Per_stop(string dateS, string dateE, int unit,int line ,int faz)// MTTRگزارش بر مبنی توقف  
+        public string MTTR_Per_stop(string dateS, string dateE, string unit,int line ,int faz)// MTTRگزارش بر مبنی توقف  
         {
             var infoMttr = new MtMachines();
             cnn.Open();
-            var cmdMttrS = new SqlCommand("SELECT dbo.m_machine.name, dbo.m_machine.code, SUM(DATEDIFF(minute, 0, dbo.r_reply.stop_time_help)) AS TR," +
-                                         " COUNT(dbo.m_machine.code) AS Trcount," +
-                                         " SUM(DATEDIFF(minute, 0, dbo.r_reply.stop_time_help)) / 60 / COUNT(dbo.m_machine.code) AS MTTR_Stop, dbo.m_machine.mttrH" +
-                                         " FROM dbo.m_machine INNER JOIN" +
-                                         " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
-                                         " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN" +
-                                         " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code" +
-                                         " WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine.loc = " + unit + ")" +
-                                         " GROUP BY dbo.m_machine.name, dbo.m_machine.code, dbo.m_machine.mttrH", cnn);
+            var cmdMttrS = new SqlCommand(" SELECT dbo.m_machine.name AS MachineName, dbo.i_lines.line_name ,dbo.i_faz.faz_name," +
+                                          " SUM(DATEDIFF(minute, 0, dbo.r_reply.stop_time_help)) AS TR, COUNT(dbo.m_machine.code) AS Trcount," +
+                                          " SUM(DATEDIFF(minute, 0, dbo.r_reply.stop_time_help)) / 60 / COUNT(dbo.m_machine.code) AS MTTR_Stop, dbo.m_machine.mttrH " +
+                                          " FROM dbo.m_machine INNER JOIN " +
+                                          " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
+                                          " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN " +
+                                          " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code INNER JOIN " +
+                                          " dbo.i_faz ON dbo.m_machine.faz = dbo.i_faz.id INNER JOIN " +
+                                          " dbo.i_lines ON dbo.m_machine.line = dbo.i_lines.id " +
+                                          " WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine.loc = '" + unit + "') " +
+                                          " GROUP BY dbo.m_machine.name, dbo.m_machine.mttrH, dbo.i_faz.faz_name, dbo.i_lines.line_name " +
+                                          " union all " +
+                                          " SELECT dbo.m_machine.name AS MachineName, '----' as line_name, '----' as faz_name, " +
+                                          " SUM(DATEDIFF(minute, 0, dbo.r_reply.stop_time_help)) AS TR, COUNT(dbo.m_machine.code) AS Trcount, " +
+                                          " SUM(DATEDIFF(minute, 0, dbo.r_reply.stop_time_help)) / 60 / COUNT(dbo.m_machine.code) AS MTTR_Stop, dbo.m_machine.mttrH" +
+                                          " FROM dbo.m_machine INNER JOIN " +
+                                          " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
+                                          " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN " +
+                                          " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code " +
+                                          " WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine.loc = '" + unit + "')" +
+                                          " and m_machine.code not in (SELECT dbo.m_machine.code " +
+                                          " FROM dbo.m_machine INNER JOIN " +
+                                          " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
+                                          " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN " +
+                                          " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code INNER JOIN " +
+                                          " dbo.i_faz ON dbo.m_machine.faz = dbo.i_faz.id INNER JOIN " +
+                                          " dbo.i_lines ON dbo.m_machine.line = dbo.i_lines.id " +
+                                          " WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine.loc = '" + unit + "') " +
+                                          " GROUP BY dbo.m_machine.code) " +
+                                          " GROUP BY dbo.m_machine.name, dbo.m_machine.mttrH", cnn);
 
-            var cmdMttrSline = new SqlCommand("SELECT dbo.m_machine.name, dbo.m_machine.code, SUM(DATEDIFF(minute, 0, dbo.r_reply.stop_time_help)) AS TR," +
+            var cmdMttrSline = new SqlCommand("SELECT dbo.m_machine.name AS MachineName, dbo.i_lines.line_name ,dbo.i_faz.faz_name,  SUM(DATEDIFF(minute, 0, dbo.r_reply.stop_time_help)) AS TR," +
                                          " COUNT(dbo.m_machine.code) AS Trcount," +
                                          " SUM(DATEDIFF(minute, 0, dbo.r_reply.stop_time_help)) / 60 / COUNT(dbo.m_machine.code) AS MTTR_Stop, dbo.m_machine.mttrH" +
-                                         " FROM dbo.m_machine INNER JOIN" +
-                                         " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
-                                         " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN" +
-                                         " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code" +
+                                              " FROM dbo.m_machine INNER JOIN " +
+                                              " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
+                                              " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN " +
+                                              " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code INNER JOIN " +
+                                              " dbo.i_faz ON dbo.m_machine.faz = dbo.i_faz.id INNER JOIN " +
+                                              " dbo.i_lines ON dbo.m_machine.line = dbo.i_lines.id " +
                                          " WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine.line = " + line + ")" +
-                                         " GROUP BY dbo.m_machine.name, dbo.m_machine.code, dbo.m_machine.mttrH", cnn);
-            var cmdMttrSFaz = new SqlCommand("SELECT dbo.m_machine.name, dbo.m_machine.code, SUM(DATEDIFF(minute, 0, dbo.r_reply.stop_time_help)) AS TR," +
+                                         " GROUP BY dbo.m_machine.name, dbo.m_machine.mttrH,dbo.i_faz.faz_name,dbo.i_lines.line_name", cnn);
+
+            var cmdMttrSFaz = new SqlCommand("SELECT dbo.m_machine.name AS MachineName, dbo.i_lines.line_name ,dbo.i_faz.faz_name,  SUM(DATEDIFF(minute, 0, dbo.r_reply.stop_time_help)) AS TR," +
                                               " COUNT(dbo.m_machine.code) AS Trcount," +
                                               " SUM(DATEDIFF(minute, 0, dbo.r_reply.stop_time_help)) / 60 / COUNT(dbo.m_machine.code) AS MTTR_Stop, dbo.m_machine.mttrH" +
-                                              " FROM dbo.m_machine INNER JOIN" +
-                                              " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
-                                              " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN" +
-                                              " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code" +
+                                             " FROM dbo.m_machine INNER JOIN " +
+                                             " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
+                                             " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN " +
+                                             " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code INNER JOIN " +
+                                             " dbo.i_faz ON dbo.m_machine.faz = dbo.i_faz.id INNER JOIN " +
+                                             " dbo.i_lines ON dbo.m_machine.line = dbo.i_lines.id " +
                                               " WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine.faz = " + faz + ")" +
-                                              " GROUP BY dbo.m_machine.name, dbo.m_machine.code, dbo.m_machine.mttrH", cnn);
+                                              " GROUP BY dbo.m_machine.name, dbo.m_machine.mttrH,dbo.i_faz.faz_name,dbo.i_lines.line_name", cnn);
             SqlDataReader rd;
             if (line != -1)
             {
                 rd = cmdMttrSline.ExecuteReader();
 
             }
-            else if (unit != -1)
+            else if (unit != "-1")
             {
                 rd = cmdMttrS.ExecuteReader();
 
@@ -2169,7 +2250,9 @@ namespace CMMS
             }
             while (rd.Read())
             {
-                infoMttr.Machine.Add(rd["name"].ToString());
+                infoMttr.Machine.Add(rd["MachineName"].ToString());
+                infoMttr.Fazname.Add(rd["faz_name"].ToString());
+                infoMttr.Linename.Add(rd["line_name"].ToString());
                 infoMttr.Mtt.Add(Convert.ToInt32(rd["mttrH"]));
                 infoMttr.MttH.Add(Convert.ToInt32(rd["MTTR_Stop"]));
             }
@@ -2452,15 +2535,20 @@ namespace CMMS
         {
             cnn.Open();
             var e =  new List<SubSystems>();
-            var sele = new SqlCommand("SELECT DISTINCT dbo.subsystem.name, dbo.subsystem.code FROM dbo.subsystem INNER JOIN "+
+            var sele = new SqlCommand("SELECT TOP (100) PERCENT dbo.subsystem.name, dbo.m_machine.name + '_' + dbo.i_lines.line_name AS Machinename, dbo.i_faz.faz_name " +
+                                      "FROM dbo.subsystem INNER JOIN " +
                                       "dbo.m_subsystem ON dbo.subsystem.id = dbo.m_subsystem.subId INNER JOIN " +
-                                      "dbo.m_machine ON dbo.m_subsystem.Mid = dbo.m_machine.id WHERE(dbo.m_machine.loc = "+loc+" OR "+loc+" = 0)",cnn);
+                                      "dbo.m_machine ON dbo.m_subsystem.Mid = dbo.m_machine.id INNER JOIN " +
+                                      "dbo.i_lines ON dbo.m_machine.line = dbo.i_lines.id INNER JOIN " +
+                                      "dbo.i_faz ON dbo.m_machine.faz = dbo.i_faz.id " +
+                                      "WHERE(dbo.m_machine.loc = " + loc + " OR " + loc + " = 0)" +
+                                      "ORDER BY Machinename ",cnn);
             var r = sele.ExecuteReader();
             while (r.Read())
             {
                 e.Add(new SubSystems()
                 {
-                     SubSystemId = Convert.ToInt32(r["code"]), SubSystemName = r["name"].ToString()
+                    FazName = r["faz_name"].ToString(),SubSystemMachine = r["Machinename"].ToString(), SubSystemName = r["name"].ToString()
                 });
             }
             cnn.Close();
@@ -2468,23 +2556,42 @@ namespace CMMS
         }
 
         [WebMethod]
-        public string FilterMachines(int loc,int line,int faz)
+        public string FilterMachines(string loc,int line,int faz)
         {
             cnn.Open();
             var e = new List<MachineMainInfo>();
-            var unitt = new SqlCommand("SELECT dbo.m_machine.name, dbo.m_machine.code, dbo.i_units.unit_name, " +
-                                     "dbo.m_machine.imp, dbo.m_machine.creator, dbo.m_machine.maModel, dbo.m_machine.startDate " +
-                                     "FROM dbo.m_machine INNER JOIN dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code " +
-                                     "WHERE(dbo.m_machine.loc = " + loc + " OR " +loc+ " = 0) order by dbo.m_machine.code", cnn);
+            var unitt = new SqlCommand(" SELECT TOP (100) PERCENT dbo.m_machine.name,dbo.i_lines.line_name, " +
+                                       " dbo.i_faz.faz_name, dbo.m_machine.code, dbo.i_units.unit_name, dbo.m_machine.imp, dbo.m_machine.creator, " +
+                                       " dbo.m_machine.maModel, dbo.m_machine.startDate FROM dbo.m_machine INNER JOIN " +
+                                       " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code INNER JOIN " +
+                                       " dbo.i_lines ON dbo.m_machine.line = dbo.i_lines.id INNER JOIN " +
+                                       " dbo.i_faz ON dbo.m_machine.faz = dbo.i_faz.id " +
+                                       " where m_machine.loc = '"+loc+ "' or '" + loc + "'='0' " +
+                                       " union all  " +
+                                       " SELECT TOP(100) PERCENT dbo.m_machine.name, '----' as line_name,  " +
+                                       " '----' as faz_name, dbo.m_machine.code, dbo.i_units.unit_name, dbo.m_machine.imp, dbo.m_machine.creator," +
+                                       " dbo.m_machine.maModel, dbo.m_machine.startDate FROM dbo.m_machine INNER JOIN " +
+                                       " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code " +
+                                       " where dbo.m_machine.code not in (SELECT  dbo.m_machine.code FROM dbo.m_machine INNER JOIN " +
+                                       " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code INNER JOIN " +
+                                       " dbo.i_lines ON dbo.m_machine.line = dbo.i_lines.id INNER JOIN " +
+                                       " dbo.i_faz ON dbo.m_machine.faz = dbo.i_faz.id where m_machine.loc ='" + loc + "' or '" + loc + "'='0') and  m_machine.loc='" + loc + "' " +
+                                       " order by unit_name", cnn);
 
-            var linee = new SqlCommand("SELECT dbo.m_machine.name, dbo.m_machine.code, dbo.i_units.unit_name, " +
-                                      "dbo.m_machine.imp, dbo.m_machine.creator, dbo.m_machine.maModel, dbo.m_machine.startDate " +
-                                      "FROM dbo.m_machine INNER JOIN dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code " +
+            var linee = new SqlCommand("SELECT TOP (100) PERCENT dbo.m_machine.name,dbo.i_lines.line_name, " +
+                                       "dbo.i_faz.faz_name, dbo.m_machine.code, dbo.i_units.unit_name, dbo.m_machine.imp, dbo.m_machine.creator, " +
+                                       "dbo.m_machine.maModel, dbo.m_machine.startDate FROM dbo.m_machine INNER JOIN " +
+                                       "dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code INNER JOIN " +
+                                       "dbo.i_lines ON dbo.m_machine.line = dbo.i_lines.id INNER JOIN " +
+                                       "dbo.i_faz ON dbo.m_machine.faz = dbo.i_faz.id " +
                                       "WHERE(dbo.m_machine.line = " + line + ") order by dbo.m_machine.code", cnn);
 
-            var fazz = new SqlCommand("SELECT dbo.m_machine.name, dbo.m_machine.code, dbo.i_units.unit_name, " +
-                                      "dbo.m_machine.imp, dbo.m_machine.creator, dbo.m_machine.maModel, dbo.m_machine.startDate " +
-                                      "FROM dbo.m_machine INNER JOIN dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code " +
+            var fazz = new SqlCommand("SELECT TOP (100) PERCENT dbo.m_machine.name,dbo.i_lines.line_name, " +
+                                      "dbo.i_faz.faz_name, dbo.m_machine.code, dbo.i_units.unit_name, dbo.m_machine.imp, dbo.m_machine.creator, " +
+                                      "dbo.m_machine.maModel, dbo.m_machine.startDate FROM dbo.m_machine INNER JOIN " +
+                                      "dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code INNER JOIN " +
+                                      "dbo.i_lines ON dbo.m_machine.line = dbo.i_lines.id INNER JOIN " +
+                                      "dbo.i_faz ON dbo.m_machine.faz = dbo.i_faz.id " +
                                       "WHERE(dbo.m_machine.faz = " + faz + " ) order by dbo.m_machine.code", cnn);
             SqlDataReader rd;
             if (faz != -1)
@@ -2503,7 +2610,8 @@ namespace CMMS
             {
                 e.Add(new MachineMainInfo()
                 {
-                    Name = rd["name"].ToString(),Code = rd["code"].ToString(),LocationName = rd["unit_name"].ToString(),
+                    Name = rd["name"].ToString(),FazName=rd["faz_name"].ToString(),LineName = rd["line_name"].ToString(),
+                    Code = rd["code"].ToString(),LocationName = rd["unit_name"].ToString(),
                     Ahamiyat = rd["imp"].ToString(),Creator = rd["creator"].ToString(),Model = rd["maModel"].ToString(),
                     Tarikh = rd["startDate"].ToString()
                 });
@@ -2511,7 +2619,7 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(e);
         }
         [WebMethod]
-        public string RepairHistory(int machine, int unit, string dateS, string dateE)// سوابق تعمیر/ سرویس کاری == گزارش سوابق تعمیر
+        public string RepairHistory(int machine, string unit, string dateS, string dateE)// سوابق تعمیر/ سرویس کاری == گزارش سوابق تعمیر
         {
             var infoRepairHistory = new List<string[]>();
             cnn.Open();
@@ -2523,7 +2631,7 @@ namespace CMMS
                                              " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id INNER JOIN " +
                                              " dbo.subsystem ON dbo.r_reply.subsystem = dbo.subsystem.id" +
                                              " where r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "'" +
-                                             " and r_request.unit_id="+unit+" and r_request.machine_code="+machine+" "+
+                                             " and r_request.unit_id='"+unit+"' and r_request.machine_code="+machine+" "+
                                              " union all " +
                                              " SELECT TOP(100) PERCENT dbo.r_reply.idreq, dbo.m_machine.name, dbo.r_reply.start_repdate, " +
                                              " CASE WHEN r_request.type_req = 1 THEN 'اضطراری' WHEN r_request.type_req = 2 THEN 'پیش بینانه' ELSE 'پیش گیرانه' END AS Treq," +
@@ -2532,7 +2640,7 @@ namespace CMMS
                                              " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN " +
                                              " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
                                              " where subsystem = 0 and r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "'" +
-                                             " and r_request.unit_id = "+unit+" and r_request.machine_code = "+machine+" ) i " +
+                                             " and r_request.unit_id = '"+unit+"' and r_request.machine_code = "+machine+" ) i " +
                                              " order by start_repdate, idreq", cnn);
             var cmdOnlyunit = new SqlCommand("select idreq,name,start_repdate,Treq,Sub,rep_time,stop_time from" +
                                            " (SELECT TOP (100) PERCENT dbo.r_reply.idreq, dbo.m_machine.name, dbo.r_reply.start_repdate, " +
@@ -2542,7 +2650,7 @@ namespace CMMS
                                            " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id INNER JOIN " +
                                            " dbo.subsystem ON dbo.r_reply.subsystem = dbo.subsystem.id" +
                                            " where r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "'" +
-                                           " and r_request.unit_id=" + unit + " " +
+                                           " and r_request.unit_id='" + unit + "' " +
                                            " union all " +
                                            " SELECT TOP(100) PERCENT dbo.r_reply.idreq, dbo.m_machine.name, dbo.r_reply.start_repdate, " +
                                            " CASE WHEN r_request.type_req = 1 THEN 'اضطراری' WHEN r_request.type_req = 2 THEN 'پیش بینانه' ELSE 'پیش گیرانه' END AS Treq," +
@@ -2551,7 +2659,7 @@ namespace CMMS
                                            " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN " +
                                            " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
                                            " where subsystem = 0 and r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "'" +
-                                           " and r_request.unit_id = " + unit + "  ) i " +
+                                           " and r_request.unit_id = '" + unit + "'  ) i " +
                                            " order by start_repdate, idreq", cnn);
             SqlDataReader rd;
             if (machine != -1)

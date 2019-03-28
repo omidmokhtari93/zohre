@@ -43,6 +43,7 @@ namespace CMMS
                 txtunitmanager.Text = "";
                 txtUnitCode.Text = "";
                 ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "save();", true);
+                gridUnits.DataBind();
             }
             
             else
@@ -52,37 +53,94 @@ namespace CMMS
                 ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "CodeError();", true);
             }
         }
-/*
+
         protected void gridUnits_OnRowCommand(object sender, GridViewCommandEventArgs e)
         {
+            var index = int.Parse(e.CommandArgument.ToString());
+            ViewState["uid"] = gridUnits.DataKeys[index]["id"];
+            ViewState["Ucode"] = gridUnits.DataKeys[index]["unit_code"];
             if (e.CommandName == "del")
             {
-                var index = int.Parse(e.CommandArgument.ToString());
-                ViewState["uid"] = gridUnits.DataKeys[index]["id"];
+               
                 cnn.Open();
-                var getUnitName = new SqlCommand("select unit_name from i_units where id = "+Convert.ToInt32(ViewState["uid"])+" ",cnn);
-                var unitName = getUnitName.ExecuteScalar();
-                lblWarning.InnerText = "آیا با حذف بخش " + unitName + " موافق هستید؟";
-                pnlDelUnit.Visible = true;
-                gridUnits.Visible = false;
+                var getUnitName = new SqlCommand("select max(id) from m_machine where loc=(select unit_code from i_units where id = "+Convert.ToInt32(ViewState["uid"])+") ",cnn);
+                object idd = getUnitName.ExecuteScalar();
+                if (idd.Equals(DBNull.Value))
+                {
+                    var delunit=new SqlCommand("delete from i_units where id =" + Convert.ToInt32(ViewState["uid"]) + "", cnn);
+                    delunit.ExecuteNonQuery();
+                    gridUnits.DataBind();
+                }
+                else
+                {
+                    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "DellError();", true);
+                }
+            }
+            else if (e.CommandName == "edt")
+            {
+                cnn.Open();
+                var getUnit =
+                    new SqlCommand(
+                        "SELECT unit_name,unit_manager,unit_code FROM [dbo].[i_units] where id = " +
+                        Convert.ToInt32(ViewState["uid"]) + " ", cnn);
+                var rd = getUnit.ExecuteReader();
+                if (!rd.Read()) return;
+                txtunitName.Text = rd["unit_name"].ToString();
+                txtUnitCode.Text = rd["unit_code"].ToString();
+                txtunitmanager.Text = rd["unit_manager"].ToString();
+                btnEdit.Visible = true;
+                btnCancel.Visible = true;
+                btnSave.Visible = false;
+                cnn.Close();
             }
         }
-        
-        protected void btnYes_OnClick(object sender, EventArgs e)
+
+        protected void btnEdit_OnClick(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(txtunitName.Text) || string.IsNullOrEmpty(txtUnitCode.Text))
+            {
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "Err();", true);
+                return;
+            }
             cnn.Open();
-            var delUnit = new SqlCommand("delete from i_units where id ="+ViewState["uid"]+" ",cnn);
-            delUnit.ExecuteNonQuery();
-            pnlDelUnit.Visible = false;
-            gridUnits.Visible = true;
-            gridUnits.DataBind();
+            var cmdrepeatitive =new SqlCommand("select id from i_units where unit_code='"+ViewState["Ucode"].ToString() + "' and id <> "+Convert.ToInt32(ViewState["uid"])+" ", cnn);
+            object idU = cmdrepeatitive.ExecuteScalar();
+            if (idU == null)
+            {
+                var unitEdit = new SqlCommand("UPDATE [dbo].[i_units] " +
+                                                "SET[unit_name] = '" + txtunitName.Text + "' " +
+                                                ",[unit_code] = '" + txtUnitCode.Text + "' " +
+                                                ",[unit_manager] ='" + txtunitmanager.Text + "' " +                                               
+                                                "WHERE id = " + ViewState["uid"] + "" +
+                                              "Update m_machine Set code='" + txtUnitCode.Text + "'+SUBSTRING(code,3,6), loc='" + txtUnitCode.Text+"' where loc='"+ViewState["Ucode"].ToString()+"'" +
+                                              "Update r_request Set unit_id='" + txtUnitCode.Text + "' where unit_id='" + ViewState["Ucode"].ToString() + "'", cnn);
+                unitEdit.ExecuteNonQuery();
+                gridUnits.DataBind();
+
+                btnSave.Visible = true;
+                btnCancel.Visible = false;
+                btnEdit.Visible = false;
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "save();", true);
+                txtunitName.Text = "";
+                txtUnitCode.Text = "";
+                txtunitmanager.Text = "";
+            }
+            else
+            {
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "DellError();", true);
+            }
+           
+           
         }
 
-        protected void btnNo_OnClick(object sender, EventArgs e)
+        protected void btnCancel_OnClick(object sender, EventArgs e)
         {
-            gridUnits.Visible = true;
-            pnlDelUnit.Visible = false;
+            txtunitName.Text = "";
+            txtUnitCode.Text = "";
+            txtunitmanager.Text = "";
+            btnEdit.Visible = false;
+            btnCancel.Visible = false;
+            btnSave.Visible = true;
         }
-        */
     }
 }

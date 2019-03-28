@@ -33,7 +33,7 @@
         #PartsSearchResulat ,#PartRequestSearchResult {
             display: none;
             position: absolute;
-            width: 273px;
+            width: 100%;
             padding-left: 0px;
             z-index: 999;
             max-height: 200px;
@@ -62,6 +62,7 @@
         #PartRequestSearchResult{display: none;position: absolute;width: 100%;padding-left: 0px;z-index: 999;left: 0px;}
         #txthelpSubSearchPart ,#txtPartRequestSubSearch{ width: 100%;outline: none;padding: 0px 3px 0 0;font-weight: 800;border: none;border-radius: 3px;}
         #helpgridParts tr td{ text-align: right;}
+        .chkbox{ width: 25px;height: 25px;}
     </style>
     <div class="panel panel-primary" id="pnlRequestDetail" style="display:none;">
         <div class="panel-heading">شرح درخواست</div>
@@ -329,21 +330,22 @@
             </div>
         </div>
         <div class="row" style="margin:0;margin-top: 10px; text-align: center!important;">
-            <div class="col-sm-5"></div>
-                <div class="col-sm-7">
+          <div class="col-sm-4"></div>
+                <div class="col-sm-8">
                     <div style="border: 1px solid darkgray; padding: 5px 0px 0px 0px; border-radius: 5px;">
                         <div style="display: block; text-align: right; padding-right: 10px;">قطعات و لوازم مصرفی</div>
                         <button class="button" type="button" onclick="AddParts();">+</button>
+                        <input type="checkbox" id="chkrptools"  class="chkbox" /><span style="margin-right: 5px"> تعمیر قطعه </span>
                         <asp:DropDownList Dir="rtl" class="form-control" ClientIDMode="Static"  ID="Drmeasurement" runat="server" style="width: 15%; display: inline-block; padding: 0;" DataSourceID="SqlMeasurement" DataTextField="measurement" DataValueField="id">
                         </asp:DropDownList>
                         <input class="form-control text-center" id="txtPartsCount" style="width: 20%; display: inline-block;" placeholder="تعداد"/>                     
                         <asp:SqlDataSource ID="SqlMeasurement" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, measurement FROM i_measurement"></asp:SqlDataSource>
-                        <div id="PartBadgeArea" style="position: relative;width: 50%;display: inline-block;">
+                        <div id="PartBadgeArea" style="position: relative;width: 30%;display: inline-block;">
                             <div style="position: relative; direction: rtl;">
                                 <input type="text" autocomplete="off" tabindex="41" class="form-control" id="txtPartsSearch" placeholder="جستجوی قطعه ..."/>
-                                <img src="Images/loading.png" id="partsLoading" style="width: 20px; height: 20px; position: absolute; top: 7px; left: 7px; display: none;"/>
+                                <img src="Images/loading.png" id="  " style="width: 20px; height: 20px; position: absolute; top: 7px; left: 7px; display: none;"/>
                             </div>
-                            <div id="PartsSearchResulat">
+                            <div id="PartsSearchResulat" >
                                 <div style="padding: 5px 28px 5px 5px;background-color: #dfecfe">
                                     <input type="text" id="txtSubSearchPart" dir="rtl" autocomplete="off"/>
                                     <img src="Images/funnel.png" class="imgfilter"/>

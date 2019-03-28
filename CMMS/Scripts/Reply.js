@@ -123,6 +123,7 @@ $('#griRequestParts').on('click', 'tr#sel', function () {
     var $row = $(this).find("td");
     var $text = $row.text();
     var $value = $row.attr('partid');
+    
     for (var i = 0; i < requestPart.length; i++) {
         if (requestPart[i].PartId == parseInt($value)) {
             RedAlert('no', 'این قطعه قبلا انتخاب شده است');
@@ -651,7 +652,7 @@ function AddParts() {
     var table = document.getElementById('gridParts');
     for (var a = 0; a < rowsCount; a++) {
         for (var b = 0; b < partData.length; b++) {
-            if (table.rows[a].cells[0].innerHTML == partData[b].PartId) {
+            if (table.rows[a].cells[0].innerHTML == partData[b].PartId && table.rows[a].cells[6].innerHTML == '' + $("#chkrptools").is(':checked') + '') {
                 RedAlert('n', "!!این مورد قبلا ثبت شده است");
                 return;
             }
@@ -660,13 +661,21 @@ function AddParts() {
     if ($('#txtPartsCount').val() != '' && partData.length != 0) {
         var partCount = $('#txtPartsCount').val();
         var measur = $('#Drmeasurement :selected').text();
-        var partTableHeader = '<tr><th>قطعات</th><th>تعداد</th><th>واحد</th><th></th></tr>';
+        var kind = $("#chkrptools").is(':checked');
+        var kindd = '';
+        if (kind === true)
+            kindd = 'تعمیر';
+        else
+            kindd = 'تعویض';
+        var partTableHeader = '<tr><th>قطعات</th><th>تعداد</th><th>واحد</th><th>عملیات</th><th></th></tr>';
         var partTableBody = '<tr>' +
             '<td style="display:none;">' + partData[0].PartId + '</td>' +
             '<td>' + partData[0].PartName + '</td>' +
             '<td>' + partCount + '</td>' +
             '<td>' + measur + '</td>' +
             '<td style="display:none;">' + $('#Drmeasurement').val() + '</td>' +
+            '<td>' + kindd + '</td>' +
+            '<td style="display:none;">' + $("#chkrptools").is(':checked') + '</td>' +
             '<td><a>حذف</a></td>' +
             '</tr>';
         if ($('#gridParts tr').length !== 0) {
@@ -902,7 +911,8 @@ function SendDataToDB(btn) {
             parts.push({
                 Part: table.rows[d].cells[0].innerHTML,
                 Count: table.rows[d].cells[2].innerHTML,
-                Measur: table.rows[d].cells[4].innerHTML
+                Measur: table.rows[d].cells[4].innerHTML,
+                Rptools: table.rows[d].cells[6].innerHTML
             });
         }
         table = document.getElementById('gridRepairers');

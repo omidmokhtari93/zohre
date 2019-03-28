@@ -173,6 +173,7 @@ function CopyData() {
                 var tblHead = '<thead><tr>' +
                     '<th>ردیف</th>' +
                     '<th>نام تجهیز</th>' +
+                    '<th>شماره پلاک</th>' +
                     '<th></th>' +
                     '</tr></thead>';
                 var tblBody = "<tbody></tbody>";
@@ -183,6 +184,7 @@ function CopyData() {
                         '<td style="display:none;">' + subData[i].SubSystemId + '</td>' +
                         '<td>' + j + '</td>' +
                         '<td>' + subData[i].SubSystemName + '</td>' +
+                        '<td>' + subData[i].SubSystemCode + '</td>' +
                         '<td><a>حذف</a></td>' +
                         '</tr>';
                     $('#subSystemTable tbody').append(tblBody);
