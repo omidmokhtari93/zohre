@@ -55,7 +55,13 @@
             <asp:SqlDataSource ID="SqlRequests" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="
 SELECT dbo.r_reply.idreq, dbo.m_machine.name, dbo.m_machine.code, dbo.r_reply.stop_time, dbo.r_reply.rep_time,dbo.r_reply.start_repdate ,cast (dbo.m_machine.code as nvarchar(8)) as vcode 
 FROM dbo.r_request INNER JOIN dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN 
-dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id order by dbo.r_request.date_req desc,dbo.r_reply.idreq"></asp:SqlDataSource>
+dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id 
+union all
+SELECT distinct( dbo.r_reply.idreq), dbo.r_request.other_machine, '----', dbo.r_reply.stop_time, dbo.r_reply.rep_time,dbo.r_reply.start_repdate ,'----' 
+FROM dbo.r_request INNER JOIN dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq 
+where dbo.r_reply.idreq not in  (SELECT dbo.r_reply.idreq 
+FROM dbo.r_request INNER JOIN dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN 
+dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id ) order by idreq desc"></asp:SqlDataSource>
         </div>
     </div>
 </asp:Content>

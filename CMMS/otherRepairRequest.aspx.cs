@@ -56,7 +56,7 @@ namespace CMMS
             cnn.Open();
             var insertRequest = new SqlCommand("insert into r_request ([req_id],[unit_id],[other_machine],[type_fail],[req_name],[type_req]," +
                                                "[comment],[date_req],[time_req],[type_repair],[state])" +
-                                               "values("+txtreqid.Text+"," + drunit.SelectedValue + ",'"+txtrepair.Text+"'," +
+                                               "values("+txtreqid.Text+",'" + drunit.SelectedValue + "','"+txtrepair.Text+"'," +
                                                "" + typefail.Value + ",'" + txtreq_name.Text + "'," + typereq.Value + "," +
                                                "'" + txtcomment.Text + "','" + txtRequestDate.Value + "','" + txtRequestTime.Value + "',0,1)", cnn);
             insertRequest.ExecuteNonQuery();

@@ -2447,19 +2447,19 @@ namespace CMMS
         } 
 
         [WebMethod]
-        public string GetAffectedMachines(int machineCode)
+        public string GetAffectedMachines(string machineCode)
         {
             var list = new List<Machines>();
             _cnn.Open();
             var selAffected = new SqlCommand("SELECT dbo.m_effect.sub_mid, m_machine_1.code, m_machine_1.name, "+
                                              "(SELECT id FROM dbo.m_machine AS m_machine_2 " +
-                                             "WHERE(code = "+ machineCode + ")) AS main_mid " +
+                                             "WHERE(code = '"+ machineCode + "')) AS main_mid " +
                                              "FROM dbo.m_machine INNER JOIN " +
                                              "dbo.m_effect ON dbo.m_machine.id = dbo.m_effect.main_mid INNER JOIN " +
                                              "dbo.m_machine AS m_machine_1 ON dbo.m_effect.sub_mid = m_machine_1.id " +
                                              "WHERE(dbo.m_effect.main_mid = (SELECT id " +
                                              "FROM dbo.m_machine AS m_machine_2 " +
-                                             "WHERE(code = "+ machineCode + ")))", _cnn);
+                                             "WHERE(code = '"+ machineCode + "')))", _cnn);
             var r = selAffected.ExecuteReader();
             while (r.Read())
             {
