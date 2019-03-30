@@ -1367,7 +1367,7 @@ namespace CMMS
         {
             _cnn.Open();
             var selectCode = new SqlCommand("if (SELECT count(code) FROM [dbo].[m_machine] where code like '"+ machineCode + "%') <> 0 "+
-                                            "begin SELECT max(substring(code,3,6) + 1) as Ncode FROM[dbo].[m_machine] where code like '" + machineCode + "%' end else begin select '' end", _cnn);
+                                            "begin SELECT max(substring(code,3,6) + 1) as Ncode FROM[dbo].[m_machine] where code like '" + machineCode + "%' end else begin Select substring('"+machineCode+"',3,3)+'001' end", _cnn);
             var code = selectCode.ExecuteScalar().ToString();
             code = machineCode.Substring(0, 2)+code;
             _cnn.Close();

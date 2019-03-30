@@ -6,7 +6,7 @@
         dataType: "json",
         success: function (e) {
             var unitHeader = '<tr><td colspan="4" style="background-color: darkblue; color: white;">لیست واحدها</td></tr>';
-            var machineHeader = '<tr><td colspan="4" style="background-color: darkblue; color: white;">لیست تجهیزات</td></tr>';
+            var machineHeader = '<tr><td colspan="4" style="background-color: darkblue; color: white;">لیست دستگاه ها</td></tr>';
             var tr = '', td = '', k = 0, c = 0;
             var data = JSON.parse(e.d);
             var machineRows = Math.ceil(data.MachineData.length / 4);
