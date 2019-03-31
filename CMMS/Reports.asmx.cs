@@ -2278,7 +2278,7 @@ namespace CMMS
             var lst = new List<PMcontrol>();
             cnn.Open();
             var cmdPm = new SqlCommand("SELECT TOP (100) PERCENT dbo.i_units.unit_code, dbo.i_units.unit_name," +
-                                       " dbo.m_machine.name, dbo.m_machine.code, dbo.m_control.contName, dbo.p_pmcontrols.kind " +
+                                       " dbo.m_machine.name, dbo.m_machine.code, dbo.m_control.contName+' _ '+dbo.m_control.comment as contname, dbo.p_pmcontrols.kind " +
                                        " FROM dbo.m_machine INNER JOIN" +
                                        " dbo.m_control ON dbo.m_machine.id = dbo.m_control.Mid INNER JOIN" +
                                        " dbo.p_pmcontrols ON dbo.m_control.id = dbo.p_pmcontrols.idmcontrol INNER JOIN" +
@@ -2292,7 +2292,7 @@ namespace CMMS
                 {
                     Unit = rd["unit_name"].ToString(),
                     Machine = rd["name"].ToString(),
-                    ControlName = rd["contName"].ToString()
+                    ControlName = rd["contname"].ToString()
                 };
                 lst.Add(obj);
             }
@@ -2305,7 +2305,7 @@ namespace CMMS
             var check = false;
             cnn.Open();
             var cmdPm = new SqlCommand("SELECT TOP (100) PERCENT dbo.i_units.unit_code, dbo.i_units.unit_name, dbo.m_machine.name," +
-                                       " dbo.m_machine.id, dbo.m_control.contName, dbo.p_pmcontrols.tarikh, dbo.p_pmcontrols.act, dbo.p_pmcontrols.kind, " +
+                                       " dbo.m_machine.id, dbo.m_control.contName+' _ '+dbo.m_control.comment as contname, dbo.p_pmcontrols.tarikh, dbo.p_pmcontrols.act, dbo.p_pmcontrols.kind, " +
                                        "  dbo.p_pmcontrols.other FROM dbo.m_machine INNER JOIN " +
                                        "  dbo.m_control ON dbo.m_machine.id = dbo.m_control.Mid INNER JOIN " +
                                        "  dbo.p_pmcontrols ON dbo.m_control.id = dbo.p_pmcontrols.idmcontrol INNER JOIN " +
@@ -2319,7 +2319,7 @@ namespace CMMS
                 {
                     Unit = rd["unit_name"].ToString(),
                     Machine = rd["name"].ToString(),
-                    ControlName = rd["contName"].ToString()
+                    ControlName = rd["contname"].ToString()
                 };
                 var tarikh = rd["tarikh"].ToString();
                 var step = Convert.ToInt32(rd["other"]);
@@ -2359,7 +2359,7 @@ namespace CMMS
             var check = false;
             cnn.Open();
             var cmdPm = new SqlCommand("SELECT TOP (100) PERCENT dbo.i_units.unit_code, dbo.i_units.unit_name, dbo.m_machine.name," +
-                                       " dbo.m_machine.id, dbo.m_control.contName, dbo.p_pmcontrols.tarikh, dbo.p_pmcontrols.act, dbo.p_pmcontrols.kind, " +
+                                       " dbo.m_machine.id, dbo.m_control.contName+' _ '+dbo.m_control.comment as contname, dbo.p_pmcontrols.tarikh, dbo.p_pmcontrols.act, dbo.p_pmcontrols.kind, " +
                                        "  dbo.p_pmcontrols.other  FROM dbo.m_machine INNER JOIN dbo.m_control ON dbo.m_machine.id = dbo.m_control.Mid INNER JOIN " +
                                        "  dbo.p_pmcontrols ON dbo.m_control.id = dbo.p_pmcontrols.idmcontrol INNER JOIN " +
                                        " dbo.i_units  ON dbo.m_machine.loc = dbo.i_units.unit_code " +
@@ -2372,7 +2372,7 @@ namespace CMMS
                 var obj = new PMcontrol
                 {
                     Unit = rd["unit_name"].ToString(),
-                    ControlName = rd["contName"].ToString(),
+                    ControlName = rd["contname"].ToString(),
                     Machine = rd["name"].ToString()
                 };
                 var tarikh = rd["tarikh"].ToString();
@@ -2411,7 +2411,7 @@ namespace CMMS
             var check = false;
             cnn.Open();
             var cmdPm = new SqlCommand("SELECT TOP (100) PERCENT dbo.i_units.unit_code, dbo.i_units.unit_name, dbo.m_machine.name," +
-                                       " dbo.m_machine.id, dbo.m_control.contName, dbo.p_pmcontrols.tarikh, dbo.p_pmcontrols.act, dbo.p_pmcontrols.kind, " +
+                                       " dbo.m_machine.id, dbo.m_control.contName+' _ '+dbo.m_control.comment as contname, dbo.p_pmcontrols.tarikh, dbo.p_pmcontrols.act, dbo.p_pmcontrols.kind, " +
                                        "  dbo.p_pmcontrols.other FROM dbo.m_machine INNER JOIN " +
                                        "  dbo.m_control ON dbo.m_machine.id = dbo.m_control.Mid INNER JOIN " +
                                        "  dbo.p_pmcontrols ON dbo.m_control.id = dbo.p_pmcontrols.idmcontrol INNER JOIN " +
@@ -2426,7 +2426,7 @@ namespace CMMS
                 {
                     Unit = rd["unit_name"].ToString(),
                     Machine = rd["name"].ToString(),
-                    ControlName = rd["contName"].ToString()
+                    ControlName = rd["contname"].ToString()
                 };
                 var tarikh = rd["tarikh"].ToString();
                 int pos = tarikh.LastIndexOf("/", StringComparison.Ordinal);

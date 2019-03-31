@@ -114,7 +114,7 @@
                             <tr style="height: 100px; text-align: center;">
                                 <td><img src="Images/zohre1.png" /></td>
                                 <td colspan="2">
-                                    <h3 style="margin: 0;">برنامه تعمیر و نگهداری پیشگیرانه</h3>
+                                    <h3 style="margin: 0;">برنامه نگهداری و تعمیر پیشگیرانه</h3>
                                     <h4 style="display: block;" id="lblUnitName"></h4>
                                 </td>
                                 <td style="width: 220px;">
