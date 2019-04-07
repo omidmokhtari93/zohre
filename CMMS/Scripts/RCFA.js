@@ -80,16 +80,25 @@ function CreateTableForChart(data) {
 $('#drunitfail').on('change', function () {
     if ($('#drunitfail :selected').val() !== '-1') {
         $('#drlinefail').val('-1');
+        $('#drfazfail').val('-1');
     }
 });
 $('#drlinefail').on('change', function () {
     if ($('#drlinefail :selected').val() !== '-1') {
         $('#drunitfail').val('-1');
+        $('#drfazfail').val('-1');
+    }
+});
+$('#drfazfail').on('change', function () {
+    if ($('#drfazfail :selected').val() !== '-1') {
+        $('#drunitfail').val('-1');
+        $('#drlinefail').val('-1');
     }
 });
 function CreateFailTypeChart() {
     var unitt = $('#drunitfail :selected').val();
     var linee = $('#drlinefail :selected').val();
+    var fazz = $('#drfazfail :selected').val();
     var sDate = $('#txtFailTypeStartDate').val();
     var eDate = $('#txtFailTypeEndDate').val();
     if ($('#txtFailTypeEndDate').val() == '' || $('#txtFailTypeStartDate').val() == '') {
@@ -111,6 +120,7 @@ function CreateFailTypeChart() {
     obj.data.push({
         line: linee,
         unit: unitt,
+        faz:fazz,
         dateS: $('#txtFailTypeStartDate').val(),
         dateE: $('#txtFailTypeEndDate').val()
     });
@@ -120,17 +130,26 @@ function CreateFailTypeChart() {
 $('#drunitmostfail').on('change', function () {
     if ($('#drunitmostfail :selected').val() !== '-1') {
         $('#drlinemostfail').val('-1');
+        $('#drfazmostfail').val('-1');
     }
 });
 $('#drlinemostfail').on('change', function () {
     if ($('#drlinemostfail :selected').val() !== '-1') {
         $('#drunitmostfail').val('-1');
+        $('#drfazmostfail').val('-1');
+    }
+});
+$('#drfazmostfail').on('change', function () {
+    if ($('#drfazmostfail :selected').val() !== '-1') {
+        $('#drunitmostfail').val('-1');
+        $('#drlinemostfail').val('-1');
     }
 });
 
 function CreateMostFailsChart() {
     var unitt = $('#drunitmostfail :selected').val();
     var linee = $('#drlinemostfail :selected').val();
+    var fazz = $('#drlinemostfail :selected').val();
     var sDate = $('#txtMostFailsStartDate').val();
     var eDate = $('#txtMostFailsEndDate').val();
 
@@ -154,6 +173,7 @@ function CreateMostFailsChart() {
 
         line: linee,
         unit: unitt,
+        faz:fazz,
         dateS: sDate,
         dateE: eDate
     });
@@ -162,16 +182,25 @@ function CreateMostFailsChart() {
 $('#drunitrepsub').on('change', function () {
     if ($('#drunitrepsub :selected').val() !== '-1') {
         $('#drlinerepsub').val('-1');
+        $('#drfazrepsub').val('-1');
     }
 });
 $('#drlinerepsub').on('change', function () {
     if ($('#drlinerepsub :selected').val() !== '-1') {
         $('#drunitrepsub').val('-1');
+        $('#drfazrepsub').val('-1');
+    }
+});
+$('#drfazrepsub').on('change', function () {
+    if ($('#drfazrepsub :selected').val() !== '-1') {
+        $('#drunitrepsub').val('-1');
+        $('#drlinerepsub').val('-1');
     }
 });
 function CreateSubsystemChart() {
     var unitt = $('#drunitrepsub :selected').val();
     var linee = $('#drlinerepsub :selected').val();
+    var fazz = $('#drfazrepsub :selected').val();
     var count = $('#txtSubCount').val();
     var sDate = $('#txtSubStartDate').val();
     var eDate = $('#txtSubEndDate').val();
@@ -196,6 +225,7 @@ function CreateSubsystemChart() {
 
         line: linee,
         unit: unitt,
+        faz:fazz,
         count: count,
         dateS: sDate,
         dateE: eDate

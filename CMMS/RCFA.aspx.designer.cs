@@ -31,6 +31,24 @@ namespace CMMS {
         protected global::System.Web.UI.WebControls.SqlDataSource Sqlline;
         
         /// <summary>
+        /// Sqlfaz control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource Sqlfaz;
+        
+        /// <summary>
+        /// drfazfail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drfazfail;
+        
+        /// <summary>
         /// drlinefail control.
         /// </summary>
         /// <remarks>
@@ -49,6 +67,15 @@ namespace CMMS {
         protected global::System.Web.UI.WebControls.DropDownList drunitfail;
         
         /// <summary>
+        /// drfazmostfail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drfazmostfail;
+        
+        /// <summary>
         /// drlinemostfail control.
         /// </summary>
         /// <remarks>
@@ -65,6 +92,15 @@ namespace CMMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList drunitmostfail;
+        
+        /// <summary>
+        /// drfazrepsub control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drfazrepsub;
         
         /// <summary>
         /// drlinerepsub control.

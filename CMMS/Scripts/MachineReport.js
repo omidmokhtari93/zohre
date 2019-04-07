@@ -88,13 +88,14 @@ function SubsystemReport() {
         function createSubsystemReport(s) {
             var d = JSON.parse(s.d);
             var body = [];
-            body.push('<table><tr><th>ردیف</th><th>نام تجهیز</th><th>دستگاه مربوطه</th><th>فاز</th></tr>');
+            body.push('<table><tr><th>ردیف</th><th>نام تجهیز</th><th>دستگاه مربوطه</th><th>خط</th><th>فاز</th></tr>');
             if (d.length > 0) {
                 for (var i = 0; i < d.length; i++) {
                     body.push('<tr>' +
                         '<td>' + (i+1) + '</td>' +
                         '<td>' + d[i].SubSystemName + '</td>' +
                         '<td>' + d[i].SubSystemMachine + '</td>' +
+                        '<td>' + d[i].LineName + '</td>' +
                         '<td>' + d[i].FazName + '</td>' +
                         '</tr>');
                 }

@@ -25,7 +25,7 @@ namespace CMMS
     {
         SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["CMMS"].ConnectionString);
         [WebMethod]
-        public string Actrep(int line, int unit, string dateS,string dateE)
+        public string Actrep(int line, string unit,int faz, string dateS,string dateE)
         {
             var infoAct=new List<string[]>();
             cnn.Open();
@@ -46,12 +46,12 @@ namespace CMMS
                                                " dbo.r_reply ON dbo.r_action.id_rep = dbo.r_reply.id INNER JOIN " +
                                                " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
                                                " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
-                                               " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.loc = " + unit+")) AS numeric(12, 2)) AS persent " +
+                                               " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.loc = '" + unit+"')) AS numeric(12, 2)) AS persent " +
                                                " FROM dbo.i_repairs INNER JOIN dbo.r_action AS r_action_1 ON dbo.i_repairs.id = r_action_1.act_id INNER JOIN " +
                                                " dbo.r_reply AS r_reply_1 ON r_action_1.id_rep = r_reply_1.id INNER JOIN " +
                                                " dbo.r_request AS r_request_1 ON r_reply_1.idreq = r_request_1.req_id INNER JOIN " +
                                                " dbo.m_machine AS m_machine_1 ON r_request_1.machine_code = m_machine_1.id " +
-                                               " WHERE(r_reply_1.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine_1.loc = " + unit+") " +
+                                               " WHERE(r_reply_1.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine_1.loc = '" + unit+"') " +
                                                " GROUP BY r_action_1.act_id, dbo.i_repairs.operation",cnn);
 
             var cmdArtreplyLine= new SqlCommand("SELECT        COUNT(r_action_1.act_id) AS total, dbo.i_repairs.operation, CAST(COUNT(r_action_1.act_id) * 100.0 /" +
@@ -67,15 +67,33 @@ namespace CMMS
                                                 " dbo.m_machine AS m_machine_1 ON r_request_1.machine_code = m_machine_1.id " +
                                                 " WHERE(r_reply_1.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine_1.line = " + line + ") " +
                                                 " GROUP BY r_action_1.act_id, dbo.i_repairs.operation", cnn);
+            var cmdArtreplyFaz = new SqlCommand("SELECT        COUNT(r_action_1.act_id) AS total, dbo.i_repairs.operation, CAST(COUNT(r_action_1.act_id) * 100.0 /" +
+                                                 " (SELECT        COUNT(dbo.r_action.id_rep) AS EX " +
+                                                 " FROM dbo.r_action INNER JOIN " +
+                                                 " dbo.r_reply ON dbo.r_action.id_rep = dbo.r_reply.id INNER JOIN " +
+                                                 " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
+                                                 " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
+                                                 " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.faz = " + faz + ")) AS numeric(12, 2)) AS persent " +
+                                                 " FROM dbo.i_repairs INNER JOIN dbo.r_action AS r_action_1 ON dbo.i_repairs.id = r_action_1.act_id INNER JOIN " +
+                                                 " dbo.r_reply AS r_reply_1 ON r_action_1.id_rep = r_reply_1.id INNER JOIN " +
+                                                 " dbo.r_request AS r_request_1 ON r_reply_1.idreq = r_request_1.req_id INNER JOIN " +
+                                                 " dbo.m_machine AS m_machine_1 ON r_request_1.machine_code = m_machine_1.id " +
+                                                 " WHERE(r_reply_1.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine_1.faz = " + faz + ") " +
+                                                 " GROUP BY r_action_1.act_id, dbo.i_repairs.operation", cnn);
             SqlDataReader rd;
             if (line != -1)
             {
                 rd = cmdArtreplyLine.ExecuteReader();
 
             }
-            else if (unit != -1)
+            else if (unit != "-1")
             {
                 rd = cmdActreplyUnit.ExecuteReader();
+
+            }
+            else if (faz != -1)
+            {
+                rd = cmdArtreplyFaz.ExecuteReader();
 
             }
             else
@@ -120,7 +138,7 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(infoActiveMachin);
         }
         [WebMethod]
-        public string Maxsubsystem(int line,int unit,int count, string dateS, string dateE)
+        public string Maxsubsystem(int line,string unit,int faz,int count, string dateS, string dateE)
         {
             var infoMaxsubsystem = new ChartData();
             var list1 = new List<string>();
@@ -139,7 +157,7 @@ namespace CMMS
                                              " dbo.r_reply ON dbo.m_subsystem.subId = dbo.r_reply.subsystem INNER JOIN " +
                                              " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
                                              " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
-                                             " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.loc = "+unit+") " +
+                                             " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.loc = '"+unit+"') " +
                                              " GROUP BY dbo.subsystem.name ORDER BY count DESC",cnn);
 
             var cmdMaxreqline= new SqlCommand(" SELECT  TOP (" + count + ") dbo.subsystem.name, COUNT(dbo.subsystem.code) AS count " +
@@ -150,15 +168,28 @@ namespace CMMS
                                               " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
                                               " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.line = " + line + ") " +
                                               " GROUP BY dbo.subsystem.name ORDER BY count DESC", cnn);
+            var cmdMaxreqFaz = new SqlCommand(" SELECT  TOP (" + count + ") dbo.subsystem.name, COUNT(dbo.subsystem.code) AS count " +
+                                               " FROM  dbo.m_subsystem INNER JOIN " +
+                                               " dbo.subsystem ON dbo.m_subsystem.subId = dbo.subsystem.id INNER JOIN " +
+                                               " dbo.r_reply ON dbo.m_subsystem.subId = dbo.r_reply.subsystem INNER JOIN " +
+                                               " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
+                                               " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
+                                               " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.faz = " + faz + ") " +
+                                               " GROUP BY dbo.subsystem.name ORDER BY count DESC", cnn);
             SqlDataReader rd;
             if (line != -1)
             {
                 rd = cmdMaxreqline.ExecuteReader();
 
             }
-            else if (unit != -1)
+            else if (unit != "-1")
             {
                 rd = cmdMaxrequnit.ExecuteReader();
+
+            }
+            else if (faz != -1)
+            {
+                rd = cmdMaxreqFaz.ExecuteReader();
 
             }
             else
@@ -175,7 +206,7 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(infoMaxsubsystem);
         }
         [WebMethod]
-        public string MaxRequest(int count,int unit,string dateS, string dateE)
+        public string MaxRequest(int count,string unit,string dateS, string dateE)
         {
             var infoMaxReq = new ChartData();
             var list1 = new List<string>();
@@ -192,10 +223,10 @@ namespace CMMS
                                               " FROM  dbo.m_machine INNER JOIN " +
                                               " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
                                               " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq " +
-                                              " WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND (m_machine.loc="+unit+") " +
+                                              " WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND (m_machine.loc='"+unit+"') " +
                                               " GROUP BY dbo.m_machine.name, dbo.m_machine.code", cnn);
             SqlDataReader rd;
-            if (unit != -1)
+            if (unit != "-1")
             {
                 rd = cmdMaxreqUnit.ExecuteReader();
             }
@@ -213,7 +244,7 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(infoMaxReq);
         }
         [WebMethod]
-        public string TimeDelay(int line,int unit, string dateS, string dateE)//خرابی های پر هزینه 
+        public string TimeDelay(int line,string unit,int faz, string dateS, string dateE)//گزارش تعمیرات/ توقفات 
         {
             var infoReqcost = new List<string[]>();
             cnn.Open();
@@ -232,7 +263,7 @@ namespace CMMS
                                             " dbo.i_delay_reason ON dbo.r_rdelay.delay_id = dbo.i_delay_reason.id INNER JOIN " +
                                             " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
                                             " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
-                                            " where m_machine.loc = "+unit+" " +
+                                            " where m_machine.loc = '"+unit+"' " +
                                             " GROUP BY dbo.r_reply.idreq, dbo.m_machine.name", cnn);
             var cmdReqcostline = new SqlCommand(" SELECT SUM(1 * DATEDIFF(minute, 0, dbo.r_reply.delay_time)) AS DelayTime, STRING_AGG(dbo.i_delay_reason.delay, ' ,') AS Dinfo, " +
                                             " dbo.r_reply.idreq, dbo.m_machine.name " +
@@ -243,6 +274,15 @@ namespace CMMS
                                             " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
                                             " where m_machine.line = "+line+" " +
                                             " GROUP BY dbo.r_reply.idreq, dbo.m_machine.name", cnn);
+            var cmdReqcostFaz = new SqlCommand(" SELECT SUM(1 * DATEDIFF(minute, 0, dbo.r_reply.delay_time)) AS DelayTime, STRING_AGG(dbo.i_delay_reason.delay, ' ,') AS Dinfo, " +
+                                                " dbo.r_reply.idreq, dbo.m_machine.name " +
+                                                " FROM dbo.r_reply INNER JOIN " +
+                                                " dbo.r_rdelay ON dbo.r_reply.id = dbo.r_rdelay.id_rep INNER JOIN " +
+                                                " dbo.i_delay_reason ON dbo.r_rdelay.delay_id = dbo.i_delay_reason.id INNER JOIN " +
+                                                " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
+                                                " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
+                                                " where m_machine.line = " + faz + " " +
+                                                " GROUP BY dbo.r_reply.idreq, dbo.m_machine.name", cnn);
 
             SqlDataReader rd;
             if (line != -1)
@@ -250,9 +290,14 @@ namespace CMMS
                 rd = cmdReqcostline.ExecuteReader();
 
             }
-            else if (unit != -1)
+            else if (unit != "-1")
             {
                 rd = cmdReqcostUnit.ExecuteReader();
+
+            }
+            else if (faz != -1)
+            {
+                rd = cmdReqcostFaz.ExecuteReader();
 
             }
             else
@@ -270,7 +315,7 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(infoReqcost);
         }
         [WebMethod]
-        public string RDelay(int line, int unit, string dateS, string dateE)
+        public string RDelay(int line, string unit,int faz, string dateS, string dateE)
         {
             var infodelay = new ChartData();
             var list1 = new List<string>();
@@ -292,12 +337,12 @@ namespace CMMS
                                             " dbo.r_reply ON dbo.r_rdelay.id_rep = dbo.r_reply.id INNER JOIN " +
                                             " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
                                             " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
-                                            " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.loc = "+unit+")) AS numeric(12, 2)) AS persent" +
+                                            " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.loc = '"+unit+"')) AS numeric(12, 2)) AS persent" +
                                             " FROM dbo.i_delay_reason INNER JOIN dbo.r_rdelay AS r_rdelay_1 ON dbo.i_delay_reason.id = r_rdelay_1.delay_id INNER JOIN " +
                                             " dbo.r_reply AS r_reply_1 ON r_rdelay_1.id_rep = r_reply_1.id INNER JOIN " +
                                             " dbo.r_request AS r_request_1 ON r_reply_1.idreq = r_request_1.req_id INNER JOIN " +
                                             " dbo.m_machine AS m_machine_1 ON r_request_1.machine_code = m_machine_1.id " +
-                                            " WHERE(r_reply_1.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine_1.loc = "+unit+") " +
+                                            " WHERE(r_reply_1.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine_1.loc = '"+unit+"') " +
                                             " GROUP BY dbo.i_delay_reason.delay, dbo.i_delay_reason.id",cnn);
 
             var cmdDelayline = new SqlCommand("SELECT dbo.i_delay_reason.delay, COUNT(dbo.i_delay_reason.id) AS total, CAST(COUNT(dbo.i_delay_reason.id) * 100.0 / " +
@@ -314,15 +359,33 @@ namespace CMMS
                                               " WHERE(r_reply_1.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine_1.line = " + line + ") " +
                                               " GROUP BY dbo.i_delay_reason.delay, dbo.i_delay_reason.id", cnn);
 
+            var cmdDelayFaz = new SqlCommand("SELECT dbo.i_delay_reason.delay, COUNT(dbo.i_delay_reason.id) AS total, CAST(COUNT(dbo.i_delay_reason.id) * 100.0 / " +
+                                              " (SELECT        COUNT(dbo.r_rdelay.id_rep) AS EXPR1 " +
+                                              " FROM            dbo.r_rdelay INNER JOIN " +
+                                              " dbo.r_reply ON dbo.r_rdelay.id_rep = dbo.r_reply.id INNER JOIN " +
+                                              " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
+                                              " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
+                                              " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.faz = " + faz + ")) AS numeric(12, 2)) AS persent" +
+                                              " FROM dbo.i_delay_reason INNER JOIN dbo.r_rdelay AS r_rdelay_1 ON dbo.i_delay_reason.id = r_rdelay_1.delay_id INNER JOIN " +
+                                              " dbo.r_reply AS r_reply_1 ON r_rdelay_1.id_rep = r_reply_1.id INNER JOIN " +
+                                              " dbo.r_request AS r_request_1 ON r_reply_1.idreq = r_request_1.req_id INNER JOIN " +
+                                              " dbo.m_machine AS m_machine_1 ON r_request_1.machine_code = m_machine_1.id " +
+                                              " WHERE(r_reply_1.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine_1.faz = " + faz + ") " +
+                                              " GROUP BY dbo.i_delay_reason.delay, dbo.i_delay_reason.id", cnn);
             SqlDataReader rd;
             if (line != -1)
             {
                 rd = cmdDelayline.ExecuteReader();
 
             }
-            else if (unit != -1)
+            else if (unit != "-1")
             {
                 rd = cmdDelayunit.ExecuteReader();
+
+            }
+            else if (faz !=-1)
+            {
+                rd = cmdDelayFaz.ExecuteReader();
 
             }
             else
@@ -339,7 +402,7 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(infodelay);
         }
         [WebMethod]
-        public string EmPmCm(int line,int unit,string dateS, string dateE)//نوع درخواست
+        public string EmPmCm(int line,string unit,int faz,string dateS, string dateE)//نوع درخواست
         {
             var infoPm = new List<string[]>();
             cnn.Open();
@@ -350,12 +413,12 @@ namespace CMMS
 
             var cmdPmunit=new SqlCommand(" SELECT  CAST(COUNT(req.type_req) * 100.0 / (SELECT   sum(kol) as T from(select COUNT(dbo.r_request.type_req) AS kol " +
                                          " FROM  dbo.r_request INNER JOIN dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
-                                         " WHERE(r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.loc = " + unit+") " +
+                                         " WHERE(r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.loc = '" + unit+"') " +
                                          " GROUP BY dbo.m_machine.id) as T1) AS numeric(12, 2)) AS perstate, COUNT(req.type_req) AS tedad, " +
                                          " CASE WHEN type_req = 1 THEN 'اضطراری' WHEN type_req = 2 THEN 'پیش بینانه' WHEN type_req = 3 THEN 'پیش گیرانه' END AS name" +
                                          " FROM dbo.r_request AS req INNER JOIN " +
                                          " dbo.m_machine AS m_machine_1 ON req.machine_code = m_machine_1.id " +
-                                         " WHERE(req.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine_1.loc = " + unit+") GROUP BY req.type_req",cnn);
+                                         " WHERE(req.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine_1.loc = '" + unit+"') GROUP BY req.type_req",cnn);
 
             var cmdPmline = new SqlCommand(" SELECT  CAST(COUNT(req.type_req) * 100.0 / (SELECT   sum(kol) as T from(select COUNT(dbo.r_request.type_req) AS kol " +
                                            " FROM  dbo.r_request INNER JOIN dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
@@ -364,16 +427,29 @@ namespace CMMS
                                            " CASE WHEN type_req = 1 THEN 'اضطراری' WHEN type_req = 2 THEN 'پیش بینانه' WHEN type_req = 3 THEN 'پیش گیرانه' END AS name" +
                                            " FROM dbo.r_request AS req INNER JOIN " +
                                            " dbo.m_machine AS m_machine_1 ON req.machine_code = m_machine_1.id " +
-                                           " WHERE(req.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine_1.line = " + line + ") GROUP BY req.type_req", cnn);
+                                           " WHERE(req.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine_1.faz = " + faz + ") GROUP BY req.type_req", cnn);
+            var cmdPmFaz = new SqlCommand(" SELECT  CAST(COUNT(req.type_req) * 100.0 / (SELECT   sum(kol) as T from(select COUNT(dbo.r_request.type_req) AS kol " +
+                                           " FROM  dbo.r_request INNER JOIN dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
+                                           " WHERE(r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.faz = " + faz + ") " +
+                                           " GROUP BY dbo.m_machine.id) as T1) AS numeric(12, 2)) AS perstate, COUNT(req.type_req) AS tedad, " +
+                                           " CASE WHEN type_req = 1 THEN 'اضطراری' WHEN type_req = 2 THEN 'پیش بینانه' WHEN type_req = 3 THEN 'پیش گیرانه' END AS name" +
+                                           " FROM dbo.r_request AS req INNER JOIN " +
+                                           " dbo.m_machine AS m_machine_1 ON req.machine_code = m_machine_1.id " +
+                                           " WHERE(req.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine_1.faz = " + faz + ") GROUP BY req.type_req", cnn);
             SqlDataReader rd;
             if (line != -1)
             {
                 rd = cmdPmline.ExecuteReader();
 
             }
-            else if (unit != -1)
+            else if (unit != "-1")
             {
                 rd = cmdPmunit.ExecuteReader();
+
+            }
+            else if (faz != -1)
+            {
+                rd = cmdPmFaz.ExecuteReader();
 
             }
             else
@@ -391,7 +467,7 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(infoPm);
         }
         [WebMethod]
-        public string Failreason(int line, int unit, string dateS, string dateE)//دلایل خرابی
+        public string Failreason(int line, string unit, int faz,string dateS, string dateE)//دلایل خرابی
         {
             var infoFail = new ChartData();
             var list1 = new List<string>();
@@ -410,7 +486,7 @@ namespace CMMS
                                            " dbo.r_reply ON dbo.r_rfail.id_rep = dbo.r_reply.id INNER JOIN " +
                                            " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
                                            " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
-                                           " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.loc = "+unit+") " +
+                                           " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.loc = '"+unit+"') " +
                                            " GROUP BY dbo.i_fail_reason.id, dbo.i_fail_reason.fail", cnn);
 
             var cmdfailline = new SqlCommand("SELECT COUNT(dbo.i_fail_reason.id) AS total, dbo.i_fail_reason.fail FROM dbo.i_fail_reason INNER JOIN " +
@@ -420,15 +496,28 @@ namespace CMMS
                                              " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
                                              " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.line = "+line+") " +
                                              " GROUP BY dbo.i_fail_reason.id, dbo.i_fail_reason.fail", cnn);
+
+            var cmdfailFaz = new SqlCommand("SELECT COUNT(dbo.i_fail_reason.id) AS total, dbo.i_fail_reason.fail FROM dbo.i_fail_reason INNER JOIN " +
+                                             " dbo.r_rfail ON dbo.i_fail_reason.id = dbo.r_rfail.fail_id INNER JOIN " +
+                                             " dbo.r_reply ON dbo.r_rfail.id_rep = dbo.r_reply.id INNER JOIN " +
+                                             " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
+                                             " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
+                                             " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.faz = " + faz + ") " +
+                                             " GROUP BY dbo.i_fail_reason.id, dbo.i_fail_reason.fail", cnn);
             SqlDataReader rd;
             if (line != -1)
             {
                 rd = cmdfailline.ExecuteReader();
 
             }
-            else if (unit != -1)
+            else if (unit != "-1")
             {
                 rd = cmdfailunit.ExecuteReader();
+
+            }
+            else if (faz != -1)
+            {
+                rd = cmdfailFaz.ExecuteReader();
 
             }
             else
@@ -499,7 +588,7 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(machineList);
         }
         [WebMethod]
-        public string MaxTools(int line,int unit,int count,string dateS, string dateE)//قطعات پر استفاده 
+        public string MaxTools(int line,string unit,int count,string dateS, string dateE)//قطعات پر استفاده 
         {
             var infoTools = new ChartData();
             var list1 = new List<string>();
@@ -527,13 +616,13 @@ namespace CMMS
                                         " dbo.r_reply ON dbo.r_tools.id_rep = dbo.r_reply.id INNER JOIN " +
                                         " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
                                         " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
-                                        " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND dbo.r_tools.rptools = 0 AND(dbo.m_machine.loc = " + unit+") " +
+                                        " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND dbo.r_tools.rptools = 0 AND(dbo.m_machine.loc = '" + unit+"') " +
                                         " UNION ALL " +
                                         " SELECT help.PartName, dbo.s_subtools.count, help.Serial " +
                                         " FROM dbo.s_subtools INNER JOIN " +
                                         " sgdb.inv.Part AS help ON help.Serial = dbo.s_subtools.tools_id INNER JOIN " +
                                         " dbo.s_subhistory ON dbo.s_subtools.id_reptag = dbo.s_subhistory.id " +
-                                        " WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.s_subhistory.new_unit = "+unit+")) AS T " +
+                                        " WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.s_subhistory.new_unit = '"+unit+"')) AS T " +
                                         " GROUP BY PartName, Serial " +
                                         " ORDER BY tedad DESC",cnn);
 
@@ -561,9 +650,9 @@ namespace CMMS
                 rd = cmdToolsLine.ExecuteReader();
 
             }
-            else if (unit != -1)
+            else if (unit != "-1")
             {
-                rd = cmdToolsUnit.ExecuteReader();
+                rd = cmdToolsUnit.ExecuteReader(); 
 
             }
             else
@@ -700,7 +789,7 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(infoRepstate);
         }
         [WebMethod]
-        public string Typefailreason(int line,int unit,string dateS, string dateE)//علت خرابی
+        public string Typefailreason(int line,string unit,int faz,string dateS, string dateE)//علت خرابی
         {
             var infoFail = new List<string[]>();
             cnn.Open();
@@ -722,14 +811,24 @@ namespace CMMS
                                              " WHERE(r_request_1.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine_1.line = " + line+") " +
                                              " GROUP BY r_request_1.type_fail", cnn);
 
-            var cmdFailunit = new SqlCommand(" SELECT  CAST(COUNT(r_request_1.type_fail) * 100.0 /(SELECT SUM(T) AS T FROM(SELECT COUNT(dbo.r_request.type_fail) AS T " +
+            var cmdFailFaz = new SqlCommand(" SELECT  CAST(COUNT(r_request_1.type_fail) * 100.0 /(SELECT SUM(T) AS T FROM(SELECT COUNT(dbo.r_request.type_fail) AS T " +
                                              " FROM dbo.r_request INNER JOIN dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id" +
-                                             " WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.loc = " + unit + ")" +
+                                             " WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.faz = " + faz + ")" +
                                              " GROUP BY dbo.m_machine.id) AS derivedtbl_1) AS NUMERIC(12, 2)) AS persent, COUNT(r_request_1.type_fail) AS total," +
                                              " CASE WHEN type_fail = 1 THEN 'مکانیکی' WHEN type_fail = 2 THEN 'تاسیساتی -الکتریکی' WHEN type_fail = 3 THEN 'الکتریکی واحد برق' WHEN type_fail = 4 THEN 'متفرقه' END AS name" +
                                              " FROM dbo.r_request AS r_request_1 INNER JOIN" +
                                              " dbo.m_machine AS m_machine_1 ON r_request_1.machine_code = m_machine_1.id" +
-                                             " WHERE(r_request_1.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine_1.loc = " + unit + ") " +
+                                             " WHERE(r_request_1.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine_1.faz = " + faz + ") " +
+                                             " GROUP BY r_request_1.type_fail", cnn);
+
+            var cmdFailunit = new SqlCommand(" SELECT  CAST(COUNT(r_request_1.type_fail) * 100.0 /(SELECT SUM(T) AS T FROM(SELECT COUNT(dbo.r_request.type_fail) AS T " +
+                                             " FROM dbo.r_request INNER JOIN dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id" +
+                                             " WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.loc = '" + unit + "')" +
+                                             " GROUP BY dbo.m_machine.id) AS derivedtbl_1) AS NUMERIC(12, 2)) AS persent, COUNT(r_request_1.type_fail) AS total," +
+                                             " CASE WHEN type_fail = 1 THEN 'مکانیکی' WHEN type_fail = 2 THEN 'تاسیساتی -الکتریکی' WHEN type_fail = 3 THEN 'الکتریکی واحد برق' WHEN type_fail = 4 THEN 'متفرقه' END AS name" +
+                                             " FROM dbo.r_request AS r_request_1 INNER JOIN" +
+                                             " dbo.m_machine AS m_machine_1 ON r_request_1.machine_code = m_machine_1.id" +
+                                             " WHERE(r_request_1.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine_1.loc = '" + unit + "') " +
                                              " GROUP BY r_request_1.type_fail", cnn);
             SqlDataReader rd;
             if (line != -1)
@@ -737,10 +836,15 @@ namespace CMMS
                 rd= cmdFailline.ExecuteReader();
                 
             }
-            else if(unit !=-1)
+            else if(unit !="-1")
             {
                 rd= cmdFailunit.ExecuteReader();
                
+            }
+            else if (faz != -1)
+            {
+                rd = cmdFailFaz.ExecuteReader();
+
             }
             else
             {
@@ -758,7 +862,7 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(infoFail);
         }
         [WebMethod]
-        public string TotalTimeRepStop(int line,int unit,string dateS, string dateE) //مجموع مدت زمان تعمیر و توقف در بازه زمان 
+        public string TotalTimeRepStop(int line,string unit,int faz,string dateS, string dateE) //مجموع مدت زمان تعمیر و توقف در بازه زمان 
         {
             var infoTotal = new List<string[]>();
             cnn.Open();
@@ -773,7 +877,7 @@ namespace CMMS
                                                 " FROM(SELECT        SUM(-(1 * DATEDIFF(second, dbo.r_reply.stop_time_help, 0))) AS Tstop, SUM(-(1 * DATEDIFF(second, dbo.r_reply.rep_time_help, 0))) AS Trep " +
                                                 "FROM dbo.r_reply INNER JOIN dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
                                                 "dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
-                                                "WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.loc = " + unit+")) AS T1",cnn);
+                                                "WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.loc = '" + unit+"')) AS T1",cnn);
 
             var cmdTotalTimeline = new SqlCommand("SELECT        CAST(Tstop / 60 / 60 AS nvarchar) + ':' + CAST({ fn MOD(Tstop / 60, 60) } AS nvarchar) AS Tstop," +
                                                   " CAST(Trep / 60 / 60 AS nvarchar) + ':' + CAST({ fn MOD(Trep / 60, 60) } AS nvarchar) AS Trepair " +
@@ -781,15 +885,27 @@ namespace CMMS
                                                   "FROM dbo.r_reply INNER JOIN dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
                                                   "dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
                                                   "WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.line = " + line + ")) AS T1", cnn);
+
+            var cmdTotalTimeFaz = new SqlCommand("SELECT        CAST(Tstop / 60 / 60 AS nvarchar) + ':' + CAST({ fn MOD(Tstop / 60, 60) } AS nvarchar) AS Tstop," +
+                                                  " CAST(Trep / 60 / 60 AS nvarchar) + ':' + CAST({ fn MOD(Trep / 60, 60) } AS nvarchar) AS Trepair " +
+                                                  " FROM(SELECT        SUM(-(1 * DATEDIFF(second, dbo.r_reply.stop_time_help, 0))) AS Tstop, SUM(-(1 * DATEDIFF(second, dbo.r_reply.rep_time_help, 0))) AS Trep " +
+                                                  "FROM dbo.r_reply INNER JOIN dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
+                                                  "dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
+                                                  "WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.faz = " + faz + ")) AS T1", cnn);
             SqlDataReader rd;
             if (line != -1)
             {
                 rd = cmdTotalTimeline.ExecuteReader();
 
             }
-            else if (unit != -1)
+            else if (unit !="-1")
             {
                 rd = cmdTotalTimeunit.ExecuteReader();
+
+            }
+            else if (faz != -1)
+            {
+                rd = cmdTotalTimeFaz.ExecuteReader();
 
             }
             else
@@ -805,7 +921,7 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(obj);
         }
         [WebMethod]
-        public string MaxTimeRep_perMachine(int line, int unit, string dateS, string dateE, int count) //مدت زمان تعمیر ماشین -بیشترین مدت زمان تعمیر یک دستگاه
+        public string MaxTimeRep_perMachine(int line, string unit,int faz, string dateS, string dateE, int count) //مدت زمان تعمیر ماشین -بیشترین مدت زمان تعمیر یک دستگاه
         {
             var infoperMachine = new List<string[]>();
             cnn.Open();
@@ -833,7 +949,7 @@ namespace CMMS
                                                       " FROM dbo.m_machine INNER JOIN " +
                                                       " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
                                                       " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq " +
-                                                      " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND m_machine.loc="+unit+"  " +
+                                                      " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND m_machine.loc='"+unit+"'  " +
                                                       " GROUP BY dbo.m_machine.name, dbo.m_machine.code " +
                                                       " ORDER BY Trep DESC) AS T1 ORDER BY Trepair DESC", cnn);
 
@@ -850,15 +966,33 @@ namespace CMMS
                                                           " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND m_machine.line=" + line + "  " +
                                                           " GROUP BY dbo.m_machine.name, dbo.m_machine.code " +
                                                           " ORDER BY Trep DESC) AS T1 ORDER BY Trepair DESC", cnn);
+            var cmdMaxTimePerMachineFaz = new SqlCommand("SELECT  TOP (" + count + ") name, code, CAST(Tstop / 60 / 60 AS nvarchar) + ':' + " +
+                                                          "CAST({ fn MOD(Tstop / 60, 60) } AS nvarchar) AS Tstop," +
+                                                          " CAST(Trep / 60 / 60 AS nvarchar) + ':' + CAST({ fn MOD(Trep / 60, 60) } AS nvarchar) " +
+                                                          " AS Trepair FROM(SELECT TOP(100) PERCENT dbo.m_machine.name," +
+                                                          " SUM(-(1 * DATEDIFF(second, dbo.r_reply.stop_time_help, 0))) AS Tstop," +
+                                                          " SUM(-(1 * DATEDIFF(second, dbo.r_reply.rep_time_help, 0))) AS Trep, " +
+                                                          " dbo.m_machine.code " +
+                                                          " FROM dbo.m_machine INNER JOIN " +
+                                                          " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
+                                                          " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq " +
+                                                          " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND m_machine.faz=" + faz + "  " +
+                                                          " GROUP BY dbo.m_machine.name, dbo.m_machine.code " +
+                                                          " ORDER BY Trep DESC) AS T1 ORDER BY Trepair DESC", cnn);
             SqlDataReader rd;
             if (line != -1)
             {
                 rd = cmdMaxTimePerMachineLine.ExecuteReader();
 
             }
-            else if (unit != -1)
+            else if (unit != "-1")
             {
                 rd = cmdMaxTimePerMachineUnit.ExecuteReader();
+
+            }
+            else if (faz !=-1)
+            {
+                rd = cmdMaxTimePerMachineFaz.ExecuteReader();
 
             }
             else
@@ -877,7 +1011,7 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(obj);
         }
         [WebMethod]
-        public string MaxTimeStop_perMachine(int line,int unit,string dateS, string dateE, int count)//مدت زمان توقف ماشین -بیشترین مدت زمان توقف کلی یک دستگاه 
+        public string MaxTimeStop_perMachine(int line,string unit,int faz,string dateS, string dateE, int count)//مدت زمان توقف ماشین -بیشترین مدت زمان توقف کلی یک دستگاه 
         {
             var infoperMachine = new List<string[]>();
             cnn.Open();
@@ -903,7 +1037,7 @@ namespace CMMS
                                                       " dbo.m_machine.code FROM dbo.m_machine INNER JOIN " +
                                                       " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
                                                       " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq " +
-                                                      " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') and m_machine.loc="+unit+"  " +
+                                                      " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') and m_machine.loc='"+unit+"'  " +
                                                       " GROUP BY dbo.m_machine.name, dbo.m_machine.code " +
                                                       " ORDER BY Tstop DESC) AS T1 ORDER BY Tstop DESC", cnn);
 
@@ -919,15 +1053,32 @@ namespace CMMS
                                                       " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') and m_machine.line="+line+" " +
                                                       " GROUP BY dbo.m_machine.name, dbo.m_machine.code " +
                                                       " ORDER BY Tstop DESC) AS T1 ORDER BY Tstop DESC", cnn);
+            var cmdMaxTimePerMachineFaz = new SqlCommand("SELECT  TOP (" + count + ") name, code, CAST(Tstop / 60 / 60 AS nvarchar) + ':' + CAST" +
+                                                          "({ fn MOD(Tstop / 60, 60) } AS nvarchar) AS Tstop," +
+                                                          " CAST(Trep / 60 / 60 AS nvarchar) + ':' + CAST({ fn MOD(Trep / 60, 60) } AS nvarchar) " +
+                                                          " AS Trepair FROM(SELECT TOP(100) PERCENT dbo.m_machine.name," +
+                                                          " SUM(-(1 * DATEDIFF(second, dbo.r_reply.stop_time_help, 0))) AS Tstop," +
+                                                          " SUM(-(1 * DATEDIFF(second, dbo.r_reply.rep_time_help, 0))) AS Trep, " +
+                                                          " dbo.m_machine.code FROM dbo.m_machine INNER JOIN " +
+                                                          " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
+                                                          " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq " +
+                                                          " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') and m_machine.faz=" + faz + " " +
+                                                          " GROUP BY dbo.m_machine.name, dbo.m_machine.code " +
+                                                          " ORDER BY Tstop DESC) AS T1 ORDER BY Tstop DESC", cnn);
             SqlDataReader rd;
             if (line != -1)
             {
                 rd = cmdMaxTimePerMachineLine.ExecuteReader();
 
             }
-            else if (unit != -1)
+            else if (unit != "-1")
             {
                 rd = cmdMaxTimePerMachineUnit.ExecuteReader();
+
+            }
+            else if (faz != -1)
+            {
+                rd = cmdMaxTimePerMachineFaz.ExecuteReader();
 
             }
             else
@@ -946,7 +1097,7 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(obj);
         }
         [WebMethod]
-        public string MaxTimeRep_Detail(int line,int unit,string dateS, string dateE, int count) //مدت زمان تعمیر بر بنای درخواست- گزارش بیشترین مدت زمان تعمیر 
+        public string MaxTimeRep_Detail(int line,string unit,int faz,string dateS, string dateE, int count) //مدت زمان تعمیر بر بنای درخواست- گزارش بیشترین مدت زمان تعمیر 
         {
             var infoDetail = new List<string[]>();
             cnn.Open();
@@ -975,7 +1126,7 @@ namespace CMMS
                                                   " FROM dbo.m_machine INNER JOIN " +
                                                   " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
                                                   " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq " +
-                                                  " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND m_machine.unit="+unit+" " +
+                                                  " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND m_machine.unit='"+unit+"' " +
                                                   " ORDER BY Trep DESC) AS T1 ORDER BY Trepair DESC", cnn);
 
             var cmdMaxTimeDetailline = new SqlCommand("SELECT name, req_id, code, CAST(Tstop / 60 / 60 AS nvarchar) + ':' + CAST" +
@@ -991,15 +1142,33 @@ namespace CMMS
                                                   " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq " +
                                                   " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND m_machine.line="+line+" " +
                                                   " ORDER BY Trep DESC) AS T1 ORDER BY Trepair DESC", cnn);
+            var cmdMaxTimeDetailFaz = new SqlCommand("SELECT name, req_id, code, CAST(Tstop / 60 / 60 AS nvarchar) + ':' + CAST" +
+                                                      "({ fn MOD(Tstop / 60, 60) } AS nvarchar) AS Tstop," +
+                                                      " CAST(Trep / 60 / 60 AS nvarchar) + ':' + CAST({ fn MOD(Trep / 60, 60) } AS nvarchar) AS Trepair, TypeReq " +
+                                                      " FROM(SELECT TOP(" + count + ") dbo.m_machine.name," +
+                                                      " -(1 * DATEDIFF(second, dbo.r_reply.stop_time_help, 0)) AS Tstop," +
+                                                      " -(1 * DATEDIFF(second, dbo.r_reply.rep_time_help, 0)) AS Trep, dbo.r_request.req_id,dbo.m_machine.code, " +
+                                                      " CASE WHEN dbo.r_request.type_req = 1 THEN 'اضطراری' WHEN dbo.r_request.type_req = 2 THEN 'پیش بینانه'" +
+                                                      " WHEN dbo.r_request.type_req = 3 THEN 'پیش گیرانه' END AS TypeReq " +
+                                                      " FROM dbo.m_machine INNER JOIN " +
+                                                      " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
+                                                      " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq " +
+                                                      " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND m_machine.faz=" + faz + " " +
+                                                      " ORDER BY Trep DESC) AS T1 ORDER BY Trepair DESC", cnn);
             SqlDataReader rd;
             if (line != -1)
             {
                 rd = cmdMaxTimeDetailline.ExecuteReader();
 
             }
-            else if (unit != -1)
+            else if (unit != "-1")
             {
                 rd = cmdMaxTimeDetailunit.ExecuteReader();
+
+            }
+            else if (faz != -1)
+            {
+                rd = cmdMaxTimeDetailFaz.ExecuteReader();
 
             }
             else
@@ -1018,7 +1187,7 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(obj);
         }
         [WebMethod]
-        public string MaxTimeStop_Detail(int line,int unit,string dateS, string dateE, int count)//گزارش بیشترین توقف -مدت زمان توقف بر مبنای درخواست 
+        public string MaxTimeStop_Detail(int line,string unit,int faz,string dateS, string dateE, int count)//گزارش بیشترین توقف -مدت زمان توقف بر مبنای درخواست 
         {
             var infoDetail = new List<string[]>();
             cnn.Open();
@@ -1049,7 +1218,7 @@ namespace CMMS
                                                   " FROM dbo.m_machine INNER JOIN " +
                                                   " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
                                                   " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq " +
-                                                  " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') and m_machine.loc="+unit+" " +
+                                                  " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') and m_machine.loc='"+unit+"' " +
                                                   " ORDER BY Tstop DESC) AS T1 ORDER BY Tstop DESC ", cnn);
 
             var cmdMaxTimeDetailline = new SqlCommand("SELECT name, req_id, code, CAST(Tstop / 60 / 60 AS nvarchar) + ':' + CAST" +
@@ -1066,6 +1235,20 @@ namespace CMMS
                                                   " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq " +
                                                   " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') and m_machine.line="+line+" " +
                                                   " ORDER BY Tstop DESC) AS T1 ORDER BY Tstop DESC ", cnn);
+            var cmdMaxTimeDetailFaz = new SqlCommand("SELECT name, req_id, code, CAST(Tstop / 60 / 60 AS nvarchar) + ':' + CAST" +
+                                                      "({ fn MOD(Tstop / 60, 60) } AS nvarchar) AS Tstop, CAST(Trep / 60 / 60 AS nvarchar) + ':' + CAST" +
+                                                      "({ fn MOD(Trep / 60, 60) } AS nvarchar) AS Trepair, TypeReq " +
+                                                      " FROM(SELECT TOP(" + count + ") dbo.m_machine.name," +
+                                                      " -(1 * DATEDIFF(second, dbo.r_reply.stop_time_help, 0)) AS Tstop," +
+                                                      " -(1 * DATEDIFF(second, dbo.r_reply.rep_time_help, 0)) AS Trep, dbo.r_request.req_id,  " +
+                                                      " dbo.m_machine.code, " +
+                                                      " CASE WHEN dbo.r_request.type_req = 1 THEN 'اضطراری' WHEN dbo.r_request.type_req = 2 " +
+                                                      "THEN 'پیش بینانه' WHEN dbo.r_request.type_req = 3 THEN 'پیش گیرانه' END AS TypeReq " +
+                                                      " FROM dbo.m_machine INNER JOIN " +
+                                                      " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
+                                                      " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq " +
+                                                      " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') and m_machine.faz=" + faz + " " +
+                                                      " ORDER BY Tstop DESC) AS T1 ORDER BY Tstop DESC ", cnn);
 
             SqlDataReader rd;
             if (line != -1)
@@ -1073,9 +1256,14 @@ namespace CMMS
                 rd = cmdMaxTimeDetailline.ExecuteReader();
 
             }
-            else if (unit != -1)
+            else if (unit != "-1")
             {
                 rd = cmdMaxTimeDetailunit.ExecuteReader();
+
+            }
+            else if (faz != -1)
+            {
+                rd = cmdMaxTimeDetailFaz.ExecuteReader();
 
             }
             else
@@ -1094,7 +1282,7 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(obj);
         }
         [WebMethod]
-        public string RepairStopCost(int faz,int line, int unit, string dateS, string dateE)//هزینه توقفات تعمیرات
+        public string RepairStopCost(int faz,int line, string unit, string dateS, string dateE)//هزینه توقفات تعمیرات
         {
             var infoStopCost = new List<string[]>();
             cnn.Open();
@@ -1104,7 +1292,7 @@ namespace CMMS
                                               " FROM dbo.m_machine INNER JOIN " +
                                               " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
                                               " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq " +
-                                              " WHERE(dbo.m_machine.loc =" + unit + ") AND(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
+                                              " WHERE(dbo.m_machine.loc ='" + unit + "') AND(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
                                               " GROUP BY dbo.m_machine.name, dbo.m_machine.stopcost", cnn);
 
             var cmdFaz = new SqlCommand("SELECT (SUM(dbo.r_reply.elec_time) + SUM(dbo.r_reply.mech_time)) * (dbo.m_machine.stopcost / 60) AS TotalCost," +
@@ -1142,7 +1330,7 @@ namespace CMMS
                 rd = cmdLine.ExecuteReader();
 
             }
-            else if (unit != -1)
+            else if (unit != "-1")
             {
                 rd = cmdUnit.ExecuteReader();
 
@@ -1167,7 +1355,7 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(infoStopCost);
         }
         [WebMethod]
-        public string ProductStopCost(int faz, int line, int unit, string dateS, string dateE)//هزینه توقفات منجر به توقف تولید
+        public string ProductStopCost(int faz, int line, string unit, string dateS, string dateE)//هزینه توقفات منجر به توقف تولید
         {
             var infoStopCost = new List<string[]>();
             cnn.Open();
@@ -1176,7 +1364,7 @@ namespace CMMS
                                          " dbo.m_machine ON dbo.t_StopEffect.sub_mid = dbo.m_machine.id INNER JOIN " +
                                          " dbo.r_request ON dbo.t_StopEffect.reqid = dbo.r_request.req_id INNER JOIN " +
                                          " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq "+
-                                         " WHERE(dbo.m_machine.loc =" + unit + ") AND(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
+                                         " WHERE(dbo.m_machine.loc ='" + unit + "') AND(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
                                          " GROUP BY dbo.m_machine.name, dbo.m_machine.stopcost", cnn);
 
             var cmdFaz = new SqlCommand("SELECT SUM(dbo.t_StopEffect.stop_time) * (dbo.m_machine.stopcost / 60) AS StopCost, dbo.m_machine.name " +
@@ -1211,7 +1399,7 @@ namespace CMMS
                 rd = cmdLine.ExecuteReader();
 
             }
-            else if (unit != -1)
+            else if (unit != "-1")
             {
                 rd = cmdUnit.ExecuteReader();
 
@@ -1236,7 +1424,7 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(infoStopCost);
         }
         [WebMethod]
-        public string ToolsCost(int line,int unit,string dateS, string dateE)//ریز هزینه قطعات
+        public string ToolsCost(int line,string unit,string dateS, string dateE)//ریز هزینه قطعات
         {
             var infotools = new List<string[]>();
             cnn.Open();
@@ -1258,12 +1446,12 @@ namespace CMMS
                                                   " FROM dbo.r_reply INNER JOIN dbo.r_tools ON dbo.r_reply.id = dbo.r_tools.id_rep INNER JOIN " +
                                                   " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
                                                   " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
-                                                  " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND dbo.r_tools.rptools=0 AND (dbo.m_machine.loc = " + unit+") " +
+                                                  " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND dbo.r_tools.rptools=0 AND (dbo.m_machine.loc = '" + unit+"') " +
                                                   " GROUP BY dbo.r_tools.tools_id  UNION ALL " +
                                                   " SELECT dbo.s_subtools.tools_id, SUM(dbo.s_subtools.count) AS count " +
                                                   " FROM dbo.s_subhistory INNER JOIN " +
                                                   " dbo.s_subtools ON dbo.s_subhistory.id = dbo.s_subtools.id_reptag " +
-                                                  " WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "') AND (dbo.s_subhistory.new_unit = "+unit+")" +
+                                                  " WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "') AND (dbo.s_subhistory.new_unit = '"+unit+"')" +
                                                   " GROUP BY dbo.s_subtools.tools_id) AS i INNER JOIN " +
                                                   " sgdb.dbo.Fee ON i.tools_id = sgdb.dbo.Fee.Partref " +
                                                   " GROUP BY i.tools_id, sgdb.dbo.Fee.partname, sgdb.dbo.Fee.perFee", cnn);
@@ -1289,7 +1477,7 @@ namespace CMMS
                 rd = cmdtoolscostLine.ExecuteReader();
 
             }
-            else if (unit != -1)
+            else if (unit != "-1")
             {
                 rd = cmdtoolscostUnit.ExecuteReader();
 
@@ -1366,7 +1554,7 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(infoReqcost);
         }
         [WebMethod]
-        public string ContractorCost(int line,int unit,string dateS, string dateE)//هزینه پیمانکاران
+        public string ContractorCost(int line,string unit,string dateS, string dateE)//هزینه پیمانکاران
         {
             var infocontcost = new List<string[]>();
             cnn.Open();
@@ -1391,7 +1579,7 @@ namespace CMMS
                                              " FROM dbo.s_subcontract INNER JOIN " +
                                              " dbo.i_contractor ON dbo.s_subcontract.contract_id = dbo.i_contractor.id INNER JOIN " +
                                              " dbo.s_subhistory ON dbo.s_subcontract.id_reptag = dbo.s_subhistory.id " +
-                                             " WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.s_subhistory.new_unit = " + unit + ") " +
+                                             " WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.s_subhistory.new_unit = '" + unit + "') " +
                                              " GROUP BY dbo.s_subcontract.contract_id, dbo.i_contractor.name union all " +
                                              " SELECT        dbo.i_contractor.id, dbo.i_contractor.name, SUM(dbo.r_contract.cost) AS cost " +
                                              " FROM          dbo.i_contractor INNER JOIN " +
@@ -1399,7 +1587,7 @@ namespace CMMS
                                              " dbo.r_reply ON dbo.r_contract.id_rep = dbo.r_reply.id INNER JOIN " +
                                              " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
                                              " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
-                                             " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.loc = " + unit + ") " +
+                                             " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.loc = '" + unit + "') " +
                                              " GROUP BY dbo.i_contractor.name, dbo.i_contractor.id) i group by id, name", cnn);
 
             var cmdContcostLine = new SqlCommand("select name,sum(cost) as cost from  " +
@@ -1423,7 +1611,7 @@ namespace CMMS
                 rd = cmdContcostLine.ExecuteReader();
 
             }
-            else if (unit != -1)
+            else if (unit != "-1")
             {
                 rd = cmdContcostUnit.ExecuteReader();
             }
@@ -1444,7 +1632,7 @@ namespace CMMS
         }
        
         [WebMethod]
-        public string PersonleCost(int line,int unit,string dateS, string dateE)// هزینه پرسنل
+        public string PersonleCost(int line,string unit,string dateS, string dateE)// هزینه پرسنل
         {
             var infoPersonelcost = new List<string[]>();
             cnn.Open();
@@ -1518,7 +1706,7 @@ namespace CMMS
                                                  " dbo.r_reply ON dbo.r_personel.id_rep = dbo.r_reply.id INNER JOIN" +
                                                  " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id " +
                                                  " INNER JOIN dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
-                                                 " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') and m_machine.loc=" + unit + ") AS derivedtbl_1" +
+                                                 " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') and m_machine.loc='" + unit + "') AS derivedtbl_1" +
                                                  " GROUP BY per_name, per_id" +
                                                  " union all " +
                                                  " SELECT        per_name, per_id, SUM(min * (salary / 30 / 440)) AS Price " +
@@ -1532,7 +1720,7 @@ namespace CMMS
                                                  "FROM  dbo.i_personel INNER JOIN " +
                                                  "dbo.s_subpersonel ON dbo.i_personel.id = dbo.s_subpersonel.per_id INNER JOIN " +
                                                  "dbo.s_subhistory ON dbo.s_subpersonel.id_reptag = dbo.s_subhistory.id " +
-                                                 "WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "') AND s_subhistory.new_unit="+unit+") AS derivedtbl_1 " +
+                                                 "WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "') AND s_subhistory.new_unit='"+unit+"') AS derivedtbl_1 " +
                                                  "GROUP BY per_name, per_id) as Tmain group by per_id,per_name", cnn);
 
 
@@ -1590,7 +1778,7 @@ namespace CMMS
                 rd = cmdPersonleLine.ExecuteReader();
 
             }
-            else if (unit != -1)
+            else if (unit != "-1")
             {
                 rd = cmdPersonleUnit.ExecuteReader();
 
@@ -1611,7 +1799,7 @@ namespace CMMS
         }
       
         [WebMethod]
-        public string TotalCost(int line,int unit,int machine,string dateS, string dateE)// هزینه کلی تعمیرات
+        public string TotalCost(int line,string unit,int machine,string dateS, string dateE)// هزینه کلی تعمیرات
         {
             var infoCost = new List<string[]>();
             cnn.Open();
@@ -1690,11 +1878,11 @@ namespace CMMS
                                               " FROM dbo.r_reply INNER JOIN dbo.r_tools ON dbo.r_reply.id = dbo.r_tools.id_rep INNER JOIN " +
                                               " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
                                               " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
-                                              " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND dbo.r_tools.rptools=0 AND(dbo.m_machine.loc = " + unit + ") " +
+                                              " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND dbo.r_tools.rptools=0 AND(dbo.m_machine.loc = '" + unit + "') " +
                                               " GROUP BY dbo.r_tools.tools_id  UNION ALL SELECT dbo.s_subtools.tools_id, SUM(dbo.s_subtools.count) AS count " +
                                               " FROM dbo.s_subhistory INNER JOIN " +
                                               " dbo.s_subtools ON dbo.s_subhistory.id = dbo.s_subtools.id_reptag " +
-                                              " WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.s_subhistory.new_unit = " + unit + ") " +
+                                              " WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.s_subhistory.new_unit = '" + unit + "') " +
                                               " GROUP BY dbo.s_subtools.tools_id) AS i INNER JOIN sgdb.dbo.Fee ON i.tools_id = sgdb.dbo.Fee.Partref " +
                                               " GROUP BY i.tools_id, sgdb.dbo.Fee.partname, sgdb.dbo.Fee.perFee)T " +
                                               " union all " +
@@ -1703,7 +1891,7 @@ namespace CMMS
                                               " FROM dbo.s_subcontract INNER JOIN " +
                                               " dbo.i_contractor ON dbo.s_subcontract.contract_id = dbo.i_contractor.id INNER JOIN " +
                                               " dbo.s_subhistory ON dbo.s_subcontract.id_reptag = dbo.s_subhistory.id " +
-                                              " WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.s_subhistory.new_unit = " + unit + ") " +
+                                              " WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.s_subhistory.new_unit = '" + unit + "') " +
                                               " GROUP BY dbo.s_subcontract.contract_id, dbo.i_contractor.name union all " +
                                               " SELECT        dbo.i_contractor.id, dbo.i_contractor.name, SUM(dbo.r_contract.cost) AS cost " +
                                               " FROM          dbo.i_contractor INNER JOIN " +
@@ -1711,7 +1899,7 @@ namespace CMMS
                                               " dbo.r_reply ON dbo.r_contract.id_rep = dbo.r_reply.id INNER JOIN " +
                                               " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
                                               " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
-                                              " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.loc = " + unit + ") " +
+                                              " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.loc = '" + unit + "') " +
                                               " GROUP BY dbo.i_contractor.name, dbo.i_contractor.id) i group by id, name)C " +
                                               " union all " +
                                               " SELECT        CASE WHEN (sum(price)) IS NULL THEN 0 ELSE sum(price) END AS Total, 'هزینه پرسنل' as kind from( " +
@@ -1736,7 +1924,7 @@ namespace CMMS
                                               " dbo.r_reply ON dbo.r_personel.id_rep = dbo.r_reply.id INNER JOIN " +
                                               " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id " +
                                               " INNER JOIN dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
-                                              " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') and m_machine.loc = " + unit + ") AS derivedtbl_1 " +
+                                              " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') and m_machine.loc = '" + unit + "') AS derivedtbl_1 " +
                                               " GROUP BY per_name, per_id " +
                                               " union all " +
                                               " SELECT        per_name, per_id, SUM(min * (salary / 30 / 440)) AS Price " +
@@ -1750,7 +1938,7 @@ namespace CMMS
                                               " FROM  dbo.i_personel INNER JOIN " +
                                               " dbo.s_subpersonel ON dbo.i_personel.id = dbo.s_subpersonel.per_id INNER JOIN " +
                                               " dbo.s_subhistory ON dbo.s_subpersonel.id_reptag = dbo.s_subhistory.id " +
-                                              " WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "') AND s_subhistory.new_unit = " + unit + ") AS derivedtbl_1 " +
+                                              " WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "') AND s_subhistory.new_unit = '" + unit + "') AS derivedtbl_1 " +
                                               " GROUP BY per_name, per_id) as Tmain group by per_id,per_name)P ", cnn);
 
             var cmdCostLine = new SqlCommand("select CASE WHEN (sum(Tot)) IS NULL THEN 0 ELSE sum(Tot) END as Total,'هزینه قطعات' as kind from " +
@@ -1910,7 +2098,7 @@ namespace CMMS
                 rd = cmdCostLine.ExecuteReader();
 
             }
-            else if (unit != -1)
+            else if (unit != "-1")
             {
                 rd = cmdCostsUnit.ExecuteReader();
 
@@ -1931,29 +2119,40 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(infoCost);
         }
         [WebMethod]
-        public string Stopunitline_Report(string dateS, string dateE, int unit, int line)//  گزارش توقفات /بر مبنای خط و واحد
+        public string Stopunitline_Report(string dateS, string dateE, string unit, int line,int faz)//  گزارش توقفات /بر مبنای خط و واحد
         {
             var obj = new MtMachines();
             cnn.Open();
-            var cmdStopunit = new SqlCommand("SELECT        SUM(dbo.r_reply.elec_time) AS elec, SUM(dbo.r_reply.mech_time) AS mech, dbo.m_machine.name " +
+            var cmdStopunit = new SqlCommand("SELECT SUM(dbo.r_reply.elec_time) AS elec, SUM(dbo.r_reply.mech_time) AS mech, dbo.m_machine.name " +
                                          " FROM dbo.m_machine INNER JOIN " +
                                          " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
                                          " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq " +
-                                         " WHERE(dbo.m_machine.loc = "+unit+") AND(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
+                                         " WHERE(dbo.m_machine.loc = '"+unit+"') AND(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
                                          " GROUP BY dbo.m_machine.name", cnn);
 
-            var cmdStopLine = new SqlCommand("SELECT        SUM(dbo.r_reply.elec_time) AS elec, SUM(dbo.r_reply.mech_time) AS mech, dbo.i_lines.line_name as name" +
+            var cmdStopLine = new SqlCommand("SELECT SUM(dbo.r_reply.elec_time) AS elec, SUM(dbo.r_reply.mech_time) AS mech, dbo.m_machine.name" +
                                              " FROM dbo.m_machine INNER JOIN " +
                                              " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
-                                             " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN " +
-                                             " dbo.i_lines ON dbo.m_machine.line = dbo.i_lines.id " +
+                                             " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq  "+
                                              " WHERE(dbo.m_machine.line = " + line + ") AND(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
-                                             " GROUP BY dbo.i_lines.line_name", cnn);
+                                             " GROUP BY dbo.m_machine.name", cnn);
+
+            var cmdStopFaz = new SqlCommand("SELECT SUM(dbo.r_reply.elec_time) AS elec, SUM(dbo.r_reply.mech_time) AS mech, dbo.m_machine.name" +
+                                            " FROM dbo.m_machine INNER JOIN " +
+                                            " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
+                                            " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq  " +
+                                            " WHERE(dbo.m_machine.faz = " + faz + ") AND(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
+                                            " GROUP BY dbo.m_machine.name", cnn);
 
             SqlDataReader rd;
             if (line != -1)
             {
                 rd = cmdStopLine.ExecuteReader();
+
+            }
+            else if (faz != -1)
+            {
+                rd = cmdStopFaz.ExecuteReader();
 
             }
             else
@@ -1970,7 +2169,7 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(obj);
         }
         [WebMethod]
-        public string StopSub_Report(string dateS, string dateE, int unit, int line)//  گزارش توقفات تجهیزات/بر مبنای خط و واحد
+        public string StopSub_Report(string dateS, string dateE, string unit, int line,int faz)//  گزارش توقفات تجهیزات/بر مبنای خط و واحد
         {
             var obj = new MtMachines();
             cnn.Open();
@@ -1980,7 +2179,7 @@ namespace CMMS
                                              " dbo.subsystem ON dbo.m_subsystem.subId = dbo.subsystem.id INNER JOIN " +
                                              " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
                                              " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq AND dbo.subsystem.id = dbo.r_reply.subsystem " +
-                                             " WHERE(dbo.m_machine.loc = " + unit + ") AND(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
+                                             " WHERE(dbo.m_machine.loc = '" + unit + "') AND(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
                                              " GROUP BY dbo.subsystem.name, dbo.r_reply.elec_time, dbo.r_reply.mech_time", cnn);
 
             var cmdStopLine = new SqlCommand("SELECT dbo.subsystem.name, dbo.r_reply.elec_time as elec, dbo.r_reply.mech_time as mech " +
@@ -1991,11 +2190,25 @@ namespace CMMS
                                              " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq AND dbo.subsystem.id = dbo.r_reply.subsystem " +
                                              " WHERE(dbo.m_machine.line = " + line + ") AND(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
                                              " GROUP BY dbo.subsystem.name, dbo.r_reply.elec_time, dbo.r_reply.mech_time", cnn);
+            var cmdStopFaz = new SqlCommand("SELECT dbo.subsystem.name, dbo.r_reply.elec_time as elec, dbo.r_reply.mech_time as mech " +
+                                             " FROM dbo.m_machine INNER JOIN " +
+                                             " dbo.m_subsystem ON dbo.m_machine.id = dbo.m_subsystem.Mid INNER JOIN " +
+                                             " dbo.subsystem ON dbo.m_subsystem.subId = dbo.subsystem.id INNER JOIN " +
+                                             " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
+                                             " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq AND dbo.subsystem.id = dbo.r_reply.subsystem " +
+                                             " WHERE(dbo.m_machine.faz = " + faz + ") AND(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
+                                             " GROUP BY dbo.subsystem.name, dbo.r_reply.elec_time, dbo.r_reply.mech_time", cnn);
+
 
             SqlDataReader rd;
             if (line != -1)
             {
                 rd = cmdStopLine.ExecuteReader();
+
+            }
+            else if (faz != -1)
+            {
+                rd = cmdStopFaz.ExecuteReader();
 
             }
             else
@@ -2476,7 +2689,7 @@ namespace CMMS
             return lst;
         }
         [WebMethod]
-        public string StopProduct(int line, int unit,string dateS, string dateE)
+        public string StopProduct(int line, string unit,int faz ,string dateS, string dateE)
         {
             var infoStopproduct = new ChartData();
             var list1 = new List<string>();
@@ -2495,7 +2708,7 @@ namespace CMMS
                                                " dbo.m_machine ON dbo.t_StopEffect.sub_mid = dbo.m_machine.id INNER JOIN " +
                                                " dbo.r_request ON dbo.t_StopEffect.reqid = dbo.r_request.req_id INNER JOIN " +
                                                " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq " +
-                                               " WHERE(dbo.r_reply.start_repdate  BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.loc = " + unit + ") " +
+                                               " WHERE(dbo.r_reply.start_repdate  BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.loc = '" + unit + "') " +
                                                " GROUP BY dbo.m_machine.id, dbo.m_machine.name", cnn);
 
             var cmdPStopline = new SqlCommand("SELECT dbo.m_machine.id, SUM(dbo.t_StopEffect.stop_time) AS StopTime, dbo.m_machine.name " +
@@ -2505,13 +2718,20 @@ namespace CMMS
                                                " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq " +
                                                " WHERE(dbo.r_reply.start_repdate  BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.line = " + line + ") " +
                                                " GROUP BY dbo.m_machine.id, dbo.m_machine.name", cnn);
+            var cmdPStopFaz = new SqlCommand("SELECT dbo.m_machine.id, SUM(dbo.t_StopEffect.stop_time) AS StopTime, dbo.m_machine.name " +
+                                              " FROM dbo.t_StopEffect INNER JOIN " +
+                                              " dbo.m_machine ON dbo.t_StopEffect.sub_mid = dbo.m_machine.id INNER JOIN " +
+                                              " dbo.r_request ON dbo.t_StopEffect.reqid = dbo.r_request.req_id INNER JOIN " +
+                                              " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq " +
+                                              " WHERE(dbo.r_reply.start_repdate  BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.m_machine.line = " + line + ") " +
+                                              " GROUP BY dbo.m_machine.id, dbo.m_machine.name", cnn);
             SqlDataReader rd;
             if (line != -1)
             {
                 rd = cmdPStopline.ExecuteReader();
 
             }
-            else if (line == -1 && unit != -1)
+            else if (line == -1 && unit != "-1")
             {
                 rd = cmdPStopUnit.ExecuteReader();
 
@@ -2531,24 +2751,24 @@ namespace CMMS
         }
 
         [WebMethod]
-        public string FilterSubSystems(int loc)
+        public string FilterSubSystems(string loc)
         {
             cnn.Open();
             var e =  new List<SubSystems>();
-            var sele = new SqlCommand("SELECT TOP (100) PERCENT dbo.subsystem.name, dbo.m_machine.name + '_' + dbo.i_lines.line_name AS Machinename, dbo.i_faz.faz_name " +
+            var sele = new SqlCommand("SELECT TOP (100) PERCENT dbo.subsystem.name, dbo.m_machine.name AS Machinename, dbo.i_lines.line_name , dbo.i_faz.faz_name " +
                                       "FROM dbo.subsystem INNER JOIN " +
                                       "dbo.m_subsystem ON dbo.subsystem.id = dbo.m_subsystem.subId INNER JOIN " +
                                       "dbo.m_machine ON dbo.m_subsystem.Mid = dbo.m_machine.id INNER JOIN " +
                                       "dbo.i_lines ON dbo.m_machine.line = dbo.i_lines.id INNER JOIN " +
                                       "dbo.i_faz ON dbo.m_machine.faz = dbo.i_faz.id " +
-                                      "WHERE(dbo.m_machine.loc = " + loc + " OR " + loc + " = 0)" +
+                                      "WHERE(dbo.m_machine.loc = '" + loc + "' OR '" + loc + "' = '0')" +
                                       "ORDER BY Machinename ",cnn);
             var r = sele.ExecuteReader();
             while (r.Read())
             {
                 e.Add(new SubSystems()
                 {
-                    FazName = r["faz_name"].ToString(),SubSystemMachine = r["Machinename"].ToString(), SubSystemName = r["name"].ToString()
+                    FazName = r["faz_name"].ToString(),SubSystemMachine = r["Machinename"].ToString(), SubSystemName = r["name"].ToString(),LineName = r["line_name"].ToString()
                 });
             }
             cnn.Close();
@@ -2575,7 +2795,7 @@ namespace CMMS
                                        " where dbo.m_machine.code not in (SELECT  dbo.m_machine.code FROM dbo.m_machine INNER JOIN " +
                                        " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code INNER JOIN " +
                                        " dbo.i_lines ON dbo.m_machine.line = dbo.i_lines.id INNER JOIN " +
-                                       " dbo.i_faz ON dbo.m_machine.faz = dbo.i_faz.id where m_machine.loc ='" + loc + "' or '" + loc + "'='0') and  m_machine.loc='" + loc + "' " +
+                                       " dbo.i_faz ON dbo.m_machine.faz = dbo.i_faz.id where m_machine.loc ='" + loc + "' or '" + loc + "'='0') and (m_machine.loc='"+loc+ "' or '0'='" + loc + "')" +
                                        " order by unit_name", cnn);
 
             var linee = new SqlCommand("SELECT TOP (100) PERCENT dbo.m_machine.name,dbo.i_lines.line_name, " +

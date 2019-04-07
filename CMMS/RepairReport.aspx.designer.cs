@@ -31,6 +31,24 @@ namespace CMMS {
         protected global::System.Web.UI.WebControls.SqlDataSource Sqlline;
         
         /// <summary>
+        /// Sqlfaz control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource Sqlfaz;
+        
+        /// <summary>
+        /// drfazreqtype control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drfazreqtype;
+        
+        /// <summary>
         /// drlinereqtype control.
         /// </summary>
         /// <remarks>
@@ -58,6 +76,15 @@ namespace CMMS {
         protected global::System.Web.UI.WebControls.DropDownList drunitrepreq;
         
         /// <summary>
+        /// drfazmostdelay control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drfazmostdelay;
+        
+        /// <summary>
         /// drlinemostdelay control.
         /// </summary>
         /// <remarks>
@@ -76,6 +103,15 @@ namespace CMMS {
         protected global::System.Web.UI.WebControls.DropDownList drunitmostdelay;
         
         /// <summary>
+        /// drfazrepction control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drfazrepction;
+        
+        /// <summary>
         /// drlinerepction control.
         /// </summary>
         /// <remarks>
@@ -92,6 +128,15 @@ namespace CMMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList drunitrepaction;
+        
+        /// <summary>
+        /// drfazreptime control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drfazreptime;
         
         /// <summary>
         /// drlinereptime control.

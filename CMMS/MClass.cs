@@ -77,6 +77,7 @@ namespace CMMS
         public string SubSystemCode { get; set; }
         public string SubSystemMachine { get; set; }
         public string FazName { get; set; }
+        public string LineName { get; set; }
     }
 
     public class Parts

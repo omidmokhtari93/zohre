@@ -1,11 +1,19 @@
 ﻿$('#drunitreptime').on('change',function() {
         if ($('#drunitreptime :selected').val() !== '-1') {
             $('#drlinereptime').val('-1');
+            $('#drfazreptime').val('-1');
         }
 });
 $('#drlinereptime').on('change', function () {
     if ($('#drlinereptime :selected').val() !== '-1') {
         $('#drunitreptime').val('-1');
+        $('#drfazreptime').val('-1');
+    }
+});
+$('#drfazreptime').on('change', function () {
+    if ($('#drfazreptime :selected').val() !== '-1') {
+        ('#drunitreptime').val('-1');
+        $('#drlinereptime').val('-1');
     }
 });
 function CreateRepairTimeTable() {
@@ -16,6 +24,7 @@ function CreateRepairTimeTable() {
     var drVal = $('#drRepiarTime :selected').val();
     var unitt = $('#drunitreptime :selected').val();
     var linee = $('#drlinereptime :selected').val();
+    var fazz = $('#drfazreptime :selected').val();
     if (sDate == '' || eDate == '') {
         RedAlert('no', '!!فیلدهای خالی را تکمیل کنید');
         return;
@@ -30,7 +39,7 @@ function CreateRepairTimeTable() {
         data = [];
         data.push({
             url: 'Reports.asmx/TotalTimeRepStop',
-            parameters: [{ line:linee, unit:unitt, dateS: sDate, dateE: eDate }],
+            parameters: [{ line:linee, unit:unitt,faz:fazz, dateS: sDate, dateE: eDate }],
             func: CreateTimeRepairTables
         });
         AjaxCall(data);
@@ -39,7 +48,7 @@ function CreateRepairTimeTable() {
         data = [];
         data.push({
             url: 'Reports.asmx/MaxTimeRep_perMachine',
-            parameters: [{ line: linee, unit: unitt,dateS: sDate, dateE: eDate, count: count }],
+            parameters: [{ line: linee, unit: unitt, faz: fazz,dateS: sDate, dateE: eDate, count: count }],
             func: CreateTimeRepairTables
         });
         AjaxCall(data);
@@ -48,7 +57,7 @@ function CreateRepairTimeTable() {
         data = [];
         data.push({
             url: 'Reports.asmx/MaxTimeStop_perMachine',
-            parameters: [{ line: linee, unit: unitt, dateS: sDate, dateE: eDate, count: count }],
+            parameters: [{ line: linee, unit: unitt, faz: fazz, dateS: sDate, dateE: eDate, count: count }],
             func: CreateTimeRepairTables
         });
         AjaxCall(data);
@@ -57,7 +66,7 @@ function CreateRepairTimeTable() {
         data = [];
         data.push({
             url: 'Reports.asmx/MaxTimeRep_Detail',
-            parameters: [{ line: linee, unit: unitt, dateS: sDate, dateE: eDate, count: count }],
+            parameters: [{ line: linee, unit: unitt, faz: fazz, dateS: sDate, dateE: eDate, count: count }],
             func: CreateTimeRepairTables
         });
         AjaxCall(data);
@@ -66,7 +75,7 @@ function CreateRepairTimeTable() {
         data = [];
         data.push({
             url: 'Reports.asmx/MaxTimeStop_Detail',
-            parameters: [{ line: linee, unit: unitt, dateS: sDate, dateE: eDate, count: count }],
+            parameters: [{ line: linee, unit: unitt, faz: fazz,dateS: sDate, dateE: eDate, count: count }],
             func: CreateTimeRepairTables
         });
         AjaxCall(data);
@@ -229,58 +238,30 @@ function CreateTableForChart(data) {
 
 }
 //=================================================================
-$('#drunitfail').on('change', function () {
-    if ($('#drunitfail :selected').val() !== '-1') {
-        $('#drlinefail').val('-1');
-    }
-});
-$('#drlinefail').on('change', function () {
-    if ($('#drlinefail :selected').val() !== '-1') {
-        $('#drunitfail').val('-1');
-    }
-});
-function CreateFailTypeChart() {
-    var unitt = $('#drunitfail :selected').val();
-    var linee = $('#drlinefail :selected').val();
-    var sDate = $('#txtFailTypeStartDate').val();
-    var eDate = $('#txtFailTypeEndDate').val();
-    if ($('#txtFailTypeEndDate').val() == '' || $('#txtFailTypeStartDate').val() == '') {
-        RedAlert('no', '!!فیلدهای خالی را تکمیل کنید');
-        return;
-    }
-    
-    if (CheckPastTime(sDate, '12:00', eDate, '12:00') === false) {
-        RedAlert('no', '!!تاریخ شروع باید کوچکتر از تاریخ پایان باشد');
-        return;
-    }
-    var obj = {
-        url: 'Typefailreason',
-        data: [],
-        element: 'FailTypeChart',
-        header: 'نوع خرابی',
-        chartype: 'pie'
-    };
-    obj.data.push({
-        line: linee,
-        unit:unitt,
-        dateS: $('#txtFailTypeStartDate').val(),
-        dateE: $('#txtFailTypeEndDate').val()
-    });
-    GetChartData(obj);
-}
+
+
 $('#drunitreqtype').on('change', function () {
     if ($('#drunitreqtype :selected').val() !== '-1') {
         $('#drlinereqtype').val('-1');
+        $('#drfazreqtype').val('-1');
     }
 });
 $('#drlinereqtype').on('change', function () {
     if ($('#drlinereqtype :selected').val() !== '-1') {
         $('#drunitreqtype').val('-1');
+        $('#drfazreqtype').val('-1');
+    }
+});
+$('#drfazreqtype').on('change', function () {
+    if ($('#drfazreqtype :selected').val() !== '-1') {
+        $('#drunitreqtype').val('-1');
+        $('#drlinereqtype').val('-1');
     }
 });
 function CreateRepReqChart() {
     var unitt = $('#drunitreqtype :selected').val();
     var linee = $('#drlinereqtype :selected').val();
+    var fazz = $('#drfazreqtype :selected').val();
     var sDate = $('#txtRepReqTypeStartDate').val();
     var eDate = $('#txtRepReqTypeEndDate').val();
     if ($('#txtRepReqTypeEndDate').val() == '' || $('#txtRepReqTypeStartDate').val() == '') {
@@ -302,6 +283,7 @@ function CreateRepReqChart() {
     obj.data.push({
         line: linee,
         unit: unitt,
+        faz:fazz,
         dateS: $('#txtRepReqTypeStartDate').val(),
         dateE: $('#txtRepReqTypeEndDate').val()
     });
@@ -342,16 +324,25 @@ function CreateMostRepReqChart() {
 $('#drunitmostdelay').on('change', function () {
     if ($('#drunitmostdelay :selected').val() !== '-1') {
         $('#drlinemostdelay').val('-1');
+        $('#drfazmostdelay').val('-1');
     }
 });
 $('#drlinemostdelay').on('change', function () {
     if ($('#drlinemostdelay :selected').val() !== '-1') {
         $('#drunitmostdelay').val('-1');
+        $('#drfazmostdelay').val('-1');
+    }
+});
+$('#drfazmostdelay').on('change', function () {
+    if ($('#drfazmostdelay :selected').val() !== '-1') {
+        $('#drunitmostdelay').val('-1');
+        $('#drlinemostdelay').val('-1');
     }
 });
 function CreateMostDelaysChart() {
     var unitt = $('#drunitmostdelay :selected').val();
     var linee = $('#drlinemostdelay :selected').val();
+    var fazz = $('#drfazmostdelay :selected').val();
     var sDate = $('#txtMostDelaysStartDate').val();
     var eDate = $('#txtMostDelaysEndDate').val();
    
@@ -373,7 +364,8 @@ function CreateMostDelaysChart() {
     };
     obj.data.push({
         line : linee,
-        unit : unitt,
+        unit: unitt,
+        faz:fazz,
         dateS: $('#txtMostDelaysStartDate').val(),
         dateE: $('#txtMostDelaysEndDate').val()
     });
@@ -382,7 +374,7 @@ function CreateMostDelaysChart() {
     var dataa = [];
     dataa.push({
         url: 'Reports.asmx/TimeDelay',
-        parameters: [{ line: linee,unit:unitt, dateS: sDate, dateE: eDate }],
+        parameters: [{ line: linee,unit:unitt,faz:fazz, dateS: sDate, dateE: eDate }],
         func: delay
     });
     AjaxCall(dataa);
@@ -414,16 +406,25 @@ function CreateMostDelaysChart() {
 $('#drunitrepaction').on('change', function () {
     if ($('#drunitrepaction :selected').val() !== '-1') {
         $('#drlinerepction').val('-1');
+        $('#drfazrepction').val('-1');
     }
 });
 $('#drlinerepction').on('change', function () {
     if ($('#drlinerepction :selected').val() !== '-1') {
         $('#drunitrepaction').val('-1');
+        $('#drfazrepction').val('-1');
+    }
+});
+$('#drfazrepction').on('change', function () {
+    if ($('#drfazrepction :selected').val() !== '-1') {
+        $('#drunitrepaction').val('-1');
+        $('#drlinerepction').val('-1');
     }
 });
 function CreateRepairActionChart() {
     var unitt = $('#drunitrepaction :selected').val();
     var linee = $('#drlinerepction :selected').val();
+    var fazz = $('#drfazrepction :selected').val();
     var sDate = $('#txtRepairActionStartDate').val();
     var eDate = $('#txtRepairActionEndDate').val();
     
@@ -445,6 +446,7 @@ function CreateRepairActionChart() {
     obj.data.push({
         line: linee,
         unit: unitt,
+        faz:fazz,
         dateS: $('#txtRepairActionStartDate').val(),
         dateE: $('#txtRepairActionEndDate').val()
     });

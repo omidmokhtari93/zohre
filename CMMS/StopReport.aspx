@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MainDesign.Master" AutoEventWireup="true" CodeBehind="StopReport.aspx.cs" Inherits="CMMS.StopReport" %>
+﻿<%@ Page Title="گزراش توقفات" Language="C#" MasterPageFile="~/MainDesign.Master" AutoEventWireup="true" CodeBehind="StopReport.aspx.cs" Inherits="CMMS.StopReport" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <style>
         table tr a { cursor: pointer;}
@@ -15,27 +15,36 @@
         
     </ul>
     <asp:SqlDataSource ID="Sqlline" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT [id],[line_name] FROM [dbo].[i_lines]"></asp:SqlDataSource>
+    <asp:SqlDataSource ID="Sqlfaz" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT [id],[faz_name] FROM [dbo].[i_faz]">
+    </asp:SqlDataSource>
     <div class="tab-content">
         <div id="StopPerline" class="tab-pane fade in active">
             <div class="menubody">
                 <div class="row" style="margin: 0; text-align: right; direction: ltr;">
-                    <div class="col-md-3">
+                    <div class="col-md-6">
+                        <label style="display: block;"> : تا تاریخ</label>
+                        <input class="form-control text-center" autocomplete="off" id="txtunitlineEndDate"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label style="display: block;"> : از تاریخ</label>
+                        <input class="form-control text-center" autocomplete="off" id="txtunitlineStartDate"/>
+                    </div>
+                </div>
+                <div class="row" style="margin: 0; text-align: right; direction: ltr;">
+                    <div class="col-md-4">
+                        <label style="display: block;"> : فاز</label>
+                        <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drStopfaz" CssClass="form-control" DataSourceID="Sqlfaz" DataTextField="faz_name" DataValueField="id"><asp:ListItem Value="-1">فاز را انتخاب کنید</asp:ListItem></asp:DropDownList>                     
+                    </div>
+                    <div class="col-md-4">
                         <label style="display: block;"> : خط</label> 
                         <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drStopLine" CssClass="form-control" DataSourceID="Sqlline" DataTextField="line_name" DataValueField="id"><asp:ListItem Value="-1">خط را انتخاب کنید</asp:ListItem></asp:DropDownList>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label style="display: block;"> : واحد</label>
                         <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drStopUnits" CssClass="form-control" DataSourceID="Sqlunit" DataTextField="unit_name" DataValueField="unit_code"><asp:ListItem Value="-1">واحد را انتخاب کنید</asp:ListItem></asp:DropDownList>  
                         <asp:SqlDataSource ID="Sqlunit" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT unit_name, unit_code FROM i_units"></asp:SqlDataSource>
                     </div>
-                    <div class="col-md-3">
-                        <label style="display: block;"> : تا تاریخ</label>
-                        <input class="form-control text-center" autocomplete="off" id="txtunitlineEndDate"/>
-                    </div>
-                    <div class="col-md-3">
-                        <label style="display: block;"> : از تاریخ</label>
-                        <input class="form-control text-center" autocomplete="off" id="txtunitlineStartDate"/>
-                    </div>
+                   
                
                 </div>
                 <div style="padding: 15px;">
@@ -53,24 +62,31 @@
         <div id="StopPerSubsystem" class="tab-pane fade " >
             <div class="menubody">
                 <div class="row" style="margin: 0; text-align: right; direction: ltr;">
-                    <div class="col-md-3">
+                    <div class="col-md-6">
+                        <label style="display: block;"> : تا تاریخ</label>
+                        <input class="form-control text-center" autocomplete="off" id="txtSubEndDate"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label style="display: block;"> : از تاریخ</label>
+                        <input class="form-control text-center" autocomplete="off" id="txtSubStartDate"/>
+                    </div>
+                </div>
+                <div class="row" style="margin: 0; text-align: right; direction: ltr;">
+                    <div class="col-md-4">
+                        <label style="display: block;"> : فاز</label>
+                        <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drStopSubfaz" CssClass="form-control" DataSourceID="Sqlfaz" DataTextField="faz_name" DataValueField="id"><asp:ListItem Value="-1">فاز را انتخاب کنید</asp:ListItem></asp:DropDownList>                     
+                    </div>
+                    <div class="col-md-4">
                         <label style="display: block;"> : خط</label>
                         
                         <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drStopSubLine" CssClass="form-control" DataSourceID="Sqlline" DataTextField="line_name" DataValueField="id"><asp:ListItem Value="-1">خط را انتخاب کنید</asp:ListItem></asp:DropDownList>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label style="display: block;"> : واحد</label>
                         <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drStopSubUnit" CssClass="form-control" DataSourceID="Sqlunit" DataTextField="unit_name" DataValueField="unit_code"><asp:ListItem Value="-1">واحد را انتخاب کنید</asp:ListItem></asp:DropDownList>  
                         <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT unit_name, unit_code FROM i_units"></asp:SqlDataSource>
                     </div>
-                    <div class="col-md-3">
-                        <label style="display: block;"> : تا تاریخ</label>
-                        <input class="form-control text-center" autocomplete="off" id="txtSubEndDate"/>
-                    </div>
-                    <div class="col-md-3">
-                        <label style="display: block;"> : از تاریخ</label>
-                        <input class="form-control text-center" autocomplete="off" id="txtSubStartDate"/>
-                    </div>
+                  
                
                 </div>
                 <div style="padding: 15px;">
@@ -89,24 +105,31 @@
             <div class="menubody">
                 <div class="alert alert-info" align="center" style="margin-top: 10px;">گزارش توقفات فنی منجر به توقف تولید</div>
                 <div class="row" style="margin: 0; text-align: right; direction: ltr;">
-                    <div class="col-md-3">
+                    <div class="col-md-6">
+                        <label style="display: block;"> : تا تاریخ</label>
+                        <input class="form-control text-center" autocomplete="off" id="txtProductEndDate"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label style="display: block;"> : از تاریخ</label>
+                        <input class="form-control text-center" autocomplete="off" id="txtProductStartDate"/>
+                    </div>
+                </div>
+                <div class="row" style="margin: 0; text-align: right; direction: ltr;">
+                    <div class="col-md-4">
+                        <label style="display: block;"> : فاز</label>
+                        <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drStopProductfaz" CssClass="form-control" DataSourceID="Sqlfaz" DataTextField="faz_name" DataValueField="id"><asp:ListItem Value="-1">فاز را انتخاب کنید</asp:ListItem></asp:DropDownList>                     
+                    </div>
+                    <div class="col-md-4">
                         <label style="display: block;"> : خط</label>
                         
                         <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drStopProductLine" CssClass="form-control" DataSourceID="Sqlline" DataTextField="line_name" DataValueField="id"><asp:ListItem Value="-1">خط را انتخاب کنید</asp:ListItem></asp:DropDownList>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label style="display: block;"> : واحد</label>
                         <asp:DropDownList runat="server" AppendDataBoundItems="True" ClientIDMode="Static" ID="drStopproductUnit" CssClass="form-control" DataSourceID="Sqlunit" DataTextField="unit_name" DataValueField="unit_code"><asp:ListItem Value="-1">واحد را انتخاب کنید</asp:ListItem></asp:DropDownList>  
                         <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT unit_name, unit_code FROM i_units"></asp:SqlDataSource>
                     </div>
-                    <div class="col-md-3">
-                        <label style="display: block;"> : تا تاریخ</label>
-                        <input class="form-control text-center" autocomplete="off" id="txtProductEndDate"/>
-                    </div>
-                    <div class="col-md-3">
-                        <label style="display: block;"> : از تاریخ</label>
-                        <input class="form-control text-center" autocomplete="off" id="txtProductStartDate"/>
-                    </div>
+                   
                
                 </div>
                 <div style="padding: 15px;">
