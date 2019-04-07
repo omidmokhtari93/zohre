@@ -205,6 +205,7 @@ $('#drRepairUnit').on('change', function () {
 $('#drRepairLine').on('change', function () {
     if ($('#drRepairLine :selected').val() !== '-1') {
         $('#drRepairUnit').val('-1');
+        $('#drMachines').val('');
     }
 });
 function RepairCost() {
