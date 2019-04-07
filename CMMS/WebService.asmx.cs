@@ -1345,7 +1345,7 @@ namespace CMMS
             var unitList = new List<Units>();
             var machineList = new List<Machines>();
             _cnn.Open();
-            var selectUnits = new SqlCommand("select unit_code , unit_name from i_units",_cnn);
+            var selectUnits = new SqlCommand("select unit_code , unit_name from i_units order by unit_name",_cnn);
             var rd = selectUnits.ExecuteReader();
             while (rd.Read())
             {
@@ -1353,7 +1353,7 @@ namespace CMMS
             }
             _cnn.Close();
             _cnn.Open();
-            var selectMachines = new SqlCommand("select DeviceName , DeviceCode from i_devices ", _cnn);
+            var selectMachines = new SqlCommand("select DeviceName , DeviceCode from i_devices order by DeviceName", _cnn);
             var rdd = selectMachines.ExecuteReader();
             while (rdd.Read())
             {
