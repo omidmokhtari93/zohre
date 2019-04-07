@@ -1263,9 +1263,11 @@ namespace CMMS
             var farsiPart1 = partName.Replace("ک", "ك").Replace("ی", "ي").Replace("ة", "ه");
             var farsiPart2 = partName.Replace("ك", "ک").Replace("ي", "ی").Replace("ه", "ة");
             _partsConnection.Open();
-            var filteredPartList = new List<PartsFilter>(); 
-             var parts = new SqlCommand("select Serial ,PartName from inv.Part where PartName like '%"+ farsiPart1 + "%' OR " +
-                                        "PartName like '%" + farsiPart2 + "%' OR PartName like '%" + partName + "%'", _partsConnection);
+            var filteredPartList = new List<PartsFilter>();
+            var parts = new SqlCommand("select Serial ,PartName from inv.Part where PartName like '%" + farsiPart1 + "%' OR " +
+                                       "PartName like '%" + farsiPart2 + "%' OR PartName like '%" + partName + "%' or PartName like N'%" + farsiPart1 + "%' OR " +
+                                       "PartName like N'%" + farsiPart2 + "%' OR PartName like N'%" + partName + "%'", _partsConnection);
+
             var read = parts.ExecuteReader();
             while (read.Read())
             {
@@ -1304,7 +1306,10 @@ namespace CMMS
             var subsystems = new SqlCommand("select id , name from subsystem " +
                                                  "where name like N'%" + sub1 + "%'" +
                                                  " OR name like N'%" + sub2 + "%' " +
-                                                 " OR name like N'%" + subSystemName + "%'", _cnn);
+                                                 " OR name like N'%" + subSystemName + "%' " +
+                                                 " or name like '%" + sub1 + "%'" +
+                                                 " OR name like '%" + sub2 + "%' " +
+                                                 " OR name like '%" + subSystemName + "%'", _cnn);
             var rd = subsystems.ExecuteReader();
             while (rd.Read())
             {

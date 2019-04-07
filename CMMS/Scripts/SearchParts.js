@@ -37,8 +37,8 @@ function doneTyping() {
             error: function () {
             }
         });
-    } if (($input).val().length <= 2 && ($input).val() != '') {
-        $.notify("!!حداقل سه حرف از نام قطعه را وارد نمایید", { globalPosition: 'top left' });
+    } if (($input).val().length <= 1 && ($input).val() != '') {
+        $.notify("!!حداقل دو حرف از نام قطعه را وارد نمایید", { globalPosition: 'top left' });
     }
     if ($('#txtPartsSearch').val() === '') {
         $('#PartsSearchResulat').hide();

@@ -518,7 +518,7 @@ $('#btnMavaredeMasrafiFor').on('click', function () {
     //        $('#chkgaz').parent().removeClass('checklabelError');
     //        $('#chkhava').parent().removeClass('checklabelError');
     //        $('#chksokht').parent().removeClass('checklabelError');
-    //    }, 4000);
+    //    }, 4000);     
     //} else {
         $('#pnlMavaredMasrafi').hide();
         $('#pnlMavaredControli').fadeIn();

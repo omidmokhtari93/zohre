@@ -74,7 +74,7 @@ namespace CMMS
                 gridMachines.DataBind();
                 return;
             }
-            SqlMachine.FilterExpression = " location in (" + drUnits.SelectedValue + ") ";
+            SqlMachine.FilterExpression = " location in ('" + drUnits.SelectedValue + "') ";
             SqlMachine.DataBind();
             gridMachines.DataBind();
         }
