@@ -507,22 +507,22 @@ $('#btnMavaredeMasrafiBack').on('click', function () {
     $('#pnlMavaredMasrafi').hide();
 });
 $('#btnMavaredeMasrafiFor').on('click', function () {
-    if (!$('#chkbargh').is(':checked') && !$('#chkgaz').is(':checked') && !$('#chkhava').is(':checked') && !$('#chksokht').is(':checked')) {
-        $('#chkbargh').parent().addClass('checklabelError');
-        $('#chkgaz').parent().addClass('checklabelError');
-        $('#chkhava').parent().addClass('checklabelError');
-        $('#chksokht').parent().addClass('checklabelError');
-        $.notify("!!یکی از موارد را تکمیل نمایید", { globalPosition: 'top left' });
-        setTimeout(function () {
-            $('#chkbargh').parent().removeClass('checklabelError');
-            $('#chkgaz').parent().removeClass('checklabelError');
-            $('#chkhava').parent().removeClass('checklabelError');
-            $('#chksokht').parent().removeClass('checklabelError');
-        }, 4000);
-    } else {
+    //if (!$('#chkbargh').is(':checked') && !$('#chkgaz').is(':checked') && !$('#chkhava').is(':checked') && !$('#chksokht').is(':checked')) {
+    //    $('#chkbargh').parent().addClass('checklabelError');
+    //    $('#chkgaz').parent().addClass('checklabelError');
+    //    $('#chkhava').parent().addClass('checklabelError');
+    //    $('#chksokht').parent().addClass('checklabelError');
+    //    $.notify("!!یکی از موارد را تکمیل نمایید", { globalPosition: 'top left' });
+    //    setTimeout(function () {
+    //        $('#chkbargh').parent().removeClass('checklabelError');
+    //        $('#chkgaz').parent().removeClass('checklabelError');
+    //        $('#chkhava').parent().removeClass('checklabelError');
+    //        $('#chksokht').parent().removeClass('checklabelError');
+    //    }, 4000);
+    //} else {
         $('#pnlMavaredMasrafi').hide();
         $('#pnlMavaredControli').fadeIn();
-    }
+    //}
 });
 $('#btnMavaredControlBack').on('click', function () {
     $('#pnlMavaredMasrafi').fadeIn();
