@@ -58,11 +58,22 @@ namespace CMMS
 
         protected void btnSearch_OnClick(object sender, EventArgs e)
         {
-            var sub1 = txtSearch.Value.Replace("ک", "ك").Replace("ی", "ي");
-            var sub2 = txtSearch.Value.Replace("ك", "ک").Replace("ي", "ی").Replace("ﯼ", "ی").Replace("ى", "ی").Replace("ة", "ه");
-            SqlMachine.FilterExpression = " name like '%" + txtSearch.Value + "%' OR name like '%" + sub1 + "%' OR name like '%" + sub2 + "%'";
-            SqlMachine.DataBind();
-            gridMachines.DataBind();
+            if (txtSearch.Value == "")
+            {
+                gridMachines.AllowPaging = true;
+                gridMachines.DataBind();
+                return;
+            }
+            else
+            {
+                var sub1 = txtSearch.Value.Replace("ک", "ك").Replace("ی", "ي");
+                var sub2 = txtSearch.Value.Replace("ك", "ک").Replace("ي", "ی").Replace("ﯼ", "ی").Replace("ى", "ی").Replace("ة", "ه");
+                SqlMachine.FilterExpression = " name like '%" + txtSearch.Value + "%' OR name like '%" + sub1 + "%' OR name like '%" + sub2 + "%'";
+                SqlMachine.DataBind();
+                gridMachines.AllowPaging = false;
+                gridMachines.DataBind();
+            }
+           
         }
 
         protected void drUnits_OnSelectedIndexChanged(object sender, EventArgs e)
@@ -71,19 +82,31 @@ namespace CMMS
             {
                 SqlMachine.FilterExpression = "";
                 SqlMachine.DataBind();
+                gridMachines.AllowPaging = true;
                 gridMachines.DataBind();
                 return;
             }
             SqlMachine.FilterExpression = " location in ('" + drUnits.SelectedValue + "') ";
             SqlMachine.DataBind();
+            gridMachines.AllowPaging = false;
             gridMachines.DataBind();
         }
 
         protected void btnSearchCode_OnClick(object sender, EventArgs e)
         {
-            SqlMachine.FilterExpression = " vcode like '%" + txtCodeSearch.Value+"%' ";
-            SqlMachine.DataBind();
-            gridMachines.DataBind();
+            if (txtCodeSearch.Value == "")
+            {
+                gridMachines.AllowPaging = true;
+                gridMachines.DataBind();
+                return;
+            }
+            else
+            {
+                SqlMachine.FilterExpression = " vcode like '%" + txtCodeSearch.Value + "%' ";
+                SqlMachine.DataBind();
+                gridMachines.AllowPaging = false;
+                gridMachines.DataBind();
+            }
         }
 
         protected void no_OnClick(object sender, EventArgs e)
