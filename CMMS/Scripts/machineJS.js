@@ -1366,8 +1366,8 @@ function GetSubSystems() {
                         '<td>' + j + '</td>' +
                         '<td>' + subData[i].SubSystemName + '</td>' +
                         '<td>' + subData[i].SubSystemCode + '</td>' +
-                        '<td><a id="delete">حذف</a></td>' +
                         '<td><a id="edit">ویرایش</a></td>' +
+                      '<td><a id="delete">حذف</a></td>' +
                         '</tr>';
                     $('#subSystemTable tbody').append(tblBody);
                     j++;

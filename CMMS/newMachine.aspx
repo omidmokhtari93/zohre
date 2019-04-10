@@ -519,7 +519,7 @@
         </div>
 
 
-        <div class="panel panel-primary" id="pnlSubSytem" style="display: block;">
+        <div class="panel panel-primary" id="pnlSubSytem" style="display: none;">
             <div class="panel-heading">ثبت اجزا ماشین</div>
             <div class="panel-body">
                 <div class="row">

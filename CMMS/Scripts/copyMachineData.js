@@ -225,6 +225,7 @@ function CopyData() {
                     '<th>نام تجهیز</th>' +
                     '<th>شماره پلاک</th>' +
                     '<th></th>' +
+                    '<th></th>' +
                     '</tr></thead>';
                 var tblBody = "<tbody></tbody>";
                 $('#subSystemTable').append(tblHead);
@@ -235,7 +236,8 @@ function CopyData() {
                         '<td>' + j + '</td>' +
                         '<td>' + subData[i].SubSystemName + '</td>' +
                         '<td>' + subData[i].SubSystemCode + '</td>' +
-                        '<td><a>حذف</a></td>' +
+                        '<td><a id="edit">ویرایش</a></td>' +
+                      '<td><a id="delete">حذف</a></td>' +
                         '</tr>';
                     $('#subSystemTable tbody').append(tblBody);
                     j++;
