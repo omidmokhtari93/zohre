@@ -876,6 +876,7 @@ function fillMachineControls(mInfo) {
     if (mInfo[0].Ahamiyat == "False") { gheyrkelidi.checked = true;}
     if (mInfo[0].VaziatTajhiz == 2) { fail.checked = true; }
     if (mInfo[0].VaziatTajhiz == 0) { deact.checked = true; }
+   
 }
 function getMasrafiData() {
     var Mid = $('#Mid').val();
