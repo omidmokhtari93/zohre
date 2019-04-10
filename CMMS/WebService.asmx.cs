@@ -916,21 +916,21 @@ namespace CMMS
                 {
                     new MachineMainInfo
                     {
-                        Name = rd["name"].ToString(),                      
-                        Ahamiyat = rd["imp"].ToString(),
-                        Creator = rd["creator"].ToString(),                      
-                        Model = rd["maModel"].ToString(),
-                        Power = rd["pow"].ToString(),
-                        StopCostPerHour = Convert.ToInt32(rd["stopcost"]),
-                        CatGroup = Convert.ToInt32(rd["catGroup"]),
-                        VaziatTajhiz = Convert.ToInt32(rd["catState"]),
-                        MtbfH = Convert.ToInt32(rd["mtbfH"].ToString()),
-                        MtbfD = Convert.ToInt32(rd["mtbfD"]),
-                        MttrH = Convert.ToInt32(rd["mttrH"]),
-                        MttrD = Convert.ToInt32(rd["mttrD"]),
-                        SellInfo = rd["selinfo"].ToString(),
-                        SuppInfo = rd["supinfo"].ToString(),
-                        Keycomment = rd["keyComment"].ToString()
+                        Name = rd["name"] == DBNull.Value ? "" :  rd["name"].ToString(),
+                        Ahamiyat = rd["imp"] == DBNull.Value ? "" : rd["imp"].ToString(),
+                        Creator = rd["creator"] == DBNull.Value ? "" : rd["creator"].ToString(),
+                        Model = rd["maModel"] == DBNull.Value ? "" : rd["maModel"].ToString(),
+                        Power = rd["pow"] == DBNull.Value ? "" : rd["pow"].ToString(),
+                        StopCostPerHour =rd["stopcost"] == DBNull.Value ? 0 : Convert.ToInt32(rd["stopcost"]),
+                        CatGroup =rd["catGroup"]  == DBNull.Value ? 0 : Convert.ToInt32(rd["catGroup"]),
+                        VaziatTajhiz =rd["catState"] == DBNull.Value ? 0 : Convert.ToInt32(rd["catState"]),
+                        MtbfH = rd["mtbfH"] == DBNull.Value ? 0 :Convert.ToInt32(rd["mtbfH"]),
+                        MtbfD =rd["mtbfD"]== DBNull.Value ? 0 : Convert.ToInt32(rd["mtbfD"]),
+                        MttrH = rd["mttrH"] == DBNull.Value ? 0 : Convert.ToInt32(rd["mttrH"]) ,
+                        MttrD =rd["mttrD"] == DBNull.Value ? 0 : Convert.ToInt32(rd["mttrD"]),
+                        SellInfo = rd["selinfo"]== DBNull.Value ? "" : rd["selinfo"].ToString(),
+                        SuppInfo = rd["supinfo"]== DBNull.Value ? "" : rd["supinfo"].ToString(),
+                        Keycomment = rd["keyComment"]== DBNull.Value ? "" : rd["keyComment"].ToString()
                     }
                 });
             }
