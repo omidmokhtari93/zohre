@@ -11,11 +11,11 @@
 });
 
 var subData = [];
-function CreateBadge(text, val ) {
+function CreateBadge(text, val) {
     var badgeHtml = '<div class="Subsystembadge" ' +
         'onclick="removeThis($(this));$(this).remove();">' +
         '<label style="direction:rtl;">' + text + '</label>' +
-       
+
         '<p style="display:none;">' + val + '</p>' +
         '<span>&times;</span>' +
         '</div>';
@@ -34,7 +34,7 @@ $('.SubSystemTable').on('click', 'tr', function () {
     var $row = $(this).closest("tr");
     var $text = $row.find("td").eq(0).html();
     var $value = $row.find("td").eq(1).html();
-  
+
     CreateBadge($text, $value);
 });
 function removeThis(e) {
@@ -50,14 +50,14 @@ $(document).click(function (e) {
 
 function CreateSubTable() {
     var j = 1;
-    var rn = 0; 
+    var rn = 0;
     var i, a, b, c;
     var array = [];
     if (subData.length === 0) {
         RedAlert('txtSearchSubsystem', "!!حداقل یک مورد را انتخاب نمایید");
         return;
     }
-    
+
     if ($('#subSystemTable tr td:contains(' + $('#txtSubPelak').val() + ')').length > 0) {
         RedAlert('no', '!!این پلاک قبلا ثبت شده است');
         return;
@@ -68,7 +68,8 @@ function CreateSubTable() {
             '<td>' + j + '</td>' +
             '<td>' + subData[0].Name + '</td>' +
             '<td>' + $('#txtSubPelak').val() + '</td>' +
-            '<td><a>حذف</a></td>' +
+            '<td><a id="delete">حذف</a></td>' +
+            '<td><a id="edit">ویرایش</a></td>' +
             '</tr>');
         $('#subSystemTable tbody').append(array.join(''));
         $('#subSystemTable tr').each(function () {
@@ -84,7 +85,8 @@ function CreateSubTable() {
                 '<td>' + j + '</td>' +
                 '<td>' + subData[i].Name + '</td>' +
                 '<td>' + subData[i].SubP + '</td>' +
-                '<td><a>حذف</a></td>' +
+                '<td><a id="delete">حذف</a></td>' +
+                '<td><a id="edit">ویرایش</a></td>' +
                 '</tr>');
             j++;
         }
@@ -96,7 +98,11 @@ function CreateSubTable() {
     $('#txtSubPelak').val($('#txtSubPelak').val().substr(0, $('#txtSubPelak').val().indexOf('-') + 1));
 }
 
-$("#subSystemTable").on("click", "tr a", function () {
+$("#subSystemTable").on("click", "tr td", function (e) {
+    if (e.cellIndex === 5) {
+      alert();
+        return;
+    }
     var row = $('#subSystemTable tr').length;
     var i = 0;
     if (row == 2) {
@@ -134,17 +140,17 @@ function doneTypingsub() {
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify({ 'subSystemName': $subinput.val() }),
             dataType: "json",
-            success: function(e) {
+            success: function (e) {
                 var items = JSON.parse(e.d);
                 var array = [];
                 var itemCount = items.length;
                 for (var i = 0; i < itemCount; i++) {
                     array.push('<tr><td>' +
-                        items[i].ToolName +'</td>' +'<td style="display:none;">' +items[i].ToolId +'</td></tr>');
+                        items[i].ToolName + '</td>' + '<td style="display:none;">' + items[i].ToolId + '</td></tr>');
                 }
                 $('#gridSubsystem').append(array.join(''));
             },
-            error: function() {
+            error: function () {
             }
         });
     }
@@ -174,7 +180,7 @@ function doneTypingName() {
             type: "POST",
             url: "WebService.asmx/CheckDuplicateToolName",
             contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({ 'subSystemName': $Nameinput.val(),'editCode': 0}),
+            data: JSON.stringify({ 'subSystemName': $Nameinput.val(), 'editCode': 0 }),
             dataType: "json",
             success: function (e) {
                 var array = [];
@@ -220,7 +226,7 @@ function doneTypingCode() {
             type: "POST",
             url: "WebService.asmx/CheckDuplicateToolCode",
             contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({ 'subSystemCode': $Codeinput.val(),'editCode':0 }),
+            data: JSON.stringify({ 'subSystemCode': $Codeinput.val(), 'editCode': 0 }),
             dataType: "json",
             success: function (e) {
                 var code = JSON.parse(e.d);
@@ -247,7 +253,7 @@ function AddSubSystems() {
     var flag = 0;
     if ($('#txtToolCode').val() == '' || $('#txtToolName').val() == '') {
         RedAlert('txtToolCode', "!!لطفا ورودی ها را کنترل کنید");
-        RedAlert('txtToolName','');
+        RedAlert('txtToolName', '');
         flag = 1;
     }
     if ($('#txtToolCode').val().length !== 3 && $('#txtToolCode').val() !== '') {
@@ -277,6 +283,16 @@ function AddSubSystems() {
         });
     }
 }
+
+var click = 0;
+var element = '<a>ثبت</a> <input type="text" id="txtEditSubsyemPelak" dir="ltr"/>';
+$('#subSystemTable').on('click', 'td:eq(3)', function () {
+    if (click === 1) {
+        return;
+    }
+    $(this).text('').append($(element).val($('#txtSubPelak').val()));
+    click = 1;
+});
 
 function FillPopUpToolsTable() {
     $.ajax({

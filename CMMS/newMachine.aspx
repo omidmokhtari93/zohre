@@ -20,11 +20,11 @@
             border-radius: 2px;
         }
 
-            .table td a:hover {
-                color: white;
-                text-decoration: none;
-                background-color: #1b498e;
-            }
+        .table td a:hover {
+            color: white;
+            text-decoration: none;
+            background-color: #1b498e;
+        }
 
         #txtPartsSearch {
             width: 100%;
@@ -519,7 +519,7 @@
         </div>
 
 
-        <div class="panel panel-primary" id="pnlSubSytem" style="display: none;">
+        <div class="panel panel-primary" id="pnlSubSytem" style="display: block;">
             <div class="panel-heading">ثبت اجزا ماشین</div>
             <div class="panel-body">
                 <div class="row">
@@ -542,8 +542,6 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
             </div>
             <div class="panel-footer">
@@ -557,6 +555,11 @@
                 <button type="button" class="button fa fa-arrow-left" title="صفحه بعد" tabindex="40" id="btnSubsystemFor"></button>
             </div>
             <div class="panel-footer">
+                <style>
+                    #subSystemTable tr td:nth-child(4) {
+                        cursor: pointer;
+                    }
+                </style>
                 <table id="subSystemTable" style="width: 60%; margin: auto; direction: rtl;" class="table">
                 </table>
             </div>
