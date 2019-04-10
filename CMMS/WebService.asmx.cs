@@ -203,13 +203,13 @@ namespace CMMS
             {
                 var inserMachInfo = new SqlCommand("INSERT INTO [dbo].[m_machine]([name],[code],[imp],[creator],[insDate],[maModel]," +
                                                    "[startDate],[faz],[loc],[line] ,[pow],[stopcost],[catGroup],[catState]," +
-                                                   "[mtbfH],[mtbfD],[mttrH],[mttrD],[selinfo],[supinfo])VALUES " +
+                                                   "[mtbfH],[mtbfD],[mttrH],[mttrD],[selinfo],[supinfo],[keyComment])VALUES " +
                                                    "('" + minfo.Name + "' , '" + minfo.Code + "' , " + minfo.Ahamiyat + " , '" + minfo.Creator +"'" +
                                                    ",'" + minfo.InsDate + "', '" + minfo.Model + "' , '" + minfo.Tarikh + "' , "+minfo.Faz+" " +
                                                    ", '" + minfo.Location +"' ,"+minfo.Line+", '" + minfo.Power + "',"+minfo.StopCostPerHour+" ,"
                                                    + minfo.CatGroup + " , " + minfo.VaziatTajhiz + " ,'" + minfo.MtbfH + "' , '" + minfo.MtbfD + "'," +
                                                    " '" + minfo.MttrH + "' , '" + minfo.MttrD + "' ," +
-                                                   " '" + minfo.SellInfo + "' , '" + minfo.SuppInfo + "') SELECT CAST(scope_identity() AS int)", _cnn);
+                                                   " '" + minfo.SellInfo + "' , '" + minfo.SuppInfo + "','"+minfo.Keycomment+"') SELECT CAST(scope_identity() AS int)", _cnn);
                 return inserMachInfo.ExecuteScalar().ToString();
             }
             var updateMachine = new SqlCommand("UPDATE [dbo].[m_machine] " +
@@ -233,6 +233,7 @@ namespace CMMS
                                                ",[mttrD] = '" + minfo.MttrD + "' " +
                                                ",[selinfo] = '" + minfo.SellInfo + "' " +
                                                ",[supinfo] = '" + minfo.SuppInfo + "' " +
+                                               ",[keyComment] = '"+minfo.Keycomment+"'" +
                                                "WHERE id = " + mid + " ", _cnn);
             updateMachine.ExecuteNonQuery();
             _cnn.Close();
@@ -248,12 +249,13 @@ namespace CMMS
             if (check==null)
             {
                 var inserMachInfo = new SqlCommand("INSERT INTO [dbo].[b_machine]([name],[imp],[creator],[maModel]," +
-                                                   "[catGroup],[catState],[selinfo],[supinfo],[code])VALUES " +
-                                                   "('" + minfo.Name + "' , " + minfo.Ahamiyat + " , '" +
-                                                   minfo.Creator + "'" +
-                                                   ",'" + minfo.Model + "' ," + minfo.CatGroup + " , " +
-                                                   minfo.VaziatTajhiz + " ,'" + minfo.SellInfo + "' , '" +
-                                                   minfo.SuppInfo + "',"+mid+") " +
+                                                   "[pow],[stopcost],[catGroup],[catState]," +
+                                                   "[mtbfH],[mtbfD],[mttrH],[mttrD],[selinfo],[supinfo],[keyComment])VALUES " +
+                                                   "('" + minfo.Name + "' ,  " + minfo.Ahamiyat + " , '" + minfo.Creator + "'" +
+                                                   ",'" + minfo.Model + "' , '" + minfo.Power + "'," + minfo.StopCostPerHour + " ,"
+                                                   + minfo.CatGroup + " , " + minfo.VaziatTajhiz + " ,'" + minfo.MtbfH + "' , '" + minfo.MtbfD + "'," +
+                                                   " '" + minfo.MttrH + "' , '" + minfo.MttrD + "' ," +
+                                                   " '" + minfo.SellInfo + "' , '" + minfo.SuppInfo + "','" + minfo.Keycomment + "') " +
                                                    " SELECT " + mid + "", _cnn);
                 return inserMachInfo.ExecuteScalar().ToString();
             }
@@ -264,18 +266,32 @@ namespace CMMS
                                                    ",[imp] = " + minfo.Ahamiyat + " " +
                                                    ",[creator] = '" + minfo.Creator + "' " +
                                                    ",[maModel] = '" + minfo.Model + "' " +
+                                                   ",[pow] = '" + minfo.Power + "' " +
+                                                   ",[stopcost] = " + minfo.StopCostPerHour + " " +
                                                    ",[catGroup] = " + minfo.CatGroup + " " +
                                                    ",[catState] = " + minfo.VaziatTajhiz + " " +
+                                                   ",[mtbfH] = '" + minfo.MtbfH + "' " +
+                                                   ",[mtbfD] = '" + minfo.MtbfD + "' " +
+                                                   ",[mttrH] = '" + minfo.MttrH + "' " +
+                                                   ",[mttrD] = '" + minfo.MttrD + "' " +
                                                    ",[selinfo] = '" + minfo.SellInfo + "' " +
                                                    ",[supinfo] = '" + minfo.SuppInfo + "' " +
+                                                   ",[keyComment] = '" + minfo.Keycomment + "'" +
                                                    " WHERE code = " + mid + " " +
                                                    " UPDATE [dbo].[m_machine] " +//Update other machine with this property in main table 
                                                    " SET  [imp] = " + minfo.Ahamiyat + " " +
                                                    ",[creator] = '" + minfo.Creator + "' " +
                                                    ",[maModel] = '" + minfo.Model + "' " +
+                                                   ",[pow] = '" + minfo.Power + "' " +
+                                                   ",[stopcost] = " + minfo.StopCostPerHour + " " +
                                                    ",[catGroup] = " + minfo.CatGroup + " " +
                                                    ",[catState] = " + minfo.VaziatTajhiz + " " +
                                                    ",[selinfo] = '" + minfo.SellInfo + "' " +
+                                                   ",[mtbfH] = '" + minfo.MtbfH + "' " +
+                                                   ",[mtbfD] = '" + minfo.MtbfD + "' " +
+                                                   ",[mttrH] = '" + minfo.MttrH + "' " +
+                                                   ",[mttrD] = '" + minfo.MttrD + "' " +
+                                                   ",[keyComment] = '" + minfo.Keycomment + "'" +
                                                    ",[supinfo] = '" + minfo.SuppInfo + "' where SUBSTRING(CONVERT(varchar(8), code), 3, 3) ="+mid+" ", _cnn);
                 updateMachine.ExecuteNonQuery();
             }
@@ -305,7 +321,7 @@ namespace CMMS
                 ",[fuel] = " + masrafiMain.FuelChecked + " " +
                 ",[fuelType] = '" + masrafiMain.FuelType + "' " +
                 ",[fueltot] = '" + masrafiMain.FuelMasraf + "' " +
-                "WHERE Mid = "+ mid +" " +
+                " WHERE Mid = "+ mid +" " +
                 " else " +
                 "INSERT INTO [dbo].[m_fuel]([Mid],[length],[width],[height],[weight],[ele],[masraf] " +
                 ",[voltage],[phase],[cycle],[gas],[gasPres],[air],[airPres],[fuel],[fuelType],[fueltot]) " +
@@ -317,6 +333,56 @@ namespace CMMS
                 masrafiMain.AirPressure + "'," + masrafiMain.FuelChecked + "" +
                 ",'" + masrafiMain.FuelType + "','" + masrafiMain.FuelMasraf + "') " , _cnn);
             insertFuel.ExecuteNonQuery();
+            _cnn.Close();
+        }
+        [WebMethod]
+        public void SendKeyItems(int mid, List<KeyItems> keyItemsMain)
+        {
+            _cnn.Open();
+            foreach (var item in keyItemsMain)
+            {
+                var insertKey = new SqlCommand(
+                    "if (select count(Mid) from m_keyitem where Mid = " + mid + ") <> 0  " +
+                    "UPDATE [dbo].[m_keyitem] " +
+                    "SET [KeyName] = '" + item.Keyname + "'" +
+                    ",[kw] = '" + item.Kw + "' " +
+                    ",[rpm] = '" + item.Rpm + "' " +
+                    ",[country] = '" + item.Country + "' " +
+                    ",[volt] = '" + item.Volt + "' " +
+                    ",[flow] = '" + item.Flow + "' " +
+                    ",[comment] = '" + item.CommentKey + "' " +
+                    " WHERE Mid = " + mid + " " +
+                    " else " +
+                    "INSERT INTO [dbo].[m_keyitem]([Mid],[KeyName],[kw],[rpm],[country],[volt],[flow],[comment]) VALUES " +
+                    "(" + mid + ",'" + item.Keyname + "','" + item.Kw + "' , '" + item.Rpm + "' , '" + item.Country + "' ," +
+                    " '" + item.Volt + "', '" + item.Flow + "' , '" + item.CommentKey + "') ", _cnn);
+                insertKey.ExecuteNonQuery();
+            }
+            _cnn.Close();
+        }
+        [WebMethod]
+        public void BSendKeyItems(int mid, List<KeyItems> keyItemsMain)
+        {
+            _cnn.Open();
+            foreach (var item in keyItemsMain)
+            {
+                var insertKey = new SqlCommand(
+                    "if (select count(Mid) from b_keyitem where Mid = " + mid + ") <> 0  " +
+                    "UPDATE [dbo].[b_keyitem] " +
+                    "SET [KeyName] = '" + item.Keyname + "'" +
+                    ",[kw] = '" + item.Kw + "' " +
+                    ",[rpm] = '" + item.Rpm + "' " +
+                    ",[country] = '" + item.Country + "' " +
+                    ",[volt] = '" + item.Volt + "' " +
+                    ",[flow] = '" + item.Flow + "' " +
+                    ",[comment] = '" + item.CommentKey + "' " +
+                    " WHERE Mid = " + mid + " " +
+                    " else " +
+                    "INSERT INTO [dbo].[b_keyitem]([Mid],[KeyName],[kw],[rpm],[country],[volt],[flow],[comment]) VALUES " +
+                    "(" + mid + ",'" + item.Keyname + "','" + item.Kw + "' , '" + item.Rpm + "' , '" + item.Country + "' ," +
+                    " '" + item.Volt + "', '" + item.Flow + "' , '" + item.CommentKey + "') ", _cnn);
+                insertKey.ExecuteNonQuery();
+            }
             _cnn.Close();
         }
         [WebMethod]
@@ -375,6 +441,7 @@ namespace CMMS
             insertFuel.ExecuteNonQuery();
             _cnn.Close();
         }
+
         [WebMethod]
         public void DeleteControlItem(int controlId)
         {
@@ -790,7 +857,7 @@ namespace CMMS
                 "dbo.m_machine.catGroup, dbo.m_machine.catState, dbo.m_machine.mtbfH, dbo.m_machine.mtbfD, " +
                 "dbo.m_machine.mttrH, dbo.m_machine.mttrD, dbo.m_machine.selinfo, dbo.m_machine.supinfo, " +
                 "dbo.i_lines.line_name, dbo.i_units.unit_name, dbo.i_faz.faz_name, dbo.m_machine.faz, " +
-                "dbo.m_machine.line, dbo.m_machine.loc FROM dbo.m_machine left JOIN " +
+                "dbo.m_machine.line, dbo.m_machine.loc,dbo.m_machine.keyComment FROM dbo.m_machine left JOIN " +
                 "dbo.i_lines ON dbo.m_machine.line = dbo.i_lines.id left JOIN " +
                 "dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code left JOIN " +
                 "dbo.i_faz ON dbo.m_machine.faz = dbo.i_faz.id WHERE(dbo.m_machine.id = "+mid+") ", _cnn);
@@ -823,7 +890,8 @@ namespace CMMS
                         MttrH = Convert.ToInt32(rd["mttrH"]),
                         MttrD = Convert.ToInt32(rd["mttrD"]),
                         SellInfo = rd["selinfo"].ToString(),
-                        SuppInfo = rd["supinfo"].ToString()
+                        SuppInfo = rd["supinfo"].ToString(),
+                        Keycomment = rd["keyComment"].ToString()
                     }
                 });
             }
@@ -838,7 +906,8 @@ namespace CMMS
             var getMachInfo = new SqlCommand(
                 " SELECT dbo.b_machine.name,dbo.b_machine.imp, dbo.b_machine.creator, dbo.b_machine.maModel, " +
                 " dbo.b_machine.catGroup, dbo.b_machine.catState, " +
-                " dbo.b_machine.selinfo, dbo.b_machine.supinfo " +
+                " dbo.b_machine.selinfo, dbo.b_machine.supinfo,dbo.b_machine.keyComment,dbo.b_machine.mtbfH,dbo.b_machine.mtbfD" +
+                ",dbo.b_machine.mttrH,dbo.b_machine.mttrD,dbo.b_machine.pow,dbo.b_machine.stopcost " +
                 " FROM dbo.b_machine WHERE(dbo.b_machine.code = " + mid + ") ", _cnn);
             var rd = getMachInfo.ExecuteReader();
             if (rd.Read())
@@ -850,11 +919,18 @@ namespace CMMS
                         Name = rd["name"].ToString(),                      
                         Ahamiyat = rd["imp"].ToString(),
                         Creator = rd["creator"].ToString(),                      
-                        Model = rd["maModel"].ToString(),                       
+                        Model = rd["maModel"].ToString(),
+                        Power = rd["pow"].ToString(),
+                        StopCostPerHour = Convert.ToInt32(rd["stopcost"]),
                         CatGroup = Convert.ToInt32(rd["catGroup"]),
-                        VaziatTajhiz = Convert.ToInt32(rd["catState"]),                      
+                        VaziatTajhiz = Convert.ToInt32(rd["catState"]),
+                        MtbfH = Convert.ToInt32(rd["mtbfH"].ToString()),
+                        MtbfD = Convert.ToInt32(rd["mtbfD"]),
+                        MttrH = Convert.ToInt32(rd["mttrH"]),
+                        MttrD = Convert.ToInt32(rd["mttrD"]),
                         SellInfo = rd["selinfo"].ToString(),
-                        SuppInfo = rd["supinfo"].ToString()
+                        SuppInfo = rd["supinfo"].ToString(),
+                        Keycomment = rd["keyComment"].ToString()
                     }
                 });
             }
@@ -965,6 +1041,44 @@ namespace CMMS
             }
             _cnn.Close();
             return new JavaScriptSerializer().Serialize(controliList);
+        }
+        [WebMethod]
+        public string GetKeyitems(int mid)
+        {
+            var keyitemsList = new List<KeyItems>();
+            _cnn.Open();
+            var key = new SqlCommand("SELECT [KeyName],[kw],[rpm],[country],[volt],[flow],[comment] FROM " +
+                                      "m_keyitem WHERE(dbo.m_keyitem.Mid = " + mid + ")", _cnn);
+            var rd = key.ExecuteReader();
+            while (rd.Read())
+            {
+                keyitemsList.AddRange(new List<KeyItems>()
+                {
+                    new KeyItems(){Keyname = rd["KeyName"].ToString() , Kw = rd["Kw"].ToString(), Rpm = rd["rpm"].ToString(),
+                        Country = rd["country"].ToString(),Volt = rd["volt"].ToString(),Flow = rd["flow"].ToString(),CommentKey = rd["comment"].ToString()}
+                });
+            }
+            _cnn.Close();
+            return new JavaScriptSerializer().Serialize(keyitemsList);
+        }
+        [WebMethod]
+        public string BGetKeyitems(int mid)
+        {
+            var keyitemsList = new List<KeyItems>();
+            _cnn.Open();
+            var key = new SqlCommand("SELECT [KeyName],[kw],[rpm],[country],[volt],[flow],[comment] FROM " +
+                                     "b_keyitem WHERE(dbo.b_keyitem.Mid = " + mid + ")", _cnn);
+            var rd = key.ExecuteReader();
+            while (rd.Read())
+            {
+                keyitemsList.AddRange(new List<KeyItems>()
+                {
+                    new KeyItems(){Keyname = rd["KeyName"].ToString() , Kw = rd["Kw"].ToString(), Rpm = rd["rpm"].ToString(),
+                        Country = rd["country"].ToString(),Volt = rd["volt"].ToString(),Flow = rd["flow"].ToString(),CommentKey = rd["comment"].ToString()}
+                });
+            }
+            _cnn.Close();
+            return new JavaScriptSerializer().Serialize(keyitemsList);
         }
         [WebMethod]
         public string BGetC(int mid) //get Base information  

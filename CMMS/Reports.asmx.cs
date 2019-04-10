@@ -2781,7 +2781,8 @@ namespace CMMS
             cnn.Open();
             var e = new List<MachineMainInfo>();
             var unitt = new SqlCommand(" SELECT TOP (100) PERCENT dbo.m_machine.name,dbo.i_lines.line_name, " +
-                                       " dbo.i_faz.faz_name, dbo.m_machine.code, dbo.i_units.unit_name, dbo.m_machine.imp, dbo.m_machine.creator, " +
+                                       " dbo.i_faz.faz_name, dbo.m_machine.code, dbo.i_units.unit_name, dbo.m_machine.imp,case when catState=1 then 'فعال' when catState=0 then 'غیر فعال' else 'معیوب'  end as State," +
+                                       " dbo.m_machine.creator, " +
                                        " dbo.m_machine.maModel, dbo.m_machine.startDate FROM dbo.m_machine INNER JOIN " +
                                        " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code INNER JOIN " +
                                        " dbo.i_lines ON dbo.m_machine.line = dbo.i_lines.id INNER JOIN " +
@@ -2789,7 +2790,7 @@ namespace CMMS
                                        " where m_machine.loc = '"+loc+ "' or '" + loc + "'='0' " +
                                        " union all  " +
                                        " SELECT TOP(100) PERCENT dbo.m_machine.name, '----' as line_name,  " +
-                                       " '----' as faz_name, dbo.m_machine.code, dbo.i_units.unit_name, dbo.m_machine.imp, dbo.m_machine.creator," +
+                                       " '----' as faz_name, dbo.m_machine.code, dbo.i_units.unit_name, dbo.m_machine.imp,case when catState=1 then 'فعال' when catState=0 then 'غیر فعال' else 'معیوب' end as State, dbo.m_machine.creator," +
                                        " dbo.m_machine.maModel, dbo.m_machine.startDate FROM dbo.m_machine INNER JOIN " +
                                        " dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code " +
                                        " where dbo.m_machine.code not in (SELECT  dbo.m_machine.code FROM dbo.m_machine INNER JOIN " +
@@ -2799,7 +2800,8 @@ namespace CMMS
                                        " order by unit_name", cnn);
 
             var linee = new SqlCommand("SELECT TOP (100) PERCENT dbo.m_machine.name,dbo.i_lines.line_name, " +
-                                       "dbo.i_faz.faz_name, dbo.m_machine.code, dbo.i_units.unit_name, dbo.m_machine.imp, dbo.m_machine.creator, " +
+                                       "dbo.i_faz.faz_name, dbo.m_machine.code, dbo.i_units.unit_name, dbo.m_machine.imp,case when catState=1 then 'فعال' when catState=0 then 'غیر فعال' else 'معیوب' end as State," +
+                                       " dbo.m_machine.creator, " +
                                        "dbo.m_machine.maModel, dbo.m_machine.startDate FROM dbo.m_machine INNER JOIN " +
                                        "dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code INNER JOIN " +
                                        "dbo.i_lines ON dbo.m_machine.line = dbo.i_lines.id INNER JOIN " +
@@ -2807,7 +2809,8 @@ namespace CMMS
                                       "WHERE(dbo.m_machine.line = " + line + ") order by dbo.m_machine.code", cnn);
 
             var fazz = new SqlCommand("SELECT TOP (100) PERCENT dbo.m_machine.name,dbo.i_lines.line_name, " +
-                                      "dbo.i_faz.faz_name, dbo.m_machine.code, dbo.i_units.unit_name, dbo.m_machine.imp, dbo.m_machine.creator, " +
+                                      "dbo.i_faz.faz_name, dbo.m_machine.code, dbo.i_units.unit_name, dbo.m_machine.imp,case when catState=1 then 'فعال' when catState=0 then 'غیر فعال' else 'معیوب' end as State," +
+                                      " dbo.m_machine.creator, " +
                                       "dbo.m_machine.maModel, dbo.m_machine.startDate FROM dbo.m_machine INNER JOIN " +
                                       "dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code INNER JOIN " +
                                       "dbo.i_lines ON dbo.m_machine.line = dbo.i_lines.id INNER JOIN " +
@@ -2832,7 +2835,7 @@ namespace CMMS
                 {
                     Name = rd["name"].ToString(),FazName=rd["faz_name"].ToString(),LineName = rd["line_name"].ToString(),
                     Code = rd["code"].ToString(),LocationName = rd["unit_name"].ToString(),
-                    Ahamiyat = rd["imp"].ToString(),Creator = rd["creator"].ToString(),Model = rd["maModel"].ToString(),
+                    Ahamiyat = rd["imp"].ToString(),CatState = rd["State"].ToString(),Creator = rd["creator"].ToString(),Model = rd["maModel"].ToString(),
                     Tarikh = rd["startDate"].ToString()
                 });
             }

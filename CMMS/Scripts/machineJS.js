@@ -28,6 +28,40 @@ $(document).ready(function () {
     kamaDatepicker('txtGhatatChangePeriod', customOptions);
     Pageload();
 });
+$('#btnNewMachineFor').on('click', function () {
+    var flag = 0;
+    var mCode = 0;
+    if ($('#txtmachineCode').val() !== '' && $('#txtmachineCode').val().length == 8) {
+        mCode = $('#txtmachineCode').val();
+    }
+    var mid = 0;
+    if ($('#Mid').val() !== '') {
+        mid = $('#Mid').val();
+    }
+    $.ajax({
+        type: "POST",
+        url: "WebService.asmx/CheckDuplicateMachineCode",
+        data: JSON.stringify({ 'machinCode': mCode, 'mid': mid }),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (e) {
+            var check = JSON.parse(e.d);
+            if ($('#txtmachineName').val() == '') { RedAlert('txtmachineName', "!!لطفا نام دستگاه را وارد کنید"); flag = 1; }
+            if ($('#txttargetMTBF').val() == '') { RedAlert('txttargetMTBF', "!!را مشخص کنید MTBF لطفا هدف"); flag = 1; }
+            if ($('#txtAdmissionperiodMTBF').val() == '') { RedAlert('txtAdmissionperiodMTBF', "!!را مشخص کنید MTBF لطفا دوره پذیرش"); flag = 1; }
+            if ($('#txttargetMTTR').val() == '') { RedAlert('txttargetMTTR', "!!را مشخص کنید MTTR لطفا هدف"); flag = 1; }
+            if ($('#txtAdmissionperiodMTTR').val() == '') { RedAlert('txtAdmissionperiodMTTR', "!!را مشخص کنید MTTR لطفا دوره پذیرش"); flag = 1; }
+            if (check === 1) { RedAlert('txtmachineCode', "!!این کد دستگاه قبلا ثبت شده است"); flag = 1; }
+            if (mCode.length !== 8) { RedAlert('txtmachineCode', "!!لطفا کد دستگاه را 8 رقمی تعیین کنید"); flag = 1; }
+            if ($('#Mid').val() == '') {
+                if (flag === 0) { $('#pnlNewMachine').hide(); $('#pnlMavaredMasrafi').fadeIn(); }
+            } else { if (flag === 0) { $('#pnlNewMachine').hide(); $('#pnlMavaredMasrafi').fadeIn(); } }
+        },
+        error: function () {
+            $.notify("!!خطای نامشخص", { globalPosition: 'top left' });
+        }
+    });
+});
 
 $('#chkbargh').change(function () {
     if (this.checked) {
@@ -95,50 +129,118 @@ $('#drControliZaman').change(function() {
         $('#pnlcontroliRooz').find('label').text('دوره تکرار :');
     }
 });
-$('#btnNewMachineFor').on('click', function () {
-    var flag = 0;
-    var mCode = 0;
-    if ($('#txtmachineCode').val() !== '' && $('#txtmachineCode').val().length == 8) {
-        mCode = $('#txtmachineCode').val();
-    }
-    var mid = 0;
-    if ($('#Mid').val() !== '') {
-        mid = $('#Mid').val();
-    }
-    $.ajax({
-        type: "POST",
-        url: "WebService.asmx/CheckDuplicateMachineCode",
-        data: JSON.stringify({ 'machinCode': mCode , 'mid':mid}),
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (e) {
-            var check = JSON.parse(e.d);
-            if ($('#txtmachineName').val() == '') {RedAlert('txtmachineName', "!!لطفا نام دستگاه را وارد کنید");flag = 1;}
-            if ($('#txttargetMTBF').val() == '') {RedAlert('txttargetMTBF', "!!را مشخص کنید MTBF لطفا هدف");flag = 1;}
-            if ($('#txtAdmissionperiodMTBF').val() == '') {RedAlert('txtAdmissionperiodMTBF', "!!را مشخص کنید MTBF لطفا دوره پذیرش");flag = 1;}
-            if ($('#txttargetMTTR').val() == '') {RedAlert('txttargetMTTR', "!!را مشخص کنید MTTR لطفا هدف");flag = 1;}
-            if ($('#txtAdmissionperiodMTTR').val() == '') {RedAlert('txtAdmissionperiodMTTR', "!!را مشخص کنید MTTR لطفا دوره پذیرش");flag = 1;}
-            if (check === 1) {RedAlert('txtmachineCode', "!!این کد دستگاه قبلا ثبت شده است");flag = 1;}
-            if (mCode.length !== 8) {RedAlert('txtmachineCode', "!!لطفا کد دستگاه را 8 رقمی تعیین کنید");flag = 1;}
-            if ($('#Mid').val() == '') {if (flag === 0) {$('#pnlNewMachine').hide();$('#pnlMavaredMasrafi').fadeIn();}
-            } else {if (flag === 0) {$('#pnlNewMachine').hide();$('#pnlMavaredMasrafi').fadeIn();}}
-        },
-        error: function () {
-            $.notify("!!خطای نامشخص", { globalPosition: 'top left' });
-        }
-    });
-});
 
+
+
+
+var keycom = '';
+function addKey() {
+    keycom = $('#txtCommentKey').val();
+    var keyname = $('#txtKeyName').val();
+    var rpm = $('#txtrpm').val();
+    var kw = $('#txtKw').val();
+    var flow = $('#txtFlow').val();
+    var volt = $('#txtvolt').val();
+    var country = $('#txtcountry').val();
+    var commentKey = $('#txtcomment').val();
+    var head = '<thead>' +
+        '<tr>' +
+        '<th>نام/شرح</th>' +
+        '<th>KW</th>' +
+        '<th>RPM</th>' +
+        '<th>سازنده</th>' +
+        '<th>ولتاژ</th>' +
+        '<th>جریان</th>' +
+        '<th>ملاحضات</th>' +
+        '<th></th>' +
+        '<th></th>' +
+        '</tr>' +
+        '</thead>';
+    var tbody = '<tbody></tbody>';
+    var row = '<tr>' +
+       
+        '<td>' + keyname + '</td>' +
+        '<td >' + kw + '</td>' +
+        '<td >' + rpm + '</td>' +
+        '<td >' + country + '</td>' +
+        '<td >' + volt + '</td>' +
+        '<td >' + flow + '</td>' +
+        '<td >' + commentKey + '</td>' +
+        '<td><a id="edit">ویرایش</a></td>' +
+        '<td><a id="delete">حذف</a></td>' +
+        '</tr>';
+    if ($('#gridMavaredKey tr').length != 0) {
+        $("#gridMavaredKey tbody").append(row);
+    } else {
+        $("#gridMavaredKey").append(head);
+        $("#gridMavaredKey").append(tbody);
+        $("#gridMavaredKey tbody").append(row);
+    }
+    ClearFields('pnlMavaredKey');
+    $('#txtCommentKey').val(keycom);
+}
+$("#gridMavaredKey").on("click", "tr a#delete", function () {
+    target_tr = $(this).parent().parent();
+    controlId = $(this).parent().parent().find('td:eq(0)').text();
+    var row = $('#gridMavaredKey tr').length;
+    if (row === 2) {
+        $("#gridMavaredKey").empty();
+    } else {
+        $(target_tr).remove();
+    }
+});
+$("#gridMavaredKey").on("click", "tr a#edit", function () {
+    keycom = $('#txtCommentKey').val();
+    target_tr = $(this).parent().parent();
+    
+    $('#txtKeyName').val($(this).parent().parent().find('td:eq(0)').text());
+    $('#txtKw').val($(this).parent().parent().find('td:eq(1)').text());
+    $('#txtrpm').val($(this).parent().parent().find('td:eq(2)').text());
+    $('#txtcountry').val($(this).parent().parent().find('td:eq(3)').text());
+    $('#txtvolt').val($(this).parent().parent().find('td:eq(4)').text());
+    $('#txtFlow').val($(this).parent().parent().find('td:eq(5)').text());
+    $('#txtcomment').val($(this).parent().parent().find('td:eq(6)').text());
+    $('#btnAddKey').hide();
+    $('#btnEditKey').show();
+    $('#btnCancelEditKey').show();
+});
+function EditKeyItems() {  
+        $(target_tr).find('td:eq(0)').text($('#txtKeyName').val());
+        $(target_tr).find('td:eq(1)').text($('#txtKw').val());
+        $(target_tr).find('td:eq(2)').text($('#txtrpm').val());
+        $(target_tr).find('td:eq(3)').text($('#txtcountry').val());
+        $(target_tr).find('td:eq(4)').text($('#txtvolt').val());
+        $(target_tr).find('td:eq(5)').text($('#txtFlow').val());
+        $(target_tr).find('td:eq(6)').text($('#txtcomment').val());        
+        GreenAlert(target_tr, "✔ ویرایش  انجام شد");
+        $('#btnAddKey').show();
+        $('#btnEditKey').hide();
+        $('#btnCancelEditKey').hide();
+    
+    ClearFields('pnlMavaredKey');
+    $('#txtCommentKey').val(keycom);
+}
+function EmptyKey() {
+   
+    $('#btnAddKey').show();
+    $('#btnEditKey').hide();
+    $('#btnCancelEditKey').hide();
+
+    ClearFields('pnlMavaredKey');
+    $('#txtCommentKey').val(keycom);
+}
+//===================  contoroli  ======================//
 function checkControliInputs() {
     var flag = 0;
-    if (checkPastDate('txtStartPMDate') == false) {RedAlert('txtStartPMDate', "!!تاریخ شروع سرویسکاری باید بزرگتر از  تاریخ امروز باشد"); flag = 1;}
-    if ($('#txtControliMoredControl').val() == '') {RedAlert('txtControliMoredControl', "!!لطفا مورد کنترلی را وارد نمایید");flag = 1;}
-    if ($('#txtStartPMDate').val() == '') {RedAlert('txtStartPMDate', "!!لطفا تاریخ شروع سرویسکاری را مشخص نمایید");flag = 1;}
+    if (checkPastDate('txtStartPMDate') == false) { RedAlert('txtStartPMDate', "!!تاریخ شروع سرویسکاری باید بزرگتر از  تاریخ امروز باشد"); flag = 1; }
+    if ($('#txtControliMoredControl').val() == '') { RedAlert('txtControliMoredControl', "!!لطفا مورد کنترلی را وارد نمایید"); flag = 1; }
+    if ($('#txtStartPMDate').val() == '') { RedAlert('txtStartPMDate', "!!لطفا تاریخ شروع سرویسکاری را مشخص نمایید"); flag = 1; }
     if ($('#drControliZaman :selected').val() != 6 && $('#drControliZaman :selected').val() != 0 && $('#drControliZaman :selected').val() != 5 && $('#txtControliRooz').val() == '') { RedAlert('txtControliRooz', "!!لطفا مدت زمان پیش بینی شده را مشخص کنید"); flag = 1; }
     if ($('#drControliZaman :selected').val() != 6 && $('#drControliZaman :selected').val() != 0 && $('#drControliZaman :selected').val() != 5 && $('#txtControliRooz').val() === '31') { RedAlert('txtControliRooz', "!!این مقدار نمیتواند به عنون روز پیش بینی شده ثبت گردد"); flag = 1; }
-    if ($('#drControliZaman :selected').val() == 5 && $('#txtControliRooz').val() == '') {RedAlert('txtControliRooz', "!!لطفا دوره تکرار را مشخص کنید");flag = 1;}
+    if ($('#drControliZaman :selected').val() == 5 && $('#txtControliRooz').val() == '') { RedAlert('txtControliRooz', "!!لطفا دوره تکرار را مشخص کنید"); flag = 1; }
     return flag;
 }
+
 function addControli() {
     if (checkControliInputs() === 0) {
         var mdControl = document.getElementById('servicebale');
@@ -521,33 +623,54 @@ $('#btnMavaredeMasrafiFor').on('click', function () {
     //    }, 4000);     
     //} else {
         $('#pnlMavaredMasrafi').hide();
-        $('#pnlMavaredControli').fadeIn();
+        $('#pnlMavaredKey').fadeIn();
+        $('#txtCommentKey').focus();
     //}
 });
-$('#btnMavaredControlBack').on('click', function () {
+
+$('#btnMavaredeKeyBack').on('click', function () {
     $('#pnlMavaredMasrafi').fadeIn();
-    $('#pnlMavaredControli').hide();
+    $('#pnlMavaredKey').hide();
 });
+
+$('#btnMavaredeKeyFor').on('click', function () {
+    $('#pnlMavaredControli').fadeIn();
+    $('#txtControliMoredControl').focus();
+    $('#pnlMavaredKey').hide();
+});
+
+$('#btnMavaredControlBack').on('click', function () {
+    $('#pnlMavaredKey').fadeIn();
+    $('#pnlMavaredControli').hide();
+    $('#txtCommentKey').focus();
+});
+
 $('#btnMavaredControlFor').on('click', function () {
         $('#pnlMavaredControli').hide();
         $('#pnlSubSytem').fadeIn();
 });
+
 $('#btnSubsystemFor').on('click', function () {
     $('#pnlSubSytem').hide();
     $('#pnlGhatatMasrafi').fadeIn();
 });
+
 $('#btnSubsystemBack').on('click', function () {
     $('#pnlSubSytem').hide();
     $('#pnlMavaredControli').fadeIn();
+    $('#txtControliMoredControl').focus();
 });
+
 $('#btnGhatatBack').on('click', function () {
     $('#pnlSubSytem').fadeIn();
     $('#pnlGhatatMasrafi').hide();
 });
+
 $('#btnGhatatFor').on('click', function () {
         $('#pnlGhatatMasrafi').hide();
         $('#pnlDastoor').fadeIn();
 });
+
 function checkModEnergy() {
     if ($('#txtDastoorTarikh').val() == '') {
         RedAlert('txtDastoorTarikh', "!!لطفا تاریخ مراجعه را وارد کنید");
@@ -663,6 +786,8 @@ function SendTablesToDB() {
         obj.MttrD = $('#txtAdmissionperiodMTTR').val();
         obj.SellInfo = $('#txtSelInfo').val();
         obj.SuppInfo = $('#txtSupInfo').val();
+        obj.Keycomment = $('#txtCommentKey').val();
+        
         return obj;
     }
     function sendMinfo() {
@@ -741,14 +866,49 @@ function SendTablesToDB() {
             dataType: "json",
             success: function () {
                 GreenAlert('n', "✔ موارد مصرفی با موفقیت ثبت شد");
-                sendControli();
+                sendKeyItems();
             },
             error: function () {
                 RedAlert('n', "!!خطا در ثبت موارد مصرفی");
+                sendKeyItems();
+            }
+        });
+    }
+
+    function sendKeyItems() {
+        var rowCount = $('#gridMavaredKey tr').length - 1;
+        if (rowCount < 1) { sendControli(); return; }
+        var table = document.getElementById("gridMavaredKey");
+        var keyArr = [];
+        for (var i = 1; i < table.rows.length; i++) {
+            keyArr.push({
+                Keyname: table.rows[i].cells[0].innerHTML,
+                Kw: table.rows[i].cells[1].innerHTML,
+                Rpm: table.rows[i].cells[2].innerHTML,
+                Country: table.rows[i].cells[3].innerHTML,
+                Volt: table.rows[i].cells[4].innerHTML,
+                Flow: table.rows[i].cells[5].innerHTML,
+                CommentKey: table.rows[i].cells[6].innerHTML
+           });
+        }
+        $.ajax({
+            type: "POST",
+            url: "WebService.asmx/SendKeyItems",
+            data: JSON.stringify({ 'mid': machinId, 'keyItemsMain': keyArr }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function () {
+                GreenAlert('n', "✔ موارد کلیدی با موفقیت ثبت شد");
+                sendControli();  
+            },
+            error: function () {
+                RedAlert('n', "!!خطا در ثبت موارد کلیدی");
+
                 sendControli();
             }
         });
     }
+
     function sendControli() {
         var rowCount = $('#gridMavaredControli tr').length - 1;
         if (rowCount < 1) { sendSubsystems(); return; }
@@ -985,6 +1145,9 @@ function fillMachineControls(mInfo) {
     $('#txtAdmissionperiodMTTR').val(mInfo[0].MttrD);
     $('#txtSelInfo').val(mInfo[0].SellInfo);
     $('#txtSupInfo').val(mInfo[0].SuppInfo);
+    $('#txtCommentKey').val(mInfo[0].Keycomment);
+    
+
     if (mInfo[0].Catalog == 1) {
         havecatalog.checked = true;
         $('#pnlCatalog').show();
@@ -1006,7 +1169,7 @@ function getMasrafiData() {
         success: function (masrafi) {
             var masrafiData = JSON.parse(masrafi.d);
             fillMasrafiControls(masrafiData);
-            GetC();
+            GetKeyitems();
         },
         error: function () {
         }
@@ -1049,6 +1212,52 @@ function fillMasrafiControls(masrafiData) {
         $('#txtMavaredSookhtType').val(masrafiData[0].FuelType);
         $('#txtMavaredSookhtMasraf').val(masrafiData[0].FuelMasraf);
     }
+}
+function GetKeyitems() {
+    var Mid = $('#Mid').val();
+    $.ajax({
+        type: "POST",
+        url: "WebService.asmx/GetKeyitems",
+        data: "{ mid : " + Mid + "}",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+            var keyData = JSON.parse(data.d);
+            var j = 1;
+            if (keyData.length > 0) {
+                var tblHead = '<thead><tr>' +
+                    '<th>نام/شرح</th>' +
+                    '<th>KW</th>' +
+                    '<th>RPM</th>' +
+                    '<th>سازنده</th>' +
+                    '<th>ولتاژ</th>' +
+                    '<th>جریان</th>' +
+                    '<th>ملاحضات</th>' +
+                    '<th></th>' +
+                    '<th></th>' +
+                    '</tr></thead>';
+                var tblBody = "<tbody></tbody>";
+                $('#gridMavaredKey').append(tblHead);
+                $('#gridMavaredKey').append(tblBody);
+                for (var i = 0; i < keyData.length; i++) {
+                    tblBody = '<tr>' +
+                        '<td>' + keyData[i].Keyname + '</td>' +
+                        '<td>' + keyData[i].Kw + '</td>' +
+                        '<td>' + keyData[i].Rpm + '</td>' +
+                        '<td>' + keyData[i].Country + '</td>' +
+                        '<td>' + keyData[i].Volt + '</td>' +
+                        '<td>' + keyData[i].Flow + '</td>' +
+                        '<td>' + keyData[i].CommentKey + '</td>' +
+                        '<td><a id="delete">حذف</a></td>' +
+                        '<td><a id="edit">ویرایش</a></td>' +
+                        '</tr>';
+                    $('#gridMavaredKey tbody').append(tblBody);
+                    j++;
+                }
+            }
+            GetC();
+        }
+    });
 }
 function GetC() {
     var Mid = $('#Mid').val();

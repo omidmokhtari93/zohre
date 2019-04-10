@@ -29,6 +29,7 @@ namespace CMMS
         public int StopCostPerHour { get; set; }
         public string Power { get; set; }
         public int CatGroup { get; set; }
+        public string CatState { get; set; }
         public int VaziatTajhiz { get; set; }
         public int MtbfH { get; set; }
         public int MtbfD { get; set; }
@@ -36,8 +37,19 @@ namespace CMMS
         public int MttrD { get; set; }
         public string SellInfo { get; set; }
         public string SuppInfo { get; set; }
+        public string Keycomment { get; set; }
     }
 
+    public class KeyItems
+    {
+        public string Keyname { get; set; }
+        public string Kw { get; set; }
+        public string Rpm { get; set; }
+        public string Country { get; set; }
+        public string Volt { get; set; }
+        public string Flow { get; set; }
+        public string CommentKey { get; set; }
+    }
     public class MasrafiMain
     {
         public string Length { get; set; }

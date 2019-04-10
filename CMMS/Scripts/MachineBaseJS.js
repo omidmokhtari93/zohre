@@ -26,6 +26,24 @@ $(document).ready(function () {
     kamaDatepicker('txtDastoorTarikh', customOptions);
 });
 
+$('#btnNewMachineFor').on('click', function () {
+
+    if ($('#txtmachineName').val() === '') {
+        RedAlert('txtmachineName', "!!لطفا نام ماشین را وارد نمایید");
+    }
+    if ($('#txtMachineManufacturer').val() === '') {
+        RedAlert('txtMachineManufacturer', "!!لطفا مشخصات سازنده را وارد نمایید");
+    }
+    if ($('#txtSelInfo').val() === '') {
+        RedAlert('txtSelInfo', "!!لطفا مشخصات فروشنده را وارد نمایید");
+    }
+    if ($('#txtmachineName').val() !== '' && $('#txtMachineManufacturer').val() !== '' && $('#txtSelInfo').val() !== '') {
+        $('#pnlNewMachine').hide();
+        $('#pnlMavaredMasrafi').fadeIn();
+    }
+
+});
+
 $('#chkbargh').change(function () {
     if (this.checked) {
         $('#chkbargh').parent().addClass("isSelected");
@@ -72,22 +90,104 @@ $('#chkModiriatEnergy').change(function () {
     }
 });
 
-$('#btnNewMachineFor').on('click', function () {
-   
-    if ($('#txtmachineName').val() === '') {
-        RedAlert('txtmachineName', "!!لطفا نام ماشین را وارد نمایید");
+
+var keycom = '';
+function addKey() {
+    keycom = $('#txtCommentKey').val();
+    var keyname = $('#txtKeyName').val();
+    var rpm = $('#txtrpm').val();
+    var kw = $('#txtKw').val();
+    var flow = $('#txtFlow').val();
+    var volt = $('#txtvolt').val();
+    var country = $('#txtcountry').val();
+    var commentKey = $('#txtcomment').val();
+    var head = '<thead>' +
+        '<tr>' +
+        '<th>نام/شرح</th>' +
+        '<th>KW</th>' +
+        '<th>RPM</th>' +
+        '<th>سازنده</th>' +
+        '<th>ولتاژ</th>' +
+        '<th>جریان</th>' +
+        '<th>ملاحضات</th>' +
+        '<th></th>' +
+        '<th></th>' +
+        '</tr>' +
+        '</thead>';
+    var tbody = '<tbody></tbody>';
+    var row = '<tr>' +
+
+        '<td>' + keyname + '</td>' +
+        '<td >' + kw + '</td>' +
+        '<td >' + rpm + '</td>' +
+        '<td >' + country + '</td>' +
+        '<td >' + volt + '</td>' +
+        '<td >' + flow + '</td>' +
+        '<td >' + commentKey + '</td>' +
+        '<td><a id="edit">ویرایش</a></td>' +
+        '<td><a id="delete">حذف</a></td>' +
+        '</tr>';
+    if ($('#gridMavaredKey tr').length != 0) {
+        $("#gridMavaredKey tbody").append(row);
+    } else {
+        $("#gridMavaredKey").append(head);
+        $("#gridMavaredKey").append(tbody);
+        $("#gridMavaredKey tbody").append(row);
     }
-    if ($('#txtMachineManufacturer').val() === '') {
-        RedAlert('txtMachineManufacturer', "!!لطفا مشخصات سازنده را وارد نمایید");
+    ClearFields('pnlMavaredKey');
+    $('#txtCommentKey').val(keycom);
+}
+$("#gridMavaredKey").on("click", "tr a#delete", function () {
+    target_tr = $(this).parent().parent();
+    controlId = $(this).parent().parent().find('td:eq(0)').text();
+    var row = $('#gridMavaredKey tr').length;
+    if (row === 2) {
+        $("#gridMavaredKey").empty();
+    } else {
+        $(target_tr).remove();
     }
-    if ($('#txtSelInfo').val() === '') {
-        RedAlert('txtSelInfo', "!!لطفا مشخصات فروشنده را وارد نمایید");
-    }
-    if ($('#txtmachineName').val() !== '' && $('#txtMachineManufacturer').val() !== ''  && $('#txtSelInfo').val() !== '') {
-        $('#pnlNewMachine').hide();
-        $('#pnlMavaredMasrafi').fadeIn();}
-    
 });
+$("#gridMavaredKey").on("click", "tr a#edit", function () {
+    keycom = $('#txtCommentKey').val();
+    target_tr = $(this).parent().parent();
+
+    $('#txtKeyName').val($(this).parent().parent().find('td:eq(0)').text());
+    $('#txtKw').val($(this).parent().parent().find('td:eq(1)').text());
+    $('#txtrpm').val($(this).parent().parent().find('td:eq(2)').text());
+    $('#txtcountry').val($(this).parent().parent().find('td:eq(3)').text());
+    $('#txtvolt').val($(this).parent().parent().find('td:eq(4)').text());
+    $('#txtFlow').val($(this).parent().parent().find('td:eq(5)').text());
+    $('#txtcomment').val($(this).parent().parent().find('td:eq(6)').text());
+    $('#btnAddKey').hide();
+    $('#btnEditKey').show();
+    $('#btnCancelEditKey').show();
+});
+function EditKeyItems() {
+    $(target_tr).find('td:eq(0)').text($('#txtKeyName').val());
+    $(target_tr).find('td:eq(1)').text($('#txtKw').val());
+    $(target_tr).find('td:eq(2)').text($('#txtrpm').val());
+    $(target_tr).find('td:eq(3)').text($('#txtcountry').val());
+    $(target_tr).find('td:eq(4)').text($('#txtvolt').val());
+    $(target_tr).find('td:eq(5)').text($('#txtFlow').val());
+    $(target_tr).find('td:eq(6)').text($('#txtcomment').val());
+    GreenAlert(target_tr, "✔ ویرایش  انجام شد");
+    $('#btnAddKey').show();
+    $('#btnEditKey').hide();
+    $('#btnCancelEditKey').hide();
+
+    ClearFields('pnlMavaredKey');
+    $('#txtCommentKey').val(keycom);
+}
+function EmptyKey() {
+
+    $('#btnAddKey').show();
+    $('#btnEditKey').hide();
+    $('#btnCancelEditKey').hide();
+
+    ClearFields('pnlMavaredKey');
+    $('#txtCommentKey').val(keycom);
+}
+//===================  contoroli  ======================//
 
 function checkControliInputs() {
     var flag = 0;
@@ -357,25 +457,33 @@ $('#btnMavaredeMasrafiBack').on('click', function () {
     $('#pnlMavaredMasrafi').hide();
 });
 $('#btnMavaredeMasrafiFor').on('click', function () {
-    if (!$('#chkbargh').is(':checked') && !$('#chkgaz').is(':checked') && !$('#chkhava').is(':checked') && !$('#chksokht').is(':checked')) {
-        $('#chkbargh').parent().addClass('checklabelError');
-        $('#chkgaz').parent().addClass('checklabelError');
-        $('#chkhava').parent().addClass('checklabelError');
-        $('#chksokht').parent().addClass('checklabelError');
-        $.notify("!!یکی از موارد را تکمیل نمایید", { globalPosition: 'top left' });
-        setTimeout(function () {
-            $('#chkbargh').parent().removeClass('checklabelError');
-            $('#chkgaz').parent().removeClass('checklabelError');
-            $('#chkhava').parent().removeClass('checklabelError');
-            $('#chksokht').parent().removeClass('checklabelError');
-        }, 4000);
-    } else {
+    //if (!$('#chkbargh').is(':checked') && !$('#chkgaz').is(':checked') && !$('#chkhava').is(':checked') && !$('#chksokht').is(':checked')) {
+    //    $('#chkbargh').parent().addClass('checklabelError');
+    //    $('#chkgaz').parent().addClass('checklabelError');
+    //    $('#chkhava').parent().addClass('checklabelError');
+    //    $('#chksokht').parent().addClass('checklabelError');
+    //    $.notify("!!یکی از موارد را تکمیل نمایید", { globalPosition: 'top left' });
+    //    setTimeout(function () {
+    //        $('#chkbargh').parent().removeClass('checklabelError');
+    //        $('#chkgaz').parent().removeClass('checklabelError');
+    //        $('#chkhava').parent().removeClass('checklabelError');
+    //        $('#chksokht').parent().removeClass('checklabelError');
+    //    }, 4000);
+    //} else {
         $('#pnlMavaredMasrafi').hide();
-        $('#pnlMavaredControli').fadeIn();
-    }
+        $('#pnlMavaredKey').fadeIn();
+    //}
+});
+$('#btnMavaredeKeyBack').on('click', function () {
+    $('#pnlMavaredMasrafi').fadeIn();
+    $('#pnlMavaredKey').hide();
+});
+$('#btnMavaredeKeyFor').on('click', function () {
+    $('#pnlMavaredControli').fadeIn();
+    $('#pnlMavaredKey').hide();
 });
 $('#btnMavaredControlBack').on('click', function () {
-    $('#pnlMavaredMasrafi').fadeIn();
+    $('#pnlMavaredKey').fadeIn();
     $('#pnlMavaredControli').hide();
 });
 $('#btnMavaredControlFor').on('click', function () {
@@ -418,17 +526,19 @@ function SendTablesToDB() {
         
        
         obj.Ahamiyat = $(document).find('input[name=switch_2]:checked').attr('value');
-        obj.Creator = $('#txtMachineManufacturer').val();
-       
+        obj.Creator = $('#txtMachineManufacturer').val();       
         obj.Model = $('#txtMachineModel').val();
-       
-       
-        
         obj.CatGroup = $('#drCatGroup :selected').val();
         obj.VaziatTajhiz = $(document).find('input[name=switch_21]:checked').attr('value');
-       
+        obj.Power = $('#txtMachinePower').val();
+        if ($('#txtstopperhour').val() == '') { obj.StopCostPerHour = 0; } else { obj.StopCostPerHour = $('#txtstopperhour').val(); }
+        obj.MtbfH = $('#txttargetMTBF').val();
+        obj.MtbfD = $('#txtAdmissionperiodMTBF').val();
+        obj.MttrH = $('#txttargetMTTR').val();
+        obj.MttrD = $('#txtAdmissionperiodMTTR').val();
         obj.SellInfo = $('#txtSelInfo').val();
         obj.SuppInfo = $('#txtSupInfo').val();
+        obj.Keycomment = $('#txtCommentKey').val();
         return obj;
     }
     function sendMinfo() {
@@ -507,14 +617,49 @@ function SendTablesToDB() {
             dataType: "json",
             success: function () {
                 GreenAlert('n', "✔ موارد مصرفی با موفقیت ثبت شد");
-                sendControli();
+                sendKeyItems();
             },
             error: function () {
                 RedAlert('n', "!!خطا در ثبت موارد مصرفی");
+                sendKeyItems();
+            }
+        });
+    }
+
+    function sendKeyItems() {
+        var rowCount = $('#gridMavaredKey tr').length - 1;
+        if (rowCount < 1) { sendControli(); return; }
+        var table = document.getElementById("gridMavaredKey");
+        var keyArr = [];
+        for (var i = 1; i < table.rows.length; i++) {
+            keyArr.push({
+                Keyname: table.rows[i].cells[0].innerHTML,
+                Kw: table.rows[i].cells[1].innerHTML,
+                Rpm: table.rows[i].cells[2].innerHTML,
+                Country: table.rows[i].cells[3].innerHTML,
+                Volt: table.rows[i].cells[4].innerHTML,
+                Flow: table.rows[i].cells[5].innerHTML,
+                CommentKey: table.rows[i].cells[6].innerHTML
+            });
+        }
+        $.ajax({
+            type: "POST",
+            url: "WebService.asmx/BSendKeyItems",
+            data: JSON.stringify({ 'mid': machinId, 'keyItemsMain': keyArr }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function () {
+                GreenAlert('n', "✔ موارد کلیدی با موفقیت ثبت شد");
+                sendControli();
+            },
+            error: function () {
+                RedAlert('n', "!!خطا در ثبت موارد کلیدی");
+
                 sendControli();
             }
         });
     }
+
     function sendControli() {
         var rowCount = $('#gridMavaredControli tr').length - 1;
         if (rowCount < 1) { sendSubsystems(); return; }
@@ -716,13 +861,17 @@ function fillMachineControls(mInfo) {
     $('#txtmachineName').val(mInfo[0].Name);
    
     $('#txtMachineManufacturer').val(mInfo[0].Creator);
-    
     $('#txtMachineModel').val(mInfo[0].Model);
-    
     $('#drCatGroup').val(mInfo[0].CatGroup);
-   
+    $('#txtMachinePower').val(mInfo[0].Power);
+    $('#txtstopperhour').val(mInfo[0].StopCostPerHour);
+    $('#txttargetMTBF').val(mInfo[0].MtbfH);
+    $('#txtAdmissionperiodMTBF').val(mInfo[0].MtbfD);
+    $('#txttargetMTTR').val(mInfo[0].MttrH);
+    $('#txtAdmissionperiodMTTR').val(mInfo[0].MttrD);
     $('#txtSelInfo').val(mInfo[0].SellInfo);
     $('#txtSupInfo').val(mInfo[0].SuppInfo);
+    $('#txtCommentKey').val(mInfo[0].Keycomment);
     
     if (mInfo[0].Ahamiyat == "False") { gheyrkelidi.checked = true;}
     if (mInfo[0].VaziatTajhiz == 2) { fail.checked = true; }
@@ -739,7 +888,7 @@ function getMasrafiData() {
         success: function (masrafi) {
             var masrafiData = JSON.parse(masrafi.d);
             fillMasrafiControls(masrafiData);
-            GetC();
+            GetKeyitems();
         },
         error: function () {
         }
@@ -782,6 +931,52 @@ function fillMasrafiControls(masrafiData) {
         $('#txtMavaredSookhtType').val(masrafiData[0].FuelType);
         $('#txtMavaredSookhtMasraf').val(masrafiData[0].FuelMasraf);
     }
+}
+function GetKeyitems() {
+    var Mid = $('#Mid').val();
+    $.ajax({
+        type: "POST",
+        url: "WebService.asmx/BGetKeyitems",
+        data: "{ mid : " + Mid + "}",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+            var keyData = JSON.parse(data.d);
+            var j = 1;
+            if (keyData.length > 0) {
+                var tblHead = '<thead><tr>' +
+                    '<th>نام/شرح</th>' +
+                    '<th>KW</th>' +
+                    '<th>RPM</th>' +
+                    '<th>سازنده</th>' +
+                    '<th>ولتاژ</th>' +
+                    '<th>جریان</th>' +
+                    '<th>ملاحضات</th>' +
+                    '<th></th>' +
+                    '<th></th>' +
+                    '</tr></thead>';
+                var tblBody = "<tbody></tbody>";
+                $('#gridMavaredKey').append(tblHead);
+                $('#gridMavaredKey').append(tblBody);
+                for (var i = 0; i < keyData.length; i++) {
+                    tblBody = '<tr>' +
+                        '<td>' + keyData[i].Keyname + '</td>' +
+                        '<td>' + keyData[i].Kw + '</td>' +
+                        '<td>' + keyData[i].Rpm + '</td>' +
+                        '<td>' + keyData[i].Country + '</td>' +
+                        '<td>' + keyData[i].Volt + '</td>' +
+                        '<td>' + keyData[i].Flow + '</td>' +
+                        '<td>' + keyData[i].CommentKey + '</td>' +
+                        '<td><a id="delete">حذف</a></td>' +
+                        '<td><a id="edit">ویرایش</a></td>' +
+                        '</tr>';
+                    $('#gridMavaredKey tbody').append(tblBody);
+                    j++;
+                }
+            }
+            GetC();
+        }
+    });
 }
 function GetC() {
     var Mid = $('#Mid').val();

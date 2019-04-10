@@ -78,7 +78,48 @@
                 </asp:DropDownList>     
             </div>
         </div>
-       
+        <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
+            <div class="col-md-6">
+                هزینه توقف بر ساعت :
+                <input class="form-control text-center" id="txtstopperhour" />
+            </div>
+            <div class="col-md-6">
+                توان / ظرفیت :
+                <input class="form-control text-center" tabindex="9" id="txtMachinePower" />
+            </div>
+        </div>
+        <hr/>
+        <label style="display: block; padding: 0 15px;">MTBF</label>
+        <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
+            <div class="col-md-6">
+                <label style="display: block;">دوره پذیرش :</label>
+                <input class="form-control text-center" tabindex="12" id="txtAdmissionperiodMTBF" style="width: 70%; display: inline-block;" />
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <label>ماه</label>
+            </div>
+            <div class="col-md-6">
+                <label style="display: block;">هدف :</label>
+                <input id="txttargetMTBF" tabindex="11" style="width: 70%; display: inline-block;" class="form-control text-center" />
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <label>روز</label>
+            </div>
+        </div>
+        <hr />
+        <label style="display: block; padding: 0 15px;">MTTR</label>
+        <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
+            <div class="col-md-6">
+                <label style="display: block;">دوره پذیرش :</label>
+                <input class="form-control text-center" tabindex="14" id="txtAdmissionperiodMTTR" style="width: 70%; display: inline-block;" />
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <label>ماه</label>
+            </div>
+            <div class="col-md-6">
+                <label style="display: block;">هدف :</label>
+                <input id="txttargetMTTR" tabindex="13" style="width: 70%; display: inline-block;" class="form-control text-center" />
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <label>ساعت</label>
+            </div>
+        </div>
         <hr/>
         <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
             <div class="col-md-6">
@@ -208,7 +249,76 @@
         <button type="button" class="button fa fa-arrow-left" title="صفحه بعد" tabindex="26" id="btnMavaredeMasrafiFor"></button>
     </div>
 </div>
-    
+<%--موارد کلیدی دستگاه --%>
+<div class="panel panel-primary" id="pnlMavaredKey" style="display: none;">
+
+    <div class="panel-heading">موارد و توضیحات کلیدی دستگاه</div>
+    <div class="panel-body">
+        <div class="row" style="margin: 0; direction: rtl; text-align: right;">
+            <div class="col-md-12">
+                <label>توضیحات کلیدی :</label>
+                <textarea rows="2" id="txtCommentKey" tabindex="35" class="form-control"></textarea>
+            </div>
+        </div>
+        <hr />
+        <div class="row" style="margin: 0; direction: rtl; text-align: right;">
+            <div class="col-md-3">
+                <label>RPM :</label>
+                <input type="text" id="txtrpm" tabindex="38" class="form-control" />
+            </div>
+            <div class="col-md-3">
+                <label>KW :</label>
+                <input type="text" id="txtKw" tabindex="37" class="form-control" />
+            </div>
+            <div class="col-md-6">
+                <label>نام/شرح قطعه :</label>
+                <input type="text" id="txtKeyName" tabindex="36" class="form-control" />
+            </div>
+        </div>
+        <div class="row" style="margin: 0; margin-top: 5px; direction: rtl; text-align: right;">
+            <div class="col-md-3">
+                <label>جریان :</label>
+                <input type="text" id="txtFlow" tabindex="41" class="form-control" />
+            </div>
+            <div class="col-md-3">
+                <label>ولتاژ :</label>
+                <input type="text" id="txtvolt" tabindex="40" class="form-control" />
+            </div>
+            <div class="col-md-6">
+                <label>سازنده :</label>
+                <input type="text" id="txtcountry" tabindex="39" class="form-control" />
+            </div>
+        </div>
+        <div class="row" style="margin: 0; margin-top: 5px; direction: rtl; text-align: right;">
+
+            <div class="col-md-6">
+            </div>
+            <div class="col-md-6">
+                <label>ملاحضات:</label>
+                <input type="text" id="txtcomment" tabindex="42" class="form-control" />
+            </div>
+
+        </div>
+
+        <hr />
+
+    </div>
+    <div class="panel-footer">
+        <button class="button" style="display: none;" type="button" id="btnEditKey" onclick="EditKeyItems();">ویرایش</button>
+        <button class="button" style="display: none;" type="button" id="btnCancelEditKey" onclick="EmptyKey();">انصراف</button>
+        <button type="button" tabindex="39" id="btnAddKey" class="button" onclick="addKey();">
+            <span class="fa fa-plus" style="vertical-align: middle; margin-left: 5px;"></span>ثبت
+        </button>
+        <button type="button" class="button fa fa-arrow-right" title="صفحه قبل" id="btnMavaredeKeyBack"></button>
+        <button type="button" class="button fa fa-arrow-left" title="صفحه بعد" tabindex="43" id="btnMavaredeKeyFor"></button>
+    </div>
+    <div class="panel-footer">
+        <table class="table" id="gridMavaredKey">
+        </table>
+    </div>
+</div>
+<%--موارد کنترلی دستگاه--%>
+   
     
 <div class="panel panel-primary" id="pnlMavaredControli" style="display: none;">
     <asp:HiddenField runat="server" ClientIDMode="Static" ID="chMDcontrol"/>

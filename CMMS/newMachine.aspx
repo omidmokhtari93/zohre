@@ -358,8 +358,75 @@
                 <button type="button" class="button fa fa-arrow-left" title="صفحه بعد" tabindex="34" id="btnMavaredeMasrafiFor"></button>
             </div>
         </div>
+        <%--موارد کلیدی دستگاه --%>
+        <div class="panel panel-primary" id="pnlMavaredKey" style="display: none;">
 
+            <div class="panel-heading">موارد و توضیحات کلیدی دستگاه</div>
+            <div class="panel-body">
+                <div class="row" style="margin: 0; direction: rtl; text-align: right;">
+                    <div class="col-md-12">
+                        <label>توضیحات کلیدی :</label>
+                        <textarea rows="2" id="txtCommentKey" tabindex="35" class="form-control"></textarea>
+                    </div>
+                </div>
+                <hr />
+                <div class="row" style="margin: 0; direction: rtl; text-align: right;">
+                    <div class="col-md-3">
+                        <label>RPM :</label>
+                        <input type="text" id="txtrpm" tabindex="38" class="form-control" />
+                    </div>
+                    <div class="col-md-3">
+                        <label>KW :</label>
+                        <input type="text" id="txtKw" tabindex="37" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                        <label>نام/شرح قطعه :</label>
+                        <input type="text" id="txtKeyName" tabindex="36" class="form-control" />
+                    </div>
+                </div>
+                <div class="row" style="margin: 0; margin-top: 5px; direction: rtl; text-align: right;">
+                    <div class="col-md-3">
+                        <label>جریان :</label>
+                        <input type="text" id="txtFlow" tabindex="41" class="form-control" />
+                    </div>
+                    <div class="col-md-3">
+                        <label>ولتاژ :</label>
+                        <input type="text" id="txtvolt" tabindex="40" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                        <label>سازنده :</label>
+                        <input type="text" id="txtcountry" tabindex="39" class="form-control" />
+                    </div>
+                </div>
+                <div class="row" style="margin: 0; margin-top: 5px; direction: rtl; text-align: right;">
 
+                    <div class="col-md-6">
+                    </div>
+                    <div class="col-md-6">
+                        <label>ملاحضات:</label>
+                        <input type="text" id="txtcomment" tabindex="42" class="form-control" />
+                    </div>
+
+                </div>
+
+                <hr />
+
+            </div>
+            <div class="panel-footer">
+                <button class="button" style="display: none;" type="button" id="btnEditKey" onclick="EditKeyItems();">ویرایش</button>
+                <button class="button" style="display: none;" type="button" id="btnCancelEditKey" onclick="EmptyKey();">انصراف</button>
+                <button type="button" tabindex="39" id="btnAddKey" class="button" onclick="addKey();">
+                    <span class="fa fa-plus" style="vertical-align: middle; margin-left: 5px;"></span>ثبت
+                </button>
+                <button type="button" class="button fa fa-arrow-right" title="صفحه قبل" id="btnMavaredeKeyBack"></button>
+                <button type="button" class="button fa fa-arrow-left" title="صفحه بعد" tabindex="43" id="btnMavaredeKeyFor"></button>
+            </div>
+            <div class="panel-footer">
+                <table class="table" id="gridMavaredKey">
+                </table>
+            </div>
+        </div>
+        <%--موارد کنترلی دستگاه--%>
         <div class="panel panel-primary" id="pnlMavaredControli" style="display: none;">
             <asp:HiddenField runat="server" ClientIDMode="Static" ID="chMDcontrol" />
             <div class="panel-heading">موارد کنترلی دستگاه</div>
@@ -367,7 +434,7 @@
                 <div class="row" style="margin: 0; direction: rtl; text-align: right;">
                     <div class="col-md-12">
                         <label>مورد کنترلی :</label>
-                        <input id="txtControliMoredControl" tabindex="35" class="form-control" />
+                        <input id="txtControliMoredControl" tabindex="44" class="form-control" />
                     </div>
                 </div>
                 <hr />
@@ -455,29 +522,29 @@
         <div class="panel panel-primary" id="pnlSubSytem" style="display: none;">
             <div class="panel-heading">ثبت اجزا ماشین</div>
             <div class="panel-body">
-            <div class="row">
-                <div class="col-md-3">
-                    <label>شماره پلاک </label>
-                    <input class="form-control" tabindex="39" id="txtSubPelak" />
-                </div>
-                <div class="col-md-9">
-                    <label>&nbsp;</label>
-                    <div id="subSearchArea">
-                        <div style="width: 100%; display: inline-block; direction: rtl; position: relative;" id="subPanel">
-                            <input id="txtSearchSubsystem" autocomplete="off" class="form-control" placeholder="جستجو" />
-                            <div style="display: none; position: absolute; width: 100%;" id="subSystemSearchRes">
-                                <div class="searchscroll">
-                                    <table id="gridSubsystem" class="SubSystemTable">
-                                        <tbody></tbody>
-                                    </table>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>شماره پلاک </label>
+                        <input class="form-control" tabindex="39" id="txtSubPelak" />
+                    </div>
+                    <div class="col-md-9">
+                        <label>&nbsp;</label>
+                        <div id="subSearchArea">
+                            <div style="width: 100%; display: inline-block; direction: rtl; position: relative;" id="subPanel">
+                                <input id="txtSearchSubsystem" autocomplete="off" class="form-control" placeholder="جستجو" />
+                                <div style="display: none; position: absolute; width: 100%;" id="subSystemSearchRes">
+                                    <div class="searchscroll">
+                                        <table id="gridSubsystem" class="SubSystemTable">
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-               
-            </div>
+
+                </div>
             </div>
             <div class="panel-footer">
                 <button type="button" id="btnAddSubsystem" class="button" onclick="CreateSubTable();">
@@ -591,7 +658,8 @@
 15-دقت کنید فن های خنک کننده در حال کار باشند.
 16-اپراتور باید فردی آموزش دیده ، دارای حکم کارگزینی به همراه شرح وظایف ، و ملزم به رعایت آن باشد.
 17-اپراتور باید از پوشیدن لباسهای گشاد خودداری کند.
-18-دقت کنید که دستگاه روغنریزی نداشته و هنگام کار درب دستگاه بسته باشد.</textarea>
+18-دقت کنید که دستگاه روغنریزی نداشته و هنگام کار درب دستگاه بسته باشد.
+                    </textarea>
                     </div>
                 </div>
                 <br />

@@ -159,7 +159,7 @@ function MachineReport() {
             var body = [];
             if (d.length > 0) {
                 body.push('<table><tr><th>ردیف</th><th>نام دستگاه</th><th>کد دستگاه</th><th>فاز</th><th>خط</th><th>محل اسقرار</th>' +
-                    '<th>کلیدی</th><th>سازنده</th><th>مدل</th><th>تاریخ بهره برداری</th></tr>');
+                    '<th>کلیدی</th><th>وضعیت</th><th>سازنده</th><th>مدل</th><th>تاریخ بهره برداری</th></tr>');
                 for (var i = 0; i < d.length; i++) {
                     var imp = d[i].Ahamiyat == 'True' ? '<input type="checkbox" checked disabled/>' : '<input type="checkbox" disabled/>';
                     body.push('<tr>' +
@@ -170,6 +170,7 @@ function MachineReport() {
                         '<td>' + d[i].LineName + '</td>' +                    
                         '<td>' + d[i].LocationName + '</td>' +
                         '<td>' + imp + '</td>' +
+                        '<td>' + d[i].CatState + '</td>'+
                         '<td>' + d[i].Creator + '</td>' +
                         '<td>' + d[i].Model + '</td>' +
                         '<td>' + d[i].Tarikh + '</td>' +
