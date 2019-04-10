@@ -27,15 +27,20 @@ function CopyData() {
             var deact = document.getElementById('deact');
             var fail = document.getElementById('fail');
             $('#txtmachineName').val(mInfo[0].Name);
-            
+
             $('#txtMachineManufacturer').val(mInfo[0].Creator);
-          
             $('#txtMachineModel').val(mInfo[0].Model);
-           
             $('#drCatGroup').val(mInfo[0].CatGroup);
-          
+            $('#txtMachinePower').val(mInfo[0].Power);
+            $('#txtstopperhour').val(mInfo[0].StopCostPerHour);
+            $('#txttargetMTBF').val(mInfo[0].MtbfH);
+            $('#txtAdmissionperiodMTBF').val(mInfo[0].MtbfD);
+            $('#txttargetMTTR').val(mInfo[0].MttrH);
+            $('#txtAdmissionperiodMTTR').val(mInfo[0].MttrD);
             $('#txtSelInfo').val(mInfo[0].SellInfo);
             $('#txtSupInfo').val(mInfo[0].SuppInfo);
+            $('#txtCommentKey').val(mInfo[0].Keycomment);
+
             if (mInfo[0].Ahamiyat == "False") { gheyrkelidi.checked = true; }
             if (mInfo[0].VaziatTajhiz == 2) { fail.checked = true; }
             if (mInfo[0].VaziatTajhiz == 0) { deact.checked = true; }
@@ -89,10 +94,55 @@ function CopyData() {
                 $('#txtMavaredSookhtType').val(masrafiData[0].FuelType);
                 $('#txtMavaredSookhtMasraf').val(masrafiData[0].FuelMasraf);
             }
-            getMachineControli();
+            getKeyitems();
         }
     }
-
+    function getKeyitems() {
+       
+        $.ajax({
+            type: "POST",
+            url: "WebService.asmx/BGetKeyitems",
+            data: "{ mid : " + machineId + "}",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var keyData = JSON.parse(data.d);
+                var j = 1;
+                if (keyData.length > 0) {
+                    var tblHead = '<thead><tr>' +
+                        '<th>نام/شرح</th>' +
+                        '<th>KW</th>' +
+                        '<th>RPM</th>' +
+                        '<th>سازنده</th>' +
+                        '<th>ولتاژ</th>' +
+                        '<th>جریان</th>' +
+                        '<th>ملاحضات</th>' +
+                        '<th></th>' +
+                        '<th></th>' +
+                        '</tr></thead>';
+                    var tblBody = "<tbody></tbody>";
+                    $('#gridMavaredKey').append(tblHead);
+                    $('#gridMavaredKey').append(tblBody);
+                    for (var i = 0; i < keyData.length; i++) {
+                        tblBody = '<tr>' +
+                            '<td>' + keyData[i].Keyname + '</td>' +
+                            '<td>' + keyData[i].Kw + '</td>' +
+                            '<td>' + keyData[i].Rpm + '</td>' +
+                            '<td>' + keyData[i].Country + '</td>' +
+                            '<td>' + keyData[i].Volt + '</td>' +
+                            '<td>' + keyData[i].Flow + '</td>' +
+                            '<td>' + keyData[i].CommentKey + '</td>' +
+                            '<td><a id="delete">حذف</a></td>' +
+                            '<td><a id="edit">ویرایش</a></td>' +
+                            '</tr>';
+                        $('#gridMavaredKey tbody').append(tblBody);
+                        j++;
+                    }
+                }
+                getMachineControli();
+            }
+        });
+    }
     function getMachineControli() {
         data = [];
         data.push({
