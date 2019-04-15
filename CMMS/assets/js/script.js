@@ -21,6 +21,32 @@
     });
 })(jQuery);
 
+function Checkinputs(n) {
+  var t = !1,
+    a = $("#" + n).find("input[required] ,textarea[required]");
+  return 0 === a.length && (a = $("#" + n).find("textarea[required]")),
+    a.each(function(n, a) {
+         "" == a.value && (RedAlert(a, ""), t = !0)
+    }), t
+}
+
+function save() {
+    $.notify("✔ با موفقیت انجام شد", {
+        className: 'success',
+        clickToHide: false,
+        autoHide: true,
+        position: 'bottom center'
+    });
+}
+function cancel() {
+    $.notify("☓ خطا در ورود اطاعات", {
+        className: 'error',
+        clickToHide: false,
+        autoHide: true,
+        position: 'bottom center'
+    });
+}
+
 function Uperror() {
     $.notify("☓ شما قادر به ویرایش این درخواست نیستید", {
         className: 'error',

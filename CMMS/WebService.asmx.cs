@@ -149,7 +149,7 @@ namespace CMMS
                 mail.From = new MailAddress("borna.assistanse@gmail.com", email, System.Text.Encoding.UTF8);
                 mail.Subject = name;
                 mail.SubjectEncoding = System.Text.Encoding.UTF8;
-                var userMessage = File.ReadAllText(HttpContext.Current.Server.MapPath("/Content/contactus.htm"));
+                var userMessage = File.ReadAllText(HttpContext.Current.Server.MapPath("/assets/Content/contactus.htm"));
                 userMessage = userMessage.Replace("#Name#", name);
                 userMessage = userMessage.Replace("#Email#", email);
                 userMessage = userMessage.Replace("#Phone#", phone);

@@ -4,9 +4,9 @@
         .btn:hover { color: white;}
         .btns{width: 100%; font-weight: 500; margin-top: 10px; color: #323232;font-weight: 800;}
     </style>
-    <div class="panel panel-primary"  style="text-align: center;">
-        <div class="panel-heading">درخواست های تعمیر</div>
-        <div class="panel-body" >
+    <div class="card">
+        <div class="card-header">درخواست های تعمیر</div>
+        <div class="card-body" >
             <asp:GridView runat="server" ID="gridRequests" CssClass="table" dir="rtl" AutoGenerateColumns="False" DataKeyNames="req_id" DataSourceID="SqlRequests" >
                 <Columns>
                     <asp:BoundField DataField="req_id" HeaderText="شماره درخواست" SortExpression="req_id" />
@@ -33,12 +33,12 @@ dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id left JOIN
 dbo.i_units ON dbo.r_request.unit_id = dbo.i_units.unit_code left JOIN
 dbo.subsystem ON dbo.r_request.subid = dbo.subsystem.id
 where r_request.state <> 4"></asp:SqlDataSource>
-            <a class="btn btn-info btns" href="ShowRequests.aspx">مشاهده و پیگیری درخواست های تعمیر</a>
+            <a class="btn btn-info btn-block mt-1" href="ShowRequests.aspx">مشاهده و پیگیری درخواست های تعمیر</a>
         </div>
     </div>
-    <div class="panel panel-primary"  style="text-align: center;margin-top: 15px;">
-        <div class="panel-heading">(برنامه نت پیش گیرانه (موارد کنترلی</div>
-        <div class="panel-body">
+    <div class="card mt-2">
+        <div class="card-header">(برنامه نت پیش گیرانه (موارد کنترلی</div>
+        <div class="card-body">
             <asp:GridView runat="server" dir="rtl" CssClass="table" ID="gridcontrols" DataSourceID="SqlPM" AutoGenerateColumns="False" DataKeyNames="id" AllowPaging="True">
                 <Columns>
                     <asp:BoundField DataField="unit_name" HeaderText="نام واحد" SortExpression="unit_name" />
@@ -62,12 +62,12 @@ ORDER BY dbo.p_pmcontrols.tarikh">
                     <asp:ControlParameter ControlID="DateTime" Name="a" PropertyName="Value" />
                 </SelectParameters>
             </asp:SqlDataSource>
-            <a class="btn btn-info btns" href="DailyPm.aspx">مشاهده و پیگیری کامل موارد پیش گیرانه</a>
+            <a class="btn btn-info btn-block mt-1" href="DailyPm.aspx">مشاهده و پیگیری کامل موارد پیش گیرانه</a>
         </div>
     </div>
-    <div class="panel panel-primary" style="margin-top: 15px; text-align: center;">
-        <div class="panel-heading">(برنامه نت پیش بینانه (تعویض قطعات</div>
-        <div class="panel-body">
+    <div class="card mt-2">
+        <div class="card-header">(برنامه نت پیش بینانه (تعویض قطعات</div>
+        <div class="card-body">
             <asp:GridView runat="server" dir="rtl" CssClass="table" ID="gridparts" AutoGenerateColumns="False" DataSourceID="SqlCM" AllowPaging="True">
                 <Columns>
                     <asp:BoundField DataField="rn" HeaderText="ردیف" SortExpression="rn" />
@@ -92,7 +92,7 @@ where (Forecast.tarikh <= @tarikh) and Forecast.act=0">
                     <asp:ControlParameter ControlID="DateTime" Name="tarikh" PropertyName="Value" />
                 </SelectParameters>
             </asp:SqlDataSource>
-            <a class="btn btn-info btns" href="DailyCM.aspx">مشاهده و پیگیری کامل موارد پیش بینانه</a>
+            <a class="btn btn-info btn-block mt-1" href="DailyCM.aspx">مشاهده و پیگیری کامل موارد پیش بینانه</a>
         </div>
     </div>
     <asp:HiddenField runat="server" ID="DateTime"/>

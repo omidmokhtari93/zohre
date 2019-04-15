@@ -4,236 +4,248 @@
 
 <html>
 <head runat="server">
-    <link rel="stylesheet" href="Content/bootstrap.min.css"/>
-    <link rel="stylesheet" href="Content/bootstrap-theme.min.css"/>
-    <script src="Scripts/jquery-3.3.1.min.js"></script>
-    <script src="Scripts/script.js"></script>
-    <script src="Scripts/notify.min.js"></script>
-    <link href="Scripts/styles.css" rel="stylesheet" />
-    <script src="Scripts/bootstrap.min.js"></script>
-    <link href="Scripts/font-awesome.min.css" rel="stylesheet" />
-    <script src="Scripts/kamadatepicker.js"></script>
-    <link href="Content/kamadatepicker.css" rel="stylesheet" />
-    <link href="Scripts/jquery-clockpicker.min.css" rel="stylesheet" />
-    <script src="Scripts/jquery-clockpicker.min.js"></script>
-    <script src="Scripts/chart/highcharts.js"></script>
-    <script src="Scripts/chart/exporting.js"></script>
-    <script src="Scripts/chart/export-data.js"></script>
-    <link href="Images/icon.ico" rel="shortcut icon"/>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/css/mdb.min.css" rel="stylesheet" />
+    <script src="assets/js/jquery-3.3.1.min.js"></script>
+    <script src="assets/js/notify.min.js"></script>
+    <link href="assets/css/styles.css" rel="stylesheet" />
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+    <script src="assets/js/kamadatepicker.js"></script>
+    <link href="assets/css/kamadatepicker.css" rel="stylesheet" />
+    <link href="assets/css/jquery-clockpicker.min.css" rel="stylesheet" />
+    <script src="assets/js/jquery-clockpicker.min.js"></script>
+    <script src="assets/js/chart/highcharts.js"></script>
+    <script src="assets/js/chart/exporting.js"></script>
+    <script src="assets/js/chart/export-data.js"></script>
+    <link href="assets/Images/icon.ico" rel="shortcut icon" />
     <title>سامانه نگهداری و تعمیر تجهیزات برنا</title>
 </head>
 <body class="background_pattern">
-<form id="form1" runat="server">
-    <center>
-        <asp:panel CssClass="mainbody" runat="server">
-            <asp:Panel runat="server" CssClass="header_image unselectable">
-                <asp:Image ID="Image1" CssClass="background_image" ImageUrl="/Images/bornaheader.png" runat="server"></asp:Image>
-            </asp:Panel>
+    <form id="form1" runat="server">
+        <div class="w-75 m-auto" style="min-height: 110vh;">
+            <img src="assets/Images/bornaheader.png" class="w-100 rounded-top mb-1" />
             <div class="row">
-                <div class="col-lg-9" style="padding: 0px 1px 0 18px;">
-                    <asp:Panel runat="server" CssClass="main_panel">
-                        <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+                <div class="col-md-9">
+                    <div class="bg-white">
+                        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
                         </asp:ContentPlaceHolder>
-                    </asp:Panel>
+                    </div>
                 </div>
-                <div class="col-lg-3" style="padding-left: 0px; position: relative; padding-right: 0; width: 305px;">
+                <div class="col-md-3 pl-0">
                     <div class="newsBlock unselectable">
-                        <img src="Images/Zohre.png" style="height: 58px; width: auto; position: absolute; right:20px; top: 5px;"/>
+                        <img src="assets/Images/Zohre.png" style="height: 58px; width: auto; position: absolute; right: 20px; top: 5px;" />
                         <label style="position: absolute; top: 25px; left: 16px; color: white; font-size: 18pt;">شرکت کاشی و لعاب زهره</label>
                     </div>
-                        <div class="timeDate unselectable">
-                            <label style="margin: 0;">
-                                <asp:Label runat="server" style="font-family: myfont; font-size: 12pt; color: white; line-height: 30px;" ID="lblDate"></asp:Label>
-                            </label>
-                        </div>
-                    <div class="user_section unselectable">
-                        <label style="color: white; margin: 0; line-height: 30px;"><asp:Label runat="server" dir="rtl" ID="lbl_userName"></asp:Label></label>
+                    <div class="timeDate unselectable text-center">
+                        <asp:Label runat="server" Style="font-family: myfont; font-size: 12pt; color: white; line-height: 30px;" CssClass="mb-0 sans" ID="lblDate"></asp:Label>
                     </div>
-                    <div style="position: relative; width: 100%; top: 0px; margin-bottom: 32px;">
-                        <div id="cssmenu">
-                            <ul>
-                                <li class="active"><a href='#'><span></span></a></li>
-                                 <li class='has-sub' id="arshiv" runat="server" ><a href='#'><span>آرشیو فنی</span></a>
-                                    <ul>
-                                        <li><div class="Icon1" style="background-image: url(/images/service.png);"></div><a><asp:Button ID="btn_contractor" runat="server" CssClass="textstyle" Text="پیمانکاران" OnClick="btn_contractor_Click" /></a></li>
-                                        <li><div class="Icon1" style="background-image: url(/images/delaystop.png);"></div><a><asp:Button ID="btn_stops"  runat="server" CssClass="textstyle" Text="لیست سرویسکاری / خرابی / تاخیر/ توقفات"  OnClick="btn_stops_Click" /></a></li>
-                                        <li><div class="Icon1" style="background-image: url(/images/measur.png);"></div><a><asp:Button ID="btn_measurment"  runat="server" CssClass="textstyle" Text="واحدهای اندازه گیری"  OnClick="btn_measurment_OnClick" /></a></li>
-                                        <li><div class="Icon1" style="background-image: url(/images/costs.png);"></div><a><asp:Button ID="btnHazine" runat="server" CssClass="textstyle" Text="هزینه های پایه"  OnClick="btnHazine_Click"></asp:Button></a></li>
-                                        <li><div class="Icon1" style="background-image: url(/images/catalog.png);"></div><a><asp:Button ID="btnCatalog" runat="server" CssClass="textstyle" Text="کاتالوگ دستگاه ها" OnClick="btnCatalog_OnClick"></asp:Button></a></li>
-                                    </ul>
-                                </li>
-                                <li class='has-sub' id="reports" runat="server"><a href='#'><span>مشاهده نمودارها و گزارشات</span></a>
-                                    <ul>
-                                        <li><div class="Icon1" style="background-image: url(/images/mttrcahrt.png);"></div><a><asp:Button ID="btn_MttRep"  runat="server" CssClass="textstyle" Text="MTTR و  MTBF گزارشات" OnClick="btn_MttRep_OnClick"/></a></li>
-                                        <li><div class="Icon1" style="background-image: url(/images/Donat.png);"></div><a><asp:Button ID="btn_machineReport"  runat="server" CssClass="textstyle" Text="گزارشات ماشین آلات" OnClick="btn_machineReport_OnClick"/></a></li>
-                                        <li><div class="Icon1" style="background-image: url(/images/ToolsChart.png);"></div><a><asp:Button ID="btn_PartReport"  runat="server" CssClass="textstyle" Text="گزارش قطعات مصرفی" OnClick="btn_PartReport_OnClick"/></a></li>
-                                        <li><div class="Icon1" style="background-image: url(/images/chart_color.png);"></div><a><asp:Button ID="btn_RepairReport"  runat="server" CssClass="textstyle" Text="گزارش تعمیرات" OnClick="btn_RepairReport_OnClick"/></a></li>
-                                        <li><div class="Icon1" style="background-image: url(/images/FailureAnalys.png);"></div><a><asp:Button ID="btn_RCFA"  runat="server" CssClass="textstyle" Text="خرابی - RCFA گزارشات " OnClick="btn_RCFA_OnClick"/></a></li>
-                                        <li><div class="Icon1" style="background-image: url(/images/proposal.png);"></div><a><asp:Button ID="btn_RepairHistory"  runat="server" CssClass="textstyle" Text="گزارش سوابق تعمیرات" OnClick="btn_RepairHistory_OnClick"/></a></li>
-                                        <li><div class="Icon1" style="background-image: url(/images/stop.png);"></div><a><asp:Button ID="btn_StopReport"  runat="server" CssClass="textstyle" Text="گزارش توقفات" OnClick="btn_StopReport_OnClick"/></a></li>
-                                        <li><div class="Icon1" style="background-image: url(/images/PersonelChart.png);"></div><a><asp:Button ID="btn_PersonelReport"  runat="server" CssClass="textstyle" Text="گزارشات پرسنل" OnClick="btn_PersonelReport_OnClick"/></a></li>
-                                        <li><div class="Icon1" style="background-image: url(/images/Costchart.png);"></div><a><asp:Button ID="btn_FinancialReport"  runat="server" CssClass="textstyle" Text="گزارشات مالی" OnClick="btn_FinancialReport_OnClick"/></a></li>
-                                    </ul>
-                                </li>
-                                <li class='has-sub' id="machine" runat="server"><a href='#'><span>ساماندهی ماشین آلات و تجهیزات</span></a>
-                                    <ul>
-                                        <li><a href='#'><div class="Icon1" style="background-image: url(/images/MainMachine.png);"></div><asp:Button ID="btn_device"  runat="server" CssClass="textstyle" Text="طبقه بندی ماشین آلات / دستگاه ها" OnClick="btn_device_OnClick"></asp:Button></a></li>
-                                        <li><a href='#'><div class="Icon1" style="background-image: url(/images/subSystem.png);"></div><asp:Button ID="btn_subsystem"  runat="server" CssClass="textstyle" Text="ثبت اجزا ماشین آلات" OnClick="btn_subsystem_OnClick"></asp:Button></a></li>
-                                        <li><a href='#'><div class="Icon1" style="background-image: url(/images/tag.png);"></div><asp:Button ID="btn_tag"  runat="server" CssClass="textstyle" Text="پلاک گذاری / ثبت سابقه اجزا" OnClick="btn_tag_OnClick"></asp:Button></a></li>
-                                        <li><a href='#'><div class="Icon1" style="background-image: url(/images/newMachin.png);"></div><asp:Button ID="btn_newdevice"  runat="server" CssClass="textstyle" Text="ثبت ماشین / دستگاه" OnClick="btn_newdevice_OnClick" ></asp:Button></a></li>
-                                        <li><a href='#'><div class="Icon1" style="background-image: url(/images/update.png);"></div><asp:Button ID="btn_editMachine"  runat="server" CssClass="textstyle" Text="ویرایش شناسنامه ماشین / دستگاه" OnClick="btn_editMachine_OnClick"></asp:Button></a></li>
-                                        <li><a href='#'><div class="Icon1" style="background-image: url(/images/effectt.png);"></div><asp:Button ID="btn_effect"  runat="server" CssClass="textstyle" Text="سیستم اثرگذاری ماشین آلات " OnClick="btn_effect_OnClick"></asp:Button></a></li>
-                                    </ul>
-                                </li>
-                                <li class='has-sub' id="parts" runat="server"><a href='#'><span>مشخصات لوازم یدکی دستگاه ها</span></a>
-                                    <ul>
-                                        <li><a href='#'><div class="Icon1" style="background-image: url(/images/newAsset.png);"></div><asp:Button ID="btn_partsAcc" runat="server" CssClass="textstyle" Text="مشاهده موجودی انبار قطعات" OnClick="btn_partsAcc_OnClick"></asp:Button></a></li>
-                                    </ul>
-                                </li>
-                                <li class='has-sub' id="reprequest" runat="server"><a href='#'><span>درخواست های تعمیر</span></a>
-                                    <ul>
-                                        <li><a href='#'><div class="Icon1" style="background-image: url(/images/req_yellow.png);"></div><asp:Button ID="btnRepairRequest" runat="server" CssClass="textstyle" Text="ثبت درخواست تعمیر" OnClick="btnRepairRequest_OnClick"></asp:Button></a></li>
-                                        <li><a href='#'><div class="Icon1" style="background-image: url(/images/icon_services.png);"></div><asp:Button ID="btnother_repair" runat="server" CssClass="textstyle" Text="ثبت درخواست تعمیر متفرقه" OnClick="btnother_repair_Click"></asp:Button></a></li>
-                                        <li id="requests" runat="server"><a href='#'><div class="Icon1" style="background-image: url(/images/showRepReq.png);"></div><asp:Button ID="show_repairRequests" runat="server" CssClass="textstyle" Text="مشاهده درخواست های تعمیر" OnClick="show_repairRequests_OnClick"></asp:Button></a></li>
-                                        <li id="repairdo" runat="server"><a href='#'><div class="Icon1" style="background-image: url(/images/repairList.png);"></div><asp:Button ID="show_allRepairs" runat="server" CssClass="textstyle" Text="مشاهده کلیه تعمیرات انجام شده" OnClick="show_allRepairs_OnClick"></asp:Button></a></li>
-                                    </ul>
-                                </li>
-                                <li class='has-sub' id="dailyreports" runat="server"><a href='#'><span>گزارش کار روزانه</span></a>
-                                    <ul>
-                                        <li id="DReport" runat="server"><a href='#'><div class="Icon1" style="background-image: url(/images/machineList.png);"></div><asp:Button ID="btn_DailyReport" runat="server" CssClass="textstyle" Text="ثبت گزارش کار روزانه" OnClick="btn_DailyReport_OnClick"></asp:Button></a></li>
-                                        <li ><a href='#'><div class="Icon1" style="background-image: url(/images/dailyRep.png);"></div><asp:Button ID="btn_showDailyReport" runat="server" CssClass="textstyle" Text="مشاهده گزارش های روزانه" OnClick="btn_showDailyReport_OnClick"></asp:Button></a></li>
-                                        <li ><a href='#'><div class="Icon1" style="background-image: url(/images/report_stop.png);"></div><asp:Button ID="btn_dailyWorkTime" runat="server" CssClass="textstyle" Text="گزارش توقفات روزانه" OnClick="btn_dailyWorkTime_OnClick"></asp:Button></a></li>
-                                    </ul>
-                                </li>
-                                <li class='has-sub' id="services" runat="server"><a href='#'><span>مدیریت سرویس ها</span></a>
-                                    <ul>
-                                        <li><a href='#'><div class="Icon1" style="background-image: url(/images/ServiceEntry.png);"></div><asp:Button ID="btnDailyPM" runat="server" CssClass="textstyle" Text="برنامه نت پیشگیرانه روزانه" OnClick="btnDailyPM_OnClick"></asp:Button></a></li>
-                                        <li><a href='#'><div class="Icon1" style="background-image: url(/images/showAllService.png);"></div><asp:Button ID="btnProgram" runat="server" CssClass="textstyle" Text="برنامه نت پیشگیرانه" OnClick="btnProgram_OnClick"></asp:Button></a></li>
-                                        <li><a href='#'><div class="Icon1" style="background-image: url(/images/Rchecklistempty.png);"></div><asp:Button ID="btnDailyCM" runat="server" CssClass="textstyle" Text="برنامه نت پیش بینانه" OnClick="btnDailyCM_OnClick"></asp:Button></a></li>
-                                        <li><a href='#'><div class="Icon1" style="background-image: url(/images/Gchecklist.png);"></div><asp:Button ID="btnCheckedPM" runat="server" CssClass="textstyle" Text="PM_نت پیشگیرانه انجام شده" OnClick="btnCheckedPM_OnClick"></asp:Button></a></li>
-                                        <li><a href='#'><div class="Icon1" style="background-image: url(/images/Rchecklist.png);"></div><asp:Button ID="btnCheckedCm" runat="server" CssClass="textstyle" Text="CM_نت پیش بینانه انجام شده" OnClick="btnCheckedCm_OnClick"></asp:Button></a></li>
-                                    </ul>
-                                </li>
-                                <li class='has-sub' id="manager" runat="server"><a href='#'><span>مدیریت</span></a>
-                                    <ul>
-                                        <li><a href='#'><div class="Icon1" style="background-image: url(/images/section.png);"></div><asp:Button ID="btn_addunit" runat="server" CssClass="textstyle" Text="مدیریت واحدها" OnClick="btn_addunit_Click"></asp:Button></a></li>
-                                        <li><a href='#'><div class="Icon1" style="background-image: url(/images/lines.png);"></div><asp:Button ID="btn_Lines" runat="server" CssClass="textstyle" Text="مدیریت فاز / خطوط" OnClick="btn_Lines_OnClick"></asp:Button></a></li>
-                                        <li><a href='#'><div class="Icon1" style="background-image: url(/images/worker.png);"></div><asp:Button ID="btnUserManagment" runat="server" CssClass="textstyle" Text="مدیریت کاربران" OnClick="btnUserManagment_OnClick"></asp:Button></a></li>
-                                        <li><a href='#'><div class="Icon1" style="background-image: url(/images/technical-icons.png);"></div><asp:Button ID="btn_personel" runat="server" CssClass="textstyle" Text="مدیریت نیروی فنی" OnClick="btn_personel_OnClick" ></asp:Button></a></li>
-                                    </ul>
-                                </li>
-                                <li class='has-sub'><a href='#'><span>ارتباط با ما</span></a>
-                                    <ul>
-                                        <li><a ><div class="Icon1" style="background-image: url(/images/contact.png);"></div><button id="ContactUs" class="textstyle"  type="button">ارتباط با ما</button></a></li>
-                                        <li><a ><div class="Icon1" style="background-image: url(/images/aboutus.png);"></div><button id="aboutUs" class="textstyle" type="button">درباره ما</button></a></li>
-                                    </ul>
-                                </li>
-                                <li><a class="exit"><asp:Button ID="btnexit" runat="server" CssClass="textstyle" style="padding-right: 10px;" Text="خروج" OnClick="btnexit_Onclick"></asp:Button></a></li>
-                            </ul>
-                        </div>
+                    <div class="user_section unselectable text-center">
+                        <asp:Label Style="color: white; margin: 0; line-height: 30px;" runat="server" CssClass="sans" dir="rtl" ID="lbl_userName"></asp:Label>
+                    </div>
+
+                    <div id="cssmenu">
+                        <ul>
+                            <li class="active"><a href='#'><span></span></a></li>
+                            <li class='has-sub' id="arshiv" runat="server"><a href='#'><span>آرشیو فنی</span></a>
+                                <ul>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/service.png" /><a href="Contractor.aspx">پیمانکارن</a></li>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/delaystop.png" /><a href="intrupt.aspx">لیست سرویسکاری / خرابی / تاخیر/ توقفات</a></li>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/measur.png" /><a href="measurement.aspx">واحدهای اندازه گیری</a></li>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/costs.png" /><a href="primryCost.aspx">هزینه های پایه</a></li>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/catalog.png" /><a href="catalog.aspx">کاتالوگ دستگاه ها</a></li>
+                                </ul>
+                            </li>
+                            <li class='has-sub' id="reports" runat="server"><a href='#'><span>مشاهده نمودارها و گزارشات</span></a>
+                                <ul>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/mttrcahrt.png" /><a href="MttReport.aspx">MTTR و  MTBF گزارشات</a></li>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/Donat.png" /><a href="MachineReports.aspx">گزارشات ماشین آلات</a></li>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/ToolsChart.png" /><a href="PartsReport.aspx">گزارش قطعات مصرفی</a></li>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/chart_color.png" /><a href="RepairReport.aspx">گزارش تعمیرات</a></li>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/FailureAnalys.png" /><a href="RCFA.aspx">خرابی - RCFA گزارشات </a></li>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/proposal.png" /><a href="RepairRecordReport.aspx">گزارش سوابق تعمیرات</a></li>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/stop.png" /><a href="StopReport.aspx">گزارش توقفات</a></li>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/PersonelChart.png" /><a href="PersonelReport.aspx">گزارشات پرسنل</a></li>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/Costchart.png" /><a href="FinancialReport.aspx">گزارشات مالی</a></li>
+                                </ul>
+                            </li>
+                            <li class='has-sub' id="machine" runat="server"><a href='#'><span>ساماندهی ماشین آلات و تجهیزات</span></a>
+                                <ul>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/MainMachine.png" /><a href="Device.aspx">طبقه بندی ماشین آلات / دستگاه ها</a></li>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/subSystem.png" /><a href="SubSystem.aspx">ثبت اجزا ماشین آلات</a></li>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/tag.png" /><a href="Tag.aspx">پلاک گذاری / ثبت سابقه اجزا</a></li>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/newMachin.png" /><a href="newMachine.aspx">ثبت ماشین / دستگاه</a></li>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/update.png" /><a href="editMachine.aspx">ویرایش شناسنامه ماشین / دستگاه</a></li>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/effectt.png" /><a href="Effective.aspx">سیستم اثرگذاری ماشین آلات</a></li>
+                                </ul>
+                            </li>
+                            <li class='has-sub' id="parts" runat="server"><a href='#'><span>مشخصات لوازم یدکی دستگاه ها</span></a>
+                                <ul>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/newAsset.png" /><a href="PartsAcc.aspx">مشاهده موجودی انبار قطعات</a></li>
+                                </ul>
+                            </li>
+                            <li class='has-sub' id="reprequest" runat="server"><a href='#'><span>درخواست های تعمیر</span></a>
+                                <ul>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/req_yellow.png" /><a href="repairRequest.aspx">ثبت درخواست تعمیر</a></li>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/icon_services.png" /><a href="otherRepairRequest.aspx">ثبت درخواست تعمیر متفرقه</a></li>
+                                    <li id="requests" runat="server">
+                                        <img class="Icon1" src="assets/Images/showRepReq.png" /><a href="ShowRequests.aspx">مشاهده درخواست های تعمیر</a></li>
+                                    <li id="repairdo" runat="server">
+                                        <img class="Icon1" src="assets/Images/repairList.png" /><a href="RepairHistory.aspx">مشاهده کلیه تعمیرات انجام شده</a></li>
+                                </ul>
+                            </li>
+                            <li class='has-sub' id="dailyreports" runat="server"><a href='#'><span>گزارش کار روزانه</span></a>
+                                <ul>
+                                    <li id="DReport" runat="server">
+                                        <img class="Icon1" src="assets/Images/machineList.png" /><a href="DailyReport.aspx">ثبت گزارش کار روزانه</a></li>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/dailyRep.png" /><a href="ShowDailyReport.aspx">مشاهده گزارش های روزانه</a></li>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/report_stop.png" /><a href="DailyWork.aspx">گزارش توقفات روزانه</a></li>
+                                </ul>
+                            </li>
+                            <li class='has-sub' id="services" runat="server"><a href='#'><span>مدیریت سرویس ها</span></a>
+                                <ul>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/ServiceEntry.png" /><a href="DailyPm.aspx">برنامه نت پیشگیرانه روزانه</a></li>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/showAllService.png" /><a href="Program.aspx">برنامه نت پیشگیرانه</a></li>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/Rchecklistempty.png" /><a href="DailyCM.aspx">برنامه نت پیش بینانه</a></li>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/Gchecklist.png" /><a href="PmChecked.aspx">PM_نت پیشگیرانه انجام شده</a></li>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/Rchecklist.png" /><a href="CmChecked.aspx">CM_نت پیش بینانه انجام شده</a></li>
+                                </ul>
+                            </li>
+                            <li class='has-sub' id="manager" runat="server"><a href='#'><span>مدیریت</span></a>
+                                <ul>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/section.png" /><a href="addunit.aspx">مدیریت واحدها</a></li>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/lines.png" /><a href="Lines.aspx">مدیریت فاز / خطوط</a></li>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/worker.png" /><a href="userManagment.aspx">مدیریت کاربران</a></li>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/technical-icons.png" /><a href="personel.aspx">مدیریت نیروی فنی</a></li>
+                                </ul>
+                            </li>
+                            <li class='has-sub'><a href='#'><span>ارتباط با ما</span></a>
+                                <ul>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/contact.png" /><a data-toggle="modal" data-target="#contactUsmodal">ارتباط با ما</a></li>
+                                    <li>
+                                        <img class="Icon1" src="assets/Images/aboutus.png" /><a data-toggle="modal" data-target="#aboutUsmodal">درباره ما</a></li>
+                                </ul>
+                            </li>
+                            <li><a class="exit" href="login.aspx">خروج</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
-        </asp:panel>     
-    </center>
-    <%-- -------------------ارتباط با ما------------------------%>
-    <div>
-        <div id="contactUsmodal" class="modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div class="close">
-                        <span class="fa fa-remove" id="closeContactUs" style="color: #43383e;"></span>
+        </div>
+        <%-- -------------------ارتباط با ما------------------------%>
+        <div class="modal fade" id="contactUsmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <img class="contactUsImage" src="assets/Images/contactus1.png" />
                     </div>
-                    <img class="contactUsImage" src="Images/contactus1.png" />
-                </div>
-                <div class="modal-body">
-                    <div style="width: 100%; text-align: center;">
-                        <label style="width: 75%; display: inline-block;color: #43383e; font-weight: 800;">
+                    <div class="modal-body text-center" id="contactinputarea">
+                        <p class="sans-small">
                             برای تماس با ما و ارائه نظرات و پیشنهادات خود می توانید
                             از طریق فرم زیر اقدام به ارسال پیغام نمایید ... توجه داشته باشید
-                            که اطلاعات ارسالی در این سیستم محفوظ بوده و منتشر نخواهد شد...
-                        </label>
+                            ...که اطلاعات ارسالی در این سیستم محفوظ بوده و منتشر نخواهد شد 
+                        </p>
+                        <hr style="margin: 10px;"/>
+                        <input class="form-control mb-2" type="text" id="txtName" required placeholder="نام و نام خانوادگی"/>
+                        <input type="text" id="txtEmail" class="form-control mb-2" style="direction: ltr!important;" required placeholder="آدرس ایمیل"/>
+                        <input type="text" id="txtPhone" class="form-control mb-2" required placeholder="شماره تماس"/>
+                        <textarea id="txtMessage" class="form-control mb-2" style="resize: none" rows="5" required placeholder="پیام"></textarea>
+                        <div class="mt-2 text-left">
+                            <button type="button" class="btn btn-success" id="btnSend">
+                                <img id="loading" class="loading-sm" src="assets/Images/loading.gif"/>
+                                ارسال
+                            </button>
+                        </div>
                     </div>
-                    <hr style="margin: 10px;"/>
-                    <div style="position: relative;">
-                        <label id="lblName" class="lblArea" style="width: 50px;">نام</label>
-                        <input type="text" id="txtName" style="direction: rtl;" class="textArea"/>
-                        <span id="nameValidation"></span>
-                    </div>
-                    <div style="position: relative;">
-                        <label id="lblEmail" class="lblArea">آدرس ایمیل</label>
-                        <input type="text" id="txtEmail" style="font-family: arial; direction: ltr !important;" class="textArea"/>
-                        <span id="emailValidation" ></span>
-                    </div>
-                    <div style="position: relative;">
-                        <label id="lblPhone" class="lblArea">شماره تماس</label>
-                        <input type="text" id="txtPhone" class="textArea" style="direction: ltr !important;"/>
-                        <span id="phoneValidation" ></span>
-                    </div>
-                    <div style="position: relative;">
-                        <label id="lblMessage" class="lblArea" style="width: 50px;">پیام</label>
-                        <textarea id="txtMessage" style="direction: rtl; height: 150px; resize: vertical; z-index: 999;padding: 5px 5px" class="textArea"></textarea>
-                        <span id="messsageValidateion" ></span>
-                    </div>
-                    <div style="text-align: left; padding-left: 83px; position: relative;">
-                        <button type="button" class="sendButton" id="btnSend">ارسال</button>
-                        <img id="imgLoading" class="loadingSend" style="display: none;" src="Images/loading.png"/>
-                    </div>
-                    <label id="lblWarning" style="display: none;" class="lblWarning"></label>
-                </div>
-                <%-- <div class="modal-footer"></div>--%>
-            </div>
-        </div>
-    </div>
-    <%-------------------------------------------------------- --%>
-    
-    <%---------------------------درباره ما-------------------- --%>
-    <div>
-        <div id="aboutUsmodal" class="modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div class="close">
-                        <span class="fa fa-remove" id="closeAboutUs" style="color: #43383e;"></span>
-                    </div>
-                    <img class="contactUsImage" src="Images/aboutus1.png" />
-                </div>
-                <div class="modal-body">
-                    <div style="width: 100%; margin-bottom: 15px;">
-                        <img src="Images/aboutus.png" style="width: auto; height: 120px;"/>
-                    </div>
-                    <div style="width: 100%;">
-                        <label style="width: 85%;">
-                            <div><span class="fa fa-certificate"></span>   <span class="fa fa-certificate"></span>   <span class="fa fa-certificate"></span></div>
-                            <p style="line-height: 25px;">
-                                شرکت فنی و مهندسی برناگستر از سال 1390 فعالیت خود را در زمینه طراحی و اجرای
-                                سیستم های اتوماسیون اداری , نرم افزارهای PM (مدیریت و برنامه ریزی)
-                                و همچنین طراحی و اجرای سیستم های آماری شرکت های خصوصی با خط تولید خاص شروع نموده است.
-                            </p>
-                            <p style="line-height: 25px;">
-                                این شرکت با تکیه بر توان داخلی و بکارگیری مهندسان متخصص و استفاده از مشاوران سیستم های اتوماسیون اداری و مدیریت برنامه ریزی
-                                توانسته است برنامه ها و نرم افزار های ساده و کاربردی و در عین حال پیچیده ای را طراحی و برنامه ریزی نماید.
-                            </p>
-                            <p style="line-height: 25px;">
-                                هدف این شرکت رضایت مشتری , بهترین مشاوره برای داشتن بهترین تولید و بهینه سازی سیستم های اتوماسیون اداری شرکت ها و کارخانجاتی است که رسیدن به بالاترین سطح کیفیت جز
-                                اهداف آنها می باشد.
-                            </p>
-                        </label>    
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <label style="margin: 0;">
-                        <span> شماره های تماس  :</span>&nbsp;&nbsp;<span>05157257048</span>  -  <span>حسینی 09120280730</span>  -  <span>مختاری 09190152706</span>  
-                        <span class="fa fa-phone-square"></span>
-                    </label>
                 </div>
             </div>
         </div>
-    </div>
-    <%-------------------------------------------------------- --%>
-    <link href="Scripts/contactus.css" rel="stylesheet" />
-    <script src="Scripts/contactusJS.js"></script>
-    <script src="Scripts/Notifications.js"></script>
-    <script src="Scripts/excel/table2excel.js"></script>
-</form>
+        <%-------------------------------------------------------- --%>
+
+        <%---------------------------درباره ما-------------------- --%>
+        <div>
+            <div id="aboutUsmodal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <img class="contactUsImage" src="assets/Images/aboutus1.png" />
+                        </div>
+                        <div class="modal-body text-center">
+                            <div style="width: 100%; margin-bottom: 15px;">
+                                <img src="assets/Images/aboutus.png" style="width: auto; height: 120px;" />
+                            </div>
+                            <div style="width: 100%;">
+                                <label style="width: 85%;" class="sans-small">
+                                    <div><span class="fa fa-certificate"></span><span class="fa fa-certificate"></span><span class="fa fa-certificate"></span></div>
+                                    <p style="line-height: 25px;" class="text-center">
+                                        شرکت فنی و مهندسی برناگستر از سال 1390 فعالیت خود را در زمینه طراحی و اجرای
+                                        سیستم های اتوماسیون اداری , نرم افزارهای PM (مدیریت و برنامه ریزی)
+                                        و همچنین طراحی و اجرای سیستم های آماری شرکت های خصوصی با خط تولید خاص شروع نموده است.
+                                    </p>
+                                    <p style="line-height: 25px;" class="text-center">
+                                        این شرکت با تکیه بر توان داخلی و بکارگیری مهندسان متخصص و استفاده از مشاوران سیستم های اتوماسیون اداری و مدیریت برنامه ریزی
+                                        توانسته است برنامه ها و نرم افزار های ساده و کاربردی و در عین حال پیچیده ای را طراحی و برنامه ریزی نماید.
+                                    </p>
+                                    <p style="line-height: 25px;" class="text-center">
+                                        هدف این شرکت رضایت مشتری , بهترین مشاوره برای داشتن بهترین تولید و بهینه سازی سیستم های اتوماسیون اداری شرکت ها و کارخانجاتی است که رسیدن به بالاترین سطح کیفیت جز
+                                        اهداف آنها می باشد.
+                                    </p>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="modal-footer text-right">
+                            <label style="margin: 0;" class="sans-small">
+                                <span>شماره های تماس  :</span>&nbsp;&nbsp;<span>05157257048</span>  -  <span>حسینی 09120280730</span>  -  <span>مختاری 09190152706</span>
+                                <span class="fa fa-phone-square"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%-------------------------------------------------------- --%>
+        <link href="assets/css/contactus.css" rel="stylesheet" />
+        <script src="assets/js/contactusJS.js"></script>
+        <script src="assets/js/Notifications.js"></script>
+        <script src="assets/js/excel/table2excel.js"></script>
+        <script src="assets/js/popper.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/js/mdb.min.js"></script>
+        <script src="assets/js/script.js"></script>
+    </form>
 </body>
 </html>

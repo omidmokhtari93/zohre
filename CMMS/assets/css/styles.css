@@ -1,29 +1,69 @@
 ﻿@charset "UTF-8";
 @font-face {
-    font-family: 'myfont';
-    src: url('../fonts/BYekan.eot'), 
-        url('../fonts/BYekan.eot?#FooAnything') format('embedded-opentype');
-    src: local('☺'), url('../fonts/BYekan.woff') format('woff'), 
-        url('../fonts/BYekan.ttf') format('truetype'),
-        url('../fonts/BYekan.svg') format('svg');
-    font-weight: 200;
+    font-family: 'sans';
+    src: url('../fonts/sans/IRANSans.woff2')
+}@font-face {
+     font-family: 'light_sans';
+     src: url('../fonts/sans/IRANSansWeb_Light.woff2')
+ }@font-face {
+      font-family: 'medium_sans';
+      src: url('../fonts/sans/IRANSansWeb_Medium.woff2')
+  }@font-face {
+       font-family: 'bold_sans';
+       src: url('../fonts/sans/IRANSansWeb_Bold.woff2')
+   }
+.medium-sans {
+    font-family: medium_sans !important;
+    font-size: 12pt;
+}
+
+.bold-sans {
+    font-family: bold_sans !important;
+    font-size: 12pt;
+}
+
+.light-sans {
+    font-family: sans !important;
+    font-size: 12pt;
+}
+
+.sans {
+    font-family: sans !important;
+    font-size: 12pt;
+}
+
+.sans-small {
+    font-family: sans !important;
+    font-size: 10pt;
+}
+
+.sans-xsmall {
+    font-family: sans !important;
+    font-size: 9pt;
+}
+
+.sans-xxsmall {
+    font-family: sans !important;
+    font-size: 8pt;
 }
 .panel.panel-primary{
-    font-family: myfont !important;
+    font-family: sans !important;
 }
 .panel-group {
-    font-family: myfont!important;
+    font-family: sans!important;
     text-align: right;
 }
 body, html {
     height: 100%;
     width: 100%;
 }
-.panel-primary {
-    font-family: myfont;
+.notifyjs-corner {
+    font-family: sans;
+    font-size: 10pt;
+}
+p {
+    direction: rtl;
     text-align: right;
-    font-weight: 800;
-    margin-bottom: 0px !important;
 }
 .tablescroll {
     overflow: auto;
@@ -35,18 +75,42 @@ body, html {
     width: 100%;
     height: 200px;
 }
-.panel-heading {
-    font-weight: 800;
+.card-body {
+    direction: ltr!important;
+    text-align: right;
 }
-.panel-footer {
-    text-align: left !important;
-    direction: rtl!important;
+input,textarea,select {
+    text-align: right;
+    direction: rtl;
 }
+.card-body input {
+    direction: rtl;
+}
+.card-header {
+    text-align: center;
+    font-family: sans;
+}
+.btn {
+    font-family: sans;
+    outline: none!important;
+}
+
 hr {
     margin: 10px 0 10px 0;
 }
 select > option {
     font-weight: 800;
+}
+
+.loading-md {
+    width: 25px;
+    height: 25px;
+    display: none;
+}
+.loading-sm {
+    width: 15px;
+    height: 15px;
+    display: none;
 }
 #cssmenu,
 #cssmenu ul,
@@ -59,7 +123,7 @@ select > option {
   font-weight: normal;
   text-decoration: none;
   line-height: 1;
-  font-family: myfont;
+  font-family: sans;
   font-size: 14px;
 }
 #cssmenu {
@@ -81,7 +145,7 @@ select > option {
 }
 #cssmenu > ul > li:first-child > a {
   border: none;
-  font-family: myfont;
+  font-family: sans;
 }
 #cssmenu > ul > li:first-child > a > span {
   padding: 0;
@@ -115,6 +179,11 @@ select > option {
             border-top: none;
             text-align: right;
         }
+#cssmenu ul li a.exit {
+    line-height: 40px;
+    padding-right: 10px;
+    font-weight: 700;
+}
 #cssmenu > ul > li > a > span {
   display: block;
   padding: 12px 10px;
@@ -159,6 +228,7 @@ select > option {
   color: #676767;
   font-size: 14px;
   text-align: right;
+    line-height: 40px;
 }
     #cssmenu ul ul a:before {
         position: absolute;
@@ -193,7 +263,7 @@ select > option {
     border: none !important;
 }
 .table {
-    font-family: myfont;
+    font-family: sans;
     text-align: center;
     font-size: 10pt;
     font-weight: 800;
@@ -203,6 +273,7 @@ select > option {
     border-radius: 8px;
     overflow: hidden;
     margin-bottom: 0!important;
+    direction: rtl;
 }
 .table tr th { padding: 2px 5px !important;}
     .table td {
@@ -219,7 +290,7 @@ select > option {
 .table tr:nth-child(odd){background-color: #f7f6fe;}
 .SubSystemTable {
     width: 100%;
-    font-family: myfont;
+    font-family: sans;
     font-size: 10pt;
     font-weight: 800;
     overflow: hidden;
@@ -232,7 +303,7 @@ select > option {
 .SubSystemTable tr:nth-child(odd){background-color: #f7f6fe;}
 .PartsTable {
     width: 100%;
-    font-family: myfont;
+    font-family: sans;
     font-size: 10pt;
     font-weight: 800;
     overflow: hidden;
@@ -280,10 +351,10 @@ select > option {
     margin-top: 2px;
 }
 label {
-    font-family: myfont;
+    font-family: sans;
 }
 .menu {
-    font-family: myfont;
+    font-family: sans;
     font-weight: 800;
     margin-top: -7px;
     margin-right: 3px;
@@ -295,7 +366,7 @@ label {
 }
 .textstyle {
     background-color: Transparent;
-    font-family: myfont;
+    font-family: sans;
     border: none;
     cursor: pointer;
     overflow: hidden;
@@ -321,21 +392,21 @@ label {
     min-height: 100%;
 }
 .form-group {
-    font-family: myfont;
+    font-family: sans;
 }
 .form-control {
-    font-family: myfont;
+    font-family: sans;
     font-weight: 800;
 }
 .inline {
-    font-family: myfont;
+    font-family: sans;
     font-size: 10pt;
     display: inline-block;
     position: relative;
     margin: 1px;
 }
 .inline-text {
-    font-family: myfont;
+    font-family: sans;
     font-size: 10pt;
     display: inline-block;
     margin: 6px;
@@ -356,14 +427,14 @@ label {
     padding-right: 0px !important;
 }
 .inline-radio-account {
-    font-family: myfont;
+    font-family: sans;
     font-size: 10pt;
     display: inline-block;
     margin-top: -10px;
     margin-right: -15px;
 }
 .inline-radio {
-    font-family: myfont;
+    font-family: sans;
     font-size: 10pt;
     display: inline-block;
     margin-bottom: -2px;
@@ -376,7 +447,7 @@ label {
     font-weight: 800;
 }
 .switch-field {
-    font-family: myfont;
+    font-family: sans;
     font-weight: 800;
     overflow: hidden;
     text-align: right;
@@ -439,7 +510,7 @@ label {
     text-align: center !important;
 }
 .button {
-    font-family: myfont;
+    font-family: sans;
     font-weight: 800;
     font-size: 12pt;
     color: #000000;
@@ -461,7 +532,7 @@ label {
     width: 100%;
     display: inline-block !important;
     position: relative;
-    font-family: myfont; 
+    font-family: sans; 
 }
 .panel-border {
     border-color: #60a7ff;
@@ -476,21 +547,20 @@ label {
     margin-top: -1px;
 }
 .container {
-    font-family: myfont;
+    font-family: sans;
 }
 .newsBlock {
     width: 100%;
     margin-left: 3px;
     height: 73px;
     background-color: #0c0184;
-    font-family: myfont;
+    font-family: sans;
     position: relative;
 }
 .headerDatetime {
     position: absolute;
     line-height: 42px;
     margin-left: 0px;
-    background-image: url(/Images/date.png);
     background-repeat: no-repeat;
     background-size: 250px 42px;
     border-radius: 5px;
@@ -514,7 +584,7 @@ label {
     top: 1px;
 }
 .exit {
-    background-image: url(/Images/signout.png);
+    background-image: url(../Images/signout.png);
     background-repeat: no-repeat;
     background-size: 15px;
     background-position: left 10px top 12px;
@@ -530,7 +600,7 @@ label {
     overflow: hidden;
     border: 1px solid #ccc;
     background-color: #f1f1f1;
-    font-family: myfont;
+    font-family: sans;
 }
     .tabButtons {
         background-color: inherit;
@@ -568,27 +638,6 @@ label {
     line-height: 20px;
 }
 
-.hprAttach {
-    display: inline-block;
-    width: 70px;
-    height: 50px;
-    text-align: left;
-    background-color: #dcdcdc;
-    color: black;
-    background-image: url('/Images/received.png');
-    background-repeat: no-repeat;
-    background-size: 20px;
-    background-position: 45px 25px;
-    border-radius: 5px;
-    padding-bottom: 25px;
-    padding-left: 5px;
-    font-weight: 600;
-    font-family: myfont;
-}
-.hprAttach:hover {
-    text-decoration: none;
-    cursor: pointer;
-}
 .gridbutton { color: #428ac9 !important; }
 .unselectable {
     -moz-user-select: none;
@@ -636,7 +685,7 @@ label {
     opacity: 1;
 }
 .helpicon {
-    background-image: url(/Images/help.png);
+    background-image: url(../Images/help.png);
     background-repeat: no-repeat;
     background-size: 20px;
     background-position: 5px 5px;
@@ -646,7 +695,7 @@ label {
 .cropbutton {
     background-color: darkblue;
     border: none;
-    font-family: myfont;
+    font-family: sans;
     padding: 2px;
     margin: 0;
     outline: none;
@@ -659,7 +708,7 @@ label {
     color: rgb(221, 221, 221);
 }
 .search {
-    font-family: myfont;
+    font-family: sans;
     font-weight: 700;
     box-sizing: border-box;
     border: 2px solid #ccc;
@@ -667,7 +716,7 @@ label {
     text-align: right;
     font-size: 14px;
     background-color: white;
-    background-image: url('/Images/Search_Dark.png');
+    background-image: url('../Images/Search_Dark.png');
     background-size: 15px;
     background-position: right 10px top 10px;
     background-repeat: no-repeat;
@@ -678,7 +727,7 @@ label {
     height: 40px;
 }
 .loader {
-    background-image: url(/Images/loading.png);
+    background-image: url(../Images/loading.png);
     background-repeat: no-repeat;
     background-size: 20px;
     width: 20px;
@@ -695,14 +744,14 @@ label {
     color: white;
     border-radius: 5px;
     font-size: 11px;
-    font-family: myfont;
+    font-family: sans;
     font-weight: 100;
     margin: 0;
     margin-left: 1px;
     margin-right: 1px;
 }
 .checklabel {
-    font-family: myfont !important;
+    font-family: sans !important;
     margin: 0;
     display: inline-block;
     padding: 5px 10px;
@@ -728,7 +777,7 @@ input[type="checkbox"] {
 .menubody{ width: 100%;padding: 15px;border: 1px solid gainsboro;border-top: 0;background-color: white;}
 
 .redbutton {
-    font-family: myfont;
+    font-family: sans;
     font-weight: 800;
     font-size: 12pt;
     color: white;
@@ -749,7 +798,7 @@ input[type="checkbox"] {
     }
 
 .greenbutton {
-    font-family: myfont;
+    font-family: sans;
     font-weight: 800;
     font-size: 12pt;
     color: white;
@@ -796,7 +845,7 @@ input[type="checkbox"] {
 
 .notifyjs-foo-base {
     opacity: 0.95;
-    font-family: myfont;
+    font-family: sans;
     width: 200px;
     padding: 5px;
     border-radius: 10px;
@@ -827,7 +876,7 @@ input[type="checkbox"] {
 
 .notifyjs-foo-base button {
     font-size: 11px;
-    font-family: myfont;
+    font-family: sans;
     font-weight: 800;
     padding: 5px;
     margin: 2px;

@@ -70,7 +70,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="admin.aspx" />
+    <Content Include="assets\css\bootstrap.min.css" />
+    <Content Include="assets\css\kamadatepicker.css" />
+    <Content Include="assets\css\mdb.min.css" />
     <Content Include="assets\css\mdbootstrap.css" />
+    <Content Include="assets\js\mdb.min.js" />
+    <Content Include="assets\js\popper.min.js" />
     <Content Include="catalog.aspx" />
     <Content Include="CmChecked.aspx" />
     <Content Include="assets\Content\A4.html" />
