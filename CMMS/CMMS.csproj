@@ -87,7 +87,6 @@
     <Content Include="editMachine.aspx" />
     <Content Include="Effective.aspx" />
     <Content Include="Feeview.txt" />
-    <Content Include="files\3ef8dc1d-2988-48ba-90a5-25c4e4664481.txt" />
     <Content Include="FinancialReport.aspx" />
     <Content Include="Images\catalog.png" />
     <Content Include="Images\chart_color.png" />
@@ -701,7 +700,9 @@
       <DependentUpon>welcome.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="files\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
