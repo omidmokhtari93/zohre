@@ -16,6 +16,7 @@
     .imgfilter{ position: absolute;top: 7px;right: 6px;width: 17px;height: 17px;}
     .loadingSend{position: absolute; left: 42px!important; top: 10px; display: none;}
     #btnCopy{ position: absolute;left: 8px;top: 8px;width: 25px;height: 25px;border: none;background-color: transparent;background-image: url(Images/copy.png);background-size: 25px;outline: none;}
+    .chkbox{ width: 25px;height: 25px;}
 </style>
 <link href="Scripts/MachineStyles.css" rel="stylesheet" />
 <asp:HiddenField runat="server" ClientIDMode="Static" ID="Mid"/>
@@ -331,7 +332,11 @@
             </div>
         </div>  
         <div class="row" style="margin: 0; direction: rtl; text-align: right;margin-top: 15px;">
-            <div class="col-md-6">             
+            <div class="col-md-6"> 
+                <label style="margin-bottom: 5px;">&nbsp;</label>               
+                <div style="line-height: 40px;">
+                    اعمال تغییرات برای همه <input type="checkbox" id="chkbroadcast"  class="chkbox" /> 
+                </div>
             </div>
             <div class="col-md-6">
                 <label style="margin-bottom: 5px;">عملیات</label>
@@ -345,14 +350,14 @@
         <div class="row" style="margin: 0; direction: rtl; text-align: right;margin-top: 15px;">
             <div class="col-lg-12">
                 <label>توضیحات :</label>
-                <input class="form-control" tabindex="29" id="txtMavaredComment"/>
+                <input class="form-control" tabindex="30" id="txtMavaredComment"/>
             </div>
         </div>
     </div>
     <div class="panel-footer">
         <button class="button" style="display: none;" type="button" id="btnEditControls" onclick="EditControliItems();">ویرایش</button>
         <button class="button" style="display: none;" type="button" id="btnCancelEditCotntrols" onclick="EmptyControls();">انصراف</button>
-        <button type="button" tabindex="30" id="btnAddControli" class="button" onclick="addControli();">
+        <button type="button" tabindex="31" id="btnAddControli" class="button" onclick="addControli();">
             <span class="fa fa-plus" style="vertical-align:middle;margin-left:5px;"></span>ثبت
         </button>
         <button type="button" class="button fa fa-arrow-right" title="صفحه قبل" id="btnMavaredControlBack"></button>

@@ -618,15 +618,54 @@ namespace CMMS
         public void BSendGridControli(int mid, List<Controls> controls) //Base Information
         {
             _cnn.Open();
-            var cmdDellControlBefor=new SqlCommand("delete from b_control where Mid=" + mid + "", _cnn);
-            cmdDellControlBefor.ExecuteNonQuery();
+            string lst = "";
+            List<string> machinelist = new List<string>();
+            var bcontrolid = "";
             foreach (var item in controls)
             {
-                var selectrepeatrow = new SqlCommand("INSERT INTO [dbo].[b_control]([Mid],[contName],[opr],[comment])" +
-                    "VALUES(" + mid + ",'" + item.Control + "'," + item.Operation + "," + "'" + item.Comment + "')", _cnn);
+                 lst = lst + Convert.ToString(item.Idcontrol) + ','; 
+                
+                var broad = item.Broadcast == true ? 1 : 0;
+                var searchcontrol =new SqlCommand("select id from b_control where id="+item.Idcontrol,_cnn);
+                object obj = searchcontrol.ExecuteScalar();
+                if (obj == null)
+                {
+                    var selectrepeatrow = new SqlCommand(
+                        "INSERT INTO [dbo].[b_control]([Mid],[contName],[opr],[comment],[broadcast])" +
+                        "VALUES(" + mid + ",'" + item.Control + "'," + item.Operation + "," + "'" + item.Comment + "'," + broad + ") select max(id) from b_control where Mid="+mid ,_cnn);
+                    bcontrolid = Convert.ToString(selectrepeatrow.ExecuteScalar());
+                    lst = lst + bcontrolid + ',';
+                    //===================insert new control into m_control =============
+                    if (broad == 1)
+                    {
+                       
+                        var chooseIdmachin =
+                            new SqlCommand("select id from m_machine where SUBSTRING(code,3,3) =" + mid + " ", _cnn);
+                        var rd = chooseIdmachin.ExecuteReader();
 
-                selectrepeatrow.ExecuteNonQuery();               
+                        while (rd.Read())
+                        {
+                            machinelist.Add(rd["id"].ToString());
+                        }
+                        _cnn.Close();
+                        _cnn.Open();
+                        foreach (var Midd in machinelist)
+                        {
+                            var insertMcontrol =new SqlCommand(
+                                    "insert into m_control ([Mid],[idcontrol],[contName],[period],[rooz],[MDser],[comment],[pmstart],[opr]) VALUES " +
+                                    "(" + Midd + "," + bcontrolid + ",'" + item.Control + "',0,0,1," +
+                                    "'" + item.Comment + "','1400/01/01'," + item.Operation + ")", _cnn);
+                            insertMcontrol.ExecuteNonQuery();
+                        }
+                    }
+
+                }
             }
+            lst = lst.Substring(0, lst.Length - 1);
+            var delcontrol=new SqlCommand("delete from b_control where Mid="+mid+" and id not in ("+lst+")",_cnn);
+            delcontrol.ExecuteNonQuery();
+            //====================================== update m_control Table ==================================
+
             _cnn.Close();
         }
         [WebMethod]
@@ -1086,7 +1125,7 @@ namespace CMMS
             var controliList = new List<Controls>();
             _cnn.Open();
             var getControls =
-                new SqlCommand("SELECT [id],[contName],[opr],[comment]FROM [dbo].[b_control] where Mid = " + mid + "", _cnn);
+                new SqlCommand("SELECT [id],[contName],[opr],[broadcast],[comment]FROM [dbo].[b_control] where Mid = " + mid + " and broadcast<>0", _cnn);
             var rd = getControls.ExecuteReader();
             while (rd.Read())
             {
@@ -1096,7 +1135,8 @@ namespace CMMS
                     {
                         Idcontrol = Convert.ToInt32(rd["id"]),
                         Control = rd["contName"].ToString(),                       
-                        Operation = Convert.ToInt32(rd["opr"]),                        
+                        Operation = Convert.ToInt32(rd["opr"]), 
+                        Broadcast = Convert.ToBoolean(rd["broadcast"]),
                         Comment = rd["comment"].ToString()
                     }
                 });

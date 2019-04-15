@@ -81,6 +81,7 @@ namespace CMMS
         public int Operation { get; set; }
         public string PmDate { get; set; }
         public string Comment { get; set; }
+        public Boolean Broadcast { get; set; }
     }
     public class SubSystems
     {

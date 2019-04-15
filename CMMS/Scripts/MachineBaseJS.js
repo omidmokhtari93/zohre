@@ -201,13 +201,14 @@ function addControli() {
        
         var mored = $('#txtControliMoredControl').val();
        
+   
         var comm = $('#txtMavaredComment').val();
         var head = '<thead>' +
             '<tr>' +
             '<th>مورد کنترلی</th>' +
            
             '<th>عملیات</th>' +
-          
+            '<th>اعمال برای همه</th>' +
             '<th>ملاحظات</th>' +
             '<th></th>' +
             '<th></th>' +
@@ -217,14 +218,13 @@ function addControli() {
         var row = '<tr>' +
             '<td style="display:none;">0</td>' +
             '<td style="display:none;">' + mored + '</td>' +
-          
             '<td style="display:none;">' + $('#drcontroliOpr :selected').val() + '</td>' +
-          
             '<td style="display:none;">' + comm + '</td>' +
+            '<td style="display:none;">' + $("#chkbroadcast").is(':checked') + '</td>' +
             '<td>' + mored + '</td>' +
             
             '<td>' + $('#drcontroliOpr :selected').text() + '</td>' +
-           
+            '<td><input type="checkbox" ' + ($('#chkbroadcast').is(':checked') ? 'checked': '')+' disabled/></td>' +
             '<td>' + comm + '</td>' +
             '<td><a id="edit">ویرایش</a></td>' +
             '<td><a id="delete">حذف</a></td>' +
@@ -237,6 +237,7 @@ function addControli() {
             $("#gridMavaredControli tbody").append(row);
         }
         ClearFields('pnlMavaredControli');
+        $('#chkbroadcast').prop("checked", false);
         $('#pnlcontroliRooz').hide();
         $('#pnlControliWeek').hide();
     }
@@ -254,15 +255,22 @@ $("#gridMavaredControli").on("click", "tr a#edit", function () {
     rowItems.push({
         Name: $(this).parent().parent().find('td:eq(1)').text(),      
         Operation: $(this).parent().parent().find('td:eq(2)').text(),     
-        Comment: $(this).parent().parent().find('td:eq(3)').text()
+        Comment: $(this).parent().parent().find('td:eq(3)').text(),
+        Broadcast: $(this).parent().parent().find('td:eq(4)').text()
     });
     FillControls(rowItems);
 });
 
 function FillControls(items) {
+    
     $('#txtControliMoredControl').val(items[0].Name);   
     $('#drcontroliOpr').val(items[0].Operation);
     $('#txtMavaredComment').val(items[0].Comment);
+    if (items[0].Broadcast == "true")
+    { $('#chkbroadcast').prop('checked',true); }
+    else {
+        $('#chkbroadcast').prop('checked',false);
+    }
     $('#btnEditControls').show();
     $('#btnCancelEditCotntrols').show();
 }
@@ -292,20 +300,27 @@ function DeleteControls() {
 function EditControliItems() {
     if (checkControliInputs() === 0) {
         $(target_tr).find('td:eq(1)').text($('#txtControliMoredControl').val());
-        $(target_tr).find('td:eq(4)').text($('#txtControliMoredControl').val());
+        $(target_tr).find('td:eq(5)').text($('#txtControliMoredControl').val());
         
         $(target_tr).find('td:eq(2)').text($('#drcontroliOpr :selected').val());
-        $(target_tr).find('td:eq(5)').text($('#drcontroliOpr :selected').text());
+        $(target_tr).find('td:eq(6)').text($('#drcontroliOpr :selected').text());
+
+        $(target_tr).find('td:eq(4)').text($("#chkbroadcast").is(':checked'));
        
+        $(target_tr).find('td:eq(7)').html('<input type="checkbox" ' + ($('#chkbroadcast').is(':checked') ? 'checked' : '') +' disabled/>');
+
         $(target_tr).find('td:eq(3)').text($('#txtMavaredComment').val());
-        $(target_tr).find('td:eq(6)').text($('#txtMavaredComment').val());
+        $(target_tr).find('td:eq(8)').text($('#txtMavaredComment').val());
         EmptyControls();
+       
+
         GreenAlert(target_tr,"✔ مورد کنترلی ویرایش شد");
     }
 }
 function EmptyControls() {
+    $('#chkbroadcast').prop('checked',false);
     ClearFields('pnlMavaredControli');
-  
+    
     $('#btnEditControls').hide();
     $('#btnCancelEditCotntrols').hide();
    
@@ -671,8 +686,8 @@ function SendTablesToDB() {
                 Control: table.rows[i].cells[1].innerHTML,
               
                 Operation: table.rows[i].cells[2].innerHTML,
-              
-                Comment: table.rows[i].cells[3].innerHTML
+                Comment: table.rows[i].cells[3].innerHTML,
+                Broadcast: table.rows[i].cells[4].innerHTML
             });
         }
         $.ajax({
@@ -994,6 +1009,7 @@ function GetC() {
                     '<tr>' +
                     '<th>مورد کنترلی</th>' +
                     '<th>عملیات</th>' +
+                    '<th>اعمال برای همه</th>' +
                     '<th>ملاحظات</th>' +
                     '<th></th>' +
                     '<th></th>' +
@@ -1014,10 +1030,11 @@ function GetC() {
                         '<td style="display:none;">' + controliData[i].Control + '</td>' +                    
                         '<td style="display:none;">' + controliData[i].Operation + '</td>' +
                         '<td style="display:none;">' + controliData[i].Comment + '</td>' +
+                        '<td style="display:none;">' + controliData[i].Broadcast + '</td>' +
                         '<td>' + controliData[i].Control + '</td>'
                        
                         + '<td>' + opr + '</td>'
-                  
+                        + '<td> <input type="checkbox" disabled="disabled" checked="' + controliData[i].Broadcast+'"/>  </td>'
                         + '<td>' + controliData[i].Comment + '</td>'
                         + '<td><a id="edit">ویرایش</a></td><td><a id="delete">حذف</a></td></tr>';
                     $('#gridMavaredControli tbody').append(tblBody);
