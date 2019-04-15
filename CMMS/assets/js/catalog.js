@@ -22,7 +22,7 @@ function getAllFiles() {
                 '<span class="filetype">' + fileType(file[i].Address) + '</span>' +
                 '<span class="filename">' + file[i].Filename + '</span>' +
                 '<span class="filecode">' + file[i].FileCode + '</span>' +
-                '<span id="' + file[i].Id + '" class="fa fa-trash delete"></span>' +
+                '<span id="' + file[i].Id + '" class="fa fa-trash delete" data-toggle="modal" data-target="#deleteModal"></span>' +
                 '</div>');
         }
         $('.bodyarea').append(html.join(''));
@@ -96,7 +96,6 @@ function uploadFile() {
 var fileId;
 $(document).on('click', '.delete', function () {
     fileId = $(this).attr('id');
-    $('#deleteModal').show();
 });
 
 function deleteFile() {
@@ -109,7 +108,7 @@ function deleteFile() {
     AjaxCall(e);
 
     function successfullyDelete() {
-        $('#deleteModal').hide();
+        $('#deleteModal').modal('hide');
         GreenAlert('n', 'با موفقیت حذف شد');
         getAllFiles();
     }

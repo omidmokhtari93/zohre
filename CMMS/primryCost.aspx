@@ -4,12 +4,13 @@
         label {
             margin: 0;
             margin-right: 5px;
+            direction: rtl;
         }
     </style>
-    <div class="panel panel-primary">
-    <div class="panel-heading">هزینه های پایه</div>
-    <div class="panel-body">
-        <div class="row" style="margin: 0; direction: rtl; text-align: right;">
+    <div class="card">
+    <div class="card-header bg-primary text-white">هزینه های پایه</div>
+    <div class="card-body">
+        <div class="row">
            <div class="col-md-8"></div>
             <div class="col-md-4 text-right">
                 <label>هزینه های سال مالی : </label>
@@ -19,7 +20,7 @@
                 <asp:SqlDataSource ID="SqlYear" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT year FROM d_year"></asp:SqlDataSource>
             </div>
         </div>
-        <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
+        <div class="row mt-3">
             <div class="col-md-4">
                 <label>حقوق سرشیفت : </label>
                 <asp:TextBox ClientIDMode="Static" TabIndex="4" dir="ltr"  ID="txtheadworker" placeholder="ریال" runat="server" CssClass="form-control"  ></asp:TextBox>    
@@ -33,7 +34,7 @@
                 <asp:TextBox ClientIDMode="Static" TabIndex="2" dir="ltr"  ID="txttechnicalmanager" placeholder="ریال" runat="server" CssClass="form-control"></asp:TextBox>        
             </div>
         </div>
-        <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
+        <div class="row mt-3">
             <div class="col-md-4"></div>
             <div class="col-md-4">
                 <label>حقوق نیروی معمولی : </label>
@@ -41,17 +42,16 @@
             </div>
             <div class="col-md-4">
                 <label>حقوق نیروی ماهر: </label>
-                <asp:TextBox ClientIDMode="Static" TabIndex="5"  dir="ltr" ID="txtexpert" placeholder="ریال" CssClass="form-control" runat="server"></asp:TextBox>
-                      
+                <asp:TextBox ClientIDMode="Static" TabIndex="5"  dir="ltr" ID="txtexpert" placeholder="ریال" CssClass="form-control" runat="server"></asp:TextBox>   
             </div>
         </div>
     </div>
-    <div class="panel-footer">
-        <asp:Button runat="server" CssClass="button" TabIndex="7" Text="ثبت" ID="btnSabt" OnClientClick="getRadio();" OnClick="btnSabt_Click" />
-        <asp:Button runat="server" CssClass="button" Text="ویرایش" Visible="False" ID="btnEdit" OnClientClick="getRadio();" OnClick="btnEdit_Click" />
+    <div class="card-footer">
+        <asp:Button runat="server" CssClass="button" ID="btnSabt" Text="ثبت" TabIndex="7" OnClick="btnSabt_Click"/>
+        <asp:Button runat="server" CssClass="button" Text="ویرایش" Visible="False" ID="btnEdit" OnClick="btnEdit_Click" />
         <asp:Button runat="server" CssClass="button" Text="انصراف" Visible="False" ID="btnCancel" OnClick="btnCancel_Click" />
     </div>
-        <div class="panel-footer">
+        <div class="card-footer">
             <asp:SqlDataSource ID="sqlcost_year" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT [id],[cost_year],[worker],[expert],[headworker],[manager],[technical_manager] FROM [dbo].[i_costs] order by cost_year"></asp:SqlDataSource>
             <asp:GridView runat="server" CssClass="table" AutoGenerateColumns="False" DataSourceID="sqlcost_year" DataKeyNames="id" ID="gridCost"  OnRowCommand="gridCost_OnRowCommand">
                 <Columns>

@@ -6,6 +6,7 @@
         label {
             margin: 0;
             margin-right: 5px;
+            direction: rtl;
         }
     </style>
     <div class="card">
