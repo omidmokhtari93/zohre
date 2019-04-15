@@ -75,6 +75,11 @@
                         <asp:BoundField DataField="contName" HeaderText="مورد کنترلی" SortExpression="contName" />
                         <asp:BoundField DataField="priod" HeaderText="دوره سرویسکاری" ReadOnly="True" SortExpression="priod" />
                         <asp:BoundField DataField="tarikh" HeaderText="تاریخ" ReadOnly="True" SortExpression="tarikh" />
+                        <asp:TemplateField HeaderText="مدت زمان توقف سرویسکاری">
+                            <ItemTemplate>
+                                <asp:TextBox runat="server" ID="txtTimeServcie" CssClass="form-control text-center" TextMode="Number" placeholder="دقیقه"></asp:TextBox>
+                            </ItemTemplate>
+                        </asp:TemplateField>
                         <asp:ButtonField Text="بازدید شد" CommandName="done"/>
                         <asp:ButtonField Text="منجر به تعمیر" CommandName="repair"/>
                         <asp:TemplateField>

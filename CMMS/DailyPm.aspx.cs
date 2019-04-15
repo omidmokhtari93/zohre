@@ -74,6 +74,19 @@ namespace CMMS
             cmdcommandCM.ExecuteNonQuery();
             cnn.Close();
         }
+
+        private void TimeService(int rowIndex)
+        {
+            var row1 = gridDailyPM.Rows[rowIndex];
+            var ts = row1.Cells[0].FindControl("txtTimeServcie") as TextBox;
+            var id = gridDailyPM.DataKeys[rowIndex]["id"];
+            if (string.IsNullOrEmpty(ts.Text)) return;
+            cnn.Open();
+            var updateTimeService = new SqlCommand("update p_pmcontrols set timeservice  = " + ts.Text + " where id = " + id + " ", cnn);
+            updateTimeService.ExecuteNonQuery();
+            cnn.Close();
+        }
+
         protected void gridDailyPM_OnRowCommand(object sender, GridViewCommandEventArgs e)
         {
             
@@ -81,6 +94,7 @@ namespace CMMS
             if (e.CommandName == "done")
             {
                 index = int.Parse(e.CommandArgument.ToString());
+                TimeService(index);
                 ViewState["id"] = gridDailyPM.DataKeys[index]["id"];
                 cnn.Open();
                 var getPM = new SqlCommand(
