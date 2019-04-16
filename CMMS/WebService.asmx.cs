@@ -363,25 +363,46 @@ namespace CMMS
         [WebMethod]
         public void BSendKeyItems(int mid, List<KeyItems> keyItemsMain)
         {
+            List<string> machinelist = new List<string>();
             _cnn.Open();
+            var cmddel=new SqlCommand("delete from b_keyitem where Mid="+mid+" ",_cnn);
+            cmddel.ExecuteNonQuery();
             foreach (var item in keyItemsMain)
             {
                 var insertKey = new SqlCommand(
-                    "if (select count(Mid) from b_keyitem where Mid = " + mid + ") <> 0  " +
-                    "UPDATE [dbo].[b_keyitem] " +
-                    "SET [KeyName] = '" + item.Keyname + "'" +
-                    ",[kw] = '" + item.Kw + "' " +
-                    ",[rpm] = '" + item.Rpm + "' " +
-                    ",[country] = '" + item.Country + "' " +
-                    ",[volt] = '" + item.Volt + "' " +
-                    ",[flow] = '" + item.Flow + "' " +
-                    ",[comment] = '" + item.CommentKey + "' " +
-                    " WHERE Mid = " + mid + " " +
-                    " else " +
                     "INSERT INTO [dbo].[b_keyitem]([Mid],[KeyName],[kw],[rpm],[country],[volt],[flow],[comment]) VALUES " +
                     "(" + mid + ",'" + item.Keyname + "','" + item.Kw + "' , '" + item.Rpm + "' , '" + item.Country + "' ," +
                     " '" + item.Volt + "', '" + item.Flow + "' , '" + item.CommentKey + "') ", _cnn);
                 insertKey.ExecuteNonQuery();
+               
+               
+            }
+            var chooseIdmachin =
+                new SqlCommand("select id from m_machine where SUBSTRING(code,3,3) =" + mid + " ", _cnn);
+            var rd = chooseIdmachin.ExecuteReader();
+
+            while (rd.Read())
+            {
+                machinelist.Add(rd["id"].ToString());
+            }
+            _cnn.Close();
+            _cnn.Open();
+            foreach (var midd in machinelist)
+            {
+                var Delmainkeyitem = new SqlCommand("delete from m_keyitem where Mid="+midd, _cnn);
+                Delmainkeyitem.ExecuteNonQuery();
+            }
+            foreach (var item in keyItemsMain)
+            {
+                foreach (var midd in machinelist)
+                {
+                    var insertKey = new SqlCommand(
+                        "INSERT INTO [dbo].[m_keyitem]([Mid],[KeyName],[kw],[rpm],[country],[volt],[flow],[comment]) VALUES " +
+                        "(" + midd + ",'" + item.Keyname + "','" + item.Kw + "' , '" + item.Rpm + "' , '" + item.Country + "' ," +
+                        " '" + item.Volt + "', '" + item.Flow + "' , '" + item.CommentKey + "') ", _cnn);
+                    insertKey.ExecuteNonQuery();
+                }
+
             }
             _cnn.Close();
         }
@@ -490,10 +511,15 @@ namespace CMMS
                     ",[rooz] =" + item.Day + ",[opr] = "+item.Operation+",[MDser] =" + item.MDservice + " ," +
                     "[comment] ='" + item.Comment + "' ,[pmstart] ='" + item.PmDate + "' WHERE id=" + item.Idcontrol +
                     " SELECT '" + item.Idcontrol + "' AS IDc end " +
-                    "else begin  INSERT INTO [dbo].[m_control]([Mid],[contName],[period],[rooz],[opr],[pmstart],[MDser],[comment])" +
+                    "else begin if("+item.Bidcontrol+")=0 begin  INSERT INTO [dbo].[m_control]([Mid],[contName],[period],[rooz],[opr],[pmstart],[MDser],[comment])" +
                     "VALUES(" + mid + ",'" + item.Control + "'," + item.Time + "," + item.Day + ","+item.Operation+"," +
                     "'" + item.PmDate + "'," + item.MDservice + ",'" + item.Comment +
-                    "') SELECT CAST(scope_identity() AS nvarchar) end", _cnn);
+                    "') insert into b_control (Mid,contName,comment,opr,broadcast) VALUES((select SUBSTRING(code,3,3) from m_machine where id =" + mid + "),'" + item.Control + "','" + item.Comment + "'," + item.Operation + ",0)" +
+                    " update m_control set idcontrol=i.id from (select id from b_control where id=(select MAX(id) from b_control)) i where m_control.id=(select MAX(id) from m_control)  SELECT CAST(scope_identity() AS nvarchar) end else " +
+                    "begin UPDATE [dbo].[m_control] SET [contName] ='" + item.Control + "',[period] =" + item.Time + " " +
+                    ",[rooz] =" + item.Day + ",[opr] = " + item.Operation + ",[MDser] =" + item.MDservice + " ," +
+                    "[comment] ='" + item.Comment + "' ,[pmstart] ='" + item.PmDate + "' WHERE idcontrol=" + item.Bidcontrol + " and id=" + item.Idcontrol +"  " +
+                    " select id from m_control where idcontrol=" + item.Bidcontrol + " and id=" + item.Idcontrol + " end  end ", _cnn);
                 string idmcontrol = "";
                 idmcontrol = selectrepeatrow.ExecuteScalar().ToString();
                 DateTime Compair;
@@ -635,35 +661,43 @@ namespace CMMS
                         "VALUES(" + mid + ",'" + item.Control + "'," + item.Operation + "," + "'" + item.Comment + "'," + broad + ") select max(id) from b_control where Mid="+mid ,_cnn);
                     bcontrolid = Convert.ToString(selectrepeatrow.ExecuteScalar());
                     lst = lst + bcontrolid + ',';
-                    //===================insert new control into m_control =============
-                    if (broad == 1)
-                    {
-                       
-                        var chooseIdmachin =
-                            new SqlCommand("select id from m_machine where SUBSTRING(code,3,3) =" + mid + " ", _cnn);
-                        var rd = chooseIdmachin.ExecuteReader();
-
-                        while (rd.Read())
-                        {
-                            machinelist.Add(rd["id"].ToString());
-                        }
-                        _cnn.Close();
-                        _cnn.Open();
-                        foreach (var Midd in machinelist)
-                        {
-                            var insertMcontrol =new SqlCommand(
-                                    "insert into m_control ([Mid],[idcontrol],[contName],[period],[rooz],[MDser],[comment],[pmstart],[opr]) VALUES " +
-                                    "(" + Midd + "," + bcontrolid + ",'" + item.Control + "',0,0,1," +
-                                    "'" + item.Comment + "','1400/01/01'," + item.Operation + ")", _cnn);
-                            insertMcontrol.ExecuteNonQuery();
-                        }
-                    }
-
+                }
+                else 
+                {
+                    var updateBroadcast=new SqlCommand("update b_control set broadcast="+ broad, _cnn);
+                    updateBroadcast.ExecuteNonQuery();
                 }
             }
             lst = lst.Substring(0, lst.Length - 1);
             var delcontrol=new SqlCommand("delete from b_control where Mid="+mid+" and id not in ("+lst+")",_cnn);
             delcontrol.ExecuteNonQuery();
+
+            //===================insert new control into m_control =============
+            var chooseIdmachin =
+                new SqlCommand("select id from m_machine where SUBSTRING(code,3,3) =" + mid + " ", _cnn);
+            var rd = chooseIdmachin.ExecuteReader();
+
+            while (rd.Read())
+            {
+                machinelist.Add(rd["id"].ToString());
+            }
+            _cnn.Close();
+            _cnn.Open();
+            foreach (var item in controls)
+            {
+                var broad = item.Broadcast == true ? 1 : 0;
+                if (broad == 1)
+                {
+                   foreach (var Midd in machinelist)
+                    {
+                        var insertMcontrol = new SqlCommand(" if (select count(id) from m_control where Mid="+Midd+ " and idcontrol = "+item.Idcontrol+" )=0 begin " +
+                            "insert into m_control ([Mid],[idcontrol],[contName],[period],[rooz],[MDser],[comment],[pmstart],[opr]) VALUES " +
+                            "(" + Midd + "," + item.Idcontrol + ",'" + item.Control + "',0,0,1," +
+                            "'" + item.Comment + "','1400/01/01'," + item.Operation + ") end ", _cnn);
+                        insertMcontrol.ExecuteNonQuery();
+                    }
+                }
+            }
             //====================================== update m_control Table ==================================
 
             _cnn.Close();
@@ -696,7 +730,7 @@ namespace CMMS
                     "VALUES(" + mid + "," + item.SubSystemId + ")" , _cnn);
                 insertParts.ExecuteNonQuery();
             }
-            var deleteM = new SqlCommand("delete from m_subsystem where Mid in (select id from m_machine where SUBSTRING(CONVERT(varchar(8), code), 3, 3)= " + mid + " ) ", _cnn);
+            var deleteM = new SqlCommand("delete from m_subsystem where Mid in (select id from m_machine where SUBSTRING(CONVERT(varchar(8), code), 3, 3)= " + mid + " ) and code IS NULL ", _cnn);
             deleteM.ExecuteNonQuery();
             _cnn.Close();
 
@@ -717,8 +751,8 @@ namespace CMMS
                 {
 
                     var insertParts = new SqlCommand(
-                        "INSERT INTO [dbo].[m_subsystem](Mid , subId)" +
-                        "VALUES(" +Mid + "," + item.SubSystemId + ")", _cnn);
+                        "if(select count(id) from m_subsystem where Mid="+Mid+ " and subId="+item.SubSystemId+")=0 begin INSERT INTO [dbo].[m_subsystem](Mid , subId)" +
+                        "VALUES(" +Mid + "," + item.SubSystemId + ") end ", _cnn);
                    
                     insertParts.ExecuteNonQuery();
                 }
@@ -760,6 +794,27 @@ namespace CMMS
                 insertMeasurement.ExecuteNonQuery();
             }
             _cnn.Close();
+            _cnn.Open();
+            List<string> machinelist = new List<string>();
+            var machine = new SqlCommand("select id from m_machine where SUBSTRING(CONVERT(varchar(8), code), 3, 3)= " + mid + "", _cnn);
+            var rd = machine.ExecuteReader();
+            while (rd.Read())
+            {
+                machinelist.Add(rd["id"].ToString());
+            }
+            _cnn.Close();
+            _cnn.Open();
+            foreach (var Mid in machinelist)
+            {
+                foreach (var item in parts)
+                {
+                    var insertParts = new SqlCommand(
+                        "if(select count(id) from m_parts where Mid=" + Mid + " and PartId=" + item.PartId + ")=0 begin INSERT INTO [dbo].[m_parts]([Mid],[PartId],[mYear],[min],[max],[chPeriod],[comment])" +
+                        "VALUES (" + Mid + "," + item.PartId + ",'" + item.UsePerYear + "','" + item.Min + "','" + item.Max + "','1400/01/01','---') end ", _cnn);
+
+                    insertParts.ExecuteNonQuery();
+                }
+            }
         }
         [WebMethod]
         public void SendGridGhataat(int mid, List<Parts> parts)
@@ -1059,7 +1114,7 @@ namespace CMMS
             var controliList = new List<Controls>();
             _cnn.Open();
             var getControls =
-                new SqlCommand("SELECT [id],[contName],[period],[rooz],[pmstart],[opr],[MDser],[comment]FROM [dbo].[m_control] where Mid = " + mid+"", _cnn);
+                new SqlCommand("SELECT [id],[contName],[idcontrol],[period],[rooz],[pmstart],[opr],[MDser],[comment]FROM [dbo].[m_control] where Mid = " + mid+"", _cnn);
             var rd = getControls.ExecuteReader();
             while (rd.Read())
             {
@@ -1068,6 +1123,7 @@ namespace CMMS
                     new Controls
                     {
                         Idcontrol = Convert.ToInt32(rd["id"]),
+                        Bidcontrol=rd["idcontrol"] == DBNull.Value ? 0 : Convert.ToInt32(rd["idcontrol"]),
                         Control = rd["contName"].ToString(),
                         Time = Convert.ToInt32(rd["period"]),
                         Day = Convert.ToInt32(rd["rooz"]),
@@ -1125,7 +1181,7 @@ namespace CMMS
             var controliList = new List<Controls>();
             _cnn.Open();
             var getControls =
-                new SqlCommand("SELECT [id],[contName],[opr],[broadcast],[comment]FROM [dbo].[b_control] where Mid = " + mid + " and broadcast<>0", _cnn);
+                new SqlCommand("SELECT [id],[contName],[opr],[broadcast],[comment]FROM [dbo].[b_control] where Mid = " + mid + " ", _cnn);
             var rd = getControls.ExecuteReader();
             while (rd.Read())
             {

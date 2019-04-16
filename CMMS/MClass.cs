@@ -82,6 +82,7 @@ namespace CMMS
         public string PmDate { get; set; }
         public string Comment { get; set; }
         public Boolean Broadcast { get; set; }
+        public int Bidcontrol { get; set; }
     }
     public class SubSystems
     {

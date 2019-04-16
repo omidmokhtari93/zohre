@@ -294,6 +294,7 @@ function addControli() {
             '<td style="display:none;">' + $('#drcontroliOpr :selected').val() + '</td>' +
             '<td style="display:none;">' + $('#txtStartPMDate').val() + '</td>' +
             '<td style="display:none;">' + comm + '</td>' +
+            '<td style="display:none;">0</td>' +
             '<td>' + mored + '</td>' +
             '<td>' + zaman + '</td>' +
             '<td>' + rooz + '</td>' +
@@ -404,39 +405,39 @@ function DeleteControls() {
 function EditControliItems() {
     if (checkControliInputs() === 0) {
         $(target_tr).find('td:eq(1)').text($('#txtControliMoredControl').val());
-        $(target_tr).find('td:eq(8)').text($('#txtControliMoredControl').val());
+        $(target_tr).find('td:eq(9)').text($('#txtControliMoredControl').val());
         $(target_tr).find('td:eq(2)').text($('#drControliZaman :selected').val());
-        $(target_tr).find('td:eq(9)').text($('#drControliZaman :selected').text());
+        $(target_tr).find('td:eq(10)').text($('#drControliZaman :selected').text());
         var period = $('#drControliZaman :selected').val();
         if (period == 6) {
             $(target_tr).find('td:eq(3)').text($('#drControlWeek :selected').val());
-            $(target_tr).find('td:eq(10)').text($('#drControlWeek :selected').text());
+            $(target_tr).find('td:eq(11)').text($('#drControlWeek :selected').text());
         }
         if (period == 0) {
             $(target_tr).find('td:eq(3)').text(0);
-            $(target_tr).find('td:eq(10)').text('----');
+            $(target_tr).find('td:eq(11)').text('----');
         }
         if (period == 5) {
             $(target_tr).find('td:eq(3)').text($('#txtControliRooz').val());
-            $(target_tr).find('td:eq(10)').text('هر ' + $('#txtControliRooz').val() + ' روز');
+            $(target_tr).find('td:eq(11)').text('هر ' + $('#txtControliRooz').val() + ' روز');
         }
         if (period != 6 && period != 0 && period != 5) {
             $(target_tr).find('td:eq(3)').text($('#txtControliRooz').val());
-            $(target_tr).find('td:eq(10)').text($('#txtControliRooz').val());
+            $(target_tr).find('td:eq(11)').text($('#txtControliRooz').val());
         }
         if ($('#servicebale').is(':checked')) {
             $(target_tr).find('td:eq(4)').text(1);
-            $(target_tr).find('td:eq(11)').text('بله');
+            $(target_tr).find('td:eq(12)').text('بله');
         } else {
             $(target_tr).find('td:eq(4)').text(0);
-            $(target_tr).find('td:eq(11)').text('خیر');
+            $(target_tr).find('td:eq(12)').text('خیر');
         }
         $(target_tr).find('td:eq(5)').text($('#drcontroliOpr :selected').val());
-        $(target_tr).find('td:eq(12)').text($('#drcontroliOpr :selected').text());
+        $(target_tr).find('td:eq(13)').text($('#drcontroliOpr :selected').text());
         $(target_tr).find('td:eq(6)').text($('#txtStartPMDate').val());
-        $(target_tr).find('td:eq(13)').text($('#txtStartPMDate').val());
+        $(target_tr).find('td:eq(14)').text($('#txtStartPMDate').val());
         $(target_tr).find('td:eq(7)').text($('#txtMavaredComment').val());
-        $(target_tr).find('td:eq(14)').text($('#txtMavaredComment').val());
+        $(target_tr).find('td:eq(15)').text($('#txtMavaredComment').val());
         EmptyControls();
         GreenAlert(target_tr,"✔ مورد کنترلی ویرایش شد");
     }
@@ -923,7 +924,8 @@ function SendTablesToDB() {
                 MDservice: table.rows[i].cells[4].innerHTML,
                 Operation: table.rows[i].cells[5].innerHTML,
                 PmDate: table.rows[i].cells[6].innerHTML,
-                Comment: table.rows[i].cells[7].innerHTML
+                Comment: table.rows[i].cells[7].innerHTML,
+                Bidcontrol: table.rows[i].cells[8].innerHTML
             });
         }
         $.ajax({
@@ -1248,8 +1250,9 @@ function GetKeyitems() {
                         '<td>' + keyData[i].Volt + '</td>' +
                         '<td>' + keyData[i].Flow + '</td>' +
                         '<td>' + keyData[i].CommentKey + '</td>' +
-                        '<td><a id="delete">حذف</a></td>' +
+                        
                         '<td><a id="edit">ویرایش</a></td>' +
+                        '<td><a id="delete">حذف</a></td>' +
                         '</tr>';
                     $('#gridMavaredKey tbody').append(tblBody);
                     j++;
@@ -1322,6 +1325,7 @@ function GetC() {
                         '<td style="display:none;">' + controliData[i].Operation + '</td>' +
                         '<td style="display:none;">' + controliData[i].PmDate + '</td>' +
                         '<td style="display:none;">' + controliData[i].Comment + '</td>' +
+                        '<td style="display:none;">' + controliData[i].Bidcontrol + '</td>' +
                         '<td>' + controliData[i].Control + '</td>'
                         + '<td>' + period + '</td>'
                         + '<td>' + rooz + '</td>'

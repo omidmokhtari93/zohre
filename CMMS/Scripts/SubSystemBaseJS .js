@@ -23,6 +23,7 @@ function CreateBadge(text, val) {
     } else {
         $('#badgeArea').append(badgeHtml);
         subData.push({ Name: text, Id: val });
+        $('#gridSubsystem').empty();
     }
 }
 $('.SubSystemTable').on('click', 'tr', function () {
