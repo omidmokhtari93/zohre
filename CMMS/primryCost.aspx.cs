@@ -11,7 +11,7 @@ namespace CMMS
 {
     public partial class primryCost : System.Web.UI.Page
     {
-        SqlConnection cnn=new SqlConnection(ConfigurationManager.ConnectionStrings["CMMS"].ConnectionString);
+        SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["CMMS"].ConnectionString);
         protected void Page_Load(object sender, EventArgs e)
         {
             switch (UserAccess.CheckAccess())
@@ -30,14 +30,19 @@ namespace CMMS
         protected void btnSabt_Click(object sender, EventArgs e)
         {
             cnn.Open();
-            txtexpert.Text=txtexpert.Text.Replace(",","");
-            txtheadworker.Text=txtheadworker.Text.Replace(",", "");
-            txtmanager.Text=txtmanager.Text.Replace(",", "");
-            txttechnicalmanager.Text=txttechnicalmanager.Text.Replace(",", "");
-            txtworker.Text=txtworker.Text.Replace(",", "");
+            if (txtexpert.Text.Length < 2 || txtheadworker.Text.Length < 2 || txtmanager.Text.Length < 2 || txttechnicalmanager.Text.Length < 2 || txtworker.Text.Length < 2 || drYear.SelectedValue == "-1")
+            {
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "CheckInputsForNull();", true);
+                return;
+            }
+            txtexpert.Text = txtexpert.Text.Replace(",", "");
+            txtheadworker.Text = txtheadworker.Text.Replace(",", "");
+            txtmanager.Text = txtmanager.Text.Replace(",", "");
+            txttechnicalmanager.Text = txttechnicalmanager.Text.Replace(",", "");
+            txtworker.Text = txtworker.Text.Replace(",", "");
             var cmdinsertCosts = new SqlCommand("insert into i_costs (cost_year,worker,expert,headworker,manager,technical_manager)" +
                                                 " values('" + drYear.SelectedValue + "'," + txtworker.Text + "," +
-                                                txtexpert.Text + "," + txtheadworker.Text + "," + txtmanager.Text + ","+txttechnicalmanager.Text+")",cnn);
+                                                txtexpert.Text + "," + txtheadworker.Text + "," + txtmanager.Text + "," + txttechnicalmanager.Text + ")", cnn);
             cmdinsertCosts.ExecuteNonQuery();
             gridCost.DataBind();
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "save();", true);
@@ -81,7 +86,7 @@ namespace CMMS
             txttechnicalmanager.Text = txttechnicalmanager.Text.Replace(",", "");
             txtworker.Text = txtworker.Text.Replace(",", "");
             cnn.Open();
-            var cmdUpcost=new SqlCommand("update i_costs set cost_year='"+drYear.SelectedValue+"',worker="+txtworker.Text+",expert="+txtexpert.Text+",headworker="+txtheadworker.Text+",manager="+txtmanager.Text+ ",technical_manager="+txttechnicalmanager.Text+" where id=" + ViewState["id"]+" ",cnn);
+            var cmdUpcost = new SqlCommand("update i_costs set cost_year='" + drYear.SelectedValue + "',worker=" + txtworker.Text + ",expert=" + txtexpert.Text + ",headworker=" + txtheadworker.Text + ",manager=" + txtmanager.Text + ",technical_manager=" + txttechnicalmanager.Text + " where id=" + ViewState["id"] + " ", cnn);
             cmdUpcost.ExecuteNonQuery();
             gridCost.DataBind();
             btnSabt.Visible = true;

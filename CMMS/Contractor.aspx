@@ -90,19 +90,13 @@
     <script>
         function Err() {
             if ($('#txtcontractor').val() == '') {
-                $('#txtcontractor').addClass('form-controlError');
-                setTimeout(function () { $('#txtcontractor').removeClass('form-controlError'); }, 4000);
-                $.notify("!!لطفا نام پیمانکار را وارد نمایید", { globalPosition: 'top left' });
+                RedAlert('txtcontractor', '!!لطفا نام پیمانکار را وارد نمایید');
             }
             if ($('#txttell').val() == '') {
-                $('#txttell').addClass('form-controlError');
-                setTimeout(function () { $('#txttell').removeClass('form-controlError'); }, 4000);
-                $.notify("!!لطفا تلفن  را وارد نمایید", { globalPosition: 'top left' });
+                RedAlert('txttell', '!!لطفا تلفن  را وارد نمایید');
             }
             if ($('#txtaddress').val() == '') {
-                $('#txtaddress').addClass('form-controlError');
-                setTimeout(function () { $('#txtaddress').removeClass('form-controlError'); }, 4000);
-                $.notify("!!لطفا آدرس پیمانکار را وارد نمایید", { globalPosition: 'top left' });
+                RedAlert('txtaddress', '!!لطفا آدرس پیمانکار را وارد نمایید');
             }
         }
         function getRadio() {

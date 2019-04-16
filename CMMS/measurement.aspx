@@ -25,7 +25,6 @@
     <div class="card">
         <div class="card-header bg-primary text-white">واحد های اندازه گیری </div>
         <div class="card-body">
-            
             <ul class="nav nav-tabs sans" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="measur-tab" data-toggle="tab" href="#measur" role="tab" aria-controls="home"
@@ -44,7 +43,6 @@
                             <div class="card-body">
                                 <label style="display: block; text-align: right;">واحد اندازه گیری</label>
                                 <input class="form-control" style="direction: rtl;" id="txtMeasur" />
-
                             </div>
                             <div class="card-footer">
                                 <button id="btninsertmeasur" type="button" class="button" onclick="insertOrUpdateData('txtMeasur',0,'InsertAndUpdateMeasurement');">ثبت</button>

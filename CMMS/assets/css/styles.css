@@ -46,8 +46,11 @@
     font-family: sans !important;
     font-size: 8pt;
 }
-.panel.panel-primary{
-    font-family: sans !important;
+.ltr {
+    direction: ltr !important;
+}
+.rtl {
+    direction: rtl!important;
 }
 .panel-group {
     font-family: sans!important;
