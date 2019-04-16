@@ -983,8 +983,8 @@ function GetKeyitems() {
                         '<td>' + keyData[i].Volt + '</td>' +
                         '<td>' + keyData[i].Flow + '</td>' +
                         '<td>' + keyData[i].CommentKey + '</td>' +
-                        '<td><a id="delete">حذف</a></td>' +
                         '<td><a id="edit">ویرایش</a></td>' +
+                        '<td><a id="delete">حذف</a></td>' +
                         '</tr>';
                     $('#gridMavaredKey tbody').append(tblBody);
                     j++;
@@ -1034,7 +1034,8 @@ function GetC() {
                         '<td>' + controliData[i].Control + '</td>'
                        
                         + '<td>' + opr + '</td>'
-                        + '<td> <input type="checkbox" disabled="disabled" checked="' + controliData[i].Broadcast+'"/>  </td>'
+
+                        + '<td> <input type="checkbox" ' + (controliData[i].Broadcast ? 'checked' : '') +' disabled />  </td>'
                         + '<td>' + controliData[i].Comment + '</td>'
                         + '<td><a id="edit">ویرایش</a></td><td><a id="delete">حذف</a></td></tr>';
                     $('#gridMavaredControli tbody').append(tblBody);
