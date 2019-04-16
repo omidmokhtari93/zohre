@@ -29,6 +29,11 @@ namespace CMMS
 
         protected void btnSabt_Click(object sender, EventArgs e)
         {
+            if (txtexpert.Text.Length < 2 || txtheadworker.Text.Length < 2 || txtmanager.Text.Length < 2 || txttechnicalmanager.Text.Length < 2 || txtworker.Text.Length < 2 || drYear.SelectedValue == "-1")
+            {
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "CheckInputsForNull();", true);
+                return;
+            }
             cnn.Open();
             txtexpert.Text=txtexpert.Text.Replace(",","");
             txtheadworker.Text=txtheadworker.Text.Replace(",", "");

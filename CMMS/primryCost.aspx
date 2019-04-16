@@ -67,29 +67,24 @@
     </div>
  </div>
    <script>
-       $.fn.Digit = function () {
-           if ($(this).val()=='') {
-               return;
-           }
-           var num = $(this).val().replace(/,/g, "");
-           var intnumber = parseInt(num);
-           $(this).val(intnumber.toLocaleString());
+       function CheckInputsForNull() {
+           $('#inputs').find('[required]').each(function (x, ele) {
+               if (isNaN(parseInt($(ele).val())) || $(ele).val() == '-1' || $(ele).val().length < 2) {
+                   RedAlert($(ele).attr('id'), '');
+               }
+           })
+           RedAlert('n', 'لطفا مقادیر صحیح وارد نمایید');
        }
 
-       $('#txtheadworker').on('keyup', function() {
-           $(this).Digit();
-       });
-       $('#txtmanager').on('keyup', function () {
-           $(this).Digit();
-       });
-       $('#txttechnicalmanager').on('keyup', function () {
-           $(this).Digit();
-       });
-       $('#txtworker').on('keyup', function () {
-           $(this).Digit();
-       });
-       $('#txtexpert').on('keyup', function () {
-           $(this).Digit();
+       $(function() {
+           $.fn.Digit = function() {
+               if ($(this).val() == '') return;
+               $(this).val(parseInt($(this).val().replace(/,/g, "")).toLocaleString());
+           }
+           $('#txtheadworker,#txtmanager,#txttechnicalmanager,#txtworker,#txtexpert').on('keyup',
+               function() {
+                   $(this).Digit();
+               });
        });
    </script>
 </asp:Content>
