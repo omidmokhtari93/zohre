@@ -23,7 +23,7 @@
     <title>سامانه نگهداری و تعمیر تجهیزات برنا</title>
 </head>
 <body class="background_pattern">
-<form id="form1" runat="server">
+<form id="form1" runat="server" novalidate>
     <center>
         <asp:panel CssClass="mainbody" runat="server">
             <asp:Panel runat="server" CssClass="header_image unselectable">

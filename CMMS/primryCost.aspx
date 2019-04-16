@@ -8,12 +8,12 @@
     </style>
     <div class="panel panel-primary">
     <div class="panel-heading">هزینه های پایه</div>
-    <div class="panel-body">
+    <div class="panel-body" id="inputs">
         <div class="row" style="margin: 0; direction: rtl; text-align: right;">
            <div class="col-md-8"></div>
             <div class="col-md-4 text-right">
                 <label>هزینه های سال مالی : </label>
-                <asp:DropDownList runat="server" TabIndex="1" ClientIDMode="Static" CssClass="form-control" ID="drYear" AppendDataBoundItems="True" DataSourceID="SqlYear" DataTextField="year" DataValueField="year">
+                <asp:DropDownList runat="server" TabIndex="1" ClientIDMode="Static" required CssClass="form-control" ID="drYear" AppendDataBoundItems="True" DataSourceID="SqlYear" DataTextField="year" DataValueField="year">
                     <asp:ListItem Value="-1">انتخاب کنید</asp:ListItem>
                 </asp:DropDownList>        
                 <asp:SqlDataSource ID="SqlYear" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT year FROM d_year"></asp:SqlDataSource>
@@ -22,27 +22,26 @@
         <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
             <div class="col-md-4">
                 <label>حقوق سرشیفت : </label>
-                <asp:TextBox ClientIDMode="Static" TabIndex="4" dir="ltr"  ID="txtheadworker" placeholder="ریال" runat="server" CssClass="form-control"  ></asp:TextBox>    
+                <asp:TextBox ClientIDMode="Static" TabIndex="4" dir="ltr"  ID="txtheadworker" required placeholder="ریال" runat="server" CssClass="form-control"  ></asp:TextBox>    
             </div>
             <div class="col-md-4">
                 <label>حقوق سرپرست : </label>
-                <asp:TextBox ClientIDMode="Static" TabIndex="3" dir="ltr" ID="txtmanager" placeholder="ریال" CssClass="form-control" runat="server" ></asp:TextBox>   
+                <asp:TextBox ClientIDMode="Static" TabIndex="3" dir="ltr" ID="txtmanager" required placeholder="ریال" CssClass="form-control" runat="server" ></asp:TextBox>   
             </div>
             <div class="col-md-4">
                 <label>حقوق مدیر فنی : </label>
-                <asp:TextBox ClientIDMode="Static" TabIndex="2" dir="ltr"  ID="txttechnicalmanager" placeholder="ریال" runat="server" CssClass="form-control"></asp:TextBox>        
+                <asp:TextBox ClientIDMode="Static" TabIndex="2" dir="ltr"  ID="txttechnicalmanager" required placeholder="ریال" runat="server" CssClass="form-control"></asp:TextBox>        
             </div>
         </div>
         <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
             <div class="col-md-4"></div>
             <div class="col-md-4">
                 <label>حقوق نیروی معمولی : </label>
-                <asp:TextBox ClientIDMode="Static" TabIndex="6" dir="ltr"  ID="txtworker" placeholder="ریال" CssClass="form-control" runat="server"></asp:TextBox> 
+                <asp:TextBox ClientIDMode="Static" TabIndex="6" dir="ltr"  ID="txtworker" required placeholder="ریال" CssClass="form-control" runat="server"></asp:TextBox> 
             </div>
             <div class="col-md-4">
                 <label>حقوق نیروی ماهر: </label>
-                <asp:TextBox ClientIDMode="Static" TabIndex="5"  dir="ltr" ID="txtexpert" placeholder="ریال" CssClass="form-control" runat="server"></asp:TextBox>
-                      
+                <asp:TextBox ClientIDMode="Static" TabIndex="5"  dir="ltr" ID="txtexpert" required placeholder="ریال" CssClass="form-control" runat="server"></asp:TextBox>    
             </div>
         </div>
     </div>
