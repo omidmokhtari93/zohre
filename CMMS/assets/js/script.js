@@ -21,6 +21,21 @@
     });
 })(jQuery);
 
+var customOptions = {
+    placeholder: "روز / ماه / سال",
+    twodigit: true,
+    closeAfterSelect: true,
+    nextButtonIcon: "fa fa-arrow-circle-right",
+    previousButtonIcon: "fa fa-arrow-circle-left",
+    buttonsColor: "blue",
+    forceFarsiDigits: true,
+    markToday: true,
+    markHolidays: true,
+    highlightSelectedDay: true,
+    sync: true,
+    gotoToday: true
+};
+
 function Checkinputs(n) {
   var t = !1,
     a = $("#" + n).find("input[required] ,textarea[required]");
@@ -186,7 +201,7 @@ function GetChartData(obj) {
     $.ajax({
         type: "POST",
         url: "Reports.asmx/" + obj.url,
-        data: JSON.stringify(obj.data[0]),
+        data: JSON.stringify(obj.param),
         contentType: 'application/json;',
         dataType: 'json',
         success: function (e) {
@@ -220,18 +235,18 @@ function CreatePieChart(reportName, reportData, chartElement, chartype) {
             plotShadow: false,
             type: chartype,
             style: {
-                fontFamily: 'myfont'
+                fontFamily: 'sans'
             }
         },
         title: {
             text: reportName,
             style: {
-                fontFamily: 'myfont'
+                fontFamily: 'sans'
             }
         },
         tooltip: {
             style: {
-                fontFamily: 'myfont',
+                fontFamily: 'sans',
                 fontSize: '12px'
             },
             formatter: function () {
@@ -265,12 +280,12 @@ function CreateColumnChart(lblkind,reportName, reportData, chartElement, chartyp
         title: {
             text: reportName,
             style: {
-                fontFamily: 'myfont'
+                fontFamily: 'sans'
             }
         },
         tooltip: {
             style: {
-                fontFamily: 'myfont',
+                fontFamily: 'sans',
                 fontSize: '12px'
             },
             formatter: function () {
@@ -281,7 +296,7 @@ function CreateColumnChart(lblkind,reportName, reportData, chartElement, chartyp
             categories: reportData.Strings,
             labels: {
                 style: {
-                    fontFamily:'myfont',
+                    fontFamily:'sans',
                     fontSize: '12px'
                 }
             }
@@ -290,13 +305,13 @@ function CreateColumnChart(lblkind,reportName, reportData, chartElement, chartyp
             title: {
                 text: lblkind,
                 style: {
-                    fontFamily: 'myfont',
+                    fontFamily: 'sans',
                     fontSize: '16px'
                 }
             },
             labels: {
                 style: {
-                    fontFamily:'myfont'
+                    fontFamily:'sans'
                 }
             }
         },
@@ -317,7 +332,7 @@ function CreateMultipleColumnChart(kind,c1,c2,lbl,reportName, reportData, chartE
         title: {
             text: reportName,
             style: {
-                fontFamily: 'myfont'
+                fontFamily: 'sans'
             }
         },
         xAxis: {
@@ -325,7 +340,7 @@ function CreateMultipleColumnChart(kind,c1,c2,lbl,reportName, reportData, chartE
             crosshair: true,
             labels: {
                 style: {
-                    fontFamily: 'myfont',
+                    fontFamily: 'sans',
                     fontSize: '12px'
                 }
             }
@@ -335,20 +350,20 @@ function CreateMultipleColumnChart(kind,c1,c2,lbl,reportName, reportData, chartE
             title: {
                 text: kind,
                 style: {
-                    fontFamily: 'myfont',
+                    fontFamily: 'sans',
                     fontSize: '16px'
                 }
             },
             labels: {
                 style: {
-                    fontFamily: 'myfont',
+                    fontFamily: 'sans',
                     fontSize: '12px'
                 }
             }
         },
         tooltip: {
             style: {
-                fontFamily: 'myfont',
+                fontFamily: 'sans',
                 fontSize: '12px'
             },
             headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
@@ -362,7 +377,7 @@ function CreateMultipleColumnChart(kind,c1,c2,lbl,reportName, reportData, chartE
            
             column: {
                 style: {
-                    fontFamily: 'myfont',
+                    fontFamily: 'sans',
                     fontSize: '12px'
                 },
                 pointPadding: 0.2,

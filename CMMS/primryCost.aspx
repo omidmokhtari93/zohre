@@ -24,26 +24,26 @@
             <div class="row mt-3">
                 <div class="col-md-4">
                     <label>حقوق سرشیفت : </label>
-                    <asp:TextBox ClientIDMode="Static" TabIndex="4" dir="ltr" ID="txtheadworker" placeholder="ریال" runat="server" required CssClass="form-control"></asp:TextBox>
+                    <asp:TextBox ClientIDMode="Static" TabIndex="4" dir="ltr" ID="txtheadworker" placeholder="ریال" runat="server" required CssClass="form-control text-left"></asp:TextBox>
                 </div>
                 <div class="col-md-4">
                     <label>حقوق سرپرست : </label>
-                    <asp:TextBox ClientIDMode="Static" TabIndex="3" dir="ltr" ID="txtmanager" placeholder="ریال" CssClass="form-control" required runat="server"></asp:TextBox>
+                    <asp:TextBox ClientIDMode="Static" TabIndex="3" dir="ltr" ID="txtmanager" placeholder="ریال" CssClass="form-control text-left" required runat="server"></asp:TextBox>
                 </div>
                 <div class="col-md-4">
                     <label>حقوق مدیر فنی : </label>
-                    <asp:TextBox ClientIDMode="Static" TabIndex="2" dir="ltr" ID="txttechnicalmanager" placeholder="ریال" runat="server" required CssClass="form-control"></asp:TextBox>
+                    <asp:TextBox ClientIDMode="Static" TabIndex="2" dir="ltr" ID="txttechnicalmanager" placeholder="ریال" runat="server" required CssClass="form-control text-left"></asp:TextBox>
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col-md-4"></div>
                 <div class="col-md-4">
                     <label>حقوق نیروی معمولی : </label>
-                    <asp:TextBox ClientIDMode="Static" TabIndex="6" dir="ltr" ID="txtworker" placeholder="ریال" CssClass="form-control" required runat="server"></asp:TextBox>
+                    <asp:TextBox ClientIDMode="Static" TabIndex="6" dir="ltr" ID="txtworker" placeholder="ریال" CssClass="form-control text-left" required runat="server"></asp:TextBox>
                 </div>
                 <div class="col-md-4">
                     <label>حقوق نیروی ماهر: </label>
-                    <asp:TextBox ClientIDMode="Static" TabIndex="5" dir="ltr" ID="txtexpert" placeholder="ریال" CssClass="form-control" required runat="server"></asp:TextBox>
+                    <asp:TextBox ClientIDMode="Static" TabIndex="5" dir="ltr" ID="txtexpert" placeholder="ریال" CssClass="form-control text-left" required runat="server"></asp:TextBox>
                 </div>
             </div>
         </div>

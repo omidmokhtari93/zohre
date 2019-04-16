@@ -1,18 +1,4 @@
 ﻿$(document).ready(function () {
-    var customOptions = {
-        placeholder: "روز / ماه / سال"
-        , twodigit: true
-        , closeAfterSelect: true
-        , nextButtonIcon: "fa fa-arrow-circle-right"
-        , previousButtonIcon: "fa fa-arrow-circle-left"
-        , buttonsColor: "blue"
-        , forceFarsiDigits: true
-        , markToday: true
-        , markHolidays: true
-        , highlightSelectedDay: true
-        , sync: true
-        , gotoToday: true
-    }
     kamaDatepicker('txtMtbfEndDate', customOptions);
     kamaDatepicker('txtMtbfStartDate', customOptions);
     kamaDatepicker('txtrepEndDate', customOptions);
@@ -32,30 +18,27 @@ $('#drMTBFUnits').on('change', function () {
     if ($('#drMTBFUnits :selected').val() !== '-1') {
         $('#drMTBFLine').val('-1');
         $('#drMTBFfaz').val('-1');
-    } 
-    
+    }
 });
 $('#drMTBFLine').on('change', function () {
     if ($('#drMTBFLine :selected').val() !== '-1') {
         $('#drMTBFUnits').val('-1');
         $('#drMTBFfaz').val('-1');
     }
-
 });
 $('#drMTBFfaz').on('change', function () {
     if ($('#drMTBFfaz :selected').val() !== '-1') {
         $('#drMTBFUnits').val('-1');
         $('#drMTBFLine').val('-1');
     }
-
 });
 function Mtbf() {
-    ClearReprtArea();
     var startDate = $('#txtMtbfStartDate').val();
     var endDate = $('#txtMtbfEndDate').val();
     var unitt = $('#drMTBFUnits :selected').val();
     var linee = $('#drMTBFLine :selected').val();
     var fazz = $('#drMTBFfaz :selected').val();
+    ClearReprtArea();
     if (startDate == '' || endDate == '') {
         RedAlert('no', 'لطفا فیلد های خالی را تکمیل نمایید');
         return;
@@ -64,37 +47,36 @@ function Mtbf() {
         RedAlert('no', 'لطفا فاز ، خط یا واحد مورد نظر را انتخاب کنید');
         return;
     }
-    var obj = {
+    GetChartData({
         url: 'MTBF_Report',
-        data: [],
+        param: {
+            dateS: $('#txtMtbfStartDate').val(),
+            dateE: $('#txtMtbfEndDate').val(),
+            unit: $('#drMTBFUnits :selected').val(),
+            line: $('#drMTBFLine :selected').val(),
+            faz: $('#drMTBFfaz :selected').val()
+        },
         kind: 'روز',
         comment1: 'MTBF',
         comment2: 'Target MTBF',
-        label:'Days',
+        label: 'Days',
         element: 'MtbfChart',
         header: 'MTBF گزارش',
         chartype: 'categorycolumn'
-    };
-    obj.data.push({
-        dateS: startDate,
-        dateE: endDate,
-        unit: unitt,
-        line: linee,
-        faz:fazz
     });
-    GetChartData(obj);
 
-    $.get("Content/report.html", function (data) {
+    $.get("assets/Content/report.html", function (data) {
         data = data.replace("#btn#", 'onclick="MtbfReport();"');
         $("#MtbfReportArea").html(data);
     });
 }
 
 function CreateTableForChart(data) {
+    var body;
     if ($('#Mtbf').hasClass('active')) {
         $('#gridMtbfReport').empty();
         if (data.Machine.length > 0) {
-            var body = [];
+            body = [];
             body.push('<tr><th>ردیف</th><th>نام دستگاه</th><th>فاز</th><th>خط</th><th>MTBF</th><th>MTBF-Goal</th></tr>');
             for (var i = 0; i < data.Machine.length; i++) {
                 body.push('<tr>' +
@@ -112,7 +94,7 @@ function CreateTableForChart(data) {
     if ($('#MttrPerRepiar').hasClass('active')) {
         $('#gridMttrRReport').empty();
         if (data.Machine.length > 0) {
-            var body = [];
+            body = [];
             body.push('<tr><th>ردیف</th><th>نام دستگاه</th><th>فاز</th><th>خط</th><th>MTTR</th><th>MTTR-Goal</th></tr>');
             for (var i = 0; i < data.Machine.length; i++) {
                 body.push('<tr>' +
@@ -130,7 +112,7 @@ function CreateTableForChart(data) {
     if ($('#MttrPerStop').hasClass('active')) {
         $('#gridMttrSReport').empty();
         if (data.Machine.length > 0) {
-            var body = [];
+            body = [];
             body.push('<tr><th>ردیف</th><th>نام دستگاه</th><th>فاز</th><th>خط</th><th>MTTR</th><th>MTTR-Goal</th></tr>');
             for (var i = 0; i < data.Machine.length; i++) {
                 body.push('<tr>' +
@@ -181,9 +163,16 @@ function MttrPerRepiar() {
         RedAlert('no', 'لطفا فاز ، خط یا واحد مورد نظر را انتخاب کنید');
         return;
     }
-    var obj = {
+
+    GetChartData({
         url: 'MTTR_Per_Repair',
-        data: [],
+        param: {
+            dateS: $('#txtrepStartDate').val(),
+            dateE: $('#txtrepEndDate').val(),
+            unit: $('#drMttrPerRepiar :selected').val(),
+            line: $('#drMTTRRLine :selected').val(),
+            faz: $('#drMTTRRFaz :selected').val()
+        },
         kind: 'ساعت',
         comment1: 'MTTR',
         comment2: 'Target MTTR',
@@ -191,16 +180,9 @@ function MttrPerRepiar() {
         element: 'MttrPerRepiarChart',
         header: 'گزارش مدت زمان تعمیر_بر مبنای تعمیر',
         chartype: 'categorycolumn'
-    };
-    obj.data.push({
-        dateS: startDate,
-        dateE: endDate,
-        unit: unitt,
-        line: linee,
-        faz:fazz
     });
-    GetChartData(obj);
-    $.get("Content/report.html", function (data) {
+
+    $.get("assets/Content/report.html", function (data) {
         data = data.replace("#btn#", 'onclick="MttrPerRepairReport();"');
         $("#MttrPerRepiarReport").html(data);
     });
@@ -229,7 +211,7 @@ function MttrPerStop() {
     ClearReprtArea();
     var startDate = $('#txtstopStartDate').val();
     var endDate = $('#txtstopEndDate').val();
-    var unitt =$('#drMttrPerStop :selected').val();
+    var unitt = $('#drMttrPerStop :selected').val();
     var linee = $('#drMTTRSLine :selected').val();
     var fazz = $('#drMTTRSFaz :selected').val();
     if (startDate == '' || endDate == '') {
@@ -240,9 +222,16 @@ function MttrPerStop() {
         RedAlert('no', 'لطفا فاز ، خط یا واحد مورد نظر را انتخاب کنید');
         return;
     }
-    var obj = {
+
+    GetChartData({
         url: 'MTTR_Per_stop',
-        data: [],
+        param: {
+            dateS: $('#txtstopStartDate').val(),
+            dateE: $('#txtstopEndDate').val(),
+            unit: $('#drMttrPerStop :selected').val(),
+            line: $('#drMTTRSLine :selected').val(),
+            faz: $('#drMTTRSFaz :selected').val()
+        },
         kind: 'ساعت',
         comment1: 'MTTR',
         comment2: 'Target MTTR',
@@ -250,16 +239,9 @@ function MttrPerStop() {
         element: 'MttrPerstopChart',
         header: 'گزارش مدت زمان تعمیر_بر مبنای توقف',
         chartype: 'categorycolumn'
-    };
-    obj.data.push({
-        dateS: startDate,
-        dateE: endDate,
-        unit: unitt,
-        line: linee,
-        faz:fazz
     });
-    GetChartData(obj);
-    $.get("Content/report.html", function (data) {
+
+    $.get("assets/Content/report.html", function (data) {
         data = data.replace("#btn#", 'onclick="MttrPerStopReport();"');
         $("#MttrPerStopReport").html(data);
     });
@@ -269,19 +251,17 @@ function MtbfReport() {
     if (CheckInputs()) {
         RedAlert('no', 'لطفا فیلد خالی را تکمیل کنید');
     } else {
-        var data = [];
-        data.push({
+        AjaxData({
             url: 'WebService.asmx/MtbfReports',
-            parameters: [{ obj: CollectData(1) }],
+            param: { obj: CollectData(1) },
             func: mtbfReportDone
         });
-        AjaxCall(data);
 
         function mtbfReportDone() {
             GreenAlert('no', 'با موفقیت ثبت شد MTBF گزارش');
             $('#MtbfReportArea').empty();
-           
         }
+        
     }
 }
 
@@ -289,13 +269,11 @@ function MttrPerRepairReport() {
     if (CheckInputs()) {
         RedAlert('no', 'لطفا فیلد خالی را تکمیل کنید');
     } else {
-        var data = [];
-        data.push({
+        AjaxData({
             url: 'WebService.asmx/MtbfReports',
-            parameters: [{ obj: CollectData(2) }],
+            param: { obj: CollectData(2) },
             func: mttrPerRepairReportDone
         });
-        AjaxCall(data);
 
         function mttrPerRepairReportDone() {
             GreenAlert('no', 'گزارش مدت زمان تعمیر_بر مبنای تعمیر با موفقیت ثبت شد');
@@ -308,13 +286,11 @@ function MttrPerStopReport() {
     if (CheckInputs()) {
         RedAlert('no', 'لطفا فیلد خالی را تکمیل کنید');
     } else {
-        var data = [];
-        data.push({
+        AjaxData({
             url: 'WebService.asmx/MtbfReports',
-            parameters: [{ obj: CollectData(3) }],
+            param: { obj: CollectData(3) },
             func: mttrPerStopReportDone
         });
-        AjaxCall(data);
 
         function mttrPerStopReportDone() {
             GreenAlert('no', 'گزارش مدت زمان تعمیر_بر مبنای توقف با موفقیت ثبت شد');
@@ -340,13 +316,11 @@ function GetFilteredReportTable(s, e, d) {
     var startDate = $('#' + s).val();
     var endDate = $('#' + e).val();
     var typee = $('#' + d + ' :selected').val();
-    var data = [];
-    data.push({
+    AjaxData({
         url: 'WebService.asmx/GetFilteredReportTable',
-        parameters: [{ dateS: startDate, dateE: endDate, type: typee }],
+        param: { dateS: startDate, dateE: endDate, type: typee },
         func: createtbl
     });
-    AjaxCall(data);
 
     function createtbl(e) {
         $('#gridReports tbody').empty();
@@ -429,13 +403,12 @@ function editReport() {
             Exp: $('#txtReportExp').val(),
             Analyse: $('#txtReportAnalyse').val()
         };
-        var data = [];
-        data.push({
+
+        AjaxData({
             url: 'WebService.asmx/UpdateReport',
-            parameters: [{ obj: updata }],
+            param: { obj: updata },
             func: updateReport
         });
-        AjaxCall(data);
 
         function updateReport(e) {
             $('#reportModal').hide();
@@ -446,13 +419,11 @@ function editReport() {
 }
 
 function DeleteReport() {
-    var data = [];
-    data.push({
+    AjaxData({
         url: 'WebService.asmx/DeleteReport',
-        parameters: [{ reportIdd: reportId }],
+        param: { reportIdd: reportId },
         func: deleteReport
     });
-    AjaxCall(data);
 
     function deleteReport() {
         $('#deletereportModal').hide();
