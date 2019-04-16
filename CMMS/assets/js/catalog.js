@@ -3,16 +3,15 @@
 });
 function getAllFiles() {
     $('.bodyarea').empty();
-    var d = [];
-    d.push({
+    AjaxData({
         url: 'WebService.asmx/GetCatalogFiles',
-        parameters: [{
+        param:
+        {
             name: $('#txtSearch').val(),
             code: $('#txtCodeSearch').val()
-        }],
+        },
         func: createDownloadLinks
     });
-    AjaxCall(d);
     function createDownloadLinks(e) {
         var file = JSON.parse(e.d);
         var html = [];
@@ -48,10 +47,6 @@ function getAllFiles() {
         }
     }
 }
-
-$('#drmachinesearch').change(function () {
-    getAllFiles();
-});
 
 function uploadFile() {
     if ($('#catfile').val() == '') {
@@ -99,14 +94,11 @@ $(document).on('click', '.delete', function () {
 });
 
 function deleteFile() {
-    var e = [];
-    e.push({
+    AjaxData({
         url: 'WebService.asmx/DeleteCatFile',
-        parameters: [{ id: fileId }],
+        param: { id: fileId },
         func: successfullyDelete
     });
-    AjaxCall(e);
-
     function successfullyDelete() {
         $('#deleteModal').modal('hide');
         GreenAlert('n', 'با موفقیت حذف شد');
