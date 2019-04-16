@@ -31,12 +31,12 @@
                 <SelectParameters>
                     <asp:ControlParameter ControlID="dr_machine" Name="Mid" PropertyName="SelectedValue" />
                 </SelectParameters>
-            </asp:SqlDataSource>
+            </asp:SqlDataSource> 
             </label>
             <asp:SqlDataSource ID="sqlmachin" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, name FROM m_machine WHERE (loc = @unit_id)">
                 <SelectParameters>
                     <asp:ControlParameter ControlID="drunit" Name="unit_id" PropertyName="SelectedValue" />
-                </SelectParameters>
+               </SelectParameters>
             </asp:SqlDataSource>
             <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
                 <div class="col-md-5">
@@ -73,7 +73,20 @@
                 </div>
             </div>
             <div class="row" style="margin: 0; direction: rtl; text-align: right;margin-top: 15px;">
-                <div class="col-md-6"></div>
+                <div class="col-md-3">
+                    فاز :
+                    <asp:DropDownList runat="server" CssClass="form-control" AppendDataBoundItems="True" ID="drFaz" ClientIDMode="Static" DataSourceID="SqlFaz" DataTextField="faz_name" DataValueField="id">
+                        <asp:ListItem Value="0">انتخاب کنید</asp:ListItem>
+                    </asp:DropDownList>
+                    <asp:SqlDataSource ID="SqlFaz" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, faz_name FROM i_faz"></asp:SqlDataSource>
+                </div>
+                <div class="col-md-3">
+                    خط :
+                    <asp:DropDownList runat="server" CssClass="form-control" ID="drLine" ClientIDMode="Static" AppendDataBoundItems="True" DataSourceID="Sqlline" DataTextField="line_name" DataValueField="id">
+                        <asp:ListItem Value="0">انتخاب کنید</asp:ListItem>
+                    </asp:DropDownList>
+                    <asp:SqlDataSource ID="Sqlline" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT line_name, id FROM i_lines"></asp:SqlDataSource>
+                </div>
                 <div class="col-md-6">
                     <label>نوع درخواست : </label>
                     <div class="switch-field">

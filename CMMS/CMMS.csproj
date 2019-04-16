@@ -197,6 +197,7 @@
     <Content Include="Reply.aspx" />
     <Content Include="ReplyPrint.aspx" />
     <Content Include="Reports.asmx" />
+    <Content Include="RequestPrint.aspx" />
     <Content Include="Scripts\catalog.js" />
     <Content Include="Scripts\chart\export-data.js" />
     <Content Include="Scripts\chart\exporting.js" />
@@ -622,6 +623,13 @@
     <Compile Include="Reports.asmx.cs">
       <DependentUpon>Reports.asmx</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RequestPrint.aspx.cs">
+      <DependentUpon>RequestPrint.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RequestPrint.aspx.designer.cs">
+      <DependentUpon>RequestPrint.aspx</DependentUpon>
     </Compile>
     <Compile Include="rijn.cs" />
     <Compile Include="ShamsiCalendar.cs" />

@@ -1404,10 +1404,13 @@ namespace CMMS
         [WebMethod]
         public string GetRequestDetails(int reqId)
         {
+            var faz = "";
+            var line = "";
             _cnn.Open();
             var reqDetList = new List<RequestDetails>();
             var reqDetails = new SqlCommand("if (select r_request.type_repair from r_request where r_request.req_id = " + reqId + ") = 1 begin " +
-                                            "SELECT dbo.m_machine.name, dbo.m_machine.code, case when dbo.subsystem.name is null then '____' else dbo.subsystem.name end as subname," +
+                                            " SELECT dbo.m_machine.name, " +
+                                            " dbo.m_machine.code, case when dbo.subsystem.name is null then '____' else dbo.subsystem.name end as subname," +
                                             "case when dbo.subsystem.id is null then -1 else dbo.subsystem.id end as subid,r_request.req_id, " +
                                             "dbo.i_units.unit_name, CASE WHEN r_request.type_fail = 1 THEN 'مکانیکی' WHEN r_request.type_fail = 2 THEN 'تاسیساتی-الکتریکی' " +
                                             "WHEN r_request.type_fail = 3 THEN 'الکتریکی واحد برق' ELSE 'غیره' END AS Tfail, r_request.req_name, " +
@@ -1421,20 +1424,38 @@ namespace CMMS
                                             "CASE WHEN r_request.type_req = 1 THEN 'اضطراری' WHEN r_request.type_req = 2 THEN 'پیش بینانه' ELSE 'پیش گیرانه' END AS Treq, " +
                                             "dbo.r_request.comment, dbo.r_request.date_req + '_' + dbo.r_request.time_req as time,dbo.r_request.time_req,dbo.r_request.date_req FROM dbo.r_request INNER JOIN " +
                                             "dbo.i_units ON dbo.r_request.unit_id = dbo.i_units.unit_code where req_id = " + reqId + " end", _cnn);
+           
+            var cmdfazline = new SqlCommand("SELECT dbo.i_lines.line_name, dbo.i_faz.faz_name FROM dbo.i_faz INNER JOIN dbo.r_request ON dbo.i_faz.id = dbo.r_request.faz  " +
+                                            "INNER JOIN dbo.i_lines ON dbo.r_request.line = dbo.i_lines.id WHERE(dbo.r_request.req_id = " + reqId + ")", _cnn);
+
+            var rdfazline = cmdfazline.ExecuteReader();
+            if (rdfazline.Read())
+            {
+
+                faz = rdfazline["faz_name"].ToString();
+                line =rdfazline["line_name"].ToString();
+
+            }
+            _cnn.Close();
+            _cnn.Open();
             var rd = reqDetails.ExecuteReader();
             if (rd.Read())
             {
-                reqDetList.AddRange(new List<RequestDetails>
-                {
+                
+               reqDetList.AddRange(new List<RequestDetails>
+               {
                     new RequestDetails
-                    {
-                        MachineName = rd["name"].ToString() , MachineCode = rd["code"].ToString(),SubName = rd["subname"].ToString(),
+                    {   
+                       
+                        MachineName = rd["name"].ToString() ,Faz = faz, Line = line ,MachineCode = rd["code"].ToString(),SubName = rd["subname"].ToString(),
                         UnitName = rd["unit_name"].ToString(),FailType = rd["Tfail"].ToString(),NameRequest = rd["req_name"].ToString(),SubId = Convert.ToInt32(rd["subid"]),
                         RequestType = rd["Treq"].ToString(),Comment = rd["comment"].ToString(),Time = rd["time"].ToString(),RequestNumber = rd["req_id"].ToString(),
                         RequestDate = rd["date_req"].ToString(),RequestTime = rd["time_req"].ToString()
                     }
-                });
+               });
             }
+           
+            
             _cnn.Close();
             return new JavaScriptSerializer().Serialize(reqDetList);
         }

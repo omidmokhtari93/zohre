@@ -90,13 +90,18 @@
                     </div>
                 </div>
                 <div class="row" style="margin: 0; margin-top: 15px;">
-                    <div class="col-lg-4">
-                        <label class="listlable" id="lblSubName"></label>
-                        <label> : تجهیز</label>
-                    </div>
+                    
                     <div class="col-lg-4">
                         <label class="listlable" id="lblRequestCode"></label>
                         <label> : به شماره فنی</label>
+                    </div>
+                    <div class="col-lg-2">
+                        <label class="listlable" id="lblline"></label>
+                       
+                    </div>
+                    <div class="col-lg-2">
+                        <label class="listlable" id="lblfaz" style="direction: rtl"></label>
+                       
                     </div>
                     <div class="col-lg-4">
                         <label class="listlable" id="lblMachineName"></label>
@@ -104,13 +109,17 @@
                     </div>
                 </div>
                 <div class="row" style="margin: 0;margin-top: 15px;">
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <label class="listlable" id="lblRequestType"></label>
                         <label> : نوع درخواست</label>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <label class="listlable" id="lblFailType"></label>
                         <label> : نوع خرابی</label>
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="listlable" id="lblSubName"></label>
+                        <label> : تجهیز</label>
                     </div>
                 </div>
                 <div class="row" style="margin: 0;margin-top: 15px;">
