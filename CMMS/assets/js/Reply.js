@@ -16,11 +16,12 @@ if (reqId !== '') {
             $('#RequestDate').val(reqDetails[0].RequestDate);
             $('#lblRequestNumber').text(reqDetails[0].RequestNumber);
             $('#lblMachineName').text(reqDetails[0].MachineName);
+            $('#lblfaz').text(reqDetails[0].Faz);
+            $('#lblline').text(reqDetails[0].Line);
             $('#lblRequestCode').text(reqDetails[0].MachineCode);
             $('#lblRequestTime').text(reqDetails[0].Time);
             $('#lblNameRequest').text(reqDetails[0].NameRequest);
             $('#lblUnitRequest').text(reqDetails[0].UnitName);
-            $('#lblMachineName').text(reqDetails[0].MachineName);
             $('#lblSubName').text(reqDetails[0].SubName);
             $('#drSubSystem').val(reqDetails[0].SubId);
             $('#lblFailType').text(reqDetails[0].FailType);

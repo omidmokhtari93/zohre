@@ -87,8 +87,18 @@ namespace CMMS
         {
             cnn.Close();
             cnn.Open();
-            var sqlcode = new SqlCommand("select code from m_machine where id=" + dr_machine.SelectedValue + "", cnn);
-            txtmachin_code.Text = Convert.ToString(sqlcode.ExecuteScalar());
+            var sqlcode = new SqlCommand("select code,line,faz from m_machine where id=" + dr_machine.SelectedValue + "", cnn);
+            var rd = sqlcode.ExecuteReader();
+            if (rd.Read())
+            {
+                txtmachin_code.Text = rd["code"].ToString();
+                drLine.SelectedValue = rd["line"].ToString();
+                drFaz.SelectedValue = rd["faz"].ToString();
+                drLine.DataBind();
+                drFaz.DataBind();
+
+            }
+            
         }
         public void UPinsertPm(string id, int mconntrol, string tarikh, int kind, string week, string other)
         {
@@ -245,10 +255,10 @@ namespace CMMS
             }
             cnn.Open();
             var insertRequest = new SqlCommand("insert into r_request ([req_id],[unit_id],[machine_code],[subid],[type_fail]," +
-                                               "[req_name],[type_req],[comment],[date_req],[time_req],[type_repair],[state])" +
+                                               "[req_name],[type_req],[comment],[date_req],[time_req],[type_repair],[state],[faz],[line])" +
                                                 "values("+txtreqid.Text+",'"+drunit.SelectedValue+"'," + dr_machine.SelectedValue + "," +
                                                ""+dr_tools.SelectedValue+"," + typefail.Value + ",'" + txtreq_name.Text + "'," +
-                                               ""+typereq.Value+",'"+txtcomment.Text+"','"+txtRequestDate.Value+"','"+txtRequestTime.Value+"',1,1)", cnn);
+                                               ""+typereq.Value+",'"+txtcomment.Text+"','"+txtRequestDate.Value+"','"+txtRequestTime.Value+"',1,1,"+drFaz.SelectedValue+","+drLine.SelectedValue+")", cnn);
             insertRequest.ExecuteNonQuery();
             gridrequest.DataBind();
             txtreq_name.Text = "";
@@ -264,6 +274,12 @@ namespace CMMS
             txtmachin_code.Text = "";
             dr_tools.Items.Clear();
             dr_tools.Items.Insert(0, new ListItem("تجهیز را انتخاب نمایید", "-1"));
+
+            drLine.Items.Clear();
+            drLine.Items.Insert(0, new ListItem("انتخاب نمایید", "0"));
+
+            drFaz.Items.Clear();
+            drFaz.Items.Insert(0,new ListItem("انتخاب نمایید", "0"));
             Pm();
             
         }
@@ -283,7 +299,7 @@ namespace CMMS
                 var getrequest =
                     new SqlCommand(
                         "SELECT [req_id],[unit_id],[machine_code],[subid],[type_fail],[req_name],[type_req],[comment]" +
-                        ",[date_req],[time_req],[type_repair],[state] FROM [dbo].[r_request] where id = " +
+                        ",[date_req],[time_req],[type_repair],[state],[faz],[line] FROM [dbo].[r_request] where id = " +
                         Convert.ToInt32(ViewState["id"]) + " ", cnn);
                 
                 var rd = getrequest.ExecuteReader();
@@ -297,7 +313,6 @@ namespace CMMS
                         dr_machine.DataBind();
                         txtreqid.Text = rd["req_id"].ToString();
                         dr_machine.SelectedValue = rd["machine_code"].ToString();
-                        
                         sqlsubsys.DataBind();
                         dr_tools.DataBind();
                         dr_tools.SelectedValue = rd["subid"].ToString();
@@ -305,7 +320,10 @@ namespace CMMS
                         typereq.Value = rd["type_req"].ToString();
                         txtreq_name.Text = rd["req_name"].ToString();
                         txtcomment.Text = rd["comment"].ToString();
-
+                        drLine.SelectedValue = rd["line"].ToString();
+                        drFaz.SelectedValue = rd["faz"].ToString();
+                        drLine.DataBind();
+                        drFaz.DataBind();
                         txtRequestDate.Value = rd["date_req"].ToString();
                         txtRequestTime.Value = rd["time_req"].ToString();
                         ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script",

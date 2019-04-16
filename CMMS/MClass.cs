@@ -174,6 +174,8 @@ namespace CMMS
         public string RequestTime { get; set; }
         public string RequestDate { get; set; }
         public string Comment { get; set; }
+        public string Faz { get; set; }
+        public string Line { get; set; }
     }
 
     public class Units
