@@ -192,7 +192,6 @@
     <Content Include="RepairRecordReport.aspx" />
     <Content Include="RepairRecordReview.aspx" />
     <Content Include="RepairReport.aspx" />
-    <Content Include="RepairRequestPrint.aspx" />
     <Content Include="repairs.aspx" />
     <Content Include="Reply.aspx" />
     <Content Include="ReplyPrint.aspx" />
@@ -591,13 +590,6 @@
     </Compile>
     <Compile Include="repairRequest.aspx.designer.cs">
       <DependentUpon>repairRequest.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="RepairRequestPrint.aspx.cs">
-      <DependentUpon>RepairRequestPrint.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="RepairRequestPrint.aspx.designer.cs">
-      <DependentUpon>RepairRequestPrint.aspx</DependentUpon>
     </Compile>
     <Compile Include="repairs.aspx.cs">
       <DependentUpon>repairs.aspx</DependentUpon>

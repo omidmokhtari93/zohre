@@ -34,25 +34,20 @@
         table tr{ position: relative;}
         table td{ border: 1px solid #625f5f;padding: 3px;position: relative !important;font-size: 10pt;}
         img{ width: auto;height: 60px;}
-        .tbl th {
-            text-align: center !important;
-            border: 1px solid #625f5f;
+        .tbl1 {
+            border-collapse: collapse;
         }
-        .tbl {
-            font-family: myfont;
+       .tbl1 tr:first-child td{
+           text-align: right;
+       }
+       .tbl1 tr td p {
+           margin: 5px 0;
+       }
+       .tbl1 tr td {
+           padding: 2px 7px;
+       }
+        .tblparts tr td {
             text-align: center;
-            font-size: 10pt;
-            font-weight: 800;
-            border: 1px solid black;
-            overflow: hidden;
-            margin-bottom: 0!important;
-        }
-        .tbl tr th { padding: 0 !important;}
-        .tbl td {
-            padding: 0 !important;
-            vertical-align: middle !important;
-            border: 1px solid #625f5f;
-            direction: rtl;
         }
         #bottomTables tr:first-child td{border-top: none;}
         .n-bordered tr:first-child td{border-top: none;}
@@ -64,86 +59,156 @@
 <body>
 <form id="form1" runat="server">
     <asp:HiddenField runat="server" ID="ReqId" ClientIDMode="Static"/>
-    <div style="padding: 5px 14px 0px 5px;width: 210mm; min-height: 297mm;" class="print">
+<div style="padding: 5px 12px 5px 5px;width: 148mm; min-height: 210mm;" class="print">
         <table>
             <tr style="height: 100px; text-align: center;">
-                <td style="width: 220px;">
+                <td style="width: 200px;">
                     <span style="position: absolute; top: 5px; right: 5px;">شماره سند :FO-PM-394</span>
-                   
                     <span style="position: absolute; top: 55px; right: 5px;">شماره بازنگری :00</span>
-                   
                 </td>
-                <td colspan="2"><h2 style="margin: 0;"> دستور کار نگهداری و تعمیرات </h2></td>
-                <td><img src="Images/zohre1.png" /></td>
-               
-               </tr>
-        </table>
-       
-        <table>
-            <tr style="height: 100px; text-align: center;">
-               
-                  <td colspan="3" style="width:100%; height: 10px;text-align: center">
-                      <span style="position: absolute; top: 5px">موضوع دستور کار</span> 
-                  </td>  
-                
+                <td><h2 style="margin: 0;"> دستور کار نگهداری و تعمیرات </h2></td>
+                <td style="width: 30%;"><img src="Images/zohre1.png" /></td>
             </tr>
-            <tr style="height: 100px; text-align: center; height: 20px;">
+        </table>
+        <table class="tbl1">
+            <tr style="height: 55px; text-align: center;">
+                <td colspan="3" style="width:100%; height: 10px; text-align: center;vertical-align: top;">
+                    <span>موضوع دستور کار</span> 
+                </td>  
+            </tr>
+            <tr>
                 <td >مورد تعمیر : <label id="lblMachineName"></label></td>
                 <td >کد ماشین : <label id="lblRequestCode"></label></td>
                 <td >تجهیز مورد تعمیر : <label id="lblSubName"></label></td>
             </tr>
-            <tr style="height: 100px; text-align: center; height: 20px;">
-                
-                <td >تاریخ درخواست : <label id="lblRequestTime"></label></td>
-                <td >واحد تعمیر  <label ></label></td>
-                <td >شماره درخواست : <label id="lblRequestNumber"></label></td>
+            <tr style="height: 100px; height: 20px; text-align: center;">
+                <td >تاریخ درخواست : <p id="lblRequestTime">&nbsp;</p></td>
+                <td >واحد تعمیر  
+                    <p>
+                        <input type="checkbox"/> مکانیک
+                        &nbsp;&nbsp;
+                        <input type="checkbox"/> برق
+                    </p>
+                </td>
+                <td >شماره درخواست : <p id="lblRequestNumber">&nbsp;</p></td>
+            </tr>
+        </table>
+        <hr style="border-top: 1px dotted;"/>
+        <table class="tbl1">
+            <tr style="height: 55px; text-align: center;">
+                <td colspan="3" style="width:100%; height: 10px; text-align: center;vertical-align: top;">
+                    <span>موضوع دستور کار</span> 
+                </td>  
+            </tr>
+            <tr>
+                <td >مورد تعمیر : <label ></label></td>
+                <td >کد ماشین : <label ></label></td>
+                <td >تجهیز مورد تعمیر : <label ></label></td>
+            </tr>
+            <tr style="height: 100px; height: 20px; text-align: center;">
+                <td >تاریخ درخواست : <p >&nbsp;</p></td>
+                <td >واحد تعمیر  
+                    <p>
+                        <input type="checkbox"/> مکانیک
+                        &nbsp;&nbsp;
+                        <input type="checkbox"/> برق
+                    </p>
+                </td>
+                <td >شماره درخواست : <p>&nbsp;</p></td>
+            </tr>
+            <tr>
+                <td >تحویل گیرنده : <label ></label></td>
+                <td >تاریخ تحویل : <label ></label></td>
+                <td >ساعت تحویل : <label ></label></td>
+            </tr>
+            <tr>
+                <td colspan="2">نوع توقف :
+                    <input type="checkbox"/> برق
+                    &nbsp;&nbsp;
+                    <input type="checkbox"/> مکانیکی
+                    &nbsp;&nbsp;
+                    <input type="checkbox"/> تولید
+                    &nbsp;&nbsp;
+                    <input type="checkbox"/> در حال کار
+                </td>
+                <td colspan="1">مدت توقف : <label ></label></td>                    
             </tr>
         </table>
         <table>
             <tr>
-                <td>نام درخواست کننده : <label id="lblNameRequest"></label></td>
-                <td colspan="2">واحد : <label id="lblUnitRequest"></label></td>
-            </tr>
-            <tr>
-               
-            </tr>
-            <tr>
-                <td>زمان شروع تعمیر : <label id="lblRepStartTimeDate"></label></td>
-                <td colspan="2">زمان پایان تعمیر : <label id="lblRepEndTimeDate"></label></td>
-            </tr>
-            <tr>
-                <td>مدت زمان توقف : <label id="lblStopTime"></label></td>
-                <td colspan="2">مدت زمان تعمیر : <label id="lblRepairTime"></label></td>
-            </tr>
-            <tr>
-                <td>مدت زمان توقف الکتریکی : <label id="lbleleTime"></label> دقیقه</td>
-                <td colspan="2">مدت زمان توقف مکانیکی : <label id="lblMechTime"></label> دقیقه</td>
-            </tr>
-            <tr>
-                <td colspan="5">روند تعمیر در حالت : <label id="lblRavandTamir"></label></td>
-            </tr>
-            <tr>
-                <td colspan="5">
-                    <span style="position: absolute; top: 5px; right: 5px;">شرح تعمیر : </span>
-                    <p style="margin: 0;margin-top:25px;" id="lblRepairComment" ></p>
+                <td style="width: 70%; vertical-align: top;">
+                    شرح اقدامات انجام شده :
+                    <span style="position: absolute; left: 50px; bottom: 10px;">امضا مجری</span>
+                </td>
+                <td style="padding: 0; vertical-align: top; width: 30%;">
+                    <table style="border: 0 !important;" class="tblparts">
+                        <tr>
+                            <td colspan="2">قطعات مصرفی</td>
+                        </tr>
+                        <tr>
+                            <td>مشخصات</td>
+                            <td>تعداد</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </table>
                 </td>
             </tr>
-        </table>
-        <table>
             <tr>
-                <td style="padding:0;width:60%; vertical-align: top;" id="PartChangeArea"></td>
-                <td id="PartsArea" colspan="3" style="padding:0; vertical-align: top;"></td>
+                <td style="width: 70%; padding: 0;">
+                    <table class="tbl1">
+                        <tr>
+                            <td>تاریخ اقدام تعمیر :‌</td>
+                            <td>تاریخ خاتمه ی تعمیر : </td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="padding: 0;">
+                    <table class="tbl1">
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </table>
+                </td>
             </tr>
             <tr>
-                <td id="FailArea" style="padding: 0; vertical-align: top;"></td>
-                <td id="DelayArea"style="padding: 0; vertical-align: top;"></td>
-                <td id="ActionArea" style="padding: 0; vertical-align: top;"></td>
+                <td style="padding: 0;" colspan="2">
+                    <table class="tbl1">
+                        <tr>
+                            <td>تایید کننده ی واحد تولید :‌ </td>
+                            <td>تاریخ تحویل : </td>
+                            <td>ساعت تحویل :‌ </td>
+                        </tr>
+                    </table>
+                </td>
             </tr>
-        </table>
-        <table id="bottomTables">
             <tr>
-                <td id="PersonelArea" style="padding: 0; vertical-align: top;"></td>
-                <td id="ContArea" style="padding: 0; vertical-align: top;"></td>
+                <td colspan="2" style="height: 80px; vertical-align: top;">توضیحات : 
+                    <span style="position: absolute; left: 50px; bottom: 10px;">امضا و تایید واحد تولید</span>                    
+                </td>
             </tr>
         </table>
     </div>
