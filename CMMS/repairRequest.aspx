@@ -134,6 +134,11 @@
                     <asp:BoundField DataField="Treq" HeaderText="نوع درخواست" ReadOnly="True" SortExpression="Treq" />
                     <asp:BoundField DataField="Tfail" HeaderText="نوع خرابی" SortExpression="Tfail" ReadOnly="True" />
                     <asp:BoundField DataField="totaltime" HeaderText="زمان درخواست" SortExpression="totaltime" />
+                    <asp:TemplateField>
+                        <ItemTemplate>
+                            <a class="fa fa-print" target="_blank" href="/RequestPrint.aspx?rid=<%#  Eval("id") %>"></a>
+                        </ItemTemplate>
+                    </asp:TemplateField>
                     <asp:ButtonField Text="ویرایش" CommandName="ed"/>
                 </Columns>
             </asp:GridView>
