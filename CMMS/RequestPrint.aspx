@@ -71,7 +71,7 @@
             </tr>
         </table>
         <table class="tbl1">
-            <tr style="height: 55px; text-align: center;">
+            <tr style="height:70px; text-align: center;">
                 <td colspan="3" style="width:100%; height: 10px; text-align: center;vertical-align: top;">
                     <span>موضوع دستور کار</span> 
                 </td>  
@@ -95,7 +95,7 @@
         </table>
         <hr style="border-top: 1px dotted;"/>
         <table class="tbl1">
-            <tr style="height: 55px; text-align: center;">
+            <tr style="height: 70px; text-align: center;">
                 <td colspan="3" style="width:100%; height: 10px; text-align: center;vertical-align: top;">
                     <span>موضوع دستور کار</span> 
                 </td>  
