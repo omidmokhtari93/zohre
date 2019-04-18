@@ -32,7 +32,7 @@
         }
         table{ width: 100%;direction: rtl;position: relative;font-family: myfont;margin-right: 0;padding: 0;border-collapse: collapse;}
         table tr{ position: relative;}
-        table td{ border: 1px solid #625f5f;padding: 3px;position: relative !important;font-size: 10pt;}
+        table td{ border: 1px solid #625f5f;padding: 3px;position: relative !important;font-size: 9pt;}
         img{ width: auto;height: 60px;}
         .tbl1 {
             border-collapse: collapse;
@@ -102,8 +102,8 @@
             </tr>
             <tr>
                 <td >مورد تعمیر : <label ></label></td>
-                <td >کد ماشین : <label ></label></td>
-                <td >تجهیز مورد تعمیر : <label ></label></td>
+                <td style="width: 30%;">کد ماشین : <label ></label></td>
+                <td style="width: 35%;">تجهیز مورد تعمیر : <label ></label></td>
             </tr>
             <tr style="height: 100px; height: 20px; text-align: center;">
                 <td >تاریخ درخواست : <p >&nbsp;</p></td>
