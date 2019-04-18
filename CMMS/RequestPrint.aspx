@@ -188,8 +188,8 @@
                 <td style="padding: 0;">
                     <table class="tbl1">
                         <tr>
-                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                             <td>&nbsp;</td>
+                            <td style="width: 50px;"></td>
                         </tr>
                     </table>
                 </td>
