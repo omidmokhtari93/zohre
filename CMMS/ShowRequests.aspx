@@ -36,7 +36,7 @@
             <asp:BoundField DataField="time" HeaderText="زمان درخواست" ReadOnly="True" SortExpression="time" />
             <asp:TemplateField>
                 <ItemTemplate>
-                    <a class="fa fa-print" target="_blank" href="/RequestPrint.aspx?rid=<%#  Eval("id") %>"></a>
+                    <a class="fa fa-print" target="_blank" href="/RequestPrint.aspx?reqid=<%#  Eval("req_id") %>"></a>
                 </ItemTemplate>
             </asp:TemplateField>
             <asp:ButtonField Text="مشاهده" CommandName="show"/>

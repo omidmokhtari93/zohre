@@ -136,7 +136,7 @@
                     <asp:BoundField DataField="totaltime" HeaderText="زمان درخواست" SortExpression="totaltime" />
                     <asp:TemplateField>
                         <ItemTemplate>
-                            <a class="fa fa-print" target="_blank" href="/RequestPrint.aspx?rid=<%#  Eval("id") %>"></a>
+                            <a class="fa fa-print" target="_blank" href="/RequestPrint.aspx?reqid=<%#  Eval("req_id") %>"></a>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:ButtonField Text="ویرایش" CommandName="ed"/>
