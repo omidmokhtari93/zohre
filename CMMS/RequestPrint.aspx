@@ -72,15 +72,16 @@
             </tr>
         </table>
         <table class="tbl1">
-            <tr style="height:67px; text-align: center;">
-                <td colspan="3" style="width:100%; height: 10px; text-align: center;vertical-align: top;">
-                    <span>موضوع دستور کار</span> 
-                </td>  
-            </tr>
+           
             <tr>
                 <td style="width: 33%">مورد تعمیر : <label lblMachineName></label>&nbsp;<label lblfaz></label>&nbsp;<label lblline></label></td>
                 <td style="width: 33%">کد ماشین : <label lblRequestCode></label></td>
                 <td style="width: 33%">تجهیز مورد تعمیر : <label lblSubName></label></td>
+            </tr>
+            <tr style="height:67px; text-align: center;">
+                <td colspan="3" style="width:100%; height: 10px; text-align: center;vertical-align: top;">
+                    <span text-align: center;vertical-align: top;>موضوع دستور کار</span> <p> <p style="text-align: right"  lblComment></p></p> 
+                </td>  
             </tr>
             <tr style="height: 100px; height: 20px; text-align: center;">
                 <td >تاریخ درخواست : <p lblRequestTime>&nbsp;</p></td>
@@ -96,15 +97,16 @@
         </table>
         <hr style="border-top: 1px dotted;"/>
         <table class="tbl1">
-            <tr style="height: 67px; text-align: center;">
-                <td colspan="3" style="width:100%; height: 10px; text-align: center;vertical-align: top;">
-                    <span>موضوع دستور کار</span> 
-                </td>  
-            </tr>
+           
             <tr>
                 <td style="width: 33%">مورد تعمیر : <label lblMachineName></label>&nbsp;<label lblfaz></label>&nbsp;<label lblline></label></td>
                 <td style="width: 33%;">کد ماشین : <label lblRequestCode></label></td>
                 <td style="width: 33%;">تجهیز مورد تعمیر : <label lblSubName></label></td>
+            </tr>
+            <tr style="height: 67px; text-align: center;">
+                <td colspan="3" style="width:100%; height: 10px; ">
+                    <span text-align: center;vertical-align: top;>موضوع دستور کار</span><p> <p style="text-align: right"  lblComment></p></p> 
+                </td>  
             </tr>
             <tr style="height: 100px; height: 20px; text-align: center;">
                 <td >تاریخ درخواست : <p lblRequestTime>&nbsp;</p></td>
@@ -234,6 +236,8 @@
                         $('[lblUnitRequest]').text(reqDetails[0].UnitName);
                         $('[lblMachineName]').text(reqDetails[0].MachineName);
                         $('[lblSubName]').text(reqDetails[0].SubName);
+                        $('[lblComment]').text(reqDetails[0].Comment);
+
                     },
                     error: function () {
                     }

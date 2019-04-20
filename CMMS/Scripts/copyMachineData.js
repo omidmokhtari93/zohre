@@ -191,6 +191,7 @@ function CopyData() {
                         '<td style="display:none;">' + controliData[i].Operation + '</td>' +
                         '<td style="display:none;">1400/01/01</td>' +
                         '<td style="display:none;">' + controliData[i].Comment + '</td>' +
+                        '<td style="display:none;">' + controliData[i].Idcontrol + '</td>' +
                         '<td>' + controliData[i].Control + '</td>'
                         + '<td>' + period + '</td>'
                         + '<td>' + rooz + '</td>'

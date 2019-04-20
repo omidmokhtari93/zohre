@@ -511,15 +511,17 @@ namespace CMMS
                     ",[rooz] =" + item.Day + ",[opr] = "+item.Operation+",[MDser] =" + item.MDservice + " ," +
                     "[comment] ='" + item.Comment + "' ,[pmstart] ='" + item.PmDate + "' WHERE id=" + item.Idcontrol +
                     " SELECT '" + item.Idcontrol + "' AS IDc end " +
-                    "else begin if("+item.Bidcontrol+")=0 begin  INSERT INTO [dbo].[m_control]([Mid],[contName],[period],[rooz],[opr],[pmstart],[MDser],[comment])" +
+                    "else if("+item.Bidcontrol+")=0 begin  INSERT INTO [dbo].[m_control]([Mid],[contName],[period],[rooz],[opr],[pmstart],[MDser],[comment])" +
                     "VALUES(" + mid + ",'" + item.Control + "'," + item.Time + "," + item.Day + ","+item.Operation+"," +
                     "'" + item.PmDate + "'," + item.MDservice + ",'" + item.Comment +
                     "') insert into b_control (Mid,contName,comment,opr,broadcast) VALUES((select SUBSTRING(code,3,3) from m_machine where id =" + mid + "),'" + item.Control + "','" + item.Comment + "'," + item.Operation + ",0)" +
-                    " update m_control set idcontrol=i.id from (select id from b_control where id=(select MAX(id) from b_control)) i where m_control.id=(select MAX(id) from m_control)  SELECT CAST(scope_identity() AS nvarchar) end else " +
-                    "begin UPDATE [dbo].[m_control] SET [contName] ='" + item.Control + "',[period] =" + item.Time + " " +
+                    " update m_control set idcontrol=i.id from (select id from b_control where id=(select MAX(id) from b_control)) i where m_control.id=(select MAX(id) from m_control)  SELECT CAST(scope_identity() AS nvarchar) end  " +
+                    "else if(" + item.Idcontrol + ")=0 begin INSERT INTO [dbo].[m_control]([Mid],[idcontrol],[contName],[period],[rooz],[opr],[pmstart],[MDser],[comment])" +
+                    "VALUES(" + mid + "," + item.Bidcontrol + ",'" + item.Control + "'," + item.Time + "," + item.Day + "," + item.Operation + "," +
+                    "'" + item.PmDate + "'," + item.MDservice + ",'" + item.Comment + "')  SELECT CAST(scope_identity() AS nvarchar) end else begin UPDATE [dbo].[m_control] SET [contName] ='" + item.Control + "',[period] =" + item.Time + " " +
                     ",[rooz] =" + item.Day + ",[opr] = " + item.Operation + ",[MDser] =" + item.MDservice + " ," +
                     "[comment] ='" + item.Comment + "' ,[pmstart] ='" + item.PmDate + "' WHERE idcontrol=" + item.Bidcontrol + " and id=" + item.Idcontrol +"  " +
-                    " select id from m_control where idcontrol=" + item.Bidcontrol + " and id=" + item.Idcontrol + " end  end ", _cnn);
+                    " select id from m_control where idcontrol=" + item.Bidcontrol + " and id=" + item.Idcontrol + " end ", _cnn);
                 string idmcontrol = "";
                 idmcontrol = selectrepeatrow.ExecuteScalar().ToString();
                 DateTime Compair;
@@ -1411,7 +1413,7 @@ namespace CMMS
             var reqDetails = new SqlCommand("if (select r_request.type_repair from r_request where r_request.req_id = " + reqId + ") = 1 begin " +
                                             " SELECT dbo.m_machine.name, " +
                                             " dbo.m_machine.code, case when dbo.subsystem.name is null then '____' else dbo.subsystem.name end as subname," +
-                                            "case when dbo.subsystem.id is null then -1 else dbo.subsystem.id end as subid,r_request.req_id, " +
+                                            "case when dbo.subsystem.id is null then -1 else dbo.subsystem.id end as subid,r_request.req_id,r_request.comment, " +
                                             "dbo.i_units.unit_name, CASE WHEN r_request.type_fail = 1 THEN 'مکانیکی' WHEN r_request.type_fail = 2 THEN 'تاسیساتی-الکتریکی' " +
                                             "WHEN r_request.type_fail = 3 THEN 'الکتریکی واحد برق' ELSE 'غیره' END AS Tfail, r_request.req_name, " +
                                             "CASE WHEN r_request.type_req = 1 THEN 'اضطراری' WHEN r_request.type_req = 2 THEN 'پیش بینانه' ELSE 'پیش گیرانه' END AS Treq, " +
