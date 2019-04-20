@@ -643,7 +643,7 @@ function SendTablesToDB() {
 
     function sendKeyItems() {
         var rowCount = $('#gridMavaredKey tr').length - 1;
-        if (rowCount < 1) { sendControli(); return; }
+        //if (rowCount < 1) { sendControli(); return; }
         var table = document.getElementById("gridMavaredKey");
         var keyArr = [];
         for (var i = 1; i < table.rows.length; i++) {
