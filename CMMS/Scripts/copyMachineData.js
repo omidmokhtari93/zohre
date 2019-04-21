@@ -181,7 +181,9 @@ function CopyData() {
                     if (controliData[i].Operation == 3) { opr = 'روانکاری' }
                     mdSer = "بله"; mdserValue = 1; 
                    
-                    controliData[i].Comment = " "; 
+                    if (controliData[i].Comment == "") {
+                        controliData[i].Comment = " ";
+                    } 
                     tblBody = '<tr>' +
                         '<td style="display:none;">0</td>' +
                         '<td style="display:none;">' + controliData[i].Control + '</td>' +

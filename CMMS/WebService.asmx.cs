@@ -248,10 +248,10 @@ namespace CMMS
 
             if (check==null)
             {
-                var inserMachInfo = new SqlCommand("INSERT INTO [dbo].[b_machine]([name],[imp],[creator],[maModel]," +
+                var inserMachInfo = new SqlCommand("INSERT INTO [dbo].[b_machine]([name],[code],[imp],[creator],[maModel]," +
                                                    "[pow],[stopcost],[catGroup],[catState]," +
                                                    "[mtbfH],[mtbfD],[mttrH],[mttrD],[selinfo],[supinfo],[keyComment])VALUES " +
-                                                   "('" + minfo.Name + "' ,  " + minfo.Ahamiyat + " , '" + minfo.Creator + "'" +
+                                                   "('" + minfo.Name + "' ,"+mid+",  " + minfo.Ahamiyat + " , '" + minfo.Creator + "'" +
                                                    ",'" + minfo.Model + "' , '" + minfo.Power + "'," + minfo.StopCostPerHour + " ,"
                                                    + minfo.CatGroup + " , " + minfo.VaziatTajhiz + " ,'" + minfo.MtbfH + "' , '" + minfo.MtbfD + "'," +
                                                    " '" + minfo.MttrH + "' , '" + minfo.MttrD + "' ," +
@@ -833,9 +833,10 @@ namespace CMMS
                     "begin UPDATE [dbo].[m_parts] SET [PartId] ='" + item.PartId + "',[mYear] ='" + item.UsePerYear + "' ,[min] ='" + item.Min + "',[max] ='" + item.Max + "' ," +
                     "[comment] ='" + item.Comment + "' ,[chPeriod] ='" + item.ChangePeriod + "' WHERE id=" + item.Id +
                     " SELECT '" + item.Id + "'+'1' AS IDc end " +
-                    "else begin  INSERT INTO [dbo].[m_parts]([Mid],[PartId],[mYear],[min],[max],[chPeriod],[comment]) " +
+                    "else if(select COUNT(id) AS idd FROM dbo.m_parts where Mid=" + mid+ " and PartId ='" + item.PartId + "') = 0 begin  INSERT INTO [dbo].[m_parts]([Mid],[PartId],[mYear],[min],[max],[chPeriod],[comment]) " +
                     "VALUES(" + mid + "," + item.PartId + " ,'" + item.UsePerYear + "','" + item.Min + "'," +
-                    "'" + item.Max + "','" + item.ChangePeriod + "','" + item.Comment + "') SELECT CAST(scope_identity() AS nvarchar)+'2' end", _cnn);
+                    "'" + item.Max + "','" + item.ChangePeriod + "','" + item.Comment + "') SELECT CAST(scope_identity() AS nvarchar)+'2' end else begin UPDATE [dbo].[m_parts] SET [PartId] ='" + item.PartId + "',[mYear] ='" + item.UsePerYear + "' ,[min] ='" + item.Min + "',[max] ='" + item.Max + "' ," +
+                    "[comment] ='" + item.Comment + "' ,[chPeriod] ='" + item.ChangePeriod + "' WHERE id=" + item.Id + "   SELECT '" + item.Id + "'+'2' AS IDc end ", _cnn);
                 string idmPart = "";
                 idmPart = insertParts.ExecuteScalar().ToString();
                 string check = idmPart.Substring(idmPart.Length - 1, 1);

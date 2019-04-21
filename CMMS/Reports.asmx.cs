@@ -2755,6 +2755,15 @@ namespace CMMS
         {
             cnn.Open();
             var e =  new List<SubSystems>();
+            //var name = new List<string>();
+            //var cmdname = new SqlCommand("SELECT        name + ' __  ' + code AS Name, id From   dbo.m_machine WHERE(dbo.m_machine.loc = '" + loc + "' OR '" + loc + "' = '0')" +
+            //                             "ORDER BY Machinename ", cnn);
+            //var rd = cmdname.ExecuteReader();
+            //while (rd.Read())
+            //{
+               
+            //}
+           
             var sele = new SqlCommand("SELECT TOP (100) PERCENT dbo.subsystem.name, dbo.m_machine.name AS Machinename, dbo.i_lines.line_name , dbo.i_faz.faz_name " +
                                       "FROM dbo.subsystem INNER JOIN " +
                                       "dbo.m_subsystem ON dbo.subsystem.id = dbo.m_subsystem.subId INNER JOIN " +
