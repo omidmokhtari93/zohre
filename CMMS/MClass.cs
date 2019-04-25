@@ -84,6 +84,12 @@ namespace CMMS
         public Boolean Broadcast { get; set; }
         public int Bidcontrol { get; set; }
     }
+
+    public class Subinformation
+    {
+        public string SubName { get; set; }
+        public int Subid { get; set; }
+    }
     public class SubSystems
     {
         public string SubSystemName { get; set; }

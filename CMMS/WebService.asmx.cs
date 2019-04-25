@@ -1427,7 +1427,7 @@ namespace CMMS
                                             "CASE WHEN r_request.type_req = 1 THEN 'اضطراری' WHEN r_request.type_req = 2 THEN 'پیش بینانه' ELSE 'پیش گیرانه' END AS Treq, " +
                                             "dbo.r_request.comment, dbo.r_request.date_req + '_' + dbo.r_request.time_req as time,dbo.r_request.time_req,dbo.r_request.date_req FROM dbo.r_request INNER JOIN " +
                                             "dbo.i_units ON dbo.r_request.unit_id = dbo.i_units.unit_code where req_id = " + reqId + " end", _cnn);
-           
+
             var cmdfazline = new SqlCommand("SELECT dbo.i_lines.line_name, dbo.i_faz.faz_name FROM dbo.i_faz INNER JOIN dbo.r_request ON dbo.i_faz.id = dbo.r_request.faz  " +
                                             "INNER JOIN dbo.i_lines ON dbo.r_request.line = dbo.i_lines.id WHERE(dbo.r_request.req_id = " + reqId + ")", _cnn);
 

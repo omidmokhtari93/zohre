@@ -149,6 +149,40 @@
             </table>
             <table>
                 <tr style="text-align: center;">
+                    <td colspan="2" style="background: #d6d5d5;">نکات کلیدی دستگاه</td>
+                </tr>
+                <tr style="text-align: right;">
+                    <td colspan="2"> <label id="Keycomment"></label> </td>
+
+                </tr>
+                <tr>
+                    <td colspan="2" style="border: none; padding: 0;"> 
+                        <asp:GridView runat="server" Width="100%" CssClass="tbl" ID="GridKeyitem" AutoGenerateColumns="False" DataSourceID="SqlKeyitems" ClientIDMode="Static">
+                            <Columns>
+                                <asp:BoundField DataField="rn" HeaderText="ردیف" ReadOnly="True" SortExpression="rn" />
+                                <asp:BoundField DataField="KeyName" HeaderText="نام/شرح" SortExpression="KeyName" />
+                                <asp:BoundField DataField="kw" HeaderText="KW" SortExpression="kw" />
+                                <asp:BoundField DataField="rpm" HeaderText="RPM" SortExpression="rpm" />
+                                <asp:BoundField DataField="country" HeaderText="سازنده" SortExpression="country" />
+                                <asp:BoundField DataField="volt" HeaderText="ولتاژ" SortExpression="volt" />
+                                <asp:BoundField DataField="flow" HeaderText="جریان" SortExpression="flow" />
+                                <asp:BoundField DataField="comment" HeaderText="ملاحضات" SortExpression="comment" />
+                            </Columns>
+                        </asp:GridView>
+                        <asp:SqlDataSource ID="SqlKeyitems" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="
+SELECT        row_number()OVER(ORDER BY dbo.m_machine.id) AS rn,dbo.m_keyitem.KeyName, dbo.m_keyitem.kw, dbo.m_keyitem.rpm, dbo.m_keyitem.country, dbo.m_keyitem.volt, dbo.m_keyitem.flow, dbo.m_keyitem.comment
+FROM            dbo.m_machine INNER JOIN
+                         dbo.m_keyitem ON dbo.m_machine.id = dbo.m_keyitem.Mid
+WHERE (dbo.m_machine.id = @id)">
+                            <SelectParameters>
+                                <asp:QueryStringParameter Name="id" QueryStringField="mid" />
+                            </SelectParameters>
+                        </asp:SqlDataSource>
+                    </td>
+                </tr>
+            </table>
+            <table>
+                <tr style="text-align: center;">
                   <td colspan="2" style="background: #d6d5d5;">لیست تجهیزات</td>
                 </tr>
                 <tr>
@@ -341,6 +375,7 @@ FROM m_control WHERE (Mid = @id)">
                     $('#suppInfo').text(mInfo[0].SuppInfo);
                     $('#lblline').text(mInfo[0].LineName);
                     $('#lblfaz').text(mInfo[0].FazName);
+                    $('#Keycomment').text(mInfo[0].Keycomment);
                     if (mInfo[0].VaziatTajhiz == 0) { $('#vaziatTajhiz').text('غیرفعال'); }
                     if (mInfo[0].VaziatTajhiz == 1) { $('#vaziatTajhiz').text('فعال'); }
                     if (mInfo[0].VaziatTajhiz == 2) { $('#vaziatTajhiz').text('معیوب'); }
