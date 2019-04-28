@@ -90,8 +90,16 @@ function SubsystemReport() {
             var d = JSON.parse(s.d);
             var k = 1;
             for (var A = 0; A < d.length; A++) {
-                for (var B = 0; B < d[A].SubSystemName.length; B++) {
+                if (d[A].SubSystemName.length > 0) {
                     k++;
+                    for (var B = 0; B < d[A].SubSystemName.length; B++) {
+                        var c = Math.ceil(d[A].SubSystemName[B].length / 85);
+                        k+=c;
+                    }
+                }
+                else {
+                    k++;
+
                 }
             }
             var pages = Math.ceil(k / 34);
@@ -111,28 +119,30 @@ function SubsystemReport() {
                     $('#subsystem'+f+'').css('margin-top', '150px');
                 }
                 var body = [];
-                body.push('<table><tr><th>ردیف</th><th>نام ماشین</th><th>تجهیزات</th></tr>');
+                body.push('<table></tr>');
                 if (d.length > 0) {
                     for (var i = b; i < d.length; i++) {
                         if (k + d[i].SubSystemName.length <= 34) {
 
                             body.push('<tr>' +
-                                '<td>' +
-                                (i + 1) +
-                                '</td>' +
-                                '<td>' +
+                                '<th colspan="3">' +
                                 d[i].MachineName +
-                                '</td>' +
-                                '<td style="padding:0;border:none;">');
-                            body.push('<table>');
+                                '</th>' +
+                                '</tr>');
+                            k++;
                             if (d[i].SubSystemName.length > 0) {
                                 for (var j = 0; j < d[i].SubSystemName.length; j++) {
+                                    
                                     k++;
+                                   
                                     body.push('<tr>' +
-                                        '<td style="width:50%;">' +
+                                        '<td style="width:5%" >' +
+                                        (j + 1) +
+                                        '</td>' +
+                                        '<td style="width:75%;text-align: right;padding-right: 5px;" >' +
                                         d[i].SubSystemName[j] +
                                         '</td>' +
-                                        '<td>' +
+                                        '<td style="width:20%">' +
                                         d[i].SubSystemCode[j] +
                                         '</td>' +
                                         '</tr>');
@@ -140,10 +150,10 @@ function SubsystemReport() {
                                 }
                             } else {
                                 k++;
-                                body.push('<tr><td style="width:50%;">&nbsp;</td> <td>&nbsp;</td> </tr>');
+                                
                             }
 
-                            body.push('</table></td></tr>');
+                            
                         } else {
                             b = i;
                             k = 1;
