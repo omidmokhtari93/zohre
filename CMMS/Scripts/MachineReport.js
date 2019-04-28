@@ -125,17 +125,22 @@ function SubsystemReport() {
                                 '</td>' +
                                 '<td style="padding:0;border:none;">');
                             body.push('<table>');
-                            for (var j = 0; j < d[i].SubSystemName.length; j++) {
-                                k++;
-                                body.push('<tr>' +
-                                    '<td style="width:50%;">' +
-                                    d[i].SubSystemName[j] +
-                                    '</td>' +
-                                    '<td>' +
-                                    d[i].SubSystemCode[j] +
-                                    '</td>' +
-                                    '</tr>');
+                            if (d[i].SubSystemName.length > 0) {
+                                for (var j = 0; j < d[i].SubSystemName.length; j++) {
+                                    k++;
+                                    body.push('<tr>' +
+                                        '<td style="width:50%;">' +
+                                        d[i].SubSystemName[j] +
+                                        '</td>' +
+                                        '<td>' +
+                                        d[i].SubSystemCode[j] +
+                                        '</td>' +
+                                        '</tr>');
 
+                                }
+                            } else {
+                                k++;
+                                body.push('<tr><td style="width:50%;">&nbsp;</td> <td>&nbsp;</td> </tr>');
                             }
 
                             body.push('</table></td></tr>');
