@@ -148,10 +148,7 @@ function SubsystemReport() {
                                         '</tr>');
 
                                 }
-                            } else {
-                                k++;
-                                
-                            }
+                            } 
 
                             
                         } else {
