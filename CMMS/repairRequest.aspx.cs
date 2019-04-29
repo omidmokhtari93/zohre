@@ -275,11 +275,11 @@ namespace CMMS
             dr_tools.Items.Clear();
             dr_tools.Items.Insert(0, new ListItem("تجهیز را انتخاب نمایید", "-1"));
 
-            drLine.Items.Clear();
-            drLine.Items.Insert(0, new ListItem("انتخاب نمایید", "0"));
+            //drLine.Items.Clear();
+            //drLine.Items.Insert(0, new ListItem("انتخاب نمایید", "0"));
 
-            drFaz.Items.Clear();
-            drFaz.Items.Insert(0,new ListItem("انتخاب نمایید", "0"));
+            //drFaz.Items.Clear();
+            //drFaz.Items.Insert(0,new ListItem("انتخاب نمایید", "0"));
             Pm();
             
         }
