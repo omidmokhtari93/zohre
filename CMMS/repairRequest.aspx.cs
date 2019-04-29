@@ -352,7 +352,7 @@ namespace CMMS
             }
             cnn.Open();
             var upRequest = new SqlCommand("UPDATE [dbo].[r_request] " +
-                                            "SET [unit_id] =  "+drunit.SelectedValue+" " +
+                                            "SET [unit_id] =  '"+drunit.SelectedValue+"' " +
                                              " ,[machine_code] = "+dr_machine.SelectedValue+" "+
                                              " ,[subid] = " + dr_tools.SelectedValue + " " +
                                              " ,[type_fail] = " +Convert.ToInt32(typefail.Value)+" "+ 
@@ -361,6 +361,8 @@ namespace CMMS
                                              " ,[comment] ='"+txtcomment.Text+"' "+
                                              " ,[date_req] = '"+txtRequestDate.Value+"' "+
                                              " ,[time_req] = '"+txtRequestTime.Value+"' "+
+                                             ",[line]="+drLine.SelectedValue+" "+
+                                              ",[faz]=" + drFaz.SelectedValue + " " +
                                              " WHERE id = " + ViewState["id"] + " ", cnn);
             upRequest.ExecuteNonQuery();
             cnn.Close();

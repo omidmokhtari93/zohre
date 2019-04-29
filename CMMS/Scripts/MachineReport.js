@@ -110,7 +110,7 @@ function SubsystemReport() {
                 //$('#SubsystemListPrint').empty();
                 pagesHtml = pagesHtml.replace('#ReportArea#', 'subsystem' + f);
                 pagesHtml = pagesHtml.replace('printDiv', 'printDiv(1);');
-                //html = html.replace('ExportToExcel();', 'ExportToExcel(\'subbodycontent\');');
+                html = html.replace('ExportToExcel();', 'ExportToExcel(\'subsystem\');');
                 pagesHtml = pagesHtml.replace('#RP#', 'لیست تجهیزات');
                 pagesHtml = pagesHtml.replace('#cnt#', pages + '' + f);
                 pagesHtml = pagesHtml.replace('#unit#', unit);
