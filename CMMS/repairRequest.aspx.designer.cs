@@ -40,6 +40,42 @@ namespace CMMS {
         protected global::System.Web.UI.WebControls.TextBox txtreqid;
         
         /// <summary>
+        /// drFaz control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drFaz;
+        
+        /// <summary>
+        /// SqlFaz control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource SqlFaz;
+        
+        /// <summary>
+        /// drLine control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drLine;
+        
+        /// <summary>
+        /// Sqlline control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource Sqlline;
+        
+        /// <summary>
         /// drunit control.
         /// </summary>
         /// <remarks>
@@ -121,58 +157,22 @@ namespace CMMS {
         protected global::System.Web.UI.WebControls.DropDownList dr_machine;
         
         /// <summary>
-        /// txtreq_name control.
+        /// drTypeReq control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtreq_name;
+        protected global::System.Web.UI.WebControls.DropDownList drTypeReq;
         
         /// <summary>
-        /// drFaz control.
+        /// drkindFail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList drFaz;
-        
-        /// <summary>
-        /// SqlFaz control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource SqlFaz;
-        
-        /// <summary>
-        /// drLine control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList drLine;
-        
-        /// <summary>
-        /// Sqlline control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource Sqlline;
-        
-        /// <summary>
-        /// txtcomment control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtcomment;
+        protected global::System.Web.UI.WebControls.DropDownList drkindFail;
         
         /// <summary>
         /// txtRequestTime control.
@@ -191,6 +191,24 @@ namespace CMMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputText txtRequestDate;
+        
+        /// <summary>
+        /// txtreq_name control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtreq_name;
+        
+        /// <summary>
+        /// txtcomment control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtcomment;
         
         /// <summary>
         /// btninsert control.

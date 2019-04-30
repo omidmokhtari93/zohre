@@ -50,11 +50,15 @@ namespace CMMS
             }
             if (string.IsNullOrEmpty(id) && !string.IsNullOrEmpty(machineId) && !string.IsNullOrEmpty(unitCode))
             {
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "document.getElementById('CM').checked = true;", true);
+                //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "document.getElementById('CM').checked = true;", true);
+                drTypeReq.SelectedValue = "3";
+                drTypeReq.Focus();
             }
             if (!string.IsNullOrEmpty(id) && !string.IsNullOrEmpty(machineId) && !string.IsNullOrEmpty(unitCode))
             {
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "document.getElementById('PM').checked = true;", true);
+                //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "document.getElementById('PM').checked = true;", true);
+                drTypeReq.SelectedValue = "2";
+                drTypeReq.Focus();
             }
             try
             {
@@ -69,7 +73,9 @@ namespace CMMS
             }
             catch
             {
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "document.getElementById('EM').checked = true;", true);
+                //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "document.getElementById('EM').checked = true;", true);
+                drTypeReq.SelectedValue = "1";
+                drTypeReq.Focus();
                 ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "cancel();", true);
             }
         }
@@ -257,8 +263,8 @@ namespace CMMS
             var insertRequest = new SqlCommand("insert into r_request ([req_id],[unit_id],[machine_code],[subid],[type_fail]," +
                                                "[req_name],[type_req],[comment],[date_req],[time_req],[type_repair],[state],[faz],[line])" +
                                                 "values("+txtreqid.Text+",'"+drunit.SelectedValue+"'," + dr_machine.SelectedValue + "," +
-                                               ""+dr_tools.SelectedValue+"," + typefail.Value + ",'" + txtreq_name.Text + "'," +
-                                               ""+typereq.Value+",'"+txtcomment.Text+"','"+txtRequestDate.Value+"','"+txtRequestTime.Value+"',1,1,"+drFaz.SelectedValue+","+drLine.SelectedValue+")", cnn);
+                                               ""+dr_tools.SelectedValue+"," + drkindFail.SelectedValue + ",'" + txtreq_name.Text + "'," +
+                                               ""+drTypeReq.SelectedValue+",'"+txtcomment.Text+"','"+txtRequestDate.Value+"','"+txtRequestTime.Value+"',1,1,"+drFaz.SelectedValue+","+drLine.SelectedValue+")", cnn);
             insertRequest.ExecuteNonQuery();
             gridrequest.DataBind();
             txtreq_name.Text = "";
@@ -316,8 +322,8 @@ namespace CMMS
                         sqlsubsys.DataBind();
                         dr_tools.DataBind();
                         dr_tools.SelectedValue = rd["subid"].ToString();
-                        typefail.Value = rd["type_fail"].ToString();
-                        typereq.Value = rd["type_req"].ToString();
+                        drkindFail.SelectedValue = rd["type_fail"].ToString();
+                        drTypeReq.SelectedValue = rd["type_req"].ToString();
                         txtreq_name.Text = rd["req_name"].ToString();
                         txtcomment.Text = rd["comment"].ToString();
                         drLine.SelectedValue = rd["line"].ToString();
@@ -326,8 +332,8 @@ namespace CMMS
                         drFaz.DataBind();
                         txtRequestDate.Value = rd["date_req"].ToString();
                         txtRequestTime.Value = rd["time_req"].ToString();
-                        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script",
-                            "setRadioFail();setRadioreq();", true);
+                        //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script",
+                        //    "setRadioFail();setRadioreq();", true);
                         MachineCode();//for fill txtmachinecode
                         btninsert.Visible = false;
                         btncancel.Visible = true;
@@ -355,9 +361,9 @@ namespace CMMS
                                             "SET [unit_id] =  '"+drunit.SelectedValue+"' " +
                                              " ,[machine_code] = "+dr_machine.SelectedValue+" "+
                                              " ,[subid] = " + dr_tools.SelectedValue + " " +
-                                             " ,[type_fail] = " +Convert.ToInt32(typefail.Value)+" "+ 
+                                             " ,[type_fail] = " +drkindFail.SelectedValue+" "+ 
                                              " ,[req_name] ='"+txtreq_name.Text+"' "+
-                                             " ,[type_req] ="+ Convert.ToInt32(typereq.Value) + " "+
+                                             " ,[type_req] ="+ drTypeReq.SelectedValue + " "+
                                              " ,[comment] ='"+txtcomment.Text+"' "+
                                              " ,[date_req] = '"+txtRequestDate.Value+"' "+
                                              " ,[time_req] = '"+txtRequestTime.Value+"' "+

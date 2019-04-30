@@ -14,9 +14,20 @@
             </div>
             <hr/>
             <div class="row" style="margin: 0; direction: rtl; text-align: right;">
-                <div class="col-md-6">
-                    <label>به : </label>
-                    <asp:TextBox CssClass="form-control" runat="server" Enabled="False" Text="امور فنی" ></asp:TextBox>        
+                <div class="col-md-3">
+                    فاز :
+                    <asp:DropDownList runat="server" CssClass="form-control" AppendDataBoundItems="True" ID="drFaz" ClientIDMode="Static" DataSourceID="SqlFaz" DataTextField="faz_name" DataValueField="id" TabIndex="3">
+                        <asp:ListItem Value="0">انتخاب کنید</asp:ListItem>
+                        
+                    </asp:DropDownList>
+                    <asp:SqlDataSource ID="SqlFaz" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, faz_name FROM i_faz"></asp:SqlDataSource>
+                </div>
+                <div class="col-md-3">
+                    خط :
+                    <asp:DropDownList runat="server" CssClass="form-control" ID="drLine" ClientIDMode="Static" AppendDataBoundItems="True" DataSourceID="Sqlline" DataTextField="line_name" DataValueField="id" TabIndex="2">
+                        <asp:ListItem Value="0">انتخاب کنید</asp:ListItem>
+                    </asp:DropDownList>
+                    <asp:SqlDataSource ID="Sqlline" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT line_name, id FROM i_lines"></asp:SqlDataSource>
                 </div>
                 <div class="col-md-6">
                     <label>از واحد : </label>
@@ -41,7 +52,7 @@
             <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
                 <div class="col-md-5">
                     <label style="display: block;">تجهیز : </label>
-                    <asp:DropDownList runat="server" AppendDataBoundItems="True" Width="200px" style="display: inline-block;"  TabIndex="2" CssClass="form-control" id="dr_tools" DataSourceID="sqlsubsys" DataTextField="name" DataValueField="subId"> <asp:ListItem Value="-1">تجهیز را انتخاب کنید</asp:ListItem></asp:DropDownList>  
+                    <asp:DropDownList runat="server" AppendDataBoundItems="True" Width="200px" style="display: inline-block;"  TabIndex="5" CssClass="form-control" id="dr_tools" DataSourceID="sqlsubsys" DataTextField="name" DataValueField="subId"> <asp:ListItem Value="-1">تجهیز را انتخاب کنید</asp:ListItem></asp:DropDownList>  
                     <label style="display: inline-block;">اقدام نمایید.</label>
                 </div>
                 <div class="col-md-3">
@@ -50,17 +61,30 @@
                 </div>
                 <div class="col-md-4">
                     <label>خواهشمند است نسبت به تعمیر دستگاه : </label>
-                    <asp:DropDownList runat="server" AppendDataBoundItems="True" OnSelectedIndexChanged="dr_machine_OnSelectedIndexChanged" TabIndex="2" CssClass="form-control" id="dr_machine"  DataSourceID="sqlmachin" DataTextField="name"  DataValueField="id" AutoPostBack="True"> <asp:ListItem Value="-1">دستگاه را انتخاب کنید</asp:ListItem></asp:DropDownList>        
+                    <asp:DropDownList runat="server" AppendDataBoundItems="True" OnSelectedIndexChanged="dr_machine_OnSelectedIndexChanged" TabIndex="4" CssClass="form-control" id="dr_machine"  DataSourceID="sqlmachin" DataTextField="name"  DataValueField="id" AutoPostBack="True"> <asp:ListItem Value="-1">دستگاه را انتخاب کنید</asp:ListItem></asp:DropDownList>        
                 </div>
             </div>
             <div class="row" style="margin: 0; direction: rtl; text-align: right;margin-top: 15px;">
                 <div class="col-md-4">
-                    <label>نام درخواست کننده : </label>
-                    <asp:TextBox ID="txtreq_name" ClientIDMode="Static" CssClass="form-control" runat="server" TabIndex="7"></asp:TextBox>        
+                    
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-4">
+                    <label>نوع درخواست : </label>
+                    <asp:DropDownList runat="server" ID="drTypeReq" CssClass="form-control" TabIndex="7">
+                        <asp:ListItem Value="1">اضطراری</asp:ListItem>
+                        <asp:ListItem Value="2">پیش بینانه</asp:ListItem>
+                        <asp:ListItem Value="3">پیش گیرانه</asp:ListItem>
+                    </asp:DropDownList>  
+                </div>
+                <div class="col-md-4">
                     <label>نوع خرابی : </label>
-                    <div class="switch-field">
+                    <asp:DropDownList runat="server" ID="drkindFail" CssClass="form-control" TabIndex="6">
+                        <asp:ListItem Value="1">مکانیکی</asp:ListItem>
+                        <asp:ListItem Value="2">تاسیساتی_الکتریکی</asp:ListItem>
+                        <asp:ListItem Value="3">الکتریکی واحد برق</asp:ListItem>
+                        <asp:ListItem Value="4">غیره</asp:ListItem>
+                    </asp:DropDownList>  
+                   <%-- <div class="switch-field">
                         <input type="radio" id="mech" name="switch1" checked tabindex="3" value="1"/>
                         <label for="mech">مکانیکی</label>
                         <input type="radio" id="mech-elec" name="switch1" tabindex="4" value="2"/>
@@ -69,24 +93,25 @@
                         <label for="elec" style="width: 150px;">الکتریکی واحد برق</label>
                         <input type="radio" id="other" name="switch1" tabindex="6" value="4"/>
                         <label for="other">غیره</label>
-                   </div>
+                   </div>--%>
                 </div>
             </div>
             <div class="row" style="margin: 0; direction: rtl; text-align: right;margin-top: 15px;">
-                <div class="col-md-3">
-                    فاز :
-                    <asp:DropDownList runat="server" CssClass="form-control" AppendDataBoundItems="True" ID="drFaz" ClientIDMode="Static" DataSourceID="SqlFaz" DataTextField="faz_name" DataValueField="id">
-                        <asp:ListItem Value="0">انتخاب کنید</asp:ListItem>
-                    </asp:DropDownList>
-                    <asp:SqlDataSource ID="SqlFaz" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, faz_name FROM i_faz"></asp:SqlDataSource>
+                <div class="col-md-4">
+                    <label style="display: block;">ساعت درخواست : </label>
+                    <input id="txtRequestTime" ClientIDMode="Static" runat="server" class="form-control text-center" readonly style="cursor: pointer;"/>
                 </div>
-                <div class="col-md-3">
-                    خط :
-                    <asp:DropDownList runat="server" CssClass="form-control" ID="drLine" ClientIDMode="Static" AppendDataBoundItems="True" DataSourceID="Sqlline" DataTextField="line_name" DataValueField="id">
-                        <asp:ListItem Value="0">انتخاب کنید</asp:ListItem>
-                    </asp:DropDownList>
-                    <asp:SqlDataSource ID="Sqlline" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT line_name, id FROM i_lines"></asp:SqlDataSource>
+                <div class="col-md-4">
+                    <label style="display: block;">تاریخ درخواست : </label>
+                    <input id="txtRequestDate" ClientIDMode="Static" runat="server" class="form-control text-center" readonly style="cursor: pointer;"/>
                 </div>
+                <div class="col-md-4">
+                    <label>نام درخواست کننده : </label>
+                    <asp:TextBox ID="txtreq_name" ClientIDMode="Static" CssClass="form-control" runat="server" TabIndex="8"></asp:TextBox>        
+                </div>
+            </div>
+           <%-- <div class="row" style="margin: 0; direction: rtl; text-align: right;margin-top: 15px;">
+                <div class="col-md-6"></div>
                 <div class="col-md-6">
                     <label>نوع درخواست : </label>
                     <div class="switch-field">
@@ -98,28 +123,19 @@
                         <label for="PM">پیش گیرانه</label>
                     </div>
                 </div>
-            </div>
+            </div>--%>
             <div class="row" style="margin: 0; direction: rtl; text-align: right;margin-top: 15px;">
                 <div class="col-md-12">
                     <label> توضیحات : </label>
                     <asp:TextBox ID="txtcomment" CssClass="form-control" runat="server" TabIndex="11"></asp:TextBox>        
                 </div>
            </div>
-            <div class="row" style="margin: 0; direction: rtl; text-align: right;margin-top: 15px;">
-                <div class="col-md-6">
-                    <label style="display: block;">ساعت درخواست : </label>
-                    <input id="txtRequestTime" ClientIDMode="Static" runat="server" class="form-control text-center" readonly style="cursor: pointer;"/>
-                </div>
-                <div class="col-md-6">
-                    <label style="display: block;">تاریخ درخواست : </label>
-                    <input id="txtRequestDate" ClientIDMode="Static" runat="server" class="form-control text-center" readonly style="cursor: pointer;"/>
-                </div>
-            </div>
+           
                
         </div>
 
         <div class="panel-footer">
-            <asp:Button runat="server" CssClass="button" Text="ثبت" ID="btninsert" OnClick="btninsert_Click" OnClientClick="getRadioFail();getRadioreq();"/>
+            <asp:Button runat="server" CssClass="button" Text="ثبت" ID="btninsert" OnClick="btninsert_Click" TabIndex="12" OnClientClick="getRadioFail();getRadioreq();"/>
             <asp:Button runat="server" CssClass="button" Visible="False" Text="ویرایش" ID="btnedit" OnClick="btnedit_OnClick" OnClientClick="getRadioreq();getRadioFail();"/>
             <asp:Button runat="server" CssClass="button" Visible="False" Text="انصراف" ID="btncancel" OnClick="btncansel_OnClick"/>
         </div>
@@ -169,82 +185,82 @@
             $.notify("!!لطفا نام درخواست کننده را وارد نمایید", { globalPosition: 'top left' });
         }
     }
-    function getRadioFail() {
-        var hiddenfield;
-        var mech = document.getElementById('mech');
-        var mechelec = document.getElementById('mech-elec');
-        var elec = document.getElementById('elec');
-        if (mech.checked) {
-            hiddenfield = $('#typefail');
-            hiddenfield.val("1");
-        }
-        else if (mechelec.checked) {
-            hiddenfield = $('#typefail');
-            hiddenfield.val("2");
-        }
-        else if (elec.checked) {
-            hiddenfield = $('#typefail');
-            hiddenfield.val("3");
-        }
-        else {
-            hiddenfield = $('#typefail');
-            hiddenfield.val("4");
-        }
-    }
+    //function getRadioFail() {
+    //    var hiddenfield;
+    //    var mech = document.getElementById('mech');
+    //    var mechelec = document.getElementById('mech-elec');
+    //    var elec = document.getElementById('elec');
+    //    if (mech.checked) {
+    //        hiddenfield = $('#typefail');
+    //        hiddenfield.val("1");
+    //    }
+    //    else if (mechelec.checked) {
+    //        hiddenfield = $('#typefail');
+    //        hiddenfield.val("2");
+    //    }
+    //    else if (elec.checked) {
+    //        hiddenfield = $('#typefail');
+    //        hiddenfield.val("3");
+    //    }
+    //    else {
+    //        hiddenfield = $('#typefail');
+    //        hiddenfield.val("4");
+    //    }
+    //}
 
-    function setRadioFail() {
-        var hiddenfield = $('#typefail').val();
-        var mech = document.getElementById('mech');
-        var mechelech = document.getElementById('mech-elec');
-        var elec = document.getElementById('elec');
-        var other = document.getElementById('other');
-        if (hiddenfield == '1') {
-            mech.checked = true;
-        }
-        else if (hiddenfield == '2') {
-            mechelech.checked = true;
-        }
-        else if (hiddenfield == '3') {
-            elec.checked = true;
-        }
-        else {
-            other.checked = true;
-        }
-    }
-    //=============================
-    function getRadioreq() {
-        var hiddenfield;
-        var EM = document.getElementById('EM');
-        var CM = document.getElementById('CM');
-        if (EM.checked) {
-            hiddenfield = $('#typereq');
-            hiddenfield.val("1");
-        }
-        else if (CM.checked) {
-            hiddenfield = $('#typereq');
-            hiddenfield.val("2");
-        }
-        else {
-            hiddenfield = $('#typereq');
-            hiddenfield.val("3");
-        }
-    }
+    //function setRadioFail() {
+    //    var hiddenfield = $('#typefail').val();
+    //    var mech = document.getElementById('mech');
+    //    var mechelech = document.getElementById('mech-elec');
+    //    var elec = document.getElementById('elec');
+    //    var other = document.getElementById('other');
+    //    if (hiddenfield == '1') {
+    //        mech.checked = true;
+    //    }
+    //    else if (hiddenfield == '2') {
+    //        mechelech.checked = true;
+    //    }
+    //    else if (hiddenfield == '3') {
+    //        elec.checked = true;
+    //    }
+    //    else {
+    //        other.checked = true;
+    //    }
+    //}
+    ////=============================
+    //function getRadioreq() {
+    //    var hiddenfield;
+    //    var EM = document.getElementById('EM');
+    //    var CM = document.getElementById('CM');
+    //    if (EM.checked) {
+    //        hiddenfield = $('#typereq');
+    //        hiddenfield.val("1");
+    //    }
+    //    else if (CM.checked) {
+    //        hiddenfield = $('#typereq');
+    //        hiddenfield.val("2");
+    //    }
+    //    else {
+    //        hiddenfield = $('#typereq');
+    //        hiddenfield.val("3");
+    //    }
+    //}
 
-    function setRadioreq() {
-        var hiddenfield = $('#typereq').val();
-        var EM = document.getElementById('EM');
-        var CM = document.getElementById('CM');
-        var PM = document.getElementById('PM');
+    //function setRadioreq() {
+    //    var hiddenfield = $('#typereq').val();
+    //    var EM = document.getElementById('EM');
+    //    var CM = document.getElementById('CM');
+    //    var PM = document.getElementById('PM');
        
-        if (hiddenfield == '1') {
-            EM.checked = true;
-        }
-        else if (hiddenfield == '2') {
-            CM.checked = true;
-        }
-        else {
-            PM.checked = true;
-        }
-    }
+    //    if (hiddenfield == '1') {
+    //        EM.checked = true;
+    //    }
+    //    else if (hiddenfield == '2') {
+    //        CM.checked = true;
+    //    }
+    //    else {
+    //        PM.checked = true;
+    //    }
+    //}
 </script>
 </asp:Content>
