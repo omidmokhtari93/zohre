@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="درخواست تعمیر" Language="C#" MasterPageFile="~/MainDesign.Master" AutoEventWireup="true" CodeBehind="repairRequest.aspx.cs" Inherits="CMMS.repairRequest" %>
+<%@ Import Namespace="CMMS" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:HiddenField runat="server" ClientIDMode="Static" ID="typefail"/>
 <asp:HiddenField runat="server" ClientIDMode="Static" ID="typereq"/>
@@ -152,10 +153,15 @@
                     <asp:BoundField DataField="totaltime" HeaderText="زمان درخواست" SortExpression="totaltime" />
                     <asp:TemplateField>
                         <ItemTemplate>
-                            <a class="fa fa-print" target="_blank" href="/RequestPrint.aspx?reqid=<%#  Eval("req_id") %>"></a>
+                            <a class="fa fa-print" target="_blank" title="چاپ دستور کار" href="/RequestPrint.aspx?reqid=<%#  Eval("req_id") %>"></a>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:ButtonField Text="ویرایش" CommandName="ed"/>
+                    <asp:TemplateField>
+                        <ItemTemplate>
+                            <a class="fa fa-arrow-circle-left" title="بررسی و تعمیر" target="_blank" href="/Reply.aspx?reqid=<%# Crypto.Crypt(Eval("req_id").ToString()) %>"></a>
+                        </ItemTemplate>
+                    </asp:TemplateField>
                 </Columns>
             </asp:GridView>
         </div>
