@@ -91,6 +91,8 @@
     <Content Include="Images\catalog.png" />
     <Content Include="Images\chart_color.png" />
     <Content Include="Images\checklist.png" />
+    <Content Include="Images\chosen-sprite%402x.png" />
+    <Content Include="Images\chosen-sprite.png" />
     <Content Include="Images\construction.png" />
     <Content Include="Images\ContractChart.png" />
     <Content Include="Images\copy.png" />
@@ -201,6 +203,8 @@
     <Content Include="Scripts\chart\export-data.js" />
     <Content Include="Scripts\chart\exporting.js" />
     <Content Include="Scripts\chart\highcharts.js" />
+    <Content Include="Scripts\chosen.css" />
+    <Content Include="Scripts\chosen.jquery.js" />
     <Content Include="Scripts\copyMachineData.js" />
     <Content Include="Scripts\excel\table2excel.js" />
     <Content Include="Scripts\FinancialReports.js" />

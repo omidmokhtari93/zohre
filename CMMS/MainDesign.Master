@@ -19,6 +19,8 @@
     <script src="Scripts/chart/highcharts.js"></script>
     <script src="Scripts/chart/exporting.js"></script>
     <script src="Scripts/chart/export-data.js"></script>
+    <link href="Scripts/chosen.css" rel="stylesheet" />
+    <script src="Scripts/chosen.jquery.js"></script>
     <link href="Images/icon.ico" rel="shortcut icon"/>
     <title>سامانه نگهداری و تعمیر تجهیزات برنا</title>
 </head>
