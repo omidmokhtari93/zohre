@@ -22,9 +22,9 @@ namespace CMMS
                     break;
                 case 2:
 
-                    drunit.SelectedValue = UserAccess.GetUnit().ToString();
-                    drunit.DataBind();
-                    drunit.Enabled = false;
+                    drUnits.SelectedValue = UserAccess.GetUnit().ToString();
+                   // drUnits.DataBind();
+                    drUnits.Enabled = false;
                     break;
                 default:
                     Response.Redirect("login.aspx");
@@ -62,11 +62,11 @@ namespace CMMS
             }
             try
             {
-                drunit.SelectedValue = Crypto.Decrypt(unitCode);
-                drunit.DataBind();
-                dr_machine.SelectedValue = Crypto.Decrypt(machineId);
-                dr_machine.DataBind();
-                dr_tools.DataBind();
+                drUnits.SelectedValue = Crypto.Decrypt(unitCode);
+                drUnits.DataBind();
+                drMachines.SelectedValue = Crypto.Decrypt(machineId);
+                
+               
                 cnn.Open();
                 var sqlcode = new SqlCommand("select code from m_machine where id=" + Crypto.Decrypt(machineId) + "", cnn);
                 txtmachin_code.Text = Convert.ToString(sqlcode.ExecuteScalar());   
@@ -89,24 +89,7 @@ namespace CMMS
             cnn.Close();
         }
 
-        private void MachineCode()
-        {
-            cnn.Close();
-            cnn.Open();
-            var sqlcode = new SqlCommand("select code,line,faz from m_machine where id=" + dr_machine.SelectedValue + "", cnn);
-            var rd = sqlcode.ExecuteReader();
-            if (rd.Read())
-            {
-                txtmachin_code.Text = rd["code"].ToString();
-                drLine.SelectedValue = rd["line"].ToString();
-                drFaz.SelectedValue = rd["faz"].ToString();
-                drLine.DataBind();
-                drFaz.DataBind();
-
-            }
-            
-        }
-        public void UPinsertPm(string id, int mconntrol, string tarikh, int kind, string week, string other)
+       public void UPinsertPm(string id, int mconntrol, string tarikh, int kind, string week, string other)
         {
             cnn.Open();
 
@@ -262,7 +245,7 @@ namespace CMMS
             cnn.Open();
             var insertRequest = new SqlCommand("insert into r_request ([req_id],[unit_id],[machine_code],[subid],[type_fail]," +
                                                "[req_name],[type_req],[comment],[date_req],[time_req],[type_repair],[state],[faz],[line])" +
-                                                "values("+txtreqid.Text+",'"+drunit.SelectedValue+"'," + dr_machine.SelectedValue + "," +
+                                                "values("+txtreqid.Text+",'"+ drUnits.SelectedValue+"'," + drMachines.SelectedValue + "," +
                                                ""+dr_tools.SelectedValue+"," + drkindFail.SelectedValue + ",'" + txtreq_name.Text + "'," +
                                                ""+drTypeReq.SelectedValue+",'"+txtcomment.Text+"','"+txtRequestDate.Value+"','"+txtRequestTime.Value+"',1,1,"+drFaz.SelectedValue+","+drLine.SelectedValue+")", cnn);
             insertRequest.ExecuteNonQuery();
@@ -275,17 +258,8 @@ namespace CMMS
             GetReqNumber();
             txtRequestDate.Value = "";
             txtRequestTime.Value = "";
-            dr_machine.Items.Clear();
-            dr_machine.Items.Insert(0, new ListItem("دستگاه را انتخاب نمایید", "-1"));
+            
             txtmachin_code.Text = "";
-            dr_tools.Items.Clear();
-            dr_tools.Items.Insert(0, new ListItem("تجهیز را انتخاب نمایید", "-1"));
-
-            //drLine.Items.Clear();
-            //drLine.Items.Insert(0, new ListItem("انتخاب نمایید", "0"));
-
-            //drFaz.Items.Clear();
-            //drFaz.Items.Insert(0,new ListItem("انتخاب نمایید", "0"));
             Pm();
             
         }
@@ -294,11 +268,9 @@ namespace CMMS
         {
             if (e.CommandName == "ed")
             {
-                dr_machine.Items.Clear();
-                dr_machine.Items.Insert(0, new ListItem("دستگاه را انتخاب نمایید", "-1"));
+                
                 txtmachin_code.Text = "";
-                dr_tools.Items.Clear();
-                dr_tools.Items.Insert(0, new ListItem("تجهیز را انتخاب نمایید", "-1"));
+                
                 var index = int.Parse(e.CommandArgument.ToString());
                 ViewState["id"] = gridrequest.DataKeys[index]["id"];
                 cnn.Open();
@@ -314,13 +286,13 @@ namespace CMMS
                 {
                     if (Convert.ToInt32(rd["state"].ToString()) == 1)
                     {
-                        drunit.SelectedValue = rd["unit_id"].ToString();
-                        sqlmachin.DataBind();
-                        dr_machine.DataBind();
+                        drUnits.SelectedValue = rd["unit_id"].ToString();
+                        
+                      
                         txtreqid.Text = rd["req_id"].ToString();
-                        dr_machine.SelectedValue = rd["machine_code"].ToString();
-                        sqlsubsys.DataBind();
-                        dr_tools.DataBind();
+                        drMachines.SelectedValue = rd["machine_code"].ToString();
+                        
+                        
                         dr_tools.SelectedValue = rd["subid"].ToString();
                         drkindFail.SelectedValue = rd["type_fail"].ToString();
                         drTypeReq.SelectedValue = rd["type_req"].ToString();
@@ -328,13 +300,10 @@ namespace CMMS
                         txtcomment.Text = rd["comment"].ToString();
                         drLine.SelectedValue = rd["line"].ToString();
                         drFaz.SelectedValue = rd["faz"].ToString();
-                        drLine.DataBind();
-                        drFaz.DataBind();
+                       
                         txtRequestDate.Value = rd["date_req"].ToString();
                         txtRequestTime.Value = rd["time_req"].ToString();
-                        //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script",
-                        //    "setRadioFail();setRadioreq();", true);
-                        MachineCode();//for fill txtmachinecode
+                        
                         btninsert.Visible = false;
                         btncancel.Visible = true;
                         btnedit.Visible = true;
@@ -358,8 +327,8 @@ namespace CMMS
             }
             cnn.Open();
             var upRequest = new SqlCommand("UPDATE [dbo].[r_request] " +
-                                            "SET [unit_id] =  '"+drunit.SelectedValue+"' " +
-                                             " ,[machine_code] = "+dr_machine.SelectedValue+" "+
+                                            "SET [unit_id] =  '"+ drUnits.SelectedValue+"' " +
+                                             " ,[machine_code] = "+ drMachines.SelectedValue+" "+
                                              " ,[subid] = " + dr_tools.SelectedValue + " " +
                                              " ,[type_fail] = " +drkindFail.SelectedValue+" "+ 
                                              " ,[req_name] ='"+txtreq_name.Text+"' "+
@@ -381,9 +350,9 @@ namespace CMMS
             txtcomment.Text = "";
             txtmachin_code.Text = "";
             txtreq_name.Text = "";
-            drunit.SelectedValue = "-1";
+           
             dr_tools.SelectedValue = "-1";
-            dr_machine.SelectedValue = "-1";
+            
             txtRequestDate.Value = "";
             txtRequestTime.Value = "";
             GetReqNumber();
@@ -396,9 +365,8 @@ namespace CMMS
             btncancel.Visible = false;
             txtcomment.Text = "";
             txtreq_name.Text = "";
-            drunit.SelectedValue = "-1";
-            dr_machine.Items.Clear();
-            dr_machine.Items.Insert(0, new ListItem("دستگاه را انتخاب نمایید", "-1"));
+            
+           
             txtmachin_code.Text = "";
             dr_tools.Items.Clear();
             dr_tools.Items.Insert(0, new ListItem("تجهیز را انتخاب نمایید", "-1"));
@@ -407,23 +375,7 @@ namespace CMMS
             GetReqNumber();
 
         }
-        
-        protected void dr_machine_OnSelectedIndexChanged(object sender, EventArgs e)
-        {
-            MachineCode();
-            dr_tools.Items.Clear();
-            dr_tools.Items.Insert(0, new ListItem("تجهیز را انتخاب نمایید", "-1"));
-            dr_tools.DataBind();
-        }
 
-        protected void drunit_OnSelectedIndexChanged(object sender, EventArgs e)
-        {
-            dr_machine.Items.Clear();
-            dr_machine.Items.Insert(0,new ListItem("دستگاه را انتخاب نمایید","-1"));
-            txtmachin_code.Text = "";
-            dr_tools.Items.Clear();
-            dr_tools.Items.Insert(0, new ListItem("تجهیز را انتخاب نمایید", "-1"));
-            
-        }
+
     }
 }

@@ -2074,7 +2074,20 @@ namespace CMMS
             _cnn.Close();
             return new JavaScriptSerializer().Serialize(listMachines);
         }
-        
+        [WebMethod]
+        public string FilterSubsyetamOrderByMachine(int machinId)
+        {
+            _cnn.Open();
+            var listSub = new List<SubSystems>();
+            var filter = new SqlCommand("SELECT subsystem.name, m_subsystem.subId FROM subsystem INNER JOIN m_subsystem ON subsystem.id = m_subsystem.subId where Mid = " + machinId + " ", _cnn);
+            var rd = filter.ExecuteReader();
+            while (rd.Read())
+            {
+                listSub.Add(new SubSystems() { SubSystemId = Convert.ToInt32(rd["subId"]), SubSystemName = rd["name"].ToString() });
+            }
+            _cnn.Close();
+            return new JavaScriptSerializer().Serialize(listSub);
+        }
         [WebMethod]
         public string FilterSubSystem(int mid)
         {

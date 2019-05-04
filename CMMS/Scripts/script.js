@@ -401,5 +401,25 @@ function FilterMachineByUnit(unit , machine) {
           options.push('<option value="' + data[i].MachineId + '">' + data[i].MachineName+'</option>');
         }
         $('#' + machine).append(options);
+        $('#' + machine).trigger('chosen:updated');
+    }
+}
+function FilterSubsystemByMachine(machine,subseystem) {
+    var mid = $("#" + machine + " :selected").val();
+    AjaxData({
+        url: 'WebService.asmx/FilterSubsyetamOrderByMachine',
+        param: { machinId: mid },
+        func: fillelement
+    });
+    function fillelement(e) {
+        var data = JSON.parse(e.d);
+        $('#' + subseystem).empty();
+        var options = [];
+        $('#' + subseystem).append($("<option></option>").attr("value", -1).text('انتخاب کنید'));
+        for (var i = 0; i < data.length; i++) {
+            options.push('<option value="' + data[i].SubSystemId + '">' + data[i].SubSystemName + '</option>');
+        }
+        $('#' + subseystem).append(options);
+        $('#' + subseystem).trigger('chosen:updated');
     }
 }

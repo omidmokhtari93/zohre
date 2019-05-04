@@ -13,24 +13,6 @@ namespace CMMS {
     public partial class repairRequest {
         
         /// <summary>
-        /// typefail control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField typefail;
-        
-        /// <summary>
-        /// typereq control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField typereq;
-        
-        /// <summary>
         /// txtreqid control.
         /// </summary>
         /// <remarks>
@@ -76,13 +58,13 @@ namespace CMMS {
         protected global::System.Web.UI.WebControls.SqlDataSource Sqlline;
         
         /// <summary>
-        /// drunit control.
+        /// drUnits control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList drunit;
+        protected global::System.Web.UI.WebControls.DropDownList drUnits;
         
         /// <summary>
         /// sqlfail control.
@@ -112,24 +94,6 @@ namespace CMMS {
         protected global::System.Web.UI.WebControls.SqlDataSource sqlrequest;
         
         /// <summary>
-        /// sqlsubsys control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource sqlsubsys;
-        
-        /// <summary>
-        /// sqlmachin control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource sqlmachin;
-        
-        /// <summary>
         /// dr_tools control.
         /// </summary>
         /// <remarks>
@@ -148,13 +112,13 @@ namespace CMMS {
         protected global::System.Web.UI.WebControls.TextBox txtmachin_code;
         
         /// <summary>
-        /// dr_machine control.
+        /// drMachines control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList dr_machine;
+        protected global::System.Web.UI.WebControls.DropDownList drMachines;
         
         /// <summary>
         /// drTypeReq control.

@@ -2751,6 +2751,22 @@ namespace CMMS
         }
 
         [WebMethod]
+        public string SubsystemFazLine(string unit)
+        {
+            var e = new SubSystems();
+            cnn.Open();
+            var sqlcode = new SqlCommand("select code,line,faz from m_machine where id=" + unit + "", cnn);
+            var rd = sqlcode.ExecuteReader();
+            if (rd.Read())
+            {
+                e.SubSystemCode = rd["code"].ToString();
+                e.LineName = rd["line"].ToString();
+                e.FazName = rd["faz"].ToString();
+            }
+            return new JavaScriptSerializer().Serialize(e);
+        }
+
+        [WebMethod]
         public string FilterSubSystems(string loc)
         {
             cnn.Open();

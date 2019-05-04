@@ -241,7 +241,6 @@
     <Content Include="StopReport.aspx" />
     <Content Include="SubSystem.aspx" />
     <Content Include="Tag.aspx" />
-    <Content Include="test.aspx" />
     <Content Include="UnitPrint.aspx" />
     <Content Include="WebService.asmx" />
     <Content Include="DailyPm.aspx" />
@@ -663,13 +662,6 @@
     </Compile>
     <Compile Include="Tag.aspx.designer.cs">
       <DependentUpon>Tag.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="test.aspx.cs">
-      <DependentUpon>test.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="test.aspx.designer.cs">
-      <DependentUpon>test.aspx</DependentUpon>
     </Compile>
     <Compile Include="UnitPrint.aspx.cs">
       <DependentUpon>UnitPrint.aspx</DependentUpon>
