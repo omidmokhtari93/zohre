@@ -1,4 +1,4 @@
-﻿<%@ Page Title="درخواست تعمیر" Language="C#" MasterPageFile="~/MainDesign.Master" enableEventValidation="true" AutoEventWireup="true" CodeBehind="repairRequest.aspx.cs" Inherits="CMMS.repairRequest" %>
+﻿<%@ Page Title="درخواست تعمیر" Language="C#" MasterPageFile="~/MainDesign.Master" EnableEventValidation="false" AutoEventWireup="true" CodeBehind="repairRequest.aspx.cs" Inherits="CMMS.repairRequest" %>
 <%@ Import Namespace="CMMS" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
    
@@ -18,7 +18,6 @@
                     فاز :
                     <asp:DropDownList runat="server" CssClass="form-control" AppendDataBoundItems="True" ID="drFaz" ClientIDMode="Static" DataSourceID="SqlFaz" DataTextField="faz_name" DataValueField="id" TabIndex="3">
                         <asp:ListItem Value="0">انتخاب کنید</asp:ListItem>
-                        
                     </asp:DropDownList>
                     <asp:SqlDataSource ID="SqlFaz" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, faz_name FROM i_faz"></asp:SqlDataSource>
                 </div>
@@ -56,7 +55,6 @@
                 </div>
                 <div class="col-md-4">
                     <label>خواهشمند است نسبت به تعمیر دستگاه : </label>
-                    
                     <asp:DropDownList runat="server" id="drMachines"  AppendDataBoundItems="True" ClientIDMode="Static" CssClass="chosen-select"  TabIndex="4">
                     </asp:DropDownList>             
                 </div>
@@ -175,6 +173,9 @@
     $(".chosen-select").chosen({ width: "90%" });
 
 
+    $('#dr_tools').change(function() {
+        $('#tools_value').val($('#dr_tools :selected').val());
+    });
     $('#drMachines').change(function () {
         FilterSubsystemByMachine('drMachines', 'dr_tools');
         AjaxData({
@@ -186,11 +187,20 @@
             var d = JSON.parse(e.d);
             console.log(d);
             $('#txtmachin_code').val(d.SubSystemCode);
+            $('#machine_value').val($('#drMachines :selected').val());
             $('#drFaz').val(d.FazName);
             $('#drLine').val(d.LineName);
-            
         }
     });
-    
+
+    $(function() {
+        if ($('#drUnits :selected').val() !== '-1') {
+            FilterMachineByUnit('drUnits', 'drMachines');
+            $('#drMachines :selected').val('1097');
+        }
+    });
+
 </script>
+    <asp:HiddenField runat="server" ClientIDMode="Static" ID="machine_value"/>
+    <asp:HiddenField runat="server" ClientIDMode="Static" ID="tools_value"/>
 </asp:Content>

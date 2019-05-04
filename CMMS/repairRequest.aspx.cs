@@ -245,8 +245,8 @@ namespace CMMS
             cnn.Open();
             var insertRequest = new SqlCommand("insert into r_request ([req_id],[unit_id],[machine_code],[subid],[type_fail]," +
                                                "[req_name],[type_req],[comment],[date_req],[time_req],[type_repair],[state],[faz],[line])" +
-                                                "values("+txtreqid.Text+",'"+ drUnits.SelectedValue+"'," + drMachines.SelectedValue + "," +
-                                               ""+dr_tools.SelectedValue+"," + drkindFail.SelectedValue + ",'" + txtreq_name.Text + "'," +
+                                                "values("+txtreqid.Text+",'"+ drUnits.SelectedValue+"'," + machine_value.Value + "," +
+                                               ""+tools_value.Value+"," + drkindFail.SelectedValue + ",'" + txtreq_name.Text + "'," +
                                                ""+drTypeReq.SelectedValue+",'"+txtcomment.Text+"','"+txtRequestDate.Value+"','"+txtRequestTime.Value+"',1,1,"+drFaz.SelectedValue+","+drLine.SelectedValue+")", cnn);
             insertRequest.ExecuteNonQuery();
             gridrequest.DataBind();
