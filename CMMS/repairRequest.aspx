@@ -37,6 +37,16 @@
                 </div>
             </div>
             <asp:SqlDataSource ID="sqlfail" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id,fail FROM i_fail_reason"></asp:SqlDataSource>
+            <asp:SqlDataSource ID="Sqlmachine" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id,name FROM m_machine where loc=@Unit" ProviderName="<%$ ConnectionStrings:CMMS.ProviderName %>">
+                <SelectParameters>
+                    <asp:ControlParameter ControlID="drUnits" Name="Unit" PropertyName="SelectedValue" />
+                </SelectParameters>
+            </asp:SqlDataSource>
+            <asp:SqlDataSource ID="Sqltools" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT subsystem.name, m_subsystem.subId FROM subsystem INNER JOIN m_subsystem ON subsystem.id = m_subsystem.subId where Mid = @machine" ProviderName="<%$ ConnectionStrings:CMMS.ProviderName %>">
+                <SelectParameters>
+                    <asp:ControlParameter ControlID="drMachines" Name="machine" PropertyName="SelectedValue" />
+                </SelectParameters>
+            </asp:SqlDataSource>
             <asp:SqlDataSource ID="Sqlunit" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT [unit_code], [unit_name] FROM [i_units]"></asp:SqlDataSource>
                     <label style="display: block;">
             <asp:SqlDataSource ID="sqlrequest" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT i_units.unit_name, r_request.id,r_request.req_id , CASE WHEN r_request.type_fail = 1 THEN 'مکانیکی' WHEN r_request.type_fail = 2 THEN 'تاسیساتی-الکتریکی' WHEN r_request.type_fail = 3 THEN 'الکتریکی واحد برق' ELSE 'غیره' END AS Tfail, r_request.req_name, CASE WHEN r_request.type_req = 1 THEN 'اضطراری' WHEN r_request.type_req = 2 THEN 'پیش بینانه' ELSE 'پیش گیرانه' END AS Treq, r_request.time_req + '__' + r_request.date_req AS totaltime, r_request.state, r_request.machine_code, m_machine.code FROM r_request INNER JOIN i_units ON r_request.unit_id = i_units.unit_code INNER JOIN m_machine ON r_request.machine_code = m_machine.id WHERE (r_request.type_repair = 1 and r_request.state = 1) ORDER BY r_request.id DESC"></asp:SqlDataSource>
@@ -55,7 +65,7 @@
                 </div>
                 <div class="col-md-4">
                     <label>خواهشمند است نسبت به تعمیر دستگاه : </label>
-                    <asp:DropDownList runat="server" id="drMachines"  AppendDataBoundItems="True" ClientIDMode="Static" CssClass="chosen-select"  TabIndex="4">
+                    <asp:DropDownList runat="server" id="drMachines"   ClientIDMode="Static" CssClass="chosen-select"  TabIndex="4">
                     </asp:DropDownList>             
                 </div>
             </div>
@@ -193,14 +203,8 @@
         }
     });
 
-    $(function() {
-        if ($('#drUnits :selected').val() !== '-1') {
-            FilterMachineByUnit('drUnits', 'drMachines');
-            $('#drMachines :selected').val('1097');
-        }
-    });
-
 </script>
     <asp:HiddenField runat="server" ClientIDMode="Static" ID="machine_value"/>
     <asp:HiddenField runat="server" ClientIDMode="Static" ID="tools_value"/>
 </asp:Content>
+  

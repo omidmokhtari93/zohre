@@ -23,7 +23,7 @@ namespace CMMS
                 case 2:
 
                     drUnits.SelectedValue = UserAccess.GetUnit().ToString();
-                   // drUnits.DataBind();
+                    drUnits.DataBind();
                     drUnits.Enabled = false;
                     break;
                 default:
@@ -278,7 +278,8 @@ namespace CMMS
                     new SqlCommand(
                         "SELECT [req_id],[unit_id],[machine_code],[subid],[type_fail],[req_name],[type_req],[comment]" +
                         ",[date_req],[time_req],[type_repair],[state],[faz],[line] FROM [dbo].[r_request] where id = " +
-                        Convert.ToInt32(ViewState["id"]) + " ", cnn);
+                        Convert.ToInt32(ViewState["id"]) + " " +
+                        "select code from m_machine where id = (select machine_code from [dbo].[r_request] where id="+ Convert.ToInt32(ViewState["id"]) + ") ", cnn);
                 
                 var rd = getrequest.ExecuteReader();
                 
@@ -290,17 +291,26 @@ namespace CMMS
                         
                       
                         txtreqid.Text = rd["req_id"].ToString();
+
+                        drMachines.DataSource = Sqlmachine;
+                        drMachines.DataValueField = "id";
+                        drMachines.DataTextField = "name";
+                        drMachines.DataBind();
                         drMachines.SelectedValue = rd["machine_code"].ToString();
-                        
-                        
+
+                        dr_tools.DataSource = Sqltools;
+                        dr_tools.DataValueField = "subId";
+                        dr_tools.DataTextField = "name";
+                        dr_tools.DataBind();
                         dr_tools.SelectedValue = rd["subid"].ToString();
+
                         drkindFail.SelectedValue = rd["type_fail"].ToString();
                         drTypeReq.SelectedValue = rd["type_req"].ToString();
                         txtreq_name.Text = rd["req_name"].ToString();
                         txtcomment.Text = rd["comment"].ToString();
                         drLine.SelectedValue = rd["line"].ToString();
                         drFaz.SelectedValue = rd["faz"].ToString();
-                       
+                        
                         txtRequestDate.Value = rd["date_req"].ToString();
                         txtRequestTime.Value = rd["time_req"].ToString();
                         
@@ -313,7 +323,15 @@ namespace CMMS
                         ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "Uperror();", true);
                     }
                 }
+                rd.NextResult();
+                if (rd.Read())
+                {
+                    txtmachin_code.Text = Convert.ToString(rd["code"]);
+                }
                 cnn.Close();
+                cnn.Open();
+                
+                
             }
            
         }
@@ -351,8 +369,7 @@ namespace CMMS
             txtmachin_code.Text = "";
             txtreq_name.Text = "";
            
-            dr_tools.SelectedValue = "-1";
-            
+           
             txtRequestDate.Value = "";
             txtRequestTime.Value = "";
             GetReqNumber();

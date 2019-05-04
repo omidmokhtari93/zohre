@@ -76,6 +76,24 @@ namespace CMMS {
         protected global::System.Web.UI.WebControls.SqlDataSource sqlfail;
         
         /// <summary>
+        /// Sqlmachine control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource Sqlmachine;
+        
+        /// <summary>
+        /// Sqltools control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource Sqltools;
+        
+        /// <summary>
         /// Sqlunit control.
         /// </summary>
         /// <remarks>
