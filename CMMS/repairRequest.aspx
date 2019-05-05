@@ -187,6 +187,10 @@
         $('#tools_value').val($('#dr_tools :selected').val());
     });
     $('#drMachines').change(function () {
+        completeinputs();
+    });
+
+    function completeinputs() {
         FilterSubsystemByMachine('drMachines', 'dr_tools');
         AjaxData({
             url: 'Reports.asmx/SubsystemFazLine',
@@ -201,8 +205,7 @@
             $('#drFaz').val(d.FazName);
             $('#drLine').val(d.LineName);
         }
-    });
-
+    }
 </script>
     <asp:HiddenField runat="server" ClientIDMode="Static" ID="machine_value"/>
     <asp:HiddenField runat="server" ClientIDMode="Static" ID="tools_value"/>

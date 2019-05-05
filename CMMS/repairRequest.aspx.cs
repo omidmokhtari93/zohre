@@ -64,9 +64,13 @@ namespace CMMS
             {
                 drUnits.SelectedValue = Crypto.Decrypt(unitCode);
                 drUnits.DataBind();
+                drMachines.DataSource = Sqlmachine;
+                drMachines.DataValueField = "id";
+                drMachines.DataTextField = "name";
+                drMachines.DataBind();
                 drMachines.SelectedValue = Crypto.Decrypt(machineId);
-                
-               
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "completeinputs();", true);
+
                 cnn.Open();
                 var sqlcode = new SqlCommand("select code from m_machine where id=" + Crypto.Decrypt(machineId) + "", cnn);
                 txtmachin_code.Text = Convert.ToString(sqlcode.ExecuteScalar());   
