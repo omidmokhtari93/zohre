@@ -2,6 +2,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <style>
         .btns{width: 100%; font-weight: 500; margin-top: 10px; color: #323232;font-weight: 800;}
+
     </style>
     <div class="panel panel-primary" style="text-align: center;">
         <div class="panel-heading">

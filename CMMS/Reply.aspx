@@ -67,7 +67,7 @@
     <div class="panel panel-primary" id="pnlRequestDetail" style="display:none;">
         <div class="panel-heading">شرح درخواست</div>
         <div class="panel-body">
-            <div style="width: 600px; min-height: 250px; background-color: #9cdffb; border-radius: 5px; margin: auto; padding: 20px; text-align: right;">
+            <div style="width: 700px; min-height: 250px; background-color: #9cdffb; border-radius: 5px; margin: auto; padding: 20px; text-align: right;">
                <div class="row" style="margin: 0;">
                    <div class="col-lg-6 text-left">
                        <label class="listlable" id="lblRequestNumber"></label>
@@ -91,37 +91,42 @@
                 </div>
                 <div class="row" style="margin: 0; margin-top: 15px;">
                     
-                    <div class="col-lg-4">
-                        <label class="listlable" id="lblRequestCode"></label>
-                        <label> : به شماره فنی</label>
-                    </div>
+                   
                     <div class="col-lg-2">
                         <label class="listlable" id="lblline"></label>
+                        <label> : خط</label>
                        
                     </div>
                     <div class="col-lg-2">
-                        <label class="listlable" id="lblfaz" style="direction: rtl"></label>
+                        <label class="listlable" id="lblfaz" ></label>
+                        <label> : فاز</label>
                        
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-8">
                         <label class="listlable" id="lblMachineName"></label>
                         <label> : مورد تعمیر</label>
                     </div>
                 </div>
                 <div class="row" style="margin: 0;margin-top: 15px;">
-                    <div class="col-lg-4">
-                        <label class="listlable" id="lblRequestType"></label>
-                        <label> : نوع درخواست</label>
-                    </div>
-                    <div class="col-lg-4">
-                        <label class="listlable" id="lblFailType"></label>
-                        <label> : نوع خرابی</label>
-                    </div>
-                    <div class="col-lg-4">
+                   <div class="col-lg-8">
                         <label class="listlable" id="lblSubName"></label>
                         <label> : تجهیز</label>
                     </div>
+                    <div class="col-lg-4">
+                        <label class="listlable" id="lblRequestCode"></label>
+                        <label> : به شماره فنی</label>
+                    </div>
                 </div>
+                <div class="row" style="margin: 0;margin-top: 15px;">
+                <div class="col-lg-6">
+                    <label class="listlable" id="lblRequestType"></label>
+                    <label> : نوع درخواست</label>
+                </div>
+                <div class="col-lg-6">
+                    <label class="listlable" id="lblFailType"></label>
+                    <label> : نوع خرابی</label>
+                </div>
+               </div>
                 <div class="row" style="margin: 0;margin-top: 15px;">
                     <div class="col-lg-12">
                         <label class="listlable" id="lblComment"></label>

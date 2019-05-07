@@ -37,6 +37,7 @@ $('#btnNewMachineFor').on('click', function () {
     var mid = 0;
     if ($('#Mid').val() !== '') {
         mid = $('#Mid').val();
+        $('[lblMCode]').text($('#txtmachineCode').val() + '___'  + $('#txtmachineName').val());
     }
     $.ajax({
         type: "POST",
@@ -626,6 +627,7 @@ $('#btnMavaredeMasrafiFor').on('click', function () {
         $('#pnlMavaredMasrafi').hide();
         $('#pnlMavaredKey').fadeIn();
         $('#txtCommentKey').focus();
+        $('[lblMCode]').text($('#txtmachineCode').val() + '___' + $('#txtmachineName').val());
     //}
 });
 
@@ -638,38 +640,45 @@ $('#btnMavaredeKeyFor').on('click', function () {
     $('#pnlMavaredControli').fadeIn();
     $('#txtControliMoredControl').focus();
     $('#pnlMavaredKey').hide();
+    $('[lblMCode]').text($('#txtmachineCode').val() + '___' + $('#txtmachineName').val());
 });
 
 $('#btnMavaredControlBack').on('click', function () {
     $('#pnlMavaredKey').fadeIn();
     $('#pnlMavaredControli').hide();
     $('#txtCommentKey').focus();
+    $('[lblMCode]').text($('#txtmachineCode').val() + '___' + $('#txtmachineName').val());
 });
 
 $('#btnMavaredControlFor').on('click', function () {
         $('#pnlMavaredControli').hide();
         $('#pnlSubSytem').fadeIn();
+        $('[lblMCode]').text($('#txtmachineCode').val() + '___' + $('#txtmachineName').val());
 });
 
 $('#btnSubsystemFor').on('click', function () {
     $('#pnlSubSytem').hide();
     $('#pnlGhatatMasrafi').fadeIn();
+    $('[lblMCode]').text($('#txtmachineCode').val() + '___' + $('#txtmachineName').val());
 });
 
 $('#btnSubsystemBack').on('click', function () {
     $('#pnlSubSytem').hide();
     $('#pnlMavaredControli').fadeIn();
     $('#txtControliMoredControl').focus();
+    $('[lblMCode]').text($('#txtmachineCode').val() + '___' + $('#txtmachineName').val());
 });
 
 $('#btnGhatatBack').on('click', function () {
     $('#pnlSubSytem').fadeIn();
     $('#pnlGhatatMasrafi').hide();
+    $('[lblMCode]').text($('#txtmachineCode').val() + '___' + $('#txtmachineName').val());
 });
 
 $('#btnGhatatFor').on('click', function () {
         $('#pnlGhatatMasrafi').hide();
         $('#pnlDastoor').fadeIn();
+        $('[lblMCode]').text($('#txtmachineCode').val() + '___' + $('#txtmachineName').val());
 });
 
 function checkModEnergy() {
@@ -743,6 +752,7 @@ function createEnergyTable() {
 $('#btnDastoorBack').on('click', function () {
     $('#pnlDastoor').hide();
     $('#pnlGhatatMasrafi').fadeIn();
+    $('[lblMCode]').text($('#txtmachineCode').val() + '  ' + $('#txtmachineName').val());
 });
 $('#haveCatalog').change(function () {
     if (document.getElementById('haveCatalog').checked) {

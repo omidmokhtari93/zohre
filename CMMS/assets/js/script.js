@@ -21,47 +21,6 @@
     });
 })(jQuery);
 
-var customOptions = {
-    placeholder: "روز / ماه / سال",
-    twodigit: true,
-    closeAfterSelect: true,
-    nextButtonIcon: "fa fa-arrow-circle-right",
-    previousButtonIcon: "fa fa-arrow-circle-left",
-    buttonsColor: "blue",
-    forceFarsiDigits: true,
-    markToday: true,
-    markHolidays: true,
-    highlightSelectedDay: true,
-    sync: true,
-    gotoToday: true
-};
-
-function Checkinputs(n) {
-  var t = !1,
-    a = $("#" + n).find("input[required] ,textarea[required]");
-  return 0 === a.length && (a = $("#" + n).find("textarea[required]")),
-    a.each(function(n, a) {
-         "" == a.value && (RedAlert(a, ""), t = !0)
-    }), t
-}
-
-function save() {
-    $.notify("✔ با موفقیت انجام شد", {
-        className: 'success',
-        clickToHide: false,
-        autoHide: true,
-        position: 'bottom center'
-    });
-}
-function cancel() {
-    $.notify("☓ خطا در ورود اطاعات", {
-        className: 'error',
-        clickToHide: false,
-        autoHide: true,
-        position: 'bottom center'
-    });
-}
-
 function Uperror() {
     $.notify("☓ شما قادر به ویرایش این درخواست نیستید", {
         className: 'error',
@@ -201,7 +160,7 @@ function GetChartData(obj) {
     $.ajax({
         type: "POST",
         url: "Reports.asmx/" + obj.url,
-        data: JSON.stringify(obj.param),
+        data: JSON.stringify(obj.data[0]),
         contentType: 'application/json;',
         dataType: 'json',
         success: function (e) {
@@ -235,18 +194,18 @@ function CreatePieChart(reportName, reportData, chartElement, chartype) {
             plotShadow: false,
             type: chartype,
             style: {
-                fontFamily: 'sans'
+                fontFamily: 'myfont'
             }
         },
         title: {
             text: reportName,
             style: {
-                fontFamily: 'sans'
+                fontFamily: 'myfont'
             }
         },
         tooltip: {
             style: {
-                fontFamily: 'sans',
+                fontFamily: 'myfont',
                 fontSize: '12px'
             },
             formatter: function () {
@@ -280,12 +239,12 @@ function CreateColumnChart(lblkind,reportName, reportData, chartElement, chartyp
         title: {
             text: reportName,
             style: {
-                fontFamily: 'sans'
+                fontFamily: 'myfont'
             }
         },
         tooltip: {
             style: {
-                fontFamily: 'sans',
+                fontFamily: 'myfont',
                 fontSize: '12px'
             },
             formatter: function () {
@@ -296,7 +255,7 @@ function CreateColumnChart(lblkind,reportName, reportData, chartElement, chartyp
             categories: reportData.Strings,
             labels: {
                 style: {
-                    fontFamily:'sans',
+                    fontFamily:'myfont',
                     fontSize: '12px'
                 }
             }
@@ -305,13 +264,13 @@ function CreateColumnChart(lblkind,reportName, reportData, chartElement, chartyp
             title: {
                 text: lblkind,
                 style: {
-                    fontFamily: 'sans',
+                    fontFamily: 'myfont',
                     fontSize: '16px'
                 }
             },
             labels: {
                 style: {
-                    fontFamily:'sans'
+                    fontFamily:'myfont'
                 }
             }
         },
@@ -332,7 +291,7 @@ function CreateMultipleColumnChart(kind,c1,c2,lbl,reportName, reportData, chartE
         title: {
             text: reportName,
             style: {
-                fontFamily: 'sans'
+                fontFamily: 'myfont'
             }
         },
         xAxis: {
@@ -340,7 +299,7 @@ function CreateMultipleColumnChart(kind,c1,c2,lbl,reportName, reportData, chartE
             crosshair: true,
             labels: {
                 style: {
-                    fontFamily: 'sans',
+                    fontFamily: 'myfont',
                     fontSize: '12px'
                 }
             }
@@ -350,20 +309,20 @@ function CreateMultipleColumnChart(kind,c1,c2,lbl,reportName, reportData, chartE
             title: {
                 text: kind,
                 style: {
-                    fontFamily: 'sans',
+                    fontFamily: 'myfont',
                     fontSize: '16px'
                 }
             },
             labels: {
                 style: {
-                    fontFamily: 'sans',
+                    fontFamily: 'myfont',
                     fontSize: '12px'
                 }
             }
         },
         tooltip: {
             style: {
-                fontFamily: 'sans',
+                fontFamily: 'myfont',
                 fontSize: '12px'
             },
             headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
@@ -377,7 +336,7 @@ function CreateMultipleColumnChart(kind,c1,c2,lbl,reportName, reportData, chartE
            
             column: {
                 style: {
-                    fontFamily: 'sans',
+                    fontFamily: 'myfont',
                     fontSize: '12px'
                 },
                 pointPadding: 0.2,
@@ -442,5 +401,25 @@ function FilterMachineByUnit(unit , machine) {
           options.push('<option value="' + data[i].MachineId + '">' + data[i].MachineName+'</option>');
         }
         $('#' + machine).append(options);
+        $('#' + machine).trigger('chosen:updated');
+    }
+}
+function FilterSubsystemByMachine(machine,subseystem) {
+    var mid = $("#" + machine + " :selected").val();
+    AjaxData({
+        url: 'WebService.asmx/FilterSubsyetamOrderByMachine',
+        param: { machinId: mid },
+        func: fillelement
+    });
+    function fillelement(e) {
+        var data = JSON.parse(e.d);
+        $('#' + subseystem).empty();
+        var options = [];
+        $('#' + subseystem).append($("<option></option>").attr("value", -1).text('انتخاب کنید'));
+        for (var i = 0; i < data.length; i++) {
+            options.push('<option value="' + data[i].SubSystemId + '">' + data[i].SubSystemName + '</option>');
+        }
+        $('#' + subseystem).append(options);
+        $('#' + subseystem).trigger('chosen:updated');
     }
 }

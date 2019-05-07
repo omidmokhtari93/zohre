@@ -71,9 +71,11 @@
   <ItemGroup>
     <Content Include="admin.aspx" />
     <Content Include="assets\css\bootstrap.min.css" />
+    <Content Include="assets\css\chosen.css" />
     <Content Include="assets\css\kamadatepicker.css" />
     <Content Include="assets\css\mdb.min.css" />
     <Content Include="assets\css\mdbootstrap.css" />
+    <Content Include="assets\js\chosen.jquery.js" />
     <Content Include="assets\js\mdb.min.js" />
     <Content Include="assets\js\popper.min.js" />
     <Content Include="catalog.aspx" />
@@ -226,6 +228,7 @@
     <Content Include="assets\js\SubSystemJS.js" />
     <Content Include="assets\js\SubSystemPage.js" />
     <Content Include="assets\js\Tags.js" />
+    <Content Include="RequestPrint.aspx" />
     <Content Include="ShowDailyReport.aspx" />
     <Content Include="ShowRequests.aspx" />
     <Content Include="StopReport.aspx" />
@@ -615,6 +618,13 @@
     <Compile Include="Reports.asmx.cs">
       <DependentUpon>Reports.asmx</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RequestPrint.aspx.cs">
+      <DependentUpon>RequestPrint.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RequestPrint.aspx.designer.cs">
+      <DependentUpon>RequestPrint.aspx</DependentUpon>
     </Compile>
     <Compile Include="rijn.cs" />
     <Compile Include="ShamsiCalendar.cs" />

@@ -134,8 +134,18 @@ namespace CMMS
                         {
                             int pos = tarikh.LastIndexOf("/");
                             string day = tarikh.Substring(pos+1, tarikh.Length - (pos+1));
+                            string Mhelp = tarikh.Substring(pos - 2, 2);
+                            
                             var Date = ShamsiCalendar.Shamsi2Miladi(tarikh);
-                            Date = Date.AddMonths(1);
+                            if ((Convert.ToInt32(Mhelp) < 7) && (Convert.ToInt32(day)==1))
+                            {
+                                Date = Date.AddMonths(2);
+                            }
+                            else
+                            {
+                                Date = Date.AddMonths(1);
+                                }
+                                
                           
                             tarikh = ShamsiCalendar.Miladi2Shamsi(Date); 
                                 pos = tarikh.LastIndexOf("/");
@@ -174,8 +184,7 @@ namespace CMMS
 
                             tarikh = ShamsiCalendar.Miladi2Shamsi(Date);
                             pos = tarikh.LastIndexOf("/");
-                            //if (Convert.ToInt32(day) < 10)
-                            //    day = "0" + day;
+                           
                             tarikh = tarikh.Substring(0, pos + 1) + day;
                             cnn.Close();
                             UPinsertCM(ViewState["id"].ToString(), mcontrolid, tarikh, kind, "NULL", "NULL");

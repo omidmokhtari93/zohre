@@ -253,7 +253,7 @@
             <asp:HiddenField runat="server" ClientIDMode="Static" ID="chgas" />
             <asp:HiddenField runat="server" ClientIDMode="Static" ID="chhava" />
             <asp:HiddenField runat="server" ClientIDMode="Static" ID="chsookht" />
-            <div class="panel-heading">موارد مصرفی دستگاه</div>
+            <div class="panel-heading"> <label style="width: 50%" lblMCode></label> &nbsp; موارد مصرفی دستگاه</div>
             <div class="panel-body">
                 <div class="row" style="margin: 0; direction: rtl; text-align: right;">
                     <div class="col-md-3">
@@ -361,7 +361,7 @@
         <%--موارد کلیدی دستگاه --%>
         <div class="panel panel-primary" id="pnlMavaredKey" style="display: none;">
 
-            <div class="panel-heading">موارد و توضیحات کلیدی دستگاه</div>
+            <div class="panel-heading"><label style="width: 50%" lblMCode></label> &nbsp; موارد و توضیحات کلیدی دستگاه</div>
             <div class="panel-body">
                 <div class="row" style="margin: 0; direction: rtl; text-align: right;">
                     <div class="col-md-12">
@@ -429,7 +429,7 @@
         <%--موارد کنترلی دستگاه--%>
         <div class="panel panel-primary" id="pnlMavaredControli" style="display: none;">
             <asp:HiddenField runat="server" ClientIDMode="Static" ID="chMDcontrol" />
-            <div class="panel-heading">موارد کنترلی دستگاه</div>
+            <div class="panel-heading"><label style="width: 50%" lblMCode></label> &nbsp; موارد کنترلی دستگاه</div>
             <div class="panel-body">
                 <div class="row" style="margin: 0; direction: rtl; text-align: right;">
                     <div class="col-md-12">
@@ -520,7 +520,7 @@
 
 
         <div class="panel panel-primary" id="pnlSubSytem" style="display: none;">
-            <div class="panel-heading">ثبت اجزا ماشین</div>
+            <div class="panel-heading"><label style="width: 50%" lblMCode></label> &nbsp; ثبت اجزا ماشین</div>
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-3">
@@ -567,7 +567,7 @@
 
 
         <div class="panel panel-primary" id="pnlGhatatMasrafi" style="display: none;">
-            <div class="panel-heading">ثبت قطعات مصرفی</div>
+            <div class="panel-heading"><label style="width: 50%" lblMCode></label> &nbsp; ثبت قطعات مصرفی</div>
             <div class="panel-body">
                 <div class="row" style="margin: 0; direction: rtl; text-align: right;">
                     <div class="col-md-3">
@@ -639,7 +639,7 @@
 
         <div class="panel panel-primary" id="pnlDastoor" style="display: none;">
             <asp:HiddenField runat="server" ClientIDMode="Static" ID="chEnergy" />
-            <div class="panel-heading">دستورالعمل ایمنی و محیط زیستی</div>
+            <div class="panel-heading"><label lblMCode></label> &nbsp; دستورالعمل ایمنی و محیط زیستی</div>
             <div class="panel-body">
                 <div class="row" style="margin: 0; direction: rtl; text-align: right;">
                     <div class="col-md-12">

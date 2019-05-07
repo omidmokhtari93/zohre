@@ -94,13 +94,13 @@
         <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
             <div class="col-md-6">
                 <label style="display: block;">دوره پذیرش :</label>
-                <input class="form-control text-center" tabindex="12" id="txtAdmissionperiodMTBF" style="width: 70%; display: inline-block;" />
+                <input class="form-control text-center" value="3" tabindex="12" id="txtAdmissionperiodMTBF" style="width: 70%; display: inline-block;" />
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <label>ماه</label>
             </div>
             <div class="col-md-6">
                 <label style="display: block;">هدف :</label>
-                <input id="txttargetMTBF" tabindex="11" style="width: 70%; display: inline-block;" class="form-control text-center" />
+                <input id="txttargetMTBF" value="365" tabindex="11" style="width: 70%; display: inline-block;" class="form-control text-center" />
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <label>روز</label>
             </div>
@@ -110,13 +110,13 @@
         <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
             <div class="col-md-6">
                 <label style="display: block;">دوره پذیرش :</label>
-                <input class="form-control text-center" tabindex="14" id="txtAdmissionperiodMTTR" style="width: 70%; display: inline-block;" />
+                <input class="form-control text-center" value="3" tabindex="14" id="txtAdmissionperiodMTTR" style="width: 70%; display: inline-block;" />
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <label>ماه</label>
             </div>
             <div class="col-md-6">
                 <label style="display: block;">هدف :</label>
-                <input id="txttargetMTTR" tabindex="13" style="width: 70%; display: inline-block;" class="form-control text-center" />
+                <input id="txttargetMTTR" tabindex="13" value="1" style="width: 70%; display: inline-block;" class="form-control text-center" />
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <label>ساعت</label>
             </div>

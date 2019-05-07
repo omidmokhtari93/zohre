@@ -248,10 +248,10 @@ namespace CMMS
 
             if (check==null)
             {
-                var inserMachInfo = new SqlCommand("INSERT INTO [dbo].[b_machine]([name],[imp],[creator],[maModel]," +
+                var inserMachInfo = new SqlCommand("INSERT INTO [dbo].[b_machine]([name],[code],[imp],[creator],[maModel]," +
                                                    "[pow],[stopcost],[catGroup],[catState]," +
                                                    "[mtbfH],[mtbfD],[mttrH],[mttrD],[selinfo],[supinfo],[keyComment])VALUES " +
-                                                   "('" + minfo.Name + "' ,  " + minfo.Ahamiyat + " , '" + minfo.Creator + "'" +
+                                                   "('" + minfo.Name + "' ,"+mid+",  " + minfo.Ahamiyat + " , '" + minfo.Creator + "'" +
                                                    ",'" + minfo.Model + "' , '" + minfo.Power + "'," + minfo.StopCostPerHour + " ,"
                                                    + minfo.CatGroup + " , " + minfo.VaziatTajhiz + " ,'" + minfo.MtbfH + "' , '" + minfo.MtbfD + "'," +
                                                    " '" + minfo.MttrH + "' , '" + minfo.MttrD + "' ," +
@@ -511,15 +511,17 @@ namespace CMMS
                     ",[rooz] =" + item.Day + ",[opr] = "+item.Operation+",[MDser] =" + item.MDservice + " ," +
                     "[comment] ='" + item.Comment + "' ,[pmstart] ='" + item.PmDate + "' WHERE id=" + item.Idcontrol +
                     " SELECT '" + item.Idcontrol + "' AS IDc end " +
-                    "else begin if("+item.Bidcontrol+")=0 begin  INSERT INTO [dbo].[m_control]([Mid],[contName],[period],[rooz],[opr],[pmstart],[MDser],[comment])" +
+                    "else if("+item.Bidcontrol+")=0 begin  INSERT INTO [dbo].[m_control]([Mid],[contName],[period],[rooz],[opr],[pmstart],[MDser],[comment])" +
                     "VALUES(" + mid + ",'" + item.Control + "'," + item.Time + "," + item.Day + ","+item.Operation+"," +
                     "'" + item.PmDate + "'," + item.MDservice + ",'" + item.Comment +
                     "') insert into b_control (Mid,contName,comment,opr,broadcast) VALUES((select SUBSTRING(code,3,3) from m_machine where id =" + mid + "),'" + item.Control + "','" + item.Comment + "'," + item.Operation + ",0)" +
-                    " update m_control set idcontrol=i.id from (select id from b_control where id=(select MAX(id) from b_control)) i where m_control.id=(select MAX(id) from m_control)  SELECT CAST(scope_identity() AS nvarchar) end else " +
-                    "begin UPDATE [dbo].[m_control] SET [contName] ='" + item.Control + "',[period] =" + item.Time + " " +
+                    " update m_control set idcontrol=i.id from (select id from b_control where id=(select MAX(id) from b_control)) i where m_control.id=(select MAX(id) from m_control)  SELECT CAST(scope_identity() AS nvarchar) end  " +
+                    "else if(" + item.Idcontrol + ")=0 begin INSERT INTO [dbo].[m_control]([Mid],[idcontrol],[contName],[period],[rooz],[opr],[pmstart],[MDser],[comment])" +
+                    "VALUES(" + mid + "," + item.Bidcontrol + ",'" + item.Control + "'," + item.Time + "," + item.Day + "," + item.Operation + "," +
+                    "'" + item.PmDate + "'," + item.MDservice + ",'" + item.Comment + "')  SELECT CAST(scope_identity() AS nvarchar) end else begin UPDATE [dbo].[m_control] SET [contName] ='" + item.Control + "',[period] =" + item.Time + " " +
                     ",[rooz] =" + item.Day + ",[opr] = " + item.Operation + ",[MDser] =" + item.MDservice + " ," +
                     "[comment] ='" + item.Comment + "' ,[pmstart] ='" + item.PmDate + "' WHERE idcontrol=" + item.Bidcontrol + " and id=" + item.Idcontrol +"  " +
-                    " select id from m_control where idcontrol=" + item.Bidcontrol + " and id=" + item.Idcontrol + " end  end ", _cnn);
+                    " select id from m_control where idcontrol=" + item.Bidcontrol + " and id=" + item.Idcontrol + " end ", _cnn);
                 string idmcontrol = "";
                 idmcontrol = selectrepeatrow.ExecuteScalar().ToString();
                 DateTime Compair;
@@ -831,9 +833,10 @@ namespace CMMS
                     "begin UPDATE [dbo].[m_parts] SET [PartId] ='" + item.PartId + "',[mYear] ='" + item.UsePerYear + "' ,[min] ='" + item.Min + "',[max] ='" + item.Max + "' ," +
                     "[comment] ='" + item.Comment + "' ,[chPeriod] ='" + item.ChangePeriod + "' WHERE id=" + item.Id +
                     " SELECT '" + item.Id + "'+'1' AS IDc end " +
-                    "else begin  INSERT INTO [dbo].[m_parts]([Mid],[PartId],[mYear],[min],[max],[chPeriod],[comment]) " +
+                    "else if(select COUNT(id) AS idd FROM dbo.m_parts where Mid=" + mid+ " and PartId ='" + item.PartId + "') = 0 begin  INSERT INTO [dbo].[m_parts]([Mid],[PartId],[mYear],[min],[max],[chPeriod],[comment]) " +
                     "VALUES(" + mid + "," + item.PartId + " ,'" + item.UsePerYear + "','" + item.Min + "'," +
-                    "'" + item.Max + "','" + item.ChangePeriod + "','" + item.Comment + "') SELECT CAST(scope_identity() AS nvarchar)+'2' end", _cnn);
+                    "'" + item.Max + "','" + item.ChangePeriod + "','" + item.Comment + "') SELECT CAST(scope_identity() AS nvarchar)+'2' end else begin UPDATE [dbo].[m_parts] SET [PartId] ='" + item.PartId + "',[mYear] ='" + item.UsePerYear + "' ,[min] ='" + item.Min + "',[max] ='" + item.Max + "' ," +
+                    "[comment] ='" + item.Comment + "' ,[chPeriod] ='" + item.ChangePeriod + "' WHERE id=" + item.Id + "   SELECT '" + item.Id + "'+'2' AS IDc end ", _cnn);
                 string idmPart = "";
                 idmPart = insertParts.ExecuteScalar().ToString();
                 string check = idmPart.Substring(idmPart.Length - 1, 1);
@@ -1411,7 +1414,7 @@ namespace CMMS
             var reqDetails = new SqlCommand("if (select r_request.type_repair from r_request where r_request.req_id = " + reqId + ") = 1 begin " +
                                             " SELECT dbo.m_machine.name, " +
                                             " dbo.m_machine.code, case when dbo.subsystem.name is null then '____' else dbo.subsystem.name end as subname," +
-                                            "case when dbo.subsystem.id is null then -1 else dbo.subsystem.id end as subid,r_request.req_id, " +
+                                            "case when dbo.subsystem.id is null then -1 else dbo.subsystem.id end as subid,r_request.req_id,r_request.comment, " +
                                             "dbo.i_units.unit_name, CASE WHEN r_request.type_fail = 1 THEN 'مکانیکی' WHEN r_request.type_fail = 2 THEN 'تاسیساتی-الکتریکی' " +
                                             "WHEN r_request.type_fail = 3 THEN 'الکتریکی واحد برق' ELSE 'غیره' END AS Tfail, r_request.req_name, " +
                                             "CASE WHEN r_request.type_req = 1 THEN 'اضطراری' WHEN r_request.type_req = 2 THEN 'پیش بینانه' ELSE 'پیش گیرانه' END AS Treq, " +
@@ -1424,7 +1427,7 @@ namespace CMMS
                                             "CASE WHEN r_request.type_req = 1 THEN 'اضطراری' WHEN r_request.type_req = 2 THEN 'پیش بینانه' ELSE 'پیش گیرانه' END AS Treq, " +
                                             "dbo.r_request.comment, dbo.r_request.date_req + '_' + dbo.r_request.time_req as time,dbo.r_request.time_req,dbo.r_request.date_req FROM dbo.r_request INNER JOIN " +
                                             "dbo.i_units ON dbo.r_request.unit_id = dbo.i_units.unit_code where req_id = " + reqId + " end", _cnn);
-           
+
             var cmdfazline = new SqlCommand("SELECT dbo.i_lines.line_name, dbo.i_faz.faz_name FROM dbo.i_faz INNER JOIN dbo.r_request ON dbo.i_faz.id = dbo.r_request.faz  " +
                                             "INNER JOIN dbo.i_lines ON dbo.r_request.line = dbo.i_lines.id WHERE(dbo.r_request.req_id = " + reqId + ")", _cnn);
 
@@ -2071,7 +2074,20 @@ namespace CMMS
             _cnn.Close();
             return new JavaScriptSerializer().Serialize(listMachines);
         }
-        
+        [WebMethod]
+        public string FilterSubsyetamOrderByMachine(int machinId)
+        {
+            _cnn.Open();
+            var listSub = new List<SubSystems>();
+            var filter = new SqlCommand("SELECT subsystem.name, m_subsystem.subId FROM subsystem INNER JOIN m_subsystem ON subsystem.id = m_subsystem.subId where Mid = " + machinId + " ", _cnn);
+            var rd = filter.ExecuteReader();
+            while (rd.Read())
+            {
+                listSub.Add(new SubSystems() { SubSystemId = Convert.ToInt32(rd["subId"]), SubSystemName = rd["name"].ToString() });
+            }
+            _cnn.Close();
+            return new JavaScriptSerializer().Serialize(listSub);
+        }
         [WebMethod]
         public string FilterSubSystem(int mid)
         {

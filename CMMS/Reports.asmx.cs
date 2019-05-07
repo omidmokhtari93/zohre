@@ -2751,28 +2751,80 @@ namespace CMMS
         }
 
         [WebMethod]
+        public string SubsystemFazLine(string unit)
+        {
+            var e = new SubSystems();
+            cnn.Open();
+            var sqlcode = new SqlCommand("select code,line,faz from m_machine where id=" + unit + "", cnn);
+            var rd = sqlcode.ExecuteReader();
+            if (rd.Read())
+            {
+                e.SubSystemCode = rd["code"].ToString();
+                e.LineName = rd["line"].ToString();
+                e.FazName = rd["faz"].ToString();
+            }
+            return new JavaScriptSerializer().Serialize(e);
+        }
+
+        [WebMethod]
         public string FilterSubSystems(string loc)
         {
             cnn.Open();
-            var e =  new List<SubSystems>();
-            var sele = new SqlCommand("SELECT TOP (100) PERCENT dbo.subsystem.name, dbo.m_machine.name AS Machinename, dbo.i_lines.line_name , dbo.i_faz.faz_name " +
-                                      "FROM dbo.subsystem INNER JOIN " +
-                                      "dbo.m_subsystem ON dbo.subsystem.id = dbo.m_subsystem.subId INNER JOIN " +
-                                      "dbo.m_machine ON dbo.m_subsystem.Mid = dbo.m_machine.id INNER JOIN " +
-                                      "dbo.i_lines ON dbo.m_machine.line = dbo.i_lines.id INNER JOIN " +
-                                      "dbo.i_faz ON dbo.m_machine.faz = dbo.i_faz.id " +
-                                      "WHERE(dbo.m_machine.loc = '" + loc + "' OR '" + loc + "' = '0')" +
-                                      "ORDER BY Machinename ",cnn);
-            var r = sele.ExecuteReader();
-            while (r.Read())
+            var e =  new List<Machines>();
+            var name = new List<Subinformation>();
+            var cmdname = new SqlCommand("SELECT name + ' __  ' + code AS Name, id From   dbo.m_machine WHERE(dbo.m_machine.loc = '" + loc + "' OR '" + loc + "' = '0')" +
+                                         "ORDER BY name ", cnn);
+            var rd = cmdname.ExecuteReader();
+            while (rd.Read())
             {
-                e.Add(new SubSystems()
+                name.Add(new Subinformation()
                 {
-                    FazName = r["faz_name"].ToString(),SubSystemMachine = r["Machinename"].ToString(), SubSystemName = r["name"].ToString(),LineName = r["line_name"].ToString()
+                    SubName = rd["Name"].ToString(),
+                    Subid =Convert.ToInt32(rd["id"]) 
+                   
                 });
             }
             cnn.Close();
+            
+            foreach (var item in name)
+            {
+                cnn.Open();
+                var m = new Machines {MachineName = item.SubName};
+                var cmdSub=new SqlCommand("SELECT TOP (100) PERCENT dbo.subsystem.name, dbo.m_subsystem.code " +
+                                          " FROM dbo.subsystem INNER JOIN " +
+                                          " dbo.m_subsystem ON dbo.subsystem.id = dbo.m_subsystem.subId INNER JOIN " +
+                                          " dbo.m_machine ON dbo.m_subsystem.Mid = dbo.m_machine.id " +
+                                          " WHERE(dbo.m_machine.id = "+item.Subid+")" +
+                                          " ORDER BY code", cnn);
+                var r = cmdSub.ExecuteReader();
+                while (r.Read())
+                {
+                    m.SubSystemName.AddRange(new List<string>(){ r["name"].ToString() });
+                    m.SubSystemCode.AddRange(new List<string>(){ r["code"].ToString() });
+                   
+                }
+                e.Add(m);
+                cnn.Close();
+            }
+            cnn.Close();
             return new JavaScriptSerializer().Serialize(e);
+        }
+
+        public class Machines
+        {
+            public string MachineName { get; set; }
+            public List<string> SubSystemName { get; set; }
+            public List<string> SubSystemId { get; set; }
+            public List<string> SubSystemCode { get; set; }
+            public List<string> SubSystemMachine { get; set; }
+
+            public Machines()
+            {
+                SubSystemName = new List<string>();
+                SubSystemId = new List<string>();
+                SubSystemCode = new List<string>();
+                SubSystemMachine = new List<string>();
+            }
         }
 
         [WebMethod]

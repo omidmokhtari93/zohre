@@ -139,7 +139,7 @@ $subinput.on('keydown', function () {
     clearTimeout(typingTimersub);
 });
 function doneTypingsub() {
-    if (($subinput).val().length > 2) {
+    if (($subinput).val().length >= 2) {
         $.ajax({
             type: "POST",
             url: "WebService.asmx/FilteredGridSubSystem",
@@ -160,8 +160,8 @@ function doneTypingsub() {
             }
         });
     }
-    if (($subinput).val().length <= 2 && ($subinput).val() != '') {
-        RedAlert('no', "!!حداقل سه حرف از نام قطعه را وارد نمایید");
+    if (($subinput).val().length <= 1 && ($subinput).val() != '') {
+        RedAlert('no', "!!حداقل دو حرف از نام قطعه را وارد نمایید");
     }
     $('#subsystemLoading').hide();
     $('#subSystemSearchRes').show();

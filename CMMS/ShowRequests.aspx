@@ -34,6 +34,11 @@
                 </ItemTemplate>
             </asp:TemplateField>
             <asp:BoundField DataField="time" HeaderText="زمان درخواست" ReadOnly="True" SortExpression="time" />
+            <asp:TemplateField>
+                <ItemTemplate>
+                    <a class="fa fa-print" target="_blank" href="/RequestPrint.aspx?reqid=<%#  Eval("req_id") %>"></a>
+                </ItemTemplate>
+            </asp:TemplateField>
             <asp:ButtonField Text="مشاهده" CommandName="show"/>
         </Columns>
     </asp:GridView>
@@ -50,7 +55,7 @@ FROM dbo.r_request left JOIN
 dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id left JOIN
 dbo.i_units ON dbo.r_request.unit_id = dbo.i_units.unit_code left JOIN
 dbo.subsystem ON dbo.r_request.subid = dbo.subsystem.id
-where r_request.state <> 4"></asp:SqlDataSource>
+where r_request.state <> 4 order by dbo.r_request.req_id desc"></asp:SqlDataSource>
         </div>
     </div>
     
