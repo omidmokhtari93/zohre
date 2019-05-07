@@ -1,20 +1,4 @@
-﻿
-
-$(document).ready(function () {
-    var customOptions = {
-        placeholder: "روز / ماه / سال"
-        , twodigit: true
-        , closeAfterSelect: true
-        , nextButtonIcon: "fa fa-arrow-circle-right"
-        , previousButtonIcon: "fa fa-arrow-circle-left"
-        , buttonsColor: "blue"
-        , forceFarsiDigits: true
-        , markToday: true
-        , markHolidays: true
-        , highlightSelectedDay: true
-        , sync: true
-        , gotoToday: true
-    }
+﻿$(document).ready(function () {
     kamaDatepicker('txtFailTypeStartDate', customOptions);
     kamaDatepicker('txtFailTypeEndDate', customOptions);   
     kamaDatepicker('txtMostFailsEndDate', customOptions);
@@ -23,7 +7,6 @@ $(document).ready(function () {
     kamaDatepicker('txtSubEndDate', customOptions);
     kamaDatepicker('txtPreFailStartDate', customOptions);
     kamaDatepicker('txtPreFailEndDate', customOptions);
-   
 });
 //=================================================================Table 
 function CreateTableForChart(data) {
@@ -110,21 +93,19 @@ function CreateFailTypeChart() {
         RedAlert('no', '!!تاریخ شروع باید کوچکتر از تاریخ پایان باشد');
         return;
     }
-    var obj = {
+    GetChartData({
         url: 'Typefailreason',
-        data: [],
+        param: {
+            line: linee,
+            unit: unitt,
+            faz: fazz,
+            dateS: $('#txtFailTypeStartDate').val(),
+            dateE: $('#txtFailTypeEndDate').val()
+        },
         element: 'FailTypeChart',
         header: 'نوع خرابی',
         chartype: 'pie'
-    };
-    obj.data.push({
-        line: linee,
-        unit: unitt,
-        faz:fazz,
-        dateS: $('#txtFailTypeStartDate').val(),
-        dateE: $('#txtFailTypeEndDate').val()
     });
-    GetChartData(obj);
 }
 
 $('#drunitmostfail').on('change', function () {
@@ -161,23 +142,20 @@ function CreateMostFailsChart() {
         RedAlert('no', '!!تاریخ شروع باید کوچکتر از تاریخ پایان باشد');
         return;
     }
-    var obj = {
+    GetChartData({
         lblkind: 'تعداد',
         url: 'Failreason',
-        data: [],
+        param: {
+            line: linee,
+            unit: unitt,
+            faz: fazz,
+            dateS: sDate,
+            dateE: eDate
+        },
         element: 'MostFailsChart',
         header: 'علت خرابی',
         chartype: 'column'
-    };
-    obj.data.push({
-
-        line: linee,
-        unit: unitt,
-        faz:fazz,
-        dateS: sDate,
-        dateE: eDate
     });
-    GetChartData(obj);
 }
 $('#drunitrepsub').on('change', function () {
     if ($('#drunitrepsub :selected').val() !== '-1') {
@@ -213,27 +191,23 @@ function CreateSubsystemChart() {
         RedAlert('no', '!!تاریخ شروع باید کوچکتر از تاریخ پایان باشد');
         return;
     }
-    var obj = {
+    GetChartData({
         lblkind: 'تعداد',
         url: 'Maxsubsystem',
-        data: [],
+        param: {
+            line: linee,
+            unit: unitt,
+            faz: fazz,
+            count: count,
+            dateS: sDate,
+            dateE: eDate
+        },
         element: 'RepairsubChart',
         header: 'بیشترین خرابی اجزاء',
         chartype: 'column'
-    };
-    obj.data.push({
-
-        line: linee,
-        unit: unitt,
-        faz:fazz,
-        count: count,
-        dateS: sDate,
-        dateE: eDate
     });
-    GetChartData(obj);
 }
 function CreatePreFailTable() {
-   
     var sDate = $('#txtPreFailStartDate').val();
     var eDate = $('#txtPreFailEndDate').val();
     if (sDate === '' || eDate === '') {
@@ -245,13 +219,11 @@ function CreatePreFailTable() {
         return;
     }
 
-    var data = [];
-    data.push({
+    AjaxData({
         url: 'Reports.asmx/PremanurelyFail',
-        parameters: [{dateS: sDate, dateE: eDate }],
+        param: {dateS: sDate, dateE: eDate },
         func: premanturely
     });
-    AjaxCall(data);
 
     function premanturely(e) {
         $('#gridPreFail tbody').empty();
