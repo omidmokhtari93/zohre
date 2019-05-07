@@ -1,18 +1,4 @@
 ﻿$(document).ready(function () {
-    var customOptions = {
-        placeholder: "روز / ماه / سال"
-        , twodigit: true
-        , closeAfterSelect: true
-        , nextButtonIcon: "fa fa-arrow-circle-right"
-        , previousButtonIcon: "fa fa-arrow-circle-left"
-        , buttonsColor: "blue"
-        , forceFarsiDigits: true
-        , markToday: true
-        , markHolidays: true
-        , highlightSelectedDay: true
-        , sync: true
-        , gotoToday: true
-    }
     kamaDatepicker('txtHistoryEndDate', customOptions);
     kamaDatepicker('txtHistoryStartDate', customOptions);
    
@@ -33,14 +19,12 @@ function CreateTableHistory() {
         RedAlert('no', '!!تاریخ شروع باید کوچکتر از تاریخ پایان باشد');
         return;
     }
-
-    var data = [];
-    data.push({
+    
+    AjaxData({
         url: 'Reports.asmx/RepairHistory',
-        parameters: [{ machine: machinee, unit: unitt, dateS: sDate, dateE: eDate }],
+        param: { machine: machinee, unit: unitt, dateS: sDate, dateE: eDate },
         func: repairHistory
     });
-    AjaxCall(data);
 
     function repairHistory(e) {
         $('#gridRepairHistory tbody').empty();
