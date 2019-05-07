@@ -446,7 +446,7 @@
     <Compile Include="MainDesign.Master.designer.cs">
       <DependentUpon>MainDesign.Master</DependentUpon>
     </Compile>
-    <Compile Include="MClass.cs" />
+    <Compile Include="cs\MClass.cs" />
     <Compile Include="measurement.aspx.cs">
       <DependentUpon>measurement.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -503,7 +503,7 @@
     <Compile Include="PartsReportPrint.aspx.designer.cs">
       <DependentUpon>PartsReportPrint.aspx</DependentUpon>
     </Compile>
-    <Compile Include="PersianCulture.cs" />
+    <Compile Include="cs\PersianCulture.cs" />
     <Compile Include="personel.aspx.cs">
       <DependentUpon>personel.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -628,8 +628,8 @@
     <Compile Include="RequestPrint.aspx.designer.cs">
       <DependentUpon>RequestPrint.aspx</DependentUpon>
     </Compile>
-    <Compile Include="rijn.cs" />
-    <Compile Include="ShamsiCalendar.cs" />
+    <Compile Include="cs\rijn.cs" />
+    <Compile Include="cs\ShamsiCalendar.cs" />
     <Compile Include="ShowDailyReport.aspx.cs">
       <DependentUpon>ShowDailyReport.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
