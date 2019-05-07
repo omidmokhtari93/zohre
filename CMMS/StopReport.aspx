@@ -145,5 +145,5 @@
             </div>
         </div>
     </div>
-    <script src="Scripts/StopReport.js"></script>
+    <script src="assets/js/StopReport.js"></script>
 </asp:Content>
