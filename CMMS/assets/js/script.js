@@ -21,6 +21,47 @@
     });
 })(jQuery);
 
+var customOptions = {
+    placeholder: "روز / ماه / سال",
+    twodigit: true,
+    closeAfterSelect: true,
+    nextButtonIcon: "fa fa-arrow-circle-right",
+    previousButtonIcon: "fa fa-arrow-circle-left",
+    buttonsColor: "blue",
+    forceFarsiDigits: true,
+    markToday: true,
+    markHolidays: true,
+    highlightSelectedDay: true,
+    sync: true,
+    gotoToday: true
+};
+
+function Checkinputs(n) {
+    var t = !1,
+        a = $("#" + n).find("input[required] ,textarea[required]");
+    return 0 === a.length && (a = $("#" + n).find("textarea[required]")),
+        a.each(function (n, a) {
+            "" == a.value && (RedAlert(a, ""), t = !0)
+        }), t
+}
+
+function save() {
+    $.notify("✔ با موفقیت انجام شد", {
+        className: 'success',
+        clickToHide: false,
+        autoHide: true,
+        position: 'bottom center'
+    });
+}
+function cancel() {
+    $.notify("☓ خطا در ورود اطاعات", {
+        className: 'error',
+        clickToHide: false,
+        autoHide: true,
+        position: 'bottom center'
+    });
+}
+
 function Uperror() {
     $.notify("☓ شما قادر به ویرایش این درخواست نیستید", {
         className: 'error',
@@ -39,7 +80,7 @@ function DelErr() {
 }
 function RedAlert(ele, txt) {
     var element;
-    if (typeof ele == "string") {element = $("#" + ele);} else {element = ele;}
+    if (typeof ele == "string") { element = $("#" + ele); } else { element = ele; }
     $(element).addClass('form-controlError');
     setTimeout(function () { $(element).removeClass("form-controlError"); }, 4000);
     $.notify(txt, { globalPosition: 'top left' });
@@ -85,8 +126,8 @@ function checkPastDate(ele) {
 function JalaliDateTime() {
     var date = new Date();
     var todayJalali = GtoJ(date.getFullYear(), date.getMonth() + 1, date.getDate());
-    todayJalali[1] = todayJalali[1] < 10 ? '0' + todayJalali[1] : todayJalali[1]; 
-    todayJalali[2] = todayJalali[2] < 10 ? '0' + todayJalali[2] : todayJalali[2]; 
+    todayJalali[1] = todayJalali[1] < 10 ? '0' + todayJalali[1] : todayJalali[1];
+    todayJalali[2] = todayJalali[2] < 10 ? '0' + todayJalali[2] : todayJalali[2];
     var tarikh = todayJalali[0] + '/' + todayJalali[1] + '/' + todayJalali[2];
     return tarikh;
 }
@@ -99,7 +140,7 @@ function CheckPastTime(sDate, sTime, eDate, eTime) {
     return validStartTimeDate < validSEndTimeDate;
 }
 
-function DaysBetween2Date(s ,e) {
+function DaysBetween2Date(s, e) {
     var sDateArr = s.split('/');
     var eDateArr = e.split('/');
     var validStartTimeDate = new Date(JtoG(sDateArr[0], sDateArr[1], sDateArr[2], true) + ' ' + '12:00');
@@ -122,7 +163,7 @@ function DatesBetween2Date(s, e) {
     for (var i = 0; i < between.length; i++) {
         between[i] = GtoJ(between[i].getFullYear(), between[i].getMonth() + 1, between[i].getDate());
         between[i][1] = between[i][1] < 10 ? '0' + between[i][1] : between[i][1];
-        between[i][2] = between[i][2] < 10 ? '0' + between[i][2] : between[i][2]; 
+        between[i][2] = between[i][2] < 10 ? '0' + between[i][2] : between[i][2];
         between[i] = between[i][0] + '/' + between[i][1] + '/' + between[i][2];
     }
     return between;
@@ -160,19 +201,19 @@ function GetChartData(obj) {
     $.ajax({
         type: "POST",
         url: "Reports.asmx/" + obj.url,
-        data: JSON.stringify(obj.data[0]),
+        data: JSON.stringify(obj.param),
         contentType: 'application/json;',
         dataType: 'json',
         success: function (e) {
             var data = JSON.parse(e.d);
             if (obj.chartype == 'pie') {
-                CreatePieChart(obj.header, data, obj.element, obj.chartype);   
+                CreatePieChart(obj.header, data, obj.element, obj.chartype);
             }
             if (obj.chartype == 'column') {
-                CreateColumnChart(obj.lblkind,obj.header, data, obj.element, obj.chartype);
+                CreateColumnChart(obj.lblkind, obj.header, data, obj.element, obj.chartype);
             }
             if (obj.chartype == 'categorycolumn') {
-                CreateMultipleColumnChart(obj.kind, obj.comment1, obj.comment2,obj.label,obj.header, data, obj.element, obj.chartype);
+                CreateMultipleColumnChart(obj.kind, obj.comment1, obj.comment2, obj.label, obj.header, data, obj.element, obj.chartype);
             }
             CreateTableForChart(data);
         },
@@ -185,7 +226,7 @@ function GetChartData(obj) {
 function CreatePieChart(reportName, reportData, chartElement, chartype) {
     var dataa = [];
     for (var i = 0; i < reportData.length; i++) {
-        dataa.push([reportData[i][0],parseInt(reportData[i][1])]);
+        dataa.push([reportData[i][0], parseInt(reportData[i][1])]);
     }
     Highcharts.chart(chartElement, {
         chart: {
@@ -194,18 +235,18 @@ function CreatePieChart(reportName, reportData, chartElement, chartype) {
             plotShadow: false,
             type: chartype,
             style: {
-                fontFamily: 'myfont'
+                fontFamily: 'sans'
             }
         },
         title: {
             text: reportName,
             style: {
-                fontFamily: 'myfont'
+                fontFamily: 'sans'
             }
         },
         tooltip: {
             style: {
-                fontFamily: 'myfont',
+                fontFamily: 'sans',
                 fontSize: '12px'
             },
             formatter: function () {
@@ -234,28 +275,28 @@ function CreatePieChart(reportName, reportData, chartElement, chartype) {
     });
 }
 
-function CreateColumnChart(lblkind,reportName, reportData, chartElement, chartype) {
+function CreateColumnChart(lblkind, reportName, reportData, chartElement, chartype) {
     Highcharts.chart(chartElement, {
         title: {
             text: reportName,
             style: {
-                fontFamily: 'myfont'
+                fontFamily: 'sans'
             }
         },
         tooltip: {
             style: {
-                fontFamily: 'myfont',
+                fontFamily: 'sans',
                 fontSize: '12px'
             },
             formatter: function () {
-                return lblkind+ ' : ' + this.y ;
+                return lblkind + ' : ' + this.y;
             }
         },
         xAxis: {
             categories: reportData.Strings,
             labels: {
                 style: {
-                    fontFamily:'myfont',
+                    fontFamily: 'sans',
                     fontSize: '12px'
                 }
             }
@@ -264,13 +305,13 @@ function CreateColumnChart(lblkind,reportName, reportData, chartElement, chartyp
             title: {
                 text: lblkind,
                 style: {
-                    fontFamily: 'myfont',
+                    fontFamily: 'sans',
                     fontSize: '16px'
                 }
             },
             labels: {
                 style: {
-                    fontFamily:'myfont'
+                    fontFamily: 'sans'
                 }
             }
         },
@@ -282,7 +323,7 @@ function CreateColumnChart(lblkind,reportName, reportData, chartElement, chartyp
         }]
     });
 }
-function CreateMultipleColumnChart(kind,c1,c2,lbl,reportName, reportData, chartElement, cat) {
+function CreateMultipleColumnChart(kind, c1, c2, lbl, reportName, reportData, chartElement, cat) {
 
     Highcharts.chart(chartElement, {
         chart: {
@@ -291,7 +332,7 @@ function CreateMultipleColumnChart(kind,c1,c2,lbl,reportName, reportData, chartE
         title: {
             text: reportName,
             style: {
-                fontFamily: 'myfont'
+                fontFamily: 'sans'
             }
         },
         xAxis: {
@@ -299,7 +340,7 @@ function CreateMultipleColumnChart(kind,c1,c2,lbl,reportName, reportData, chartE
             crosshair: true,
             labels: {
                 style: {
-                    fontFamily: 'myfont',
+                    fontFamily: 'sans',
                     fontSize: '12px'
                 }
             }
@@ -309,34 +350,34 @@ function CreateMultipleColumnChart(kind,c1,c2,lbl,reportName, reportData, chartE
             title: {
                 text: kind,
                 style: {
-                    fontFamily: 'myfont',
+                    fontFamily: 'sans',
                     fontSize: '16px'
                 }
             },
             labels: {
                 style: {
-                    fontFamily: 'myfont',
+                    fontFamily: 'sans',
                     fontSize: '12px'
                 }
             }
         },
         tooltip: {
             style: {
-                fontFamily: 'myfont',
+                fontFamily: 'sans',
                 fontSize: '12px'
             },
             headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
             pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                '<td style="padding:0"><b>{point.y:.1f} '+lbl+'</b></td></tr>',
+                '<td style="padding:0"><b>{point.y:.1f} ' + lbl + '</b></td></tr>',
             footerFormat: '</table>',
             shared: true,
             useHTML: true
         },
         plotOptions: {
-           
+
             column: {
                 style: {
-                    fontFamily: 'myfont',
+                    fontFamily: 'sans',
                     fontSize: '12px'
                 },
                 pointPadding: 0.2,
@@ -344,16 +385,16 @@ function CreateMultipleColumnChart(kind,c1,c2,lbl,reportName, reportData, chartE
             }
         },
         series: [{
-            name: c1,
-            data: reportData.Mtt
-            
-        }, {
-            name: c2,
-            data: reportData.MttH
-           
+                name: c1,
+                data: reportData.Mtt
+
+            }, {
+                name: c2,
+                data: reportData.MttH
+
             }
         ]
-       
+
     });
 }
 
@@ -385,7 +426,7 @@ function AjaxData(obj) {
     });
 }
 
-function FilterMachineByUnit(unit , machine) {
+function FilterMachineByUnit(unit, machine) {
     var location = $("#" + unit + " :selected").val();
     AjaxData({
         url: 'WebService.asmx/FilterMachineOrderByLocation',
@@ -398,28 +439,8 @@ function FilterMachineByUnit(unit , machine) {
         var options = [];
         $('#' + machine).append($("<option></option>").attr("value", -1).text('انتخاب کنید'));
         for (var i = 0; i < data.length; i++) {
-          options.push('<option value="' + data[i].MachineId + '">' + data[i].MachineName+'</option>');
+            options.push('<option value="' + data[i].MachineId + '">' + data[i].MachineName + '</option>');
         }
         $('#' + machine).append(options);
-        $('#' + machine).trigger('chosen:updated');
-    }
-}
-function FilterSubsystemByMachine(machine,subseystem) {
-    var mid = $("#" + machine + " :selected").val();
-    AjaxData({
-        url: 'WebService.asmx/FilterSubsyetamOrderByMachine',
-        param: { machinId: mid },
-        func: fillelement
-    });
-    function fillelement(e) {
-        var data = JSON.parse(e.d);
-        $('#' + subseystem).empty();
-        var options = [];
-        $('#' + subseystem).append($("<option></option>").attr("value", -1).text('انتخاب کنید'));
-        for (var i = 0; i < data.length; i++) {
-            options.push('<option value="' + data[i].SubSystemId + '">' + data[i].SubSystemName + '</option>');
-        }
-        $('#' + subseystem).append(options);
-        $('#' + subseystem).trigger('chosen:updated');
     }
 }

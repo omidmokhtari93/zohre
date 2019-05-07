@@ -4,19 +4,33 @@
         .btns{width: 100%; font-weight: 500; margin-top: 10px; color: #323232;font-weight: 800;}
 
     </style>
-    <div class="panel panel-primary" style="text-align: center;">
-        <div class="panel-heading">
+    <div class="card" style="text-align: center;">
+        <div class="card-header bg-primary text-white">
             گزارشات ماشین آلات
         </div>
     </div>
-    <ul class="nav nav-tabs" style="padding: 0px 15px 0 15px; margin-top: 10px;">
-        <li class="active"><a data-toggle="tab" href="#ActiveMachine">گزارش تجهیزات فعال</a></li>
-        <li><a data-toggle="tab" href="#MachineTypes">نوع ماشین آلات</a></li>
-        <li><a data-toggle="tab" href="#machinelist">لیست دستگاه ها/ماشین آلات</a></li>
-        <li><a data-toggle="tab" href="#subsystemlist">لیست تجهیزات</a></li>
+    
+    <ul class="nav nav-tabs sans-small mt-1 rtl" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="Mtbf-tab" data-toggle="tab" href="#ActiveMachine" role="tab" aria-controls="home"
+               aria-selected="true">گزارش تجهیزات فعال</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="MttrPerRepiar-tab" data-toggle="tab" href="#MachineTypes" role="tab" aria-controls="profile"
+               aria-selected="false">نوع ماشین آلات</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="MttrPerStop-tab" data-toggle="tab" href="#machinelist" role="tab" aria-controls="profile"
+               aria-selected="false">لیست دستگاه ها/ماشین آلات</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="MttrReport-tab" data-toggle="tab" href="#subsystemlist" role="tab" aria-controls="profile"
+               aria-selected="false">لیست تجهیزات</a>
+        </li>
     </ul>
+    
     <div class="tab-content">
-        <div id="ActiveMachine" class="tab-pane fade in active">
+        <div id="ActiveMachine" class="tab-pane fade show active">
             <div class="menubody">
                 <select class="form-control" id="drCategory" dir="rtl">
                     <option value="-1">انتخاب کنید</option>
@@ -92,6 +106,6 @@
             </div>
         </div>
     </div>
-    <script src="Scripts/MachineReport.js"></script>
+    <script src="assets/js/MachineReport.js"></script>
    
 </asp:Content>

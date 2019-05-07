@@ -14,11 +14,10 @@
 <div id="#ReportArea#" style="margin-top: 15px; text-align: center;">
     <style>
         @font-face {
-            font-family: 'myfont';
-            src: url('/fonts/BYekan.eot'), url('/fonts/BYekan.eot?#FooAnything') format('embedded-opentype');
-            src: local('☺'), url('/fonts/BYekan.woff') format('woff'), url('/fonts/BYekan.ttf') format('truetype'), url('/fonts/BYekan.svg') format('svg');
+            font-family: 'sans';
+            src: url('/assets/fonts/sans/IRANSans.woff2')
         }
-        #ReportArea * { font-weight: 800; }
+        #ReportArea * { font-weight: 800;font-family: sans; }
         .square {
             height: 13px;
             width: 13px;
@@ -26,12 +25,12 @@
             vertical-align: middle;
             display: inline-block;
         }
-        table { font-family: myfont; }
+        table { font-family: sans; }
         img {
             width: auto;
             height: 60px;
         }
-        #HeaderTable td * { font-family: myfont; }
+        #HeaderTable td * { font-family: sans; }
 
         #HeaderTable {
             width: 100%;
@@ -105,7 +104,7 @@
             body { -webkit-print-color-adjust: exact; }
             .footertable{ right: -1px;}
             #program { padding: 0; position: relative;}
-            #printTools{ display: none;}
+            #printTools{ display: none;font-family: sans;}
         }
 
         @page {
@@ -117,7 +116,7 @@
         <table id="HeaderTable">
             <tr style="height: 100px; text-align: center;">
                 <td>
-                    <img src="/Images/zohre1.png"/>
+                    <img src="/assets/Images/zohre1.png"/>
                 </td>
                 <td colspan="2">
                     <h3 style="margin: 0;">#RP#</h3>
