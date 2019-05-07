@@ -36,49 +36,39 @@ function CreateRepairTimeTable() {
    
     $('#lblRepairTime').text($('#drRepiarTime :selected').text());
     if (drVal === '0') {
-        data = [];
-        data.push({
-            url: 'Reports.asmx/TotalTimeRepStop',
-            parameters: [{ line:linee, unit:unitt,faz:fazz, dateS: sDate, dateE: eDate }],
-            func: CreateTimeRepairTables
-        });
-        AjaxCall(data);
+      AjaxData({
+        url: 'Reports.asmx/TotalTimeRepStop',
+        param: { line: linee, unit: unitt, faz: fazz, dateS: sDate, dateE: eDate },
+        func: CreateTimeRepairTables
+      })
     }
     if (drVal === '1') {
-        data = [];
-        data.push({
+        AjaxData({
             url: 'Reports.asmx/MaxTimeRep_perMachine',
-            parameters: [{ line: linee, unit: unitt, faz: fazz,dateS: sDate, dateE: eDate, count: count }],
+            param: { line: linee, unit: unitt, faz: fazz,dateS: sDate, dateE: eDate, count: count },
             func: CreateTimeRepairTables
         });
-        AjaxCall(data);
     }
     if (drVal === '2') {
-        data = [];
-        data.push({
+        AjaxData({
             url: 'Reports.asmx/MaxTimeStop_perMachine',
-            parameters: [{ line: linee, unit: unitt, faz: fazz, dateS: sDate, dateE: eDate, count: count }],
+            param: { line: linee, unit: unitt, faz: fazz, dateS: sDate, dateE: eDate, count: count },
             func: CreateTimeRepairTables
         });
-        AjaxCall(data);
     }
     if (drVal === '3') {
-        data = [];
-        data.push({
+        AjaxData({
             url: 'Reports.asmx/MaxTimeRep_Detail',
-            parameters: [{ line: linee, unit: unitt, faz: fazz, dateS: sDate, dateE: eDate, count: count }],
+            param: { line: linee, unit: unitt, faz: fazz, dateS: sDate, dateE: eDate, count: count },
             func: CreateTimeRepairTables
         });
-        AjaxCall(data);
     }
     if (drVal === '4') {
-        data = [];
-        data.push({
+        AjaxData({
             url: 'Reports.asmx/MaxTimeStop_Detail',
-            parameters: [{ line: linee, unit: unitt, faz: fazz,dateS: sDate, dateE: eDate, count: count }],
+            param: { line: linee, unit: unitt, faz: fazz,dateS: sDate, dateE: eDate, count: count },
             func: CreateTimeRepairTables
         });
-        AjaxCall(data);
     }
 }
 
@@ -153,21 +143,6 @@ $('#drRepiarTime').on('change', function () {
 });
 
 $(document).ready(function () {
-    var customOptions = {
-        placeholder: "روز / ماه / سال"
-        , twodigit: true
-        , closeAfterSelect: true
-        , nextButtonIcon: "fa fa-arrow-circle-right"
-        , previousButtonIcon: "fa fa-arrow-circle-left"
-        , buttonsColor: "blue"
-        , forceFarsiDigits: true
-        , markToday: true
-        , markHolidays: true
-        , highlightSelectedDay: true
-        , sync: true
-        , gotoToday: true
-    }
-   
     kamaDatepicker('txtRepReqTypeStartDate', customOptions);
     kamaDatepicker('txtRepReqTypeEndDate', customOptions);
     kamaDatepicker('txtMostRepReqEndDate', customOptions);
@@ -273,21 +248,20 @@ function CreateRepReqChart() {
         RedAlert('no', '!!تاریخ شروع باید کوچکتر از تاریخ پایان باشد');
         return;
     }
-    var obj = {
+  
+    GetChartData({
         url: 'EmPmCm',
-        data: [],
+        param: {
+            line: linee,
+            unit: unitt,
+            faz: fazz,
+            dateS: $('#txtRepReqTypeStartDate').val(),
+            dateE: $('#txtRepReqTypeEndDate').val()
+        },
         element: 'RepReqTypeChart',
         header: 'نوع درخواست تعمیر',
         chartype: 'pie'
-    };
-    obj.data.push({
-        line: linee,
-        unit: unitt,
-        faz:fazz,
-        dateS: $('#txtRepReqTypeStartDate').val(),
-        dateE: $('#txtRepReqTypeEndDate').val()
     });
-    GetChartData(obj);
 }
 
 function CreateMostRepReqChart() {
@@ -301,22 +275,19 @@ function CreateMostRepReqChart() {
         RedAlert('no', '!!تاریخ شروع باید کوچکتر از تاریخ پایان باشد');
         return;
     }
-    var obj = {
+    GetChartData({
         lblkind: 'تعداد',
         url: 'MaxRequest',
-        data: [],
+        param: {
+            count: $('#txtMostRepReqCount').val(),
+            unit: $('#drunitrepreq :selected').val(),
+            dateS: $('#txtMostRepReqStartDate').val(),
+            dateE: $('#txtMostRepReqEndDate').val()
+        },
         element: 'MostRepReqChart',
         header: 'بیشترین درخواست تعمیر',
         chartype: 'column'
-    };
-    obj.data.push({
-       
-        count: $('#txtMostRepReqCount').val(),
-        unit: $('#drunitrepreq :selected').val(),
-        dateS: $('#txtMostRepReqStartDate').val(),
-        dateE: $('#txtMostRepReqEndDate').val()
     });
-    GetChartData(obj);
 }
 
 
@@ -354,30 +325,26 @@ function CreateMostDelaysChart() {
         RedAlert('no', '!!تاریخ شروع باید کوچکتر از تاریخ پایان باشد');
         return;
     }
-    var obj = {
+    GetChartData({
         lblkind: 'تعداد',
         url: 'RDelay',
-        data: [],
+        param: {
+            line: linee,
+            unit: unitt,
+            faz: fazz,
+            dateS: $('#txtMostDelaysStartDate').val(),
+            dateE: $('#txtMostDelaysEndDate').val()
+        },
         element: 'MostDelaysChart',
         header: 'علت تاخیر',
         chartype: 'column'
-    };
-    obj.data.push({
-        line : linee,
-        unit: unitt,
-        faz:fazz,
-        dateS: $('#txtMostDelaysStartDate').val(),
-        dateE: $('#txtMostDelaysEndDate').val()
     });
-    GetChartData(obj);
 
-    var dataa = [];
-    dataa.push({
+    AjaxData({
         url: 'Reports.asmx/TimeDelay',
-        parameters: [{ line: linee,unit:unitt,faz:fazz, dateS: sDate, dateE: eDate }],
+        param: { line: linee,unit:unitt,faz:fazz, dateS: sDate, dateE: eDate },
         func: delay
     });
-    AjaxCall(dataa);
 
     function delay(e) {
         $('#gridDelayTime tbody').empty();
@@ -436,19 +403,17 @@ function CreateRepairActionChart() {
         RedAlert('no', '!!تاریخ شروع باید کوچکتر از تاریخ پایان باشد');
         return;
     }
-    var obj = {
+    GetChartData({
         url: 'Actrep',
-        data: [],
+        param: {
+            line: linee,
+            unit: unitt,
+            faz: fazz,
+            dateS: $('#txtRepairActionStartDate').val(),
+            dateE: $('#txtRepairActionEndDate').val()
+        },
         element: 'RepairActionChart',
         header: 'عملیات تعمیرکاری',
         chartype: 'pie'
-    };
-    obj.data.push({
-        line: linee,
-        unit: unitt,
-        faz:fazz,
-        dateS: $('#txtRepairActionStartDate').val(),
-        dateE: $('#txtRepairActionEndDate').val()
     });
-    GetChartData(obj);
 }

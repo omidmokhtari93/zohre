@@ -58,7 +58,7 @@
         </div>
         <div id="machinelist" class="tab-pane fade">
             <div class="menubody">
-                <div class="row" style="margin: 0; text-align: right; direction: ltr;">
+                <div class="row ltr text-right">
                     <div class="col-md-4">
                         <label style="display: block;"> : خط</label>
                          
