@@ -75,6 +75,8 @@
     <Content Include="assets\css\kamadatepicker.css" />
     <Content Include="assets\css\mdb.min.css" />
     <Content Include="assets\css\mdbootstrap.css" />
+    <Content Include="assets\Images\chosen-sprite%402x.png" />
+    <Content Include="assets\Images\chosen-sprite.png" />
     <Content Include="assets\js\chosen.jquery.js" />
     <Content Include="assets\js\mdb.min.js" />
     <Content Include="assets\js\popper.min.js" />
