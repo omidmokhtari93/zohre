@@ -5,11 +5,9 @@
         label{ margin: 0;}
         #pnlDelete{display: inline-block; padding: 5px; border: 1px darkgray solid; border-radius: 5px; text-align: center; margin: 5px;}
     </style>
-    <div class="panel panel-primary">
-        <div class="panel-heading">لیست دستگاه/ماشین
-
-        </div>
-        <div class="panel-body">
+    <div class="card">
+        <div class="card-header bg-primary text-white">لیست دستگاه/ماشین</div>
+        <div class="card-body">
             <div class="row" style="margin: 0; direction: rtl; text-align: right;">
                 <div class="col-md-6">
                     <label>کد دستگاه</label>
@@ -21,13 +19,13 @@
                 </div>
             </div>
         </div>
-        <div class="panel-footer">
+        <div class="card-footer">
             <asp:Button runat="server" ClientIDMode="Static" CssClass="button" TabIndex="4" Text="ثبت" ID="btnSave" OnClick="btnSave_OnClick"/>
             <asp:Button id="btnedit" runat="server" Visible="False" CssClass="button" Text="ویرایش" TabIndex="6" OnClick="btnedit_OnClick" OnClientClick="getRadio();getactRadio();"/>
             <asp:Button id="btncancel" runat="server" Visible="False" CssClass="button" Text="انصراف" TabIndex="7" OnClick="btncancel_OnClick"/>
         </div>
         
-        <div class="panel-footer" style="text-align: center !important;">
+        <div class="card-footer" style="text-align: center !important;">
             <div ClientIDMode="Static" Visible="False" runat="server" id="pnlDelete">
                 <label style="display: block;">** کاربر گرامی کلیه دستگاه های ثبت شده و اطلاعات اولیه با این کددستگاه حذف خواهند شد **</label>
                 <label style="display: block;">آیا مایل به حذف هستید؟</label>
@@ -91,7 +89,6 @@
                 setTimeout(function () { $('#txtDeviceCode').removeClass('form-controlError'); }, 4000);
                 $.notify("!!لطفا کد دستگاه را وارد نمایید", { globalPosition: 'top left' });
             }
-           
         }
     </script>
 </asp:Content>
