@@ -1847,7 +1847,12 @@ namespace CMMS
                                                   "("+replyId+","+action.ActionId+")",_cnn);
                 insertAction.ExecuteNonQuery();
             }
-
+            foreach (var stop in obj.StopReason)
+            {
+                var insertStop = new SqlCommand("INSERT INTO [dbo].[r_stop]([id_rep],[stop_id])VALUES" +
+                                                  "(" + replyId + "," + stop.StopReasonId + ")", _cnn);
+                insertStop.ExecuteNonQuery();
+            }
             foreach (var prt in obj.PartChange)
             {
                 var insertpart =new SqlCommand("INSERT INTO [dbo].[r_helppart]([rep_id],[mid],[sub_id],[part_id])" +

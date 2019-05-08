@@ -2173,31 +2173,31 @@ namespace CMMS
         {
             var obj = new MtMachines();
             cnn.Open();
-            var cmdStopunit = new SqlCommand("SELECT dbo.subsystem.name, dbo.r_reply.elec_time as elec, dbo.r_reply.mech_time as mech" +
+            var cmdStopunit = new SqlCommand("SELECT dbo.subsystem.name, sum(dbo.r_reply.elec_time) as elec, sum(dbo.r_reply.mech_time) as mech" +
                                              " FROM dbo.m_machine INNER JOIN " +
                                              " dbo.m_subsystem ON dbo.m_machine.id = dbo.m_subsystem.Mid INNER JOIN " +
                                              " dbo.subsystem ON dbo.m_subsystem.subId = dbo.subsystem.id INNER JOIN " +
                                              " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
                                              " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq AND dbo.subsystem.id = dbo.r_reply.subsystem " +
                                              " WHERE(dbo.m_machine.loc = '" + unit + "') AND(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
-                                             " GROUP BY dbo.subsystem.name, dbo.r_reply.elec_time, dbo.r_reply.mech_time", cnn);
+                                             " GROUP BY dbo.subsystem.name", cnn);
 
-            var cmdStopLine = new SqlCommand("SELECT dbo.subsystem.name, dbo.r_reply.elec_time as elec, dbo.r_reply.mech_time as mech " +
+            var cmdStopLine = new SqlCommand("SELECT dbo.subsystem.name, sum(dbo.r_reply.elec_time) as elec, sum(dbo.r_reply.mech_time) as mech " +
                                              " FROM dbo.m_machine INNER JOIN " +
                                              " dbo.m_subsystem ON dbo.m_machine.id = dbo.m_subsystem.Mid INNER JOIN " +
                                              " dbo.subsystem ON dbo.m_subsystem.subId = dbo.subsystem.id INNER JOIN " +
                                              " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
                                              " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq AND dbo.subsystem.id = dbo.r_reply.subsystem " +
                                              " WHERE(dbo.m_machine.line = " + line + ") AND(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
-                                             " GROUP BY dbo.subsystem.name, dbo.r_reply.elec_time, dbo.r_reply.mech_time", cnn);
-            var cmdStopFaz = new SqlCommand("SELECT dbo.subsystem.name, dbo.r_reply.elec_time as elec, dbo.r_reply.mech_time as mech " +
+                                             " GROUP BY dbo.subsystem.name", cnn);
+            var cmdStopFaz = new SqlCommand("SELECT dbo.subsystem.name, sum(dbo.r_reply.elec_time) as elec, sum(dbo.r_reply.mech_time) as mech " +
                                              " FROM dbo.m_machine INNER JOIN " +
                                              " dbo.m_subsystem ON dbo.m_machine.id = dbo.m_subsystem.Mid INNER JOIN " +
                                              " dbo.subsystem ON dbo.m_subsystem.subId = dbo.subsystem.id INNER JOIN " +
                                              " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
                                              " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq AND dbo.subsystem.id = dbo.r_reply.subsystem " +
                                              " WHERE(dbo.m_machine.faz = " + faz + ") AND(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
-                                             " GROUP BY dbo.subsystem.name, dbo.r_reply.elec_time, dbo.r_reply.mech_time", cnn);
+                                             " GROUP BY dbo.subsystem.name", cnn);
 
 
             SqlDataReader rd;

@@ -266,14 +266,17 @@
             <hr/>
             <div class="row" style="margin: 0; text-align: center!important;">
                 <div class="col-sm-6">
-                    <div style="border: 1px solid darkgray; padding: 5px 10px 10px 10px; border-radius: 5px;">
-                        <div style="display: block; text-align: right; text-align: right;">روند تعمیر در حالت</div>
-                        <asp:DropDownList dir="rtl" runat="server" ID="drFailLevel" ClientIDMode="Static" CssClass="form-control">
-                            <asp:ListItem Value="1">تعمیرات معمول بدون توقف دستگاه</asp:ListItem>
-                            <asp:ListItem Value="2">تعمیرات در حالت خواب دستگاه</asp:ListItem>
-                            <asp:ListItem Value="3">از کار افتادن خط تولید یا دستگاه در لحظه درخواست</asp:ListItem>
-                            <asp:ListItem Value="4">ادامه فعالیت دستگاه تا رسیدن قطعه یا تامین نیرو</asp:ListItem>
-                        </asp:DropDownList>
+                    <div style="border: 1px solid darkgray; padding: 5px 0px 0 0px; border-radius: 5px;">
+                        <div style="display: block; text-align: right; padding-right: 10px;">علل توقف</div>
+                        <button class="button" type="button" onclick="AddStop();">+</button>
+                        <asp:DropDownList Dir="rtl" ClientIDMode="Static" class="form-control" ID="DrstopReason" runat="server" style="width: 80%; display: inline-block;" DataSourceID="SqlStop" DataTextField="stop" DataValueField="id"/>
+                        <asp:SqlDataSource ID="SqlStop" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, stop FROM i_stop_reason"></asp:SqlDataSource>
+                        <div class="panel-footer" style="margin-top: 10px;">
+                            <table id="gridStop" class="table">
+                                <thead></thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm-6">
@@ -300,52 +303,23 @@
                 </div>
             </div>
             <hr/>
-        <div class="row" style="margin: 0; text-align: center !important;">
-            <div class="col-lg-12">
-                <div style="border: 1px solid darkgray; padding: 5px 0px 0 0px; border-radius: 5px;">
-                    <div class="col-lg-12" style="text-align: right; color: #00008b;">قطعات یدکی / تعویضی</div>
-                    <hr/>
-                    <div class="col-sm-3" style="text-align: right;">نام قطعه</div>
-                    <div class="col-sm-3" style="text-align: right;">نام تجهیز</div>
-                    <div class="col-sm-3" style="text-align: right;">نام ماشین</div>
-                    <div class="col-sm-3" style="text-align: right;">نام واحد</div>
-                    <button class="button" type="button" onclick="Helppart();">+</button>
-                    
-                    <div style="position: relative; display: inline-block; width: 22%;">
-                        <div id="helpPartBadgeArea" style="position: relative;">
-                            <input type="text" dir="rtl" autocomplete="off" tabindex="41" class="form-control" id="txthelpPartsSearch" placeholder="جستجوی قطعه ..."/>
-                            <img src="Images/loading.png" id="helppartsLoading" style="width: 20px; height: 20px; position: absolute; top: 7px; left: 7px; display: none;"/>
-                        </div>
-                        <div id="helpPartsSearchResulat">
-                            <div style="padding: 5px 28px 5px 5px;background-color: #dfecfe">
-                                <input type="text" id="txthelpSubSearchPart" autocomplete="off" dir="rtl"/>
-                                <img src="Images/funnel.png" class="imgfilter"/>
-                            </div>
-                            <div style="overflow: auto; width: 191px; max-height: 200px;">
-                                <table id="helpgridParts" class="PartsTable">
-                                    <tbody></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    <select dir="rtl" class="form-control" id="drhelpsub" style="width: 22%; display: inline-block; padding: 0;"></select>
-                    <select dir="rtl" class="form-control" id="drhelpmachine" style="width: 22%; display: inline-block; padding: 0;"></select>
-                    <asp:DropDownList Dir="rtl" class="form-control" ClientIDMode="Static" AppendDataBoundItems="True" ID="drhelpunit" runat="server" style="width: 22%; display: inline-block; padding: 0;" DataSourceID="sqlhelpunit" DataTextField="unit_name" DataValueField="unit_code">
-                        <asp:ListItem Value="-1">انتخاب کنید</asp:ListItem>
-                    </asp:DropDownList>
-                    <asp:SqlDataSource ID="sqlhelpunit" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT unit_name, unit_code FROM i_units"></asp:SqlDataSource>
-                    <div class="panel-footer" style="margin-top: 10px;">
-                        <table id="gridHelppart" class="table">
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
+      
         <div class="row" style="margin:0;margin-top: 10px; text-align: center!important;">
-          <div class="col-sm-4"></div>
-                <div class="col-sm-8">
+          <div class="col-sm-5">
+              
+                  <div style="border: 1px solid darkgray; padding: 5px 10px 10px 10px; border-radius: 5px;">
+                      <div style="display: block; text-align: right; text-align: right;">وضعیت دستگاه در زمان تعمیر/سرویسکاری</div>
+                      <asp:DropDownList dir="rtl" runat="server" ID="drFailLevel" ClientIDMode="Static" CssClass="form-control">
+                          <asp:ListItem Value="-1">انتخاب نمایید</asp:ListItem>
+                          <asp:ListItem Value="1"> بدون توقف دستگاه</asp:ListItem>
+                          <asp:ListItem Value="2"> حالت خواب دستگاه</asp:ListItem>
+                          <asp:ListItem Value="3">توقف دستگاه</asp:ListItem>
+                          <asp:ListItem Value="4">ادامه فعالیت دستگاه تا رسیدن قطعه یا تامین نیرو</asp:ListItem>
+                      </asp:DropDownList>
+                  </div>
+             
+          </div>
+                <div class="col-sm-7">
                     <div style="border: 1px solid darkgray; padding: 5px 0px 0px 0px; border-radius: 5px;">
                         <div style="display: block; text-align: right; padding-right: 10px;">قطعات و لوازم مصرفی</div>
                         <button class="button" type="button" onclick="AddParts();">+</button>
@@ -415,8 +389,8 @@
                         <div class="col-sm-4" style="text-align: right;">نیروی فنی مکانیک</div>
                         <button class="button" type="button" onclick="AddRepairers();">+</button>
                         <input type="text" id="txtWorkTime" class="form-control text-center" readonly="readonly" style="width: 20%; display: inline-block; cursor: pointer;"/>
-                        <asp:DropDownList Dir="rtl" class="form-control" ClientIDMode="Static" AppendDataBoundItems="True" ID="drelec" runat="server" style="width: 33%; display: inline-block;" DataSourceID="SqlPerElec" DataTextField="per_name" DataValueField="id" ><asp:ListItem Value="-1">انتخاب کنید</asp:ListItem></asp:DropDownList>
-                        <asp:DropDownList Dir="rtl" class="form-control" ClientIDMode="Static" AppendDataBoundItems="True" ID="drRepairers" runat="server" style="width: 33%; display: inline-block;" DataSourceID="SqlPerMech" DataTextField="per_name" DataValueField="id"><asp:ListItem Value="-1">انتخاب کنید</asp:ListItem></asp:DropDownList>
+                        <asp:DropDownList Dir="rtl" CssClass="chosen-select" ClientIDMode="Static" AppendDataBoundItems="True" ID="drelec" runat="server" style="width: 33%; display: inline-block;" DataSourceID="SqlPerElec" DataTextField="per_name" DataValueField="id" ><asp:ListItem Value="-1">انتخاب کنید</asp:ListItem></asp:DropDownList>
+                        <asp:DropDownList Dir="rtl" CssClass="chosen-select" ClientIDMode="Static" AppendDataBoundItems="True" ID="drRepairers" runat="server" style="width: 33%; display: inline-block;" DataSourceID="SqlPerMech" DataTextField="per_name" DataValueField="id"><asp:ListItem Value="-1">انتخاب کنید</asp:ListItem></asp:DropDownList>
                         <asp:SqlDataSource ID="SqlPerMech" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, per_name FROM i_personel where unit=0"></asp:SqlDataSource>
                         <asp:SqlDataSource ID="SqlPerElec" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, per_name FROM i_personel where unit=1"></asp:SqlDataSource>
                         <div class="panel-footer" style="margin-top: 10px;">
@@ -468,6 +442,50 @@
                 </div>
              </div>
             </div>
+        <hr/>
+        <div class="row" style="margin: 0; text-align: center !important;">
+            <div class="col-lg-12">
+                <div style="border: 1px solid darkgray; padding: 5px 0px 0 0px; border-radius: 5px;">
+                    <div class="col-lg-12" style="text-align: right; color: #00008b;">قطعات یدکی / تعویضی</div>
+                    <hr/>
+                    <div class="col-sm-3" style="text-align: right;">نام قطعه</div>
+                    <div class="col-sm-3" style="text-align: right;">نام تجهیز</div>
+                    <div class="col-sm-3" style="text-align: right;">نام ماشین</div>
+                    <div class="col-sm-3" style="text-align: right;">نام واحد</div>
+                    <button class="button" type="button" onclick="Helppart();">+</button>
+                    
+                    <div style="position: relative; display: inline-block; width: 22%;">
+                        <div id="helpPartBadgeArea" style="position: relative;">
+                            <input type="text" dir="rtl" autocomplete="off" tabindex="41" class="form-control" id="txthelpPartsSearch" placeholder="جستجوی قطعه ..."/>
+                            <img src="Images/loading.png" id="helppartsLoading" style="width: 20px; height: 20px; position: absolute; top: 7px; left: 7px; display: none;"/>
+                        </div>
+                        <div id="helpPartsSearchResulat">
+                            <div style="padding: 5px 28px 5px 5px;background-color: #dfecfe">
+                                <input type="text" id="txthelpSubSearchPart" autocomplete="off" dir="rtl"/>
+                                <img src="Images/funnel.png" class="imgfilter"/>
+                            </div>
+                            <div style="overflow: auto; width: 191px; max-height: 200px;">
+                                <table id="helpgridParts" class="PartsTable">
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <select dir="rtl" class="form-control" id="drhelpsub" style="width: 22%; display: inline-block; padding: 0;"></select>
+                    <select dir="rtl" class="form-control" id="drhelpmachine" style="width: 22%; display: inline-block; padding: 0;"></select>
+                    <asp:DropDownList Dir="rtl" class="form-control" ClientIDMode="Static" AppendDataBoundItems="True" ID="drhelpunit" runat="server" style="width: 22%; display: inline-block; padding: 0;" DataSourceID="sqlhelpunit" DataTextField="unit_name" DataValueField="unit_code">
+                        <asp:ListItem Value="-1">انتخاب کنید</asp:ListItem>
+                    </asp:DropDownList>
+                    <asp:SqlDataSource ID="sqlhelpunit" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT unit_name, unit_code FROM i_units"></asp:SqlDataSource>
+                    <div class="panel-footer" style="margin-top: 10px;">
+                        <table id="gridHelppart" class="table">
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
         </div>
          <div class="panel-footer">
              <button type="button" class="button" onclick="SendDataToDB(this);">ثبت</button>
