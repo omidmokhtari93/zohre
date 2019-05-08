@@ -114,7 +114,11 @@
                     <td style="padding:0;width:60%; vertical-align: top;" id="PartChangeArea"></td>
                     <td id="PartsArea" colspan="3" style="padding:0; vertical-align: top;"></td>
                 </tr>
+                
+            </table>
+            <table>
                 <tr>
+                    <td id="StopArea"  style="padding: 0; vertical-align: top;"></td>
                     <td id="FailArea" style="padding: 0; vertical-align: top;"></td>
                     <td id="DelayArea"style="padding: 0; vertical-align: top;"></td>
                     <td id="ActionArea" style="padding: 0; vertical-align: top;"></td>
@@ -168,6 +172,10 @@
                         $('#FailArea').append('<table id="failTable" class="n-bordered"><tr><td colspan="5" style=" background: #d6d5d5; text-align: center;">دلایل خرابی</td></tr></table>');
                         for (var a = 0; a < data.failList.length; a++) {
                             $('#failTable').append('<tr><td colspan="5" style="text-align: center;">' + data.failList[a].FailReasonName + '</td></tr>');
+                        }
+                        $('#StopArea').append('<table id="stopTable" class="n-bordered"><tr><td colspan="5" style=" background: #d6d5d5; text-align: center;">دلایل توقف</td></tr></table>');
+                        for (var d = 0; d < data.stopList.length; d++) {
+                            $('#stopTable').append('<tr><td colspan="5" style="text-align: center;">' + data.stopList[d].StopName + '</td></tr>');
                         }
                         $('#DelayArea').append('<table id="delayTable" class="n-bordered"><tr><td colspan="5" style=" background: #d6d5d5; text-align: center;">دلایل تاخیر</td></tr></table>');
                         for (var b = 0; b < data.delayList.length; b++) {

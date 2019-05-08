@@ -21,24 +21,41 @@
         <div class="panel-heading">تعمیرات انجام شده</div>
         <div class="panel-body">
             <div class="row" style="margin: 0; border: 1px solid rgb(190, 190, 190);border-radius: 5px; background-color: #dfecfe;">
-                <div class="col-lg-6" style="padding: 5px;">
+                <div class="col-lg-4" style="padding: 5px;">
+                    <asp:Panel runat="server" DefaultButton="btnSearch">
+                        <label style="display: block; text-align: right;"> : وضعیت دستگاه در زمان تعمیر/سرویسکاری</label>
+                   
+                        <asp:DropDownList dir="rtl" runat="server" ID="drFailLevel" AutoPostBack="True" ClientIDMode="Static"  CssClass="form-control" OnSelectedIndexChanged="drFailLevel_OnSelectedIndexChanged">
+                            <asp:ListItem Value="-1">انتخاب نمایید</asp:ListItem>
+                            <asp:ListItem Value="1"> بدون توقف دستگاه</asp:ListItem>
+                            <asp:ListItem Value="2"> حالت خواب دستگاه</asp:ListItem>
+                            <asp:ListItem Value="3">توقف دستگاه</asp:ListItem>
+                            <asp:ListItem Value="4">ادامه فعالیت دستگاه تا رسیدن قطعه یا تامین نیرو</asp:ListItem>
+                        </asp:DropDownList>
+                   
+                    </asp:Panel>
+                </div>
+                <div class="col-lg-4" style="padding: 5px;">
                     <asp:Panel runat="server" DefaultButton="btnSearchCode">
                         <label style="display: block; text-align: right;"> : کد ماشین</label>
                         <div style="border: 1px solid darkgray; border-radius:5px; position: relative;">
-                            <input type="text" runat="server" id="txtCodeSearch" style="border: none; border-radius: 5px; width: 100%; direction: rtl; outline: none; font-weight: 800;"/>
+                            <input type="text" runat="server" id="txtCodeSearch" style="border: none; border-radius: 5px;height: 32px; width: 100%; direction: rtl; outline: none; font-weight: 800;"/>
                             <asp:Button ToolTip="جستجو" runat="server" CssClass="searchButton" ID="btnSearchCode" OnClick="btnSearchCode_OnClick"/>
                         </div>
                     </asp:Panel>
                 </div>
-                <div class="col-lg-6" style="padding: 5px;">
+                
+                <div class="col-lg-4" style="padding: 5px;">
                     <asp:Panel runat="server" DefaultButton="btnSearch">
                         <label style="display: block; text-align: right;"> : نام ماشین</label>
                         <div style="border: 1px solid darkgray; border-radius:5px; position: relative;">
-                            <input type="text" runat="server" id="txtSearch" style="border: none; border-radius: 5px; width: 100%; direction: rtl; outline: none; font-weight: 800;"/>
+                            <input type="text" runat="server" id="txtSearch" style="border: none; border-radius: 5px; width: 100%; direction: rtl; height: 32px; outline: none; font-weight: 800;"/>
                             <asp:Button ToolTip="جستجو" runat="server" CssClass="searchButton" ID="btnSearch" OnClick="btnSearch_OnClick"/>
                         </div>
                     </asp:Panel>
                 </div>
+           
+           
             </div>
             <asp:GridView runat="server" ID="gridRepiarHistory" CssClass="table" dir="rtl" ClientIDMode="Static"
                 AutoGenerateColumns="False" DataKeyNames="idreq" DataSourceID="SqlRequests" OnRowCommand="gridRepiarHistory_OnRowCommand" PageSize="15" AllowPaging="True">
@@ -53,11 +70,11 @@
                 </Columns>
             </asp:GridView>
             <asp:SqlDataSource ID="SqlRequests" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="
-SELECT dbo.r_reply.idreq, dbo.m_machine.name, dbo.m_machine.code, dbo.r_reply.stop_time, dbo.r_reply.rep_time,dbo.r_reply.start_repdate ,cast (dbo.m_machine.code as nvarchar(8)) as vcode 
+SELECT dbo.r_reply.idreq, dbo.m_machine.name, dbo.m_machine.code, dbo.r_reply.stop_time, dbo.r_reply.rep_time,dbo.r_reply.start_repdate,dbo.r_reply.rep_state ,cast (dbo.m_machine.code as nvarchar(8)) as vcode 
 FROM dbo.r_request INNER JOIN dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN 
 dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id 
 union all
-SELECT distinct( dbo.r_reply.idreq), dbo.r_request.other_machine, '----', dbo.r_reply.stop_time, dbo.r_reply.rep_time,dbo.r_reply.start_repdate ,'----' 
+SELECT distinct( dbo.r_reply.idreq), dbo.r_request.other_machine, '----', dbo.r_reply.stop_time, dbo.r_reply.rep_time,dbo.r_reply.start_repdate,dbo.r_reply.rep_state ,'----' 
 FROM dbo.r_request INNER JOIN dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq 
 where dbo.r_reply.idreq not in  (SELECT dbo.r_reply.idreq 
 FROM dbo.r_request INNER JOIN dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN 
