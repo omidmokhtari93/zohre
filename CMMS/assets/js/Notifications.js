@@ -1,12 +1,10 @@
 ﻿$(document).ready(function() {
     setInterval(function() {
-        var data = [];
-        data.push({
+        AjaxData({
             url: 'WebService.asmx/CheckReminders',
-            parameters: [],
+            param: {},
             func: createNotify
         });
-        AjaxCall(data);
         function createNotify(e) {
             if (e.d === "0") {
                 return;
