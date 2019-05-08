@@ -94,25 +94,23 @@ function Stop() {
         RedAlert('no', 'لطفا فاز، خط یا واحد مورد نظر را انتخاب کنید');
         return;
     }
-    var obj = {
-        url: 'Stopunitline_Report',
-        data: [],
-        kind: 'دقیقه',
-        comment1: 'الکتریکی',
-        comment2: 'مکانیکی',
-        label: 'دقیقه',
-        element: 'StopChart',
-        header: 'گزارش توقفات',
-        chartype: 'categorycolumn'
-    };
-    obj.data.push({
-        dateS: startDate,
-        dateE: endDate,
-        unit: unitt,
-        line: linee,
-        faz:fazz
+    GetChartData({
+      url: 'Stopunitline_Report',
+      param: {
+          dateS: startDate,
+          dateE: endDate,
+          unit: unitt,
+          line: linee,
+          faz: fazz
+      },
+      kind: 'دقیقه',
+      comment1: 'الکتریکی',
+      comment2: 'مکانیکی',
+      label: 'دقیقه',
+      element: 'StopChart',
+      header: 'گزارش توقفات',
+      chartype: 'categorycolumn'
     });
-    GetChartData(obj);
    
 }
 $('#drStopSubUnit').on('change', function () {
@@ -148,9 +146,16 @@ function StopSub() {
         RedAlert('no', 'لطفا فاز ، خط یا واحد مورد نظر را انتخاب کنید');
         return;
     }
-    var obj = {
+    
+    GetChartData({
         url: 'StopSub_Report',
-        data: [],
+        param: {
+            dateS: startDate,
+            dateE: endDate,
+            unit: unitt,
+            line: linee,
+            faz: fazz
+        },
         kind: 'دقیقه',
         comment1: 'الکتریکی',
         comment2: 'مکانیکی',
@@ -158,15 +163,7 @@ function StopSub() {
         element: 'StopSubChart',
         header: 'گزارش توقفات تجهیزات',
         chartype: 'categorycolumn'
-    };
-    obj.data.push({
-        dateS: startDate,
-        dateE: endDate,
-        unit: unitt,
-        line: linee,
-        faz:fazz
     });
-    GetChartData(obj);
 
 }
 $('#drStopproductUnit').on('change', function () {
@@ -199,21 +196,19 @@ function StopProduct() {
         return;
     }
    
-    var obj = {
-        lblkind:'دقیقه',
+    GetChartData({
+        lblkind: 'دقیقه',
         url: 'StopProduct',
-        data: [],
+        param: {
+            dateS: startDate,
+            dateE: endDate,
+            unit: unitt,
+            line: linee,
+            faz: fazz
+        },
         element: 'StopProductChart',
         header: 'گزارش توقفات فنی منجر به توقف تولید',
         chartype: 'column'
-    };
-    obj.data.push({
-        dateS: startDate,
-        dateE: endDate,
-        unit: unitt,
-        line: linee,
-        faz:fazz
     });
-    GetChartData(obj);
 
 }
