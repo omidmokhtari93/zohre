@@ -40,11 +40,11 @@
         }
         table tr a { cursor: pointer;}
     </style>
-    <div class="panel panel-primary">
-        <div class="panel-heading">ثبت اجزا ماشین آلات</div>
-        <div id="subsystemform" class="panel-body">
-            <p>.لطفا در ثبت اجزا ماشین دقت فرمایید و از ثبت اجزا تکراری خودداری فرمایید <span class="fa fa-circle" style="color: red;"></span></p>
-            <div class="row" style="margin: 0; direction: rtl; text-align: right;">
+    <div class="card">
+        <div class="card-header bg-primary text-white">ثبت اجزا ماشین آلات</div>
+        <div id="subsystemform" class="card-body">
+            <p class="sans ltr">.لطفا در ثبت اجزا ماشین دقت فرمایید و از ثبت اجزا تکراری خودداری فرمایید <span class="fa fa-circle" style="color: red;"></span></p>
+            <div class="row sans ltr text-right" >
                 <div class="col-md-6">
                     کد تجهیز     
                     <input class="form-control" type="number" dir="rtl" tabindex="1" id="txtDeviceCode" autocomplete="off"/>
@@ -60,13 +60,13 @@
                 </div>
             </div>
         </div>
-        <div class="panel-footer">
+        <div class="card-footer">
             <button type="button" id="btnSabt" class="button" onclick="SaveSubSystem();">ثبت</button>
             <button type="button" id="btnEdit" style="display: none;" class="button" onclick="EditSubSystem();">ویرایش</button>
             <button type="button" id="btnCancel" style="display: none;" class="button" 
                 onclick="CancelEdit();">انصراف</button>
         </div>
-        <div class="panel-footer">
+        <div class="card-footer">
             <div class="tablescroll">
                 <table class="table" dir="rtl" id="TableSubSystem">
                     <tbody></tbody>
@@ -75,21 +75,22 @@
         </div>
     </div>
     
-    <div id="ModalDelete" class="modal" style="direction: rtl;">
-        <div class="modal-content" style="width: 400px;">
-            <div class="panel panel-danger" style="margin-bottom: 0;">
-                <div class="panel-heading" style="font-weight: 800;">حذف تجهیز</div>
-                <div class="panel-body" style="text-align: center;">
-                    <label id="subname" class="label label-primary"></label>
-                    <p style="font-weight: 800; padding: 5px;">آیا مایل به حذف هستید؟</p>
-                    <div style="text-align: center;">
-                        <button class="button" type="button" onclick="deleteSubsystem();">حذف</button>
-                        <button class="button" type="button" onclick="$('#ModalDelete').hide();">انصراف</button>
+    <div id="ModalDelete" class="modal fade rtl" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width: 400px;">
+                <div class="card sans" style="margin-bottom: 0;">
+                    <div class="card-header bg-danger text-white" style="font-weight: 800;">حذف تجهیز</div>
+                    <div class="card-body" style="text-align: center;">
+                        <label id="subname" class="bg-primary text-white p-2 rtl"></label>
+                        <p class="p-2 text-center">آیا مایل به حذف هستید؟</p>
+                        <div style="text-align: center;">
+                            <button class="btn btn-light" type="button" onclick="deleteSubsystem();">حذف</button>
+                            <button class="btn btn-success" type="button" onclick="$('#ModalDelete').modal('hide');">انصراف</button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </div>    
         </div>
     </div>
-
-    <script src="Scripts/SubSystemPage.js"></script>
+    <script src="assets/js/SubSystemPage.js"></script>
 </asp:Content>
