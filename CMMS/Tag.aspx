@@ -41,7 +41,7 @@
         table tr a:hover{ cursor: pointer;}
         .searchButton {
             position: absolute;
-            background-image: url(/Images/Search_Dark.png);
+            background-image: url(assets/Images/Search_Dark.png);
             background-repeat: no-repeat;
             background-size: 15px;
             background-color: transparent;
@@ -84,13 +84,13 @@
         #gridTags tr th:first-child{ display: none;}
     </style>
 <asp:HiddenField runat="server" ClientIDMode="Static" ID="TagID"/>
-    <div class="panel panel-primary" id="pnlMachineTag" runat="server">
-        <div class="panel-heading">سابقه تعمیراتی قطعات</div>
+    <div class="card" id="pnlMachineTag" runat="server">
+        <div class="card-header bg-primary text-white">سابقه تعمیراتی قطعات</div>
 
-        <div class="panel-footer">
+        <div class="card-footer">
           
         </div>
-        <div class="panel-footer">
+        <div class="card-footer">
             <div class="row" style="margin: 0; border: 1px solid rgb(190, 190, 190);border-radius: 5px; background-color: #dfecfe;">
                 <div class="col-lg-4" style="padding: 5px;">
                     <asp:Panel runat="server" DefaultButton="btnSearchTag">
@@ -143,9 +143,9 @@ ORDER BY dbo.m_subsystem.code ">
         </div>
     </div>
 
-<div class="panel panel-primary" runat="server" Visible="False" id="pnlShowRepairRecord">
-    <div class="panel-heading">مشاهده سوابق تعمیر / تعویض قطعه</div>
-    <div class="panel-body">
+<div class="card" runat="server" Visible="False" id="pnlShowRepairRecord">
+    <div class="card-header bg-primary text-white">مشاهده سوابق تعمیر / تعویض قطعه</div>
+    <div class="card-body">
         <div class="HeaderLabel">
             <label>سوابق تعمیر </label> 
             <label style="display: inline-block;" id="lblSubtagName" runat="server" class="label label-info"></label>
@@ -182,19 +182,19 @@ where m_subsystem.id = @id">
             </SelectParameters>
         </asp:SqlDataSource>
     </div>
-    <div class="panel-footer">
+    <div class="card-footer">
         <asp:Button runat="server" ID="btnBackToSubtag" CssClass="button" Text="بازگشت" OnClick="btnBackToSubtag_OnClick"/>
     </div>
 </div>
-<div class="panel panel-primary" runat="server" Visible="False" id="pnlRepairRecord">
-    <div class="panel-heading">ثبت سابقه تعمیر قطعه</div>
-    <div class="panel-body">
+<div class="card sans" runat="server" Visible="False" id="pnlRepairRecord">
+    <div class="card-header bg-primary text-white">ثبت سابقه تعمیر قطعه</div>
+    <div class="card-body">
         <div style="display: block; text-align: left; padding-left: 15px;">
             <input runat="server" id="txtRepairNumber" ClientIDMode="Static" class="form-control text-center" readonly style="display: inline-block; width: 150px;"/>
             شماره تعمیر قطعه
         </div>
         <hr/>
-        <div class="row" style="margin: 0;">
+        <div class="row">
             <div class="col-sm-4">
                 تاریخ تعمیر / تعویض
                 <input id="txtRepairDate" class="form-control text-center" readonly style="cursor: pointer;"/>
@@ -209,20 +209,28 @@ where m_subsystem.id = @id">
             </div>
         </div>
         <hr/>
-        <ul class="nav nav-tabs" style="padding: 0px 15px 0 15px;">
-            <li class="active"><a data-toggle="tab" href="#Change">تعویض</a></li>
-            <li><a data-toggle="tab" href="#Repair">تعمیر</a></li>
+        
+        <ul class="nav nav-tabs sans-small mt-1 rtl" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#Change" role="tab" aria-controls="home"
+                   aria-selected="true">تعویض</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#Repair" role="tab" aria-controls="profile"
+                   aria-selected="false">تعمیر</a>
+            </li>
         </ul>
+
         <div class="tab-content" id="inputsArea">
-            <div id="Change" class="tab-pane fade in active">
-                <div class="row" style="margin: 0; margin-top: 15px;">
+            <div id="Change" class="tab-pane fade show active sans">
+                <div class="row">
                     <div class="col-md-12" style="text-align: right;margin-top: 0px;">
                         توضیحات
                         <textarea class="form-control text-right" id="txtChangeComment" rows="3" style="resize: none; direction: rtl;"></textarea>
                     </div>
                 </div>
                 <asp:SqlDataSource ID="Sqlunit" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT unit_name, unit_code FROM i_units"></asp:SqlDataSource>
-                <div class="row" style="margin: 0; margin-top: 5px;">
+                <div class="row mt-3">
                     <div class="col-sm-6" style="margin-top: 0px; text-align: center;">
                         <div style="border: 1px solid darkgray; padding: 5px; border-radius: 5px; height: 74px;">
                             <div style="display: inline-block; width: 48%; text-align: right;">
@@ -252,22 +260,26 @@ where m_subsystem.id = @id">
                 </div>
             </div>
             <div id="Repair" class="tab-pane fade">
-                <div class="row" style="margin: 0;">
+                <div class="row">
                     <div class="col-sm-12" style="margin-top: 15px;">
                         شرح تعمیر
                         <textarea class="form-control" id="txtRepairExplain" rows="3" style="resize: none; direction: rtl;"></textarea>
                     </div>
                 </div>
-                <div class="row" style="margin: 0;">
-                    <div class="col-sm-6" style="margin-top: 15px; text-align: center;">
+                <div class="row mt-3">
+                    <div class="col-sm-6">
                         <div style="border: 1px solid darkgray; padding: 5px 0px 0 0px; border-radius: 5px;" id="PersonelArea">
-                            <div class="col-sm-6" style="text-align: right;">ساعت کارکرد</div>
-                            <div class="col-sm-6" style="text-align: right;">نام تعمیرکاران</div>
-                            <button class="button" type="button" onclick="AddRepairers();">+</button>
-                            <input type="text" id="txtWorkTime" class="form-control text-center" readonly="readonly" style="width: 32%; display: inline-block; cursor: pointer;"/>
-                            <asp:DropDownList Dir="rtl" class="form-control" ClientIDMode="Static" ID="drRepairers" runat="server" style="width: 50%; display: inline-block;" DataSourceID="SqlRepairers" DataTextField="per_name" DataValueField="id"/>
-                            <asp:SqlDataSource ID="SqlRepairers" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, per_name FROM i_personel"></asp:SqlDataSource>
-                            <div class="panel-footer" style="margin-top: 10px;">
+                           <div class="card-body pt-0 pb-0">
+                               <div class="row">
+                                   <div class="col-md-6" >ساعت کارکرد</div>
+                                   <div class="col-md-6" >نام تعمیرکاران</div>
+                               </div>
+                               <button class="button" type="button" onclick="AddRepairers();">+</button>
+                               <input type="text" id="txtWorkTime" class="form-control text-center" readonly="readonly" style="width: 32%; display: inline-block; cursor: pointer;"/>
+                               <asp:DropDownList Dir="rtl" class="form-control" ClientIDMode="Static" ID="drRepairers" runat="server" style="width: 50%; display: inline-block;" DataSourceID="SqlRepairers" DataTextField="per_name" DataValueField="id"/>
+                               <asp:SqlDataSource ID="SqlRepairers" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, per_name FROM i_personel"></asp:SqlDataSource>
+                           </div>
+                            <div class="card-footer" style="margin-top: 10px;">
                                 <table id="gridRepairers" class="table">
                                     <thead></thead>
                                     <tbody></tbody>
@@ -275,27 +287,29 @@ where m_subsystem.id = @id">
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6" style="margin-top: 15px; text-align: center;">
+                    <div class="col-sm-6">
                         <div style="border: 1px solid darkgray; padding: 5px 0px 0 0px; border-radius: 5px;">
-                            <div style="display: block; text-align: right; padding-right: 10px;">مواد و لوازم مصرفی</div>
-                            <button class="button" type="button" onclick="AddParts();">+</button>
-                            <input class="form-control text-center" id="txtPartsCount" style="width: 20%; display: inline-block;" placeholder="تعداد"/>
-                            <div id="PartBadgeArea" style="position: relative;width: 65%;display: inline-block;">
-                                <input type="text" autocomplete="off" dir="rtl" tabindex="41" class="form-control" style="width: 100%;" id="txtPartsSearch" placeholder="جستجوی قطعه ..."/>
-                                <img src="Images/loading.png" id="partsLoading" style="width: 20px; height: 20px; position: absolute;top: 7px; left:7px; display: none;"/>
-                                <div id="PartsSearchResulat">
-                                    <div style="padding: 5px 28px 5px 5px;background-color: #dfecfe">
-                                        <input type="text" id="txtSubSearchPart" autocomplete="off"/>
-                                        <img src="Images/funnel.png" class="imgfilter"/>
-                                    </div>
-                                    <div style="overflow: auto; width: 100%; max-height: 200px;">
-                                        <table id="gridPartsResault" class="PartsTable">
-                                            <tbody></tbody>
-                                        </table>
+                            <div class="card-body pt-0 pb-0">
+                                <div style="display: block; text-align: right;">مواد و لوازم مصرفی</div>
+                                <button class="button" type="button" onclick="AddParts();">+</button>
+                                <input class="form-control text-center" id="txtPartsCount" style="width: 20%; display: inline-block;" placeholder="تعداد"/>
+                                <div id="PartBadgeArea" style="position: relative;width: 65%;display: inline-block;">
+                                    <input type="text" autocomplete="off" dir="rtl" tabindex="41" class="form-control" style="width: 100%;" id="txtPartsSearch" placeholder="جستجوی قطعه ..."/>
+                                    <img src="assets/Images/loading.png" id="partsLoading" style="width: 20px; height: 20px; position: absolute;top: 7px; left:7px; display: none;"/>
+                                    <div id="PartsSearchResulat">
+                                        <div style="padding: 5px 28px 5px 5px;background-color: #dfecfe">
+                                            <input type="text" id="txtSubSearchPart" autocomplete="off"/>
+                                            <img src="assets/Images/funnel.png" class="imgfilter"/>
+                                        </div>
+                                        <div style="overflow: auto; width: 100%; max-height: 200px;">
+                                            <table id="gridPartsResault" class="PartsTable">
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="panel-footer" style="margin-top: 10px;">
+                            <div class="card-footer" style="margin-top: 10px;">
                                 <table id="gridParts" class="table">
                                     <thead></thead>
                                     <tbody></tbody>
@@ -304,7 +318,7 @@ where m_subsystem.id = @id">
                         </div>
                     </div>
                 </div>
-                <div class="row" style="margin: 0; margin-top: 15px;">
+                <div class="row mt-3">
                     <div class="col-sm-6" style="margin-top: 0px; text-align: center;">
                         <div style="border: 1px solid darkgray; padding: 5px; border-radius: 5px; height: 74px;">
                             <div style="display: inline-block; width: 48%; text-align: right;">
@@ -330,18 +344,20 @@ where m_subsystem.id = @id">
                         </div>
                     </div>
                 </div>
-                <div class="row" style="margin: 0;">
+                <div class="row">
                     <div class="col-sm-6" style="margin-top: 15px; text-align: center;">
                     </div>
                     <div class="col-sm-6" style="margin-top: 15px; text-align: center;">
                         <div style="border: 1px solid darkgray; padding: 5px 0px 0px 0px; border-radius: 5px;" id="ContractorArea">
-                            <div class="col-sm-5" style="text-align: right;">دستمزد</div>
-                            <div class="col-sm-7" style="text-align: right;">پیمانکاران</div>
+                            <div class="row pr-2">
+                                <div class="col-sm-5" style="text-align: right;">دستمزد</div>
+                                <div class="col-sm-7" style="text-align: right;">پیمانکاران</div>
+                            </div>
                             <button class="button" type="button" onclick="AddContractor();">+</button>
                             <input type="number" id="txtContCost" class="form-control" style="width: 30%; display: inline-block; text-align: center;" placeholder="ریال"/>
                             <asp:DropDownList Dir="rtl" ID="drContractor" runat="server" ClientIDMode="Static" Width="55%" style="display: inline-block;" CssClass="form-control" DataSourceID="SqlContractor" DataTextField="name" DataValueField="id"/>
                             <asp:SqlDataSource ID="SqlContractor" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT name, id FROM i_contractor"></asp:SqlDataSource>
-                            <div class="panel-footer" style="margin-top: 10px;">
+                            <div class="card-footer" style="margin-top: 10px;">
                                 <table class="table" id="gridContractors">
                                     <thead></thead>
                                     <tbody></tbody>
@@ -355,7 +371,7 @@ where m_subsystem.id = @id">
                         </div>
                     </div>
                 </div>
-                <div class="row" style="margin: 0;">
+                <div class="row mt-3">
                     <div class="col-sm-12" style="text-align: right">
                         توضیحات
                         <input id="txtcomment" class="form-control text-right"/>
@@ -364,10 +380,10 @@ where m_subsystem.id = @id">
             </div>
         </div>
     </div>
-    <div class="panel-footer">
+    <div class="card-footer">
         <button class="button" type="button"  onclick="PassDataToDB();">ثبت</button>
         <asp:Button runat="server" CssClass="button" ID="btnBack" Text="بازگشت" OnClick="btnBack_OnClick"/>
     </div>
 </div>
-    <script src="Scripts/Tags.js"></script>
+    <script src="assets/js/Tags.js"></script>
 </asp:Content>

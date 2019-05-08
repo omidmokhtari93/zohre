@@ -7,23 +7,10 @@
     function lastcode(e) {
         $('#txtsubCode').val(e.d);
     }
+    kamaDatepicker('txtRepairDate', customOptions);
+    $('#txtWorkTime').clockpicker({ autoclose: true, placement: 'top' });
 });
-var customOptions = {
-    placeholder: "روز / ماه / سال"
-    , twodigit: true
-    , closeAfterSelect: true
-    , nextButtonIcon: "fa fa-arrow-circle-right"
-    , previousButtonIcon: "fa fa-arrow-circle-left"
-    , buttonsColor: "blue"
-    , forceFarsiDigits: true
-    , markToday: true
-    , markHolidays: true
-    , highlightSelectedDay: true
-    , sync: true
-    , gotoToday: true
-}
-kamaDatepicker('txtRepairDate', customOptions);
-$('#txtWorkTime').clockpicker({ autoclose: true, placement: 'top' });
+
 function AddRepairers() {
     if ($('#txtWorkTime').val() == '') {
         RedAlert('txtWorkTime', "!!لطفا ساعت کاکرد را وارد کنید");
