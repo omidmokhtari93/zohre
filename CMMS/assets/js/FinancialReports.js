@@ -1,18 +1,4 @@
 ﻿$(document).ready(function () {
-    var customOptions = {
-        placeholder: "روز / ماه / سال"
-        , twodigit: true
-        , closeAfterSelect: true
-        , nextButtonIcon: "fa fa-arrow-circle-right"
-        , previousButtonIcon: "fa fa-arrow-circle-left"
-        , buttonsColor: "blue"
-        , forceFarsiDigits: true
-        , markToday: true
-        , markHolidays: true
-        , highlightSelectedDay: true
-        , sync: true
-        , gotoToday: true
-    }
     kamaDatepicker('txtEndDatePersonelCost', customOptions);
     kamaDatepicker('txtStartDatePersonelCost', customOptions);
     kamaDatepicker('txtEndDateRepairCost', customOptions);
@@ -56,13 +42,11 @@ function PersonelCost() {
         return;
     }
    
-    var data = [];
-    data.push({
-        url: 'Reports.asmx/PersonleCost',
-        parameters: [{line:linee,unit:unitt,dateS: sDate, dateE: eDate  }],
-        func: personleCost
+    AjaxData({
+      url: 'Reports.asmx/PersonleCost',
+      param: { line: linee, unit: unitt, dateS: sDate, dateE: eDate },
+      func: personleCost
     });
-    AjaxCall(data);
 
     function personleCost(e) {
         $('#gridPersonelCost tbody').empty();
@@ -111,13 +95,11 @@ function ContractorCost() {
         return;
     }
    
-    var data = [];
-    data.push({
-        url: 'Reports.asmx/ContractorCost',
-        parameters: [{ line: linee, unit: unitt,dateS: sDate, dateE: eDate }],
-        func: contractorCostt
+    AjaxData({
+      url: 'Reports.asmx/ContractorCost',
+      param: { line: linee, unit: unitt, dateS: sDate, dateE: eDate },
+      func: contractorCostt
     });
-    AjaxCall(data);
 
     function contractorCostt(e) {
         $('#gridContractorCost tbody').empty();
@@ -165,13 +147,11 @@ function ToolsCost() {
         return;
     }
    
-    var data = [];
-    data.push({
-        url: 'Reports.asmx/ToolsCost',
-        parameters: [{ line: linee, unit: unitt,dateS: sDate, dateE: eDate }],
-        func: toolsCostt
+    AjaxData({
+      url: 'Reports.asmx/ToolsCost',
+      param: { line: linee, unit: unitt, dateS: sDate, dateE: eDate },
+      func: toolsCostt
     });
-    AjaxCall(data);
 
     function toolsCostt(e) {
         $('#gridToolsCost tbody').empty();
@@ -225,13 +205,11 @@ function RepairCost() {
         return;
     }
    
-    var data = [];
-    data.push({
-        url: 'Reports.asmx/TotalCost',
-        parameters: [{ line: linee, unit: unitt,machine:machinee,dateS: sDate, dateE: eDate }],
-        func: repairCostt
+    AjaxData({
+      url: 'Reports.asmx/TotalCost',
+      param: { line: linee, unit: unitt, machine: machinee, dateS: sDate, dateE: eDate },
+      func: repairCostt
     });
-    AjaxCall(data);
 
     function repairCostt(e) {
         $('#gridRepairCost tbody').empty();
@@ -280,14 +258,12 @@ function RequestCost() {
         RedAlert('no', '!!تاریخ شروع باید کوچکتر از تاریخ پایان باشد');
         return;
     }
-
-    var data = [];
-    data.push({
-        url: 'Reports.asmx/RequestCost',
-        parameters: [{ count:count, dateS: sDate, dateE: eDate }],
-        func: reqCost
+  
+    AjaxData({
+      url: 'Reports.asmx/RequestCost',
+      param: { count: count, dateS: sDate, dateE: eDate },
+      func: reqCost
     });
-    AjaxCall(data);
 
     function reqCost(e) {
         $('#gridRequestCost tbody').empty();
@@ -344,14 +320,11 @@ function RStopCost() {
         RedAlert('no', '!!تاریخ شروع باید کوچکتر از تاریخ پایان باشد');
         return;
     }
-
-    var data = [];
-    data.push({
-        url: 'Reports.asmx/RepairStopCost',
-        parameters: [{ faz:fazz,line: linee, unit: unitt, dateS: sDate, dateE: eDate }],
-        func: rStopCostt
+    AjaxData({
+      url: 'Reports.asmx/RepairStopCost',
+      param: { faz: fazz, line: linee, unit: unitt, dateS: sDate, dateE: eDate },
+      func: rStopCostt
     });
-    AjaxCall(data);
 
     function rStopCostt(e) {
         $('#gridRStopCost tbody').empty();
@@ -409,14 +382,12 @@ function prStopCost() {
         RedAlert('no', '!!تاریخ شروع باید کوچکتر از تاریخ پایان باشد');
         return;
     }
-
-    var data = [];
-    data.push({
-        url: 'Reports.asmx/ProductStopCost',
-        parameters: [{ faz: fazz, line: linee, unit: unitt, dateS: sDate, dateE: eDate }],
-        func: prStopCostt
+  
+    AjaxData({
+      url: 'Reports.asmx/ProductStopCost',
+      param: { faz: fazz, line: linee, unit: unitt, dateS: sDate, dateE: eDate },
+      func: prStopCostt
     });
-    AjaxCall(data);
 
     function prStopCostt(e) {
         $('#gridPrStopCost tbody').empty();
