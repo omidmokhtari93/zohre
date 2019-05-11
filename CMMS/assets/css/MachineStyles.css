@@ -40,8 +40,8 @@ table tr a {
 .Subsystembadge *:hover{ cursor: pointer;}
 .SubSystemTable tr{ cursor: pointer;}
 .PartsTable tr{cursor: pointer;}
-.btnVahed{width: 34px; height: 34px;background-image: url(/Images/Units.png);outline: none;}
-.btnMachine{width: 34px; height: 34px;background-image: url(/Images/machine.png);outline: none;}
+.btnVahed{width: 34px; height: 34px;background-image: url(/assets/Images/Units.png);outline: none;}
+.btnMachine{width: 34px; height: 34px;background-image: url(/assets/Images/machine.png);outline: none;}
 .MachineCodeButtons {
     position: relative;
     display: inline-block;

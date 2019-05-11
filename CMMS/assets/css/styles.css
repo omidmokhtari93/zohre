@@ -664,7 +664,7 @@ label {
 }
 .mytooltip {
     position: absolute;
-    left: -50px;
+    left: 450px;
     top: 43px;
     z-index: 1000;
 }

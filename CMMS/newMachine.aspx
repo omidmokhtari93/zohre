@@ -20,11 +20,11 @@
             border-radius: 2px;
         }
 
-        .table td a:hover {
-            color: white;
-            text-decoration: none;
-            background-color: #1b498e;
-        }
+            .table td a:hover {
+                color: white;
+                text-decoration: none;
+                background-color: #1b498e;
+            }
 
         #txtPartsSearch {
             width: 100%;
@@ -52,39 +52,53 @@
         .loadingSend {
             position: absolute;
             left: 42px !important;
-            top: 10px;
+            top: 11px;
             display: none;
+            width: 25px;
+            height: auto;
         }
 
         #btnCopy {
             position: absolute;
             left: 8px;
-            top: 8px;
+            top: 10px;
             width: 25px;
             height: 25px;
             border: none;
             background-color: transparent;
-            background-image: url(Images/copy.png);
+            background-image: url(assets/Images/copy.png);
             background-size: 25px;
             outline: none;
         }
     </style>
-    <link href="Scripts/MachineStyles.css" rel="stylesheet" />
+    <link href="assets/css/MachineStyles.css" rel="stylesheet" />
     <asp:HiddenField runat="server" ClientIDMode="Static" ID="Mid" />
-    <div id="machineform">
-        <div class="panel panel-primary" id="pnlNewMachine" style="display: block;">
-            <div class="panel-heading" style="position: relative;">
-                <img id="loadingPage" class="loadingSend" src="Images/loading.png" />
+    <div id="machineform" class="sans">
+        <div class="card" id="pnlNewMachine" style="display: none;">
+            <div class="card-header bg-primary text-white" style="position: relative;">
+                <img id="loadingPage" class="loadingSend" src="assets/Images/loading.png" />
                 <button type="button" title="کپی اطلاعات دستگاه" id="btnCopy" onclick="$('#copyModal').show();"></button>
                 ثبت دستگاه جدید
             </div>
             <asp:HiddenField runat="server" ClientIDMode="Static" ID="catalog" />
             <asp:HiddenField runat="server" ClientIDMode="Static" ID="ahamiyat" />
             <asp:HiddenField runat="server" ClientIDMode="Static" ID="vaziatTajhiz" />
-            <div class="panel-body">
-                <div class="row" style="margin: 0; direction: rtl; text-align: right;">
-                    <div class="col-md-6" style="direction: ltr;">
+            <div class="card-body">
+                <div class="row ltr text-right">
+                    <div class="col-md-6 rtl">
                         <label style="display: block; direction: rtl;">کد دستگاه :</label>
+                        <input class="form-control text-center" dir="ltr" style="width: 70%; display: inline-block; margin-left: 5px;" tabindex="2" id="txtmachineCode" />
+                        <div id="machine" class="MachineCodeButtons">
+                            <div class="mytooltip">
+                                <div id="machineTooltip" class="tooltiptext">
+                                    <table class="table" id="gridMachines" dir="rtl">
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <button class="btnMachine" title="تجهیزات" id="btnMachine" type="button"></button>
+                        </div>
+                        &nbsp;
                         <div id="vahed" class="MachineCodeButtons">
                             <div class="mytooltip">
                                 <div id="vahedTooltip" class="tooltiptext">
@@ -95,34 +109,22 @@
                             </div>
                             <button class="btnVahed" title="واحدها" id="btnVahed" type="button"></button>
                         </div>
-                        &nbsp;
-                    <div id="machine" class="MachineCodeButtons">
-                        <div class="mytooltip">
-                            <div id="machineTooltip" class="tooltiptext">
-                                <table class="table" id="gridMachines" dir="rtl">
-                                    <tbody></tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <button class="btnMachine" title="تجهیزات" id="btnMachine" type="button"></button>
                     </div>
-                        <input class="form-control text-center" dir="ltr" style="width: 79%; display: inline-block; margin-left: 5px;" tabindex="2" id="txtmachineCode" />
-                    </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 rtl">
                         نام دستگاه :
                     <input id="txtmachineName" tabindex="1" class="form-control" />
                     </div>
                 </div>
-                <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
-                    <div class="col-md-4">
+                <div class="row mt-3">
+                    <div class="col-md-4 rtl">
                         تاریخ نصب :
                     <input class="form-control" tabindex="4" id="txtMachineNasbDate" />
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 rtl">
                         سازنده :
                     <input id="txtMachineManufacturer" tabindex="3" class="form-control" />
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 rtl">
                         درجه اهمیت :
                     <div class="switch-field">
                         <input type="radio" id="kelidi" name="switch_2" value="1" checked />
@@ -132,51 +134,51 @@
                     </div>
                     </div>
                 </div>
-                <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
-                    <div class="col-md-6">
+                <div class="row mt-3">
+                    <div class="col-md-6 rtl">
                         تاریخ بهره برداری :
                     <input class="form-control" tabindex="7" id="txtmachineTarikh" />
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 rtl">
                         مدل دستگاه :
                     <input id="txtMachineModel" tabindex="6" class="form-control" />
                     </div>
                 </div>
-                <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
-                    <div class="col-md-4">
+                <div class="row mt-3">
+                    <div class="col-md-4 rtl">
                         فاز :
                     <asp:DropDownList runat="server" CssClass="form-control" AppendDataBoundItems="True" ID="drFaz" ClientIDMode="Static" DataSourceID="SqlFaz" DataTextField="faz_name" DataValueField="id">
                         <asp:ListItem Value="0">انتخاب کنید</asp:ListItem>
                     </asp:DropDownList>
                         <asp:SqlDataSource ID="SqlFaz" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, faz_name FROM i_faz"></asp:SqlDataSource>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 rtl">
                         خط :
                     <asp:DropDownList runat="server" CssClass="form-control" ID="drLine" ClientIDMode="Static" AppendDataBoundItems="True" DataSourceID="Sqlline" DataTextField="line_name" DataValueField="id">
                         <asp:ListItem Value="0">انتخاب کنید</asp:ListItem>
                     </asp:DropDownList>
                         <asp:SqlDataSource ID="Sqlline" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT line_name, id FROM i_lines"></asp:SqlDataSource>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 rtl">
                         محل استقرار :
                     <asp:DropDownList runat="server" TabIndex="8" ClientIDMode="Static" ID="drMAchineLocateion" CssClass="form-control" DataSourceID="sqlUnits" DataTextField="unit_name" DataValueField="unit_code">
                     </asp:DropDownList>
                         <asp:SqlDataSource ID="sqlUnits" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT unit_name, unit_code FROM i_units"></asp:SqlDataSource>
                     </div>
                 </div>
-                <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
-                    <div class="col-md-6">
+                <div class="row mt-3">
+                    <div class="col-md-6 rtl">
                         هزینه توقف بر ساعت :
                     <input class="form-control text-center" id="txtstopperhour" />
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 rtl">
                         توان / ظرفیت :
                     <input class="form-control text-center" tabindex="9" id="txtMachinePower" />
                     </div>
                 </div>
                 <hr />
-                <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
-                    <div class="col-md-6">
+                <div class="row mt-3">
+                    <div class="col-md-6 rtl">
                         وضعیت تجهیز :
                     <div class="switch-field">
                         <input type="radio" id="act" name="switch_21" value="1" checked />
@@ -187,7 +189,7 @@
                         <label for="fail">معیوب </label>
                     </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 rtl">
                         گروه تجهیز :
                     <asp:DropDownList runat="server" TabIndex="10" ClientIDMode="Static" ID="drCatGroup" CssClass="form-control">
                         <asp:ListItem Value="1">ماشین آلات</asp:ListItem>
@@ -199,14 +201,14 @@
                 </div>
                 <hr />
                 <label style="display: block; padding: 0 15px;">MTBF</label>
-                <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
-                    <div class="col-md-6">
+                <div class="row mt-3">
+                    <div class="col-md-6 rtl">
                         <label style="display: block;">دوره پذیرش :</label>
                         <input class="form-control text-center" tabindex="12" id="txtAdmissionperiodMTBF" style="width: 70%; display: inline-block;" />
                         &nbsp;&nbsp;&nbsp;&nbsp;
                     <label>ماه</label>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 rtl">
                         <label style="display: block;">هدف :</label>
                         <input id="txttargetMTBF" tabindex="11" style="width: 70%; display: inline-block;" class="form-control text-center" />
                         &nbsp;&nbsp;&nbsp;&nbsp;
@@ -215,14 +217,14 @@
                 </div>
                 <hr />
                 <label style="display: block; padding: 0 15px;">MTTR</label>
-                <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
-                    <div class="col-md-6">
+                <div class="row mt-3">
+                    <div class="col-md-6 rtl">
                         <label style="display: block;">دوره پذیرش :</label>
                         <input class="form-control text-center" tabindex="14" id="txtAdmissionperiodMTTR" style="width: 70%; display: inline-block;" />
                         &nbsp;&nbsp;&nbsp;&nbsp;
                     <label>ماه</label>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 rtl">
                         <label style="display: block;">هدف :</label>
                         <input id="txttargetMTTR" tabindex="13" style="width: 70%; display: inline-block;" class="form-control text-center" />
                         &nbsp;&nbsp;&nbsp;&nbsp;
@@ -230,147 +232,151 @@
                     </div>
                 </div>
                 <hr />
-                <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
-                    <div class="col-md-6">
+                <div class="row mt-3">
+                    <div class="col-md-6 rtl">
                         مشخصات مراکز خدمات پس از فروش :
                     <input class="form-control" tabindex="16" id="txtSupInfo" />
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 rtl">
                         مشخصات فروشنده/سازنده :
                     <input class="form-control" tabindex="15" id="txtSelInfo" />
                     </div>
                 </div>
             </div>
-            <div class="panel-footer">
+            <div class="card-footer">
                 <button type="button" id="btnNewMachineFor" title="صفحه بعد" tabindex="17" class="button fa fa-arrow-left"></button>
             </div>
         </div>
 
         <%--موارد مصرفی دستگاه--%>
 
-        <div class="panel panel-primary" id="pnlMavaredMasrafi" style="display: none;">
+        <div class="card" id="pnlMavaredMasrafi" style="display: block;">
             <asp:HiddenField runat="server" ClientIDMode="Static" ID="chbargh" />
             <asp:HiddenField runat="server" ClientIDMode="Static" ID="chgas" />
             <asp:HiddenField runat="server" ClientIDMode="Static" ID="chhava" />
             <asp:HiddenField runat="server" ClientIDMode="Static" ID="chsookht" />
-            <div class="panel-heading"> <label style="width: 50%" lblMCode></label> &nbsp; موارد مصرفی دستگاه</div>
-            <div class="panel-body">
-                <div class="row" style="margin: 0; direction: rtl; text-align: right;">
-                    <div class="col-md-3">
+            <div class="card-header bg-primary text-white">
+                <label style="width: 50%" lblmcode></label>
+                &nbsp; موارد مصرفی دستگاه</div>
+            <div class="card-body">
+                <div class="row ltr text-right">
+                    <div class="col-md-3 rtl">
                         <label>وزن :</label>
                         <input type="text" id="txtMavaredVazn" tabindex="21" class="form-control" />
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 rtl">
                         <label>ارتفاع :</label>
                         <input type="text" id="txtMavaredErtefa" tabindex="20" class="form-control" />
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 rtl">
                         <label>عرض :</label>
                         <input type="text" id="txtMavaredArz" tabindex="19" class="form-control" />
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 rtl">
                         <label>طول :</label>
                         <input type="text" id="txtMavaredTool" tabindex="18" class="form-control" />
                     </div>
                 </div>
                 <hr />
-                <div class="row" style="margin: 0; direction: rtl; text-align: right;">
-                    <div style="display: block; padding-right: 15px;">
+                <div class="rtl">
+                    <div style="display: block;">
                         <label class="checklabel">
                             <input type="checkbox" tabindex="22" id="chkbargh" />
                             برق
                         </label>
                     </div>
-                    <div id="pnlBargh" style="display: none;">
-                        <div class="col-md-3">
+                    <div id="pnlBargh" class="row ltr" style="display: none;">
+                        <div class="col-md-3 rtl">
                             <label>سیکل :</label>
                             <input type="text" id="txtMavaredCycle" tabindex="26" class="form-control" />
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 rtl">
                             <label>فاز :</label>
                             <input type="text" id="txtMavaredPhaze" tabindex="25" class="form-control" />
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 rtl">
                             <label>ولتاژ :</label>
                             <input type="text" id="txtMavaredVoltage" tabindex="24" class="form-control" />
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 rtl">
                             <label>مصرف :</label>
                             <input type="text" id="txtMavaredMasraf" tabindex="23" class="form-control" />
                         </div>
                     </div>
                 </div>
                 <hr />
-                <div class="row" style="margin: 0; direction: rtl; text-align: right;">
-                    <div style="display: block; padding-right: 15px;">
+                <div class="rtl">
+                    <div style="display: block;">
                         <label class="checklabel">
                             <input type="checkbox" tabindex="27" id="chkgaz" />
                             گاز
                         </label>
                     </div>
-                    <div id="pnlGaz" style="display: none;">
+                    <div id="pnlGaz" class="row ltr" style="display: none;">
                         <div class="col-md-9"></div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 rtl">
                             <label>فشار :</label>
                             <input type="text" id="txtMavaredGazPressure" tabindex="28" class="form-control" />
                         </div>
                     </div>
                 </div>
                 <hr />
-                <div class="row" style="margin: 0; direction: rtl; text-align: right;">
-                    <div style="display: block; padding-right: 15px;">
+                <div class="rtl">
+                    <div style="display: block;">
                         <label class="checklabel">
                             <input type="checkbox" tabindex="29" id="chkhava" />
                             هوا
                         </label>
                     </div>
-                    <div id="pnlHava" style="display: none;">
+                    <div id="pnlHava" class="row ltr" style="display: none;">
                         <div class="col-md-9"></div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 rtl">
                             <label>فشار :</label>
                             <input type="text" id="txtMavaredAirPressure" tabindex="30" class="form-control" />
                         </div>
                     </div>
                 </div>
                 <hr />
-                <div class="row" style="margin: 0; direction: rtl; text-align: right;">
-                    <div style="display: block; padding-right: 15px;">
+                <div class="rtl">
+                    <div style="display: block;">
                         <label class="checklabel">
                             <input type="checkbox" tabindex="31" id="chksokht" />
                             سوخت مایع
                         </label>
                     </div>
-                    <div id="pnlSookht" style="display: none;">
-                        <div class="col-md-6"></div>
-                        <div class="col-md-3">
+                    <div id="pnlSookht" class="row ltr" style="display: none;">
+                        <div class="col-md-6 rtl"></div>
+                        <div class="col-md-3 rtl">
                             <label>میزان مصرف :</label>
                             <input type="text" id="txtMavaredSookhtMasraf" tabindex="33" class="form-control" />
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 rtl">
                             <label>نوع سوخت :</label>
                             <input type="text" id="txtMavaredSookhtType" tabindex="32" class="form-control" />
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="panel-footer">
-                <button type="button" class="button fa fa-arrow-right" title="صفحه قبل" id="btnMavaredeMasrafiBack"></button>
+            <div class="card-footer">
                 <button type="button" class="button fa fa-arrow-left" title="صفحه بعد" tabindex="34" id="btnMavaredeMasrafiFor"></button>
+                <button type="button" class="button fa fa-arrow-right" title="صفحه قبل" id="btnMavaredeMasrafiBack"></button>
             </div>
         </div>
         <%--موارد کلیدی دستگاه --%>
-        <div class="panel panel-primary" id="pnlMavaredKey" style="display: none;">
+        <div class="card" id="pnlMavaredKey" style="display: none;">
 
-            <div class="panel-heading"><label style="width: 50%" lblMCode></label> &nbsp; موارد و توضیحات کلیدی دستگاه</div>
-            <div class="panel-body">
-                <div class="row" style="margin: 0; direction: rtl; text-align: right;">
+            <div class="card-header bg-primary text-white">
+                <label style="width: 50%" lblmcode></label>
+                &nbsp; موارد و توضیحات کلیدی دستگاه</div>
+            <div class="card-body">
+                <div class="row">
                     <div class="col-md-12">
                         <label>توضیحات کلیدی :</label>
                         <textarea rows="2" id="txtCommentKey" tabindex="35" class="form-control"></textarea>
                     </div>
                 </div>
                 <hr />
-                <div class="row" style="margin: 0; direction: rtl; text-align: right;">
+                <div class="row">
                     <div class="col-md-3">
                         <label>RPM :</label>
                         <input type="text" id="txtrpm" tabindex="38" class="form-control" />
@@ -379,12 +385,12 @@
                         <label>KW :</label>
                         <input type="text" id="txtKw" tabindex="37" class="form-control" />
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 rtl">
                         <label>نام/شرح قطعه :</label>
                         <input type="text" id="txtKeyName" tabindex="36" class="form-control" />
                     </div>
                 </div>
-                <div class="row" style="margin: 0; margin-top: 5px; direction: rtl; text-align: right;">
+                <div class="row">
                     <div class="col-md-3">
                         <label>جریان :</label>
                         <input type="text" id="txtFlow" tabindex="41" class="form-control" />
@@ -393,16 +399,16 @@
                         <label>ولتاژ :</label>
                         <input type="text" id="txtvolt" tabindex="40" class="form-control" />
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 rtl">
                         <label>سازنده :</label>
                         <input type="text" id="txtcountry" tabindex="39" class="form-control" />
                     </div>
                 </div>
-                <div class="row" style="margin: 0; margin-top: 5px; direction: rtl; text-align: right;">
+                <div class="row">
 
-                    <div class="col-md-6">
+                    <div class="col-md-6 rtl">
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 rtl">
                         <label>ملاحضات:</label>
                         <input type="text" id="txtcomment" tabindex="42" class="form-control" />
                     </div>
@@ -412,7 +418,7 @@
                 <hr />
 
             </div>
-            <div class="panel-footer">
+            <div class="card-footer">
                 <button class="button" style="display: none;" type="button" id="btnEditKey" onclick="EditKeyItems();">ویرایش</button>
                 <button class="button" style="display: none;" type="button" id="btnCancelEditKey" onclick="EmptyKey();">انصراف</button>
                 <button type="button" tabindex="39" id="btnAddKey" class="button" onclick="addKey();">
@@ -421,29 +427,31 @@
                 <button type="button" class="button fa fa-arrow-right" title="صفحه قبل" id="btnMavaredeKeyBack"></button>
                 <button type="button" class="button fa fa-arrow-left" title="صفحه بعد" tabindex="43" id="btnMavaredeKeyFor"></button>
             </div>
-            <div class="panel-footer">
+            <div class="card-footer">
                 <table class="table" id="gridMavaredKey">
                 </table>
             </div>
         </div>
         <%--موارد کنترلی دستگاه--%>
-        <div class="panel panel-primary" id="pnlMavaredControli" style="display: none;">
+        <div class="card" id="pnlMavaredControli" style="display: none;">
             <asp:HiddenField runat="server" ClientIDMode="Static" ID="chMDcontrol" />
-            <div class="panel-heading"><label style="width: 50%" lblMCode></label> &nbsp; موارد کنترلی دستگاه</div>
-            <div class="panel-body">
-                <div class="row" style="margin: 0; direction: rtl; text-align: right;">
+            <div class="card-header bg-primary text-white">
+                <label style="width: 50%" lblmcode></label>
+                &nbsp; موارد کنترلی دستگاه</div>
+            <div class="card-body">
+                <div class="row">
                     <div class="col-md-12">
                         <label>مورد کنترلی :</label>
                         <input id="txtControliMoredControl" tabindex="44" class="form-control" />
                     </div>
                 </div>
                 <hr />
-                <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
-                    <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6 rtl">
                         <label>تاریخ شروع سرویسکاری :</label>
                         <input class="form-control text-center" id="txtStartPMDate" readonly style="cursor: pointer;" />
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 rtl">
                         <div class="col-sm-6" style="padding-left: 0;">
                             <div id="pnlcontroliRooz" style="display: none;">
                                 <label>روزپیش بینی شده در ماه :</label>
@@ -477,8 +485,8 @@
                     </div>
                 </div>
                 <hr />
-                <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
-                    <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6 rtl">
                         <label style="margin-bottom: 5px;">عملیات</label>
                         <select class="form-control" id="drcontroliOpr">
                             <option value="1">برق</option>
@@ -486,7 +494,7 @@
                             <option value="3">روانکاری</option>
                         </select>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 rtl">
                         <label style="margin-bottom: 5px;">آیا این دستگاه برای سرویس کاری روزانه یا ماهانه نمایش داده شود ؟</label>
                         <div class="switch-field">
                             <input type="radio" id="servicebale" name="switch_3" checked />
@@ -496,14 +504,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
+                <div class="row">
                     <div class="col-lg-12">
                         <label>توضیحات :</label>
                         <input class="form-control" tabindex="38" id="txtMavaredComment" />
                     </div>
                 </div>
             </div>
-            <div class="panel-footer">
+            <div class="card-footer">
                 <button class="button" style="display: none;" type="button" id="btnEditControls" onclick="EditControliItems();">ویرایش</button>
                 <button class="button" style="display: none;" type="button" id="btnCancelEditCotntrols" onclick="EmptyControls();">انصراف</button>
                 <button type="button" tabindex="39" id="btnAddControli" class="button" onclick="addControli();">
@@ -512,16 +520,18 @@
                 <button type="button" class="button fa fa-arrow-right" title="صفحه قبل" id="btnMavaredControlBack"></button>
                 <button type="button" class="button fa fa-arrow-left" title="صفحه بعد" tabindex="40" id="btnMavaredControlFor"></button>
             </div>
-            <div class="panel-footer">
+            <div class="card-footer">
                 <table class="table" id="gridMavaredControli">
                 </table>
             </div>
         </div>
 
 
-        <div class="panel panel-primary" id="pnlSubSytem" style="display: none;">
-            <div class="panel-heading"><label style="width: 50%" lblMCode></label> &nbsp; ثبت اجزا ماشین</div>
-            <div class="panel-body">
+        <div class="card" id="pnlSubSytem" style="display: none;">
+            <div class="card-header bg-primary text-white">
+                <label style="width: 50%" lblmcode></label>
+                &nbsp; ثبت اجزا ماشین</div>
+            <div class="card-body">
                 <div class="row">
                     <div class="col-md-3">
                         <label>شماره پلاک </label>
@@ -544,7 +554,7 @@
                     </div>
                 </div>
             </div>
-            <div class="panel-footer">
+            <div class="card-footer">
                 <button type="button" id="btnAddSubsystem" class="button" onclick="CreateSubTable();">
                     <span class="fa fa-plus" style="vertical-align: middle; margin-left: 5px;"></span>ثبت  
                 </button>
@@ -554,7 +564,7 @@
                 <button type="button" class="button fa fa-arrow-right" title="صفحه قبل" id="btnSubsystemBack"></button>
                 <button type="button" class="button fa fa-arrow-left" title="صفحه بعد" tabindex="40" id="btnSubsystemFor"></button>
             </div>
-            <div class="panel-footer">
+            <div class="card-footer">
                 <style>
                     #subSystemTable tr td:nth-child(4) {
                         cursor: pointer;
@@ -566,10 +576,12 @@
         </div>
 
 
-        <div class="panel panel-primary" id="pnlGhatatMasrafi" style="display: none;">
-            <div class="panel-heading"><label style="width: 50%" lblMCode></label> &nbsp; ثبت قطعات مصرفی</div>
-            <div class="panel-body">
-                <div class="row" style="margin: 0; direction: rtl; text-align: right;">
+        <div class="card" id="pnlGhatatMasrafi" style="display: none;">
+            <div class="card-header bg-primary text-white">
+                <label style="width: 50%" lblmcode></label>
+                &nbsp; ثبت قطعات مصرفی</div>
+            <div class="card-body">
+                <div class="row">
                     <div class="col-md-3">
                         <label>مصرف در سال :</label>
                         <input id="txtGhatatPerYear" tabindex="42" class="form-control" />
@@ -580,16 +592,16 @@
                         </asp:DropDownList>
                         <asp:SqlDataSource ID="SqlMeasurement" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, measurement FROM i_measurement"></asp:SqlDataSource>
                     </div>
-                    <div class="col-md-6" style="position: relative;">
+                    <div class="col-md-6 rtl" style="position: relative;">
                         <label>نام قطعه پر مصرف :</label>
                         <div id="PartBadgeArea" style="position: relative;">
                             <input type="text" autocomplete="off" tabindex="41" class="form-control" id="txtPartsSearch" placeholder="جستجوی قطعه ..." />
-                            <img src="Images/loading.png" id="partsLoading" style="width: 20px; height: 20px; position: absolute; top: 7px; left: 7px; display: none;" />
+                            <img src="assets/Images/loading.png" id="partsLoading" style="width: 20px; height: 20px; position: absolute; top: 7px; left: 7px; display: none;" />
                         </div>
                         <div id="PartsSearchResulat">
                             <div style="padding: 5px 28px 5px 5px; background-color: #dfecfe">
                                 <input type="text" id="txtSubSearchPart" autocomplete="off" />
-                                <img src="Images/funnel.png" class="imgfilter" />
+                                <img src="assets/Images/funnel.png" class="imgfilter" />
                             </div>
                             <div style="overflow: auto; width: 422px; max-height: 200px;">
                                 <table id="gridParts" class="PartsTable">
@@ -599,22 +611,22 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
-                    <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6 rtl">
                         <label>حداکثر :</label>
                         <input id="txtGhatatMax" tabindex="44" class="form-control" />
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 rtl">
                         <label>حداقل :</label>
                         <input id="txtGhatatMin" tabindex="43" class="form-control" />
                     </div>
                 </div>
-                <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
-                    <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6 rtl">
                         <label>ملاحضات :</label>
                         <input class="form-control" id="txtGhatatCom" tabindex="46" />
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 rtl">
                         <label>تاریخ تقریبی تعویض بعدی :</label>
                         <input type="text" id="txtGhatatChangePeriod" tabindex="45" class="form-control text-center" readonly style="cursor: pointer;" />
                         <span class="fa fa-remove" title="این مقدار را حذف کن" onclick="$('#txtGhatatChangePeriod').val('');"
@@ -622,7 +634,7 @@
                     </div>
                 </div>
             </div>
-            <div class="panel-footer">
+            <div class="card-footer">
                 <button class="button" style="display: none;" type="button" id="btnEditPart" onclick="editParts();">ویرایش</button>
                 <button class="button" style="display: none;" type="button" id="btnCancelEditPart" onclick="ClearFields('pnlGhatatMasrafi');CancelDeletePart();">انصراف</button>
                 <button type="button" id="btnAddMasrafi" class="button" onclick="addParts();" tabindex="47">
@@ -631,17 +643,19 @@
                 <button type="button" class="button fa fa-arrow-right" title="صفحه قبل" id="btnGhatatBack"></button>
                 <button type="button" tabindex="48" title="صفحه بعد" class="button fa fa-arrow-left" id="btnGhatatFor"></button>
             </div>
-            <div class="panel-footer">
+            <div class="card-footer">
                 <table class="table" id="gridGhataatMasrafi">
                 </table>
             </div>
         </div>
 
-        <div class="panel panel-primary" id="pnlDastoor" style="display: none;">
+        <div class="card" id="pnlDastoor" style="display: none;">
             <asp:HiddenField runat="server" ClientIDMode="Static" ID="chEnergy" />
-            <div class="panel-heading"><label lblMCode></label> &nbsp; دستورالعمل ایمنی و محیط زیستی</div>
-            <div class="panel-body">
-                <div class="row" style="margin: 0; direction: rtl; text-align: right;">
+            <div class="card-header bg-primary text-white">
+                <label lblmcode></label>
+                &nbsp; دستورالعمل ایمنی و محیط زیستی</div>
+            <div class="card-body">
+                <div class="row">
                     <div class="col-md-12">
                         <textarea class="form-control" tabindex="49" style="resize: none; min-height: 500px;" id="txtInstruc">
 1-استفاده از لوازم حفاظت فردی متناسب با نوع کار الزامی می باشد.
@@ -668,16 +682,16 @@
                 <br />
                 <div class="row" style="margin: 0; padding: 0 15px 0 15px">
                     <div id="pnlModiriatEnergy" style="border: 2px solid darkgray; border-radius: 5px; padding-bottom: 0;">
-                        <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
-                            <div class="col-md-6"></div>
-                            <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6 rtl"></div>
+                            <div class="col-md-6 rtl">
                                 <label style="display: block;">تاریخ مراجعه : </label>
                                 <input type="text" tabindex="50" id="txtDastoorTarikh" class="form-control text-center" />
                             </div>
                         </div>
-                        <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
-                            <div class="col-md-6"></div>
-                            <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6 rtl"></div>
+                            <div class="col-md-6 rtl">
                                 <label>نوع دستگاه :</label>
                                 <input id="txtDastoorMachineType" tabindex="51" class="form-control" />
                             </div>
@@ -686,7 +700,7 @@
                         <div style="display: block; padding: 5px 15px;">
                             <label>ارزیابی عملکرد موتور</label>
                         </div>
-                        <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
+                        <div class="row">
                             <div class="col-md-3"></div>
                             <div class="col-md-3">
                                 <label>آمپرفاز3 :</label>
@@ -701,7 +715,7 @@
                                 <input id="txtDastoorAmper1" tabindex="52" class="form-control" />
                             </div>
                         </div>
-                        <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
+                        <div class="row">
                             <div class="col-md-3">
                                 <label>PF :</label>
                                 <input id="txtDastoorPF" tabindex="58" class="form-control" />
@@ -719,21 +733,21 @@
                                 <input id="txtDastoorVP1" tabindex="55" class="form-control" />
                             </div>
                         </div>
-                        <div class="panel-footer" style="margin-top: 15px;">
+                        <div class="card-footer" style="margin-top: 15px;">
                             <button type="button" class="button" onclick="insertEnergy();">ثبت مورد</button>
                         </div>
-                        <div class="panel-footer">
+                        <div class="card-footer">
                             <table class="table" id="gridEnergy"></table>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="panel-footer">
+            <div class="card-footer">
                 <button type="button" class="button fa fa-arrow-right" title="صفحه قبل" id="btnDastoorBack"></button>
                 <label style="display: inline-block; color: red; margin-left: 20px; display: none;" id="lblwarn">** لطفا فیلد خالی را پر کنید **</label>
                 <button id="btnFinalSave" style="outline: none;" type="button" class="button" onclick="SendTablesToDB();" tabindex="61">
                     ثبت نهایی
-            <img id="btnFinalLoading" style="position: absolute; left: 50px; bottom: 28px; display: inline; width: 20px; display: none;" src="Images/loading.png" />
+            <img id="btnFinalLoading" style="position: absolute; left: 50px; bottom: 28px; display: inline; width: 20px; display: none;" src="assets/Images/loading.png" />
                 </button>
             </div>
         </div>
@@ -743,11 +757,11 @@
         <div class="modal-content">
             <span class="fa fa-remove" id="btncloseSubSystem"
                 style="position: absolute; top: 10px; left: 10px; color: black; cursor: pointer; font-size: 15pt;"></span>
-            <div class="panel panel-primary">
-                <div class="panel-heading">ثبت اجزا جدید ماشین آلات</div>
-                <div class="panel-body">
+            <div class="card">
+                <div class="card-header bg-primary text-white">ثبت اجزا جدید ماشین آلات</div>
+                <div class="card-body">
                     <p>.لطفا در ثبت اجزا ماشین دقت فرمایید و از ثبت اجزا تکراری خوداری فرمایید <span class="fa fa-circle" style="color: red;"></span></p>
-                    <div class="row" style="margin: 0;">
+                    <div class="row">
                         <div class="col-lg-2">
                             <button class="button" type="button" onclick="AddSubSystems();">+</button>
                         </div>
@@ -777,9 +791,9 @@
         <div class="modal-content">
             <span class="fa fa-remove" id="CloseDeleteControl" onclick="$(this).parent().parent().hide();"
                 style="position: absolute; top: 10px; left: 10px; color: black; cursor: pointer; font-size: 15pt;"></span>
-            <div class="panel panel-danger" style="margin-bottom: 0;">
-                <div class="panel-heading" style="font-weight: 800;">حذف مورد کنترلی</div>
-                <div class="panel-body" style="text-align: center;">
+            <div class="card" style="margin-bottom: 0;">
+                <div class="card-header bg-danger text-white" style="font-weight: 800;">حذف مورد کنترلی</div>
+                <div class="card-body" style="text-align: center;">
                     <strong style="color: red;">** کاربر گرامی **</strong>
                     <p style="font-weight: 800;">
                         در صورت حذف مورد کنترلی کلیه سوابق ثبت شده سرویسکاری مربوط به آن نیز حذف خواهد شد!<br>
@@ -798,9 +812,9 @@
         <div class="modal-content">
             <span class="fa fa-remove" id="CloseDeletePart" onclick="$(this).parent().parent().hide();"
                 style="position: absolute; top: 10px; left: 10px; color: black; cursor: pointer; font-size: 15pt;"></span>
-            <div class="panel panel-danger" style="margin-bottom: 0;">
-                <div class="panel-heading" style="font-weight: 800;">حذف قطعه</div>
-                <div class="panel-body" style="text-align: center;">
+            <div class="card-header bg-danger text-white" style="margin-bottom: 0;">
+                <div class="card-header bg-primary text-white" style="font-weight: 800;">حذف قطعه</div>
+                <div class="card-body" style="text-align: center;">
                     <p style="font-weight: 800;">آیا مایل به حذف هستید؟</p>
                     <div style="text-align: center;">
                         <button class="button" type="button" onclick="DeletePart();">حذف</button>
@@ -815,10 +829,10 @@
         <div class="modal-content" style="width: 50%;">
             <span class="fa fa-remove" onclick="$(this).parent().parent().hide();"
                 style="position: absolute; top: 10px; left: 10px; color: black; cursor: pointer; font-size: 15pt;"></span>
-            <div class="panel panel-primary" style="margin-bottom: 0;">
-                <div class="panel-heading" style="font-weight: 800;">کپی اطلاعات دستگاه ها</div>
-                <div class="panel-body" style="text-align: right;">
-                    <div class="row" style="margin: 0;">
+            <div class="card" style="margin-bottom: 0;">
+                <div class="card-header bg-primary text-white" style="font-weight: 800;">کپی اطلاعات دستگاه ها</div>
+                <div class="card-body" style="text-align: right;">
+                    <div class="row">
                         <div class="col-lg-4">
                             <label>&nbsp;</label>
                             <button type="button" class="button" style="display: block; width: 100%;" onclick="CopyData();">کپی</button>
@@ -836,11 +850,11 @@
         </div>
     </div>
 
-    <script src="Scripts/machineJS.js"></script>
-    <script src="Scripts/SubSystemJS.js"></script>
-    <script src="Scripts/SearchParts.js"></script>
-    <script src="Scripts/MachineCode.js"></script>
-    <script src="Scripts/copyMachineData.js"></script>
+    <script src="assets/js/machineJS.js"></script>
+    <script src="assets/js/SubSystemJS.js"></script>
+    <script src="assets/js/SearchParts.js"></script>
+    <script src="assets/js/MachineCode.js"></script>
+    <script src="assets/js/copyMachineData.js"></script>
 </asp:Content>
 
 
