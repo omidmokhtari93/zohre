@@ -3,27 +3,13 @@
     <asp:HiddenField runat="server" id="Date"/>
     <script>
         $(document).ready(function() {
-            var customOptions = {
-                placeholder: "روز / ماه / سال",
-                twodigit: true,
-                closeAfterSelect: true,
-                nextButtonIcon: "fa fa-arrow-circle-right",
-                previousButtonIcon: "fa fa-arrow-circle-left",
-                buttonsColor: "blue",
-                forceFarsiDigits: true,
-                markToday: true,
-                markHolidays: true,
-                highlightSelectedDay: true,
-                sync: true,
-                gotoToday: true
-            }
             kamaDatepicker('txtWorkDate', customOptions);
         });
         </script>
-    <div class="panel panel-primary">
-    <div class="panel-heading">تعمیرات انجام شده </div>
-    <div class="panel-body">
-        <div class="row" style="margin: 0;">
+    <div class="card sans">
+    <div class="card bg-primary text-white">تعمیرات انجام شده </div>
+    <div class="card-body">
+        <div class="row">
             <div class="col-md-9"></div>
             <div class="col-md-3" style="text-align: right;">
                 <label style="display: block;"> : تاریخ</label>
