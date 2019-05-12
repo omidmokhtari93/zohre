@@ -250,14 +250,15 @@
 
         <%--موارد مصرفی دستگاه--%>
 
-        <div class="card" id="pnlMavaredMasrafi" style="display: block;">
+        <div class="card" id="pnlMavaredMasrafi" style="display: none;">
             <asp:HiddenField runat="server" ClientIDMode="Static" ID="chbargh" />
             <asp:HiddenField runat="server" ClientIDMode="Static" ID="chgas" />
             <asp:HiddenField runat="server" ClientIDMode="Static" ID="chhava" />
             <asp:HiddenField runat="server" ClientIDMode="Static" ID="chsookht" />
             <div class="card-header bg-primary text-white">
-                <label style="width: 50%" lblmcode></label>
-                &nbsp; موارد مصرفی دستگاه</div>
+                <label class="float-left" lblmcode></label>
+                <span class="float-right">موارد مصرفی دستگاه</span>
+            </div>
             <div class="card-body">
                 <div class="row ltr text-right">
                     <div class="col-md-3 rtl">
@@ -363,25 +364,25 @@
             </div>
         </div>
         <%--موارد کلیدی دستگاه --%>
-        <div class="card" id="pnlMavaredKey" style="display: none;">
-
+        <div class="card" id="pnlMavaredKey" style="display: block;">
             <div class="card-header bg-primary text-white">
-                <label style="width: 50%" lblmcode></label>
-                &nbsp; موارد و توضیحات کلیدی دستگاه</div>
+                <label class="float-left" lblmcode></label>
+                <label class="float-right">موارد و توضیحات کلیدی دستگاه</label>&nbsp;
+            </div>
             <div class="card-body">
-                <div class="row">
+                <div class="row rtl">
                     <div class="col-md-12">
                         <label>توضیحات کلیدی :</label>
-                        <textarea rows="2" id="txtCommentKey" tabindex="35" class="form-control"></textarea>
+                        <textarea rows="2" id="txtCommentKey" tabindex="35" class="form-control" style="resize: none;"></textarea>
                     </div>
                 </div>
                 <hr />
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-3 rtl">
                         <label>RPM :</label>
                         <input type="text" id="txtrpm" tabindex="38" class="form-control" />
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 rtl">
                         <label>KW :</label>
                         <input type="text" id="txtKw" tabindex="37" class="form-control" />
                     </div>
@@ -391,11 +392,11 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-3 rtl">
                         <label>جریان :</label>
                         <input type="text" id="txtFlow" tabindex="41" class="form-control" />
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 rtl">
                         <label>ولتاژ :</label>
                         <input type="text" id="txtvolt" tabindex="40" class="form-control" />
                     </div>
@@ -405,27 +406,23 @@
                     </div>
                 </div>
                 <div class="row">
-
                     <div class="col-md-6 rtl">
                     </div>
                     <div class="col-md-6 rtl">
                         <label>ملاحضات:</label>
                         <input type="text" id="txtcomment" tabindex="42" class="form-control" />
                     </div>
-
                 </div>
-
                 <hr />
-
             </div>
             <div class="card-footer">
+                <button type="button" class="button fa fa-arrow-left" title="صفحه بعد" tabindex="43" id="btnMavaredeKeyFor"></button>
+                <button type="button" class="button fa fa-arrow-right" title="صفحه قبل" id="btnMavaredeKeyBack"></button>
+                <button type="button" tabindex="39" id="btnAddKey" class="button" onclick="addKey();">
+                    <span class="fa fa-plus mr-1 align-middle"></span>ثبت
+                </button>
                 <button class="button" style="display: none;" type="button" id="btnEditKey" onclick="EditKeyItems();">ویرایش</button>
                 <button class="button" style="display: none;" type="button" id="btnCancelEditKey" onclick="EmptyKey();">انصراف</button>
-                <button type="button" tabindex="39" id="btnAddKey" class="button" onclick="addKey();">
-                    <span class="fa fa-plus" style="vertical-align: middle; margin-left: 5px;"></span>ثبت
-                </button>
-                <button type="button" class="button fa fa-arrow-right" title="صفحه قبل" id="btnMavaredeKeyBack"></button>
-                <button type="button" class="button fa fa-arrow-left" title="صفحه بعد" tabindex="43" id="btnMavaredeKeyFor"></button>
             </div>
             <div class="card-footer">
                 <table class="table" id="gridMavaredKey">
