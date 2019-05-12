@@ -16,21 +16,6 @@
             z-index: 900;
             outline: none;
         }
-
-        .gridButton {
-            padding: 1px 2px;
-            background-color: #2461be;
-            color: white;
-            font-weight: 500;
-            border-radius: 2px;
-        }
-
-            .gridButton:hover {
-                color: white;
-                text-decoration: none;
-                background-color: #1b498e;
-            }
-
         label {
             margin: 0;
         }
@@ -116,29 +101,29 @@
                         <asp:BoundField DataField="faz_name" HeaderText="فاز" SortExpression="faz_name" />
                         <asp:TemplateField>
                             <ItemTemplate>
-                                <a style="cursor: pointer" class="gridButton" id="RepiarRequest">درخواست های تعمیر</a>
+                                <a style="cursor: pointer" class="bg-primary text-white pr-1 pl-1 sans-small" id="RepiarRequest">درخواست های تعمیر</a>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField>
                             <ItemTemplate>
-                                <a style="cursor: pointer" class="gridButton" id="RepairRecord">سوابق تعمیر</a>
+                                <a style="cursor: pointer" class="bg-primary text-white pr-1 pl-1 sans-small" id="RepairRecord">سوابق تعمیر</a>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField>
                             <ItemTemplate>
-                                <a style="cursor: pointer" class="gridButton" id="energy">ثبت موارد انرژی</a>
+                                <a style="cursor: pointer" class="bg-primary text-white pr-1 pl-1 sans-small" id="energy">ثبت موارد انرژی</a>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:ButtonField CommandName="Ed">
-                            <ControlStyle CssClass="fa fa-pencil"></ControlStyle>
+                            <ControlStyle CssClass="fa fa-pencil text-primary"></ControlStyle>
                         </asp:ButtonField>
                         <asp:TemplateField>
                             <ItemTemplate>
-                                <a class="fa fa-print" style="color: #2461be; cursor: pointer;" title="پرینت" id="print"></a>
+                                <a class="fa fa-print text-primary" style="cursor: pointer;" title="پرینت" id="print"></a>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:ButtonField CommandName="del">
-                            <ControlStyle CssClass="fa fa-trash"></ControlStyle>
+                            <ControlStyle CssClass="fa fa-trash text-danger"></ControlStyle>
                         </asp:ButtonField>
                     </Columns>
                     <PagerStyle HorizontalAlign="Center" />
@@ -153,10 +138,10 @@ FROM dbo.m_machine INNER JOIN dbo.i_units ON dbo.m_machine.loc = dbo.i_units.uni
         </div>
     </div>
 
-    <div class="card" style="width: 50%;" runat="server" id="pnlDeleteMachine" visible="False">
-        <div class="panel-heading bg-danger text-white" style="text-align: center;">حذف ماشین</div>
+    <div class="card m-auto" style="width: 50%;" runat="server" id="pnlDeleteMachine" visible="False">
+        <div class="card-header bg-danger text-white" style="text-align: center;">حذف ماشین</div>
         <div class="card-body">
-            <asp:Label runat="server" ID="lblMachineName" CssClass="label label-danger"></asp:Label>
+            <asp:Label runat="server" ID="lblMachineName" CssClass="bg-primary sans text-white p-1"></asp:Label>
             <label style="text-align: center; display: block; color: black; margin-top: 15px;">
                 کاربر گرامی در صورت حذف دستگاه / ماشین کلیه موارد مرتبط با این دستگاه از قبیل
             سوابق تعمیرات , برنامه کنترلی , موارد انرژی و ... حذف خواهند شد
@@ -174,83 +159,82 @@ FROM dbo.m_machine INNER JOIN dbo.i_units ON dbo.m_machine.loc = dbo.i_units.uni
         </div>
     </div>
 
-    <div id="EnergyModal" class="modal" style="direction: rtl;">
-        <div class="modal-content" style="width: 55%;">
-            <span class="fa fa-remove" onclick="$(this).parent().parent().hide();$('#gridEnergy').empty();"
-                style="position: absolute; top: 10px; left: 10px; color: black; cursor: pointer; font-size: 15pt;"></span>
-            <div class="card" style="margin-bottom: 0;">
-                <div class="panel-heading" style="font-weight: 800;">ثبت موارد انرژی</div>
-                <div class="card-body" style="text-align: right;">
-                    <label class="bg-primary text-white p-1" style="font-size: 10pt;" id="lblMachineInfo"></label>
-                    <div id="pnlModiriatEnergy" style="border: 2px solid darkgray; border-radius: 5px; padding-bottom: 0; margin-top: 15px;">
-                        <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
-                            <div class="col-md-6"></div>
-                            <div class="col-md-6">
-                                <label style="display: block;">تاریخ مراجعه : </label>
-                                <input type="text" tabindex="50" id="txtDastoorTarikh" class="form-control text-center" />
+    <div id="EnergyModal" class="modal fade rtl" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">ثبت موارد انرژی</div>
+                    <div class="card-body">
+                        <label class="bg-primary text-white p-1 rtl" id="lblMachineInfo"></label>
+                        <div id="pnlModiriatEnergy" style="border: 2px solid darkgray; border-radius: 5px; padding-bottom: 0; margin-top: 15px;">
+                            <div class="row text-right p-3">
+                                <div class="col-md-6"></div>
+                                <div class="col-md-6 rtl">
+                                    <label style="display: block;">تاریخ مراجعه : </label>
+                                    <input type="text" tabindex="50" id="txtDastoorTarikh" class="form-control text-center" />
+                                </div>
                             </div>
-                        </div>
-                        <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
-                            <div class="col-md-6"></div>
-                            <div class="col-md-6">
-                                <label>نوع دستگاه :</label>
-                                <input id="txtDastoorMachineType" tabindex="51" class="form-control" />
+                            <div class="row text-right p-3" >
+                                <div class="col-md-6"></div>
+                                <div class="col-md-6 rtl">
+                                    <label>نوع دستگاه :</label>
+                                    <input id="txtDastoorMachineType" tabindex="51" class="form-control" />
+                                </div>
                             </div>
-                        </div>
-                        <hr />
-                        <div style="display: block; padding: 5px 15px;">
-                            <label>ارزیابی عملکرد موتور</label>
-                        </div>
-                        <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
-                            <div class="col-md-3"></div>
-                            <div class="col-md-3">
-                                <label>آمپرفاز3 :</label>
-                                <input id="txtDastoorAmper3" tabindex="54" class="form-control" />
+                            <hr />
+                            <div style="display: block; padding: 5px 15px;">
+                                <label>ارزیابی عملکرد موتور</label>
                             </div>
-                            <div class="col-md-3">
-                                <label>آمپرفاز2 :</label>
-                                <input id="txtDastoorAmper2" tabindex="53" class="form-control" />
+                            <div class="row text-right p-3" >
+                                <div class="col-md-3"></div>
+                                <div class="col-md-3 rtl">
+                                    <label>آمپرفاز3 :</label>
+                                    <input id="txtDastoorAmper3" tabindex="54" class="form-control" />
+                                </div>
+                                <div class="col-md-3 rtl">
+                                    <label>آمپرفاز2 :</label>
+                                    <input id="txtDastoorAmper2" tabindex="53" class="form-control" />
+                                </div>
+                                <div class="col-md-3 rtl">
+                                    <label>آمپرفاز1 :</label>
+                                    <input id="txtDastoorAmper1" tabindex="52" class="form-control" />
+                                </div>
                             </div>
-                            <div class="col-md-3">
-                                <label>آمپرفاز1 :</label>
-                                <input id="txtDastoorAmper1" tabindex="52" class="form-control" />
+                            <div class="row text-right p-3" >
+                                <div class="col-md-3 rtl">
+                                    <label>PF :</label>
+                                    <input id="txtDastoorPF" tabindex="58" class="form-control" />
+                                </div>
+                                <div class="col-md-3 rtl">
+                                    <label>ولتاژفاز3 :</label>
+                                    <input id="txtDastoorVP3" tabindex="57" class="form-control" />
+                                </div>
+                                <div class="col-md-3 rtl">
+                                    <label>ولتاژفاز2 :</label>
+                                    <input id="txtDastoorVP2" tabindex="56" class="form-control" />
+                                </div>
+                                <div class="col-md-3 rtl">
+                                    <label>ولتاژفاز1 :</label>
+                                    <input id="txtDastoorVP1" tabindex="55" class="form-control" />
+                                </div>
                             </div>
-                        </div>
-                        <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
-                            <div class="col-md-3">
-                                <label>PF :</label>
-                                <input id="txtDastoorPF" tabindex="58" class="form-control" />
+                            <div style="position: relative; margin: 15px;" class="alert alert-warning sans">
+                                <div class="rtl text-right mb-2">
+                                    <span class="fa fa-circle text-danger"></span>
+                                    با زدن دکمه + موارد خود را در جدول ثبت کنید و سپس با دکمه ثبت نهایی تغییرات خود را ذخیره نمایید.
+                                </div>
+                                <div class="rtl text-right">
+                                    <span class="fa fa-circle text-danger"></span>
+                                    دقت فرمایید بعد از هر تغییر عملیات ثبت نهایی را انجام دهید در غیر این صورت تغییرات ذخیره نمی شوند.
+                                </div>
                             </div>
-                            <div class="col-md-3">
-                                <label>ولتاژفاز3 :</label>
-                                <input id="txtDastoorVP3" tabindex="57" class="form-control" />
+                            <div class="card-footer">
+                                <button type="button" class="button" onclick="createEnergyTable();">+</button>
+                                <button type="button" class="button" id="btnFianlSaveEnergy" onclick="sendInstr();">ثبت نهایی</button>
                             </div>
-                            <div class="col-md-3">
-                                <label>ولتاژفاز2 :</label>
-                                <input id="txtDastoorVP2" tabindex="56" class="form-control" />
+                            <div class="card-footer">
+                                <table class="table" id="gridEnergy"></table>
                             </div>
-                            <div class="col-md-3">
-                                <label>ولتاژفاز1 :</label>
-                                <input id="txtDastoorVP1" tabindex="55" class="form-control" />
-                            </div>
-                        </div>
-                        <div style="position: relative; margin: 15px; text-align: right;" class="alert alert-warning">
-                            <label>
-                                <span class="fa fa-circle" style="color: red;"></span>
-                                با زدن دکمه + موارد خود را در جدول ثبت کنید و سپس با دکمه ثبت نهایی تغییرات خود را ذخیره نمایید.
-                            </label>
-                            <br />
-                            <label>
-                                <span class="fa fa-circle" style="color: red;"></span>
-                                دقت فرمایید بعد از هر تغییر عملیات ثبت نهایی را انجام دهید در غیر این صورت تغییرات ذخیره نمی شوند.
-                            </label>
-                        </div>
-                        <div class="card-footer" style="margin-top: 15px;">
-                            <button type="button" class="button" onclick="createEnergyTable();">+</button>
-                            <button type="button" class="button" id="btnFianlSaveEnergy" onclick="sendInstr();">ثبت نهایی</button>
-                        </div>
-                        <div class="card-footer">
-                            <table class="table" id="gridEnergy"></table>
                         </div>
                     </div>
                 </div>
@@ -259,36 +243,36 @@ FROM dbo.m_machine INNER JOIN dbo.i_units ON dbo.m_machine.loc = dbo.i_units.uni
     </div>
 
 
-    <div id="RepairRecordModal" class="modal" style="direction: rtl;">
-        <div class="modal-content" style="width: 55%;">
-            <span class="fa fa-remove" onclick="$(this).parent().parent().hide();$('#gridEnergy').empty();"
-                style="position: absolute; top: 10px; left: 10px; color: black; cursor: pointer; font-size: 15pt;"></span>
-            <div class="card" style="margin-bottom: 0;">
-                <div class="panel-heading" style="font-weight: 800;">سوابق تعمیر</div>
-                <div class="card-body" style="text-align: right;">
-                    <label class="bg-primary text-white p-1" style="font-size: 10pt;" id="lblRepairRecordMN"></label>
-                    <div style="margin-top: 15px">
-                        <table id="gridRepairRecord" class="table">
-                            <tbody></tbody>
-                        </table>
+    <div id="RepairRecordModal" class="modal fade rtl" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="card" style="margin-bottom: 0;">
+                    <div class="card-header bg-primary text-white">سوابق تعمیر</div>
+                    <div class="card-body">
+                        <label class="bg-primary text-white p-1 rtl" style="font-size: 10pt;" id="lblRepairRecordMN"></label>
+                        <div style="margin-top: 15px">
+                            <table id="gridRepairRecord" class="table">
+                                <tbody></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="RepairRequestModal" class="modal" style="direction: rtl;">
-        <div class="modal-content" style="width: 55%;">
-            <span class="fa fa-remove" onclick="$(this).parent().parent().hide();$('#gridEnergy').empty();"
-                style="position: absolute; top: 10px; left: 10px; color: black; cursor: pointer; font-size: 15pt;"></span>
-            <div class="card" style="margin-bottom: 0;">
-                <div class="panel-heading" style="font-weight: 800;">درخواست های تعمیر</div>
-                <div class="card-body" style="text-align: right;">
-                    <label class="bg-primary text-white p-1" style="font-size: 10pt;" id="lblRepairRequestMN"></label>
-                    <div style="margin-top: 15px">
-                        <table id="gridRepairRequest" class="table">
-                            <tbody></tbody>
-                        </table>
+    <div id="RepairRequestModal" class="modal fade rtl" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">درخواست های تعمیر</div>
+                    <div class="card-body">
+                        <label class="bg-primary text-white p-1" style="font-size: 10pt;" id="lblRepairRequestMN"></label>
+                        <div style="margin-top: 15px">
+                            <table id="gridRepairRequest" class="table">
+                                <tbody></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

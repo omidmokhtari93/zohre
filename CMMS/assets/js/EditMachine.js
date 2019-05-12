@@ -1,19 +1,5 @@
 ﻿var machineId, machineName, machineCode;
 $(document).ready(function () {
-    var customOptions = {
-        placeholder: "روز / ماه / سال"
-        , twodigit: true
-        , closeAfterSelect: true
-        , nextButtonIcon: "fa fa-arrow-circle-right"
-        , previousButtonIcon: "fa fa-arrow-circle-left"
-        , buttonsColor: "blue"
-        , forceFarsiDigits: true
-        , markToday: true
-        , markHolidays: true
-        , highlightSelectedDay: true
-        , sync: true
-        , gotoToday: true
-    }
     kamaDatepicker('txtDastoorTarikh', customOptions);
 });
 
@@ -23,7 +9,7 @@ $("table").on("click", "tr a#energy", function () {
     machineCode = $(this).closest('tr').find('td:eq(2)').text();
     $('#lblMachineInfo').text(machineName + ' به شماره فنی ' + machineCode);
     GetEnergy(machineId);
-    $('#EnergyModal').show();
+    $('#EnergyModal').modal('show');
 });
 $("#gridEnergy").on("click", "tr a", function () {
     var row = $('#gridEnergy tr').length;
@@ -42,6 +28,8 @@ function GetEnergy(mid) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
+            $("#gridEnergy tbody").remove();
+            $("#gridEnergy thead").remove();
             var energyData = JSON.parse(data.d);
             if (energyData[0].Dastoor !== null) {
                 $('#txtInstruc').val(energyData[0].Dastoor);
@@ -76,12 +64,11 @@ function GetEnergy(mid) {
                             + "<td>" + energyData[i].VP2 + "</td>"
                             + "<td>" + energyData[i].VP3 + "</td>"
                             + "<td>" + energyData[i].PF + "</td>"
-                            + '<td><a>حذف</a></td></tr>';
+                            + '<td><a class="text-primary">حذف</a></td></tr>';
                         $('#gridEnergy tbody').append(tblBody);
                     }
                 }
             }
-            $('#loadingPage').hide();
         }
     });
 }
@@ -129,7 +116,7 @@ function createEnergyTable() {
             '<td>' + $('#txtDastoorVP2').val() + '</td>' +
             '<td>' + $('#txtDastoorVP3').val() + '</td>' +
             '<td>' + $('#txtDastoorPF').val() + '</td>' +
-            '<td><a>حذف</a></td>' +
+            '<td><a class="text-primary">حذف</a></td>' +
             '</tr>';
         if ($('#gridEnergy tr').length != 0) {
             $("#gridEnergy tbody").append(row);
@@ -166,7 +153,7 @@ function sendInstr() {
         dataType: "json",
         success: function () {
             GreenAlert('no', "✔ موارد انرژی با موفقیت ثبت شد");
-            setTimeout(function () { $('#EnergyModal').hide(); $('#gridEnergy').empty(); }, 1000);
+            setTimeout(function () { $('#EnergyModal').modal('hide'); $('#gridEnergy').empty(); }, 1000);
 
         }, error: function () {
             RedAlert('no', "!!خطا در ثبت موارد انرژی");
@@ -179,13 +166,11 @@ $("table").on("click", "tr a#RepiarRequest", function () {
     machineName = $(this).closest('tr').find('td:eq(1)').text();
     machineCode = $(this).closest('tr').find('td:eq(2)').text();
     $('#lblRepairRequestMN').text(machineName + ' به شماره فنی ' + machineCode);
-    var obj = [];
-    obj.push({
-        url: 'WebService.asmx/GetRepairRequestTable',
-        parameters: [{machineId:machineId}],
-        func: CreateRepairRequestTable
+    AjaxData({
+      url: 'WebService.asmx/GetRepairRequestTable',
+      param: { machineId: machineId },
+      func: CreateRepairRequestTable
     });
-    AjaxCall(obj);
 });
 
 $("table").on("click", "tr a#RepairRecord", function () {
@@ -193,13 +178,11 @@ $("table").on("click", "tr a#RepairRecord", function () {
     machineName = $(this).closest('tr').find('td:eq(1)').text();
     machineCode = $(this).closest('tr').find('td:eq(2)').text();
     $('#lblRepairRecordMN').text(machineName + ' به شماره فنی ' + machineCode);
-    var obj = [];
-    obj.push({
-        url: 'WebService.asmx/GetRepairRecordTable',
-        parameters: [{ machineId: machineId }],
-        func: CreateRepairRecordTable,
+    AjaxData({
+      url: 'WebService.asmx/GetRepairRecordTable',
+      param: { machineId: machineId },
+      func: CreateRepairRecordTable,
     });
-    AjaxCall(obj); //function in script.js file
 });
 
 $("table").on("click", "tr a#print", function () {
@@ -224,12 +207,12 @@ function CreateRepairRequestTable(data) {
                 '<td>' + dataa[i].RequestType + '</td>' +
                 '<td>' + dataa[i].FailType + '</td>' +
                 '<td>' + dataa[i].Time + '</td>' +
-                '<td><a id="ShowRepairRequest">مشاهده</a></td>' +
+                '<td><a id="ShowRepairRequest" class="text-primary">مشاهده</a></td>' +
                 '</tr>');
         }
         $('#gridRepairRequest tbody').append(array.join(''));
     }
-    $('#RepairRequestModal').show();
+    $('#RepairRequestModal').modal('show');
 }
 
 function CreateRepairRecordTable(data) {
@@ -253,18 +236,16 @@ function CreateRepairRecordTable(data) {
         }
         $('#gridRepairRecord tbody').append(array.join(''));
     }
-    $('#RepairRecordModal').show();
+    $('#RepairRecordModal').modal('show');
 }
 
 $("table").on("click", "tr a#ShowRepairRecord", function () {
     var requestId = $(this).closest('tr').find('td:eq(0)').text();  
-    var ajaxArgument = [];
-    ajaxArgument.push({
-        url: 'WebService.asmx/ToBase64String',
-        parameters: [{ text: requestId }],
-        func: redirectToReplyPrint
+    AjaxData({
+      url: 'WebService.asmx/ToBase64String',
+      param: { text: requestId },
+      func: redirectToReplyPrint
     });
-    AjaxCall(ajaxArgument);
     function redirectToReplyPrint(param) {
         var code = param.d;
         window.open('ReplyPrint.aspx?reqid='+code, '_blank');
@@ -273,13 +254,11 @@ $("table").on("click", "tr a#ShowRepairRecord", function () {
 
 $("table").on("click", "tr a#ShowRepairRequest", function () {
     var requestId = $(this).closest('tr').find('td:eq(0)').text();
-    var ajaxArgument = [];
-    ajaxArgument.push({
-        url: 'WebService.asmx/ToBase64String',
-        parameters: [{text : requestId}],
-        func: redirectToRepairRequestPrint
+    AjaxData({
+      url: 'WebService.asmx/ToBase64String',
+      param: { text: requestId },
+      func: redirectToRepairRequestPrint
     });
-    AjaxCall(ajaxArgument);
     function redirectToRepairRequestPrint(param) {
         var code = param.d;
         window.open('RepairRequestPrint.aspx?reqid=' + code, '_blank');
