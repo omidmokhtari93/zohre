@@ -3,7 +3,7 @@
     <style>
         .searchButton {
             position: absolute;
-            background-image: url(/Images/Search_Dark.png);
+            background-image: url(assets/Images/Search_Dark.png);
             background-repeat: no-repeat;
             background-size: 15px;
             background-color: transparent;
@@ -11,7 +11,7 @@
             height: 15px;
             border: none;
             left: 3px;
-            top: 3px;
+            top: 5px;
             z-index: 900;
             outline: none;
         }
@@ -19,17 +19,17 @@
         .txt{border: none; border-radius: 5px; width: 100%; direction: rtl; outline: none; font-weight: 800;}
         label{ margin: 0;}
     </style>
-    <div class="panel panel-primary">
-        <div class="panel-heading">مشاهده گزارش کارها</div>
-        <div class="panel-body">
+    <div class="card sans">
+        <div class="card-header bg-primary text-white">مشاهده گزارش کارها</div>
+        <div class="card-body">
             <div style="width: 100%; padding: 2px 15px 2px 15px; text-align: center;">
-                <div class="row" style="margin: 0; border: 1px solid rgb(190, 190, 190);border-radius: 5px; background-color: #dfecfe;">
+                <div class="row" style="border: 1px solid rgb(190, 190, 190);border-radius: 5px; background-color: #dfecfe;">
                     <div class="col-lg-3" style="padding: 5px; padding-left: 30px;">
                         <label style="display: block; text-align: right;"> : تا تاریخ</label>
                         <div style="border: 1px solid darkgray; border-radius:5px; position: relative;">
                             <input id="txtEndDate" class="txt text-center" runat="server" ClientIDMode="Static"/>
                         </div>
-                        <asp:Button ToolTip="جستجو" style="top: 30px; left: 10px;" runat="server" CssClass="searchButton" ID="btnSearchTarikh" OnClick="btnSearchTarikh_OnClick"/>
+                        <asp:Button ToolTip="جستجو" style="top: 35px; left: 10px;" runat="server" CssClass="searchButton" ID="btnSearchTarikh" OnClick="btnSearchTarikh_OnClick"/>
                     </div>
                     <div class="col-lg-3" style="padding: 5px;">
                         <label style="display: block; text-align: right;"> : از تاریخ</label>
@@ -80,20 +80,6 @@ FROM dbo.daily_report"></asp:SqlDataSource>
     </div>
     <script>
         $(document).ready(function () {
-            var customOptions = {
-                placeholder: "روز / ماه / سال"
-                , twodigit: true
-                , closeAfterSelect: true
-                , nextButtonIcon: "fa fa-arrow-circle-right"
-                , previousButtonIcon: "fa fa-arrow-circle-left"
-                , buttonsColor: "blue"
-                , forceFarsiDigits: true
-                , markToday: true
-                , markHolidays: true
-                , highlightSelectedDay: true
-                , sync: true
-                , gotoToday: true
-            }
             kamaDatepicker('txtStartDate', customOptions);
             kamaDatepicker('txtEndDate', customOptions);
         });
