@@ -3,7 +3,7 @@
     <style>
         .searchButton {
             position: absolute;
-            background-image: url(/Images/Search_Dark.png);
+            background-image: url(assets/Images/Search_Dark.png);
             background-repeat: no-repeat;
             background-size: 15px;
             background-color: transparent;
@@ -11,22 +11,21 @@
             height: 15px;
             border: none;
             left: 3px;
-            top: 3px;
+            top: 6px;
             z-index: 900;
             outline: none;
         }
         label{ margin: 0;}
         .dr {
-            border: none; border-radius: 5px; width: 100%; direction: rtl; outline: none; font-weight: 800; height: 22px; padding: 1px;
+            border: none; border-radius: 5px; width: 100%; direction: rtl; outline: none; font-weight: 800; height: 26px; padding: 1px;
         }
         .txtStyle{border: none; border-radius: 5px; width: 100%; direction: rtl; outline: none; font-weight: 800;}
     </style>
-    <div class="panel panel-primary">
-        <div class="panel-heading">برنامه نت پیشگیرانه روزانه</div>
-        <div class="panel-body">
+    <div class="card sans">
+        <div class="card-header bg-primary text-white">برنامه نت پیشگیرانه روزانه</div>
+        <div class="card-body">
             <div style="width: 100%; padding: 2px 15px 2px 15px; text-align: center;">
-               
-                <div class="row" style="margin: 0; border: 1px solid rgb(190, 190, 190);border-radius: 5px; background-color: #dfecfe;">
+                <div class="row" style="border: 1px solid rgb(190, 190, 190);border-radius: 5px; background-color: #dfecfe;">
                     <div class="col-lg-4" style="padding: 5px;">
                         <label style="display: block; text-align: right;"> : دوره سرویسکاری</label>
                         <div style="border: 1px solid darkgray; border-radius:5px; position: relative;">
@@ -105,44 +104,32 @@ WHERE        (dbo.p_pmcontrols.tarikh <= @a) AND (dbo.p_pmcontrols.act = 0) ORDE
             </div>
         </div>
     </div>
-    <div id="ModalChangeDate" class="modal" style="direction: rtl;">
-        <div class="modal-content">
-            <span class="fa fa-remove" onclick="$(this).parent().parent().hide();"
-                  style="position: absolute; top: 10px; left: 10px; color: black; cursor: pointer; font-size: 15pt;"></span>
-            <div class="panel panel-primary" style="margin-bottom: 0;">
-                <div class="panel-heading" style="font-weight: 800;">تغییر تاریخ برای بازدید فصلی</div>
-                <div class="panel-body" style="text-align: center;">
-                    <label style="display: block; text-align: right;">تاریخ بازدید بعدی</label>
-                    <div class="row" style="margin: 0;">
-                        <div class="col-lg-3">
-                            <button class="button" ClientIDMode="Static" disabled id="btnChangeDate" style="width: 100%;" runat="server" OnServerClick="btnChangeDate_OnServerClick">ثبت</button>
-                        </div>
-                        <div class="col-lg-9">
-                            <input class="form-control text-center" ClientIDMode="Static" readonly runat="server"
-                                   autocomplete="off" id="txtChangeDate" style="width: 100%;cursor: pointer"/>        
+
+    <div id="ModalChangeDate" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="card sans">
+                    <div class="card-header bg-primary text-white">تغییر تاریخ برای بازدید فصلی</div>
+                    <div class="card-body">
+                        <label style="display: block; text-align: right;">تاریخ بازدید بعدی</label>
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <button class="button" ClientIDMode="Static" disabled id="btnChangeDate" style="width: 100%;" runat="server" OnServerClick="btnChangeDate_OnServerClick">ثبت</button>
+                            </div>
+                            <div class="col-lg-9">
+                                <input class="form-control text-center" ClientIDMode="Static" readonly runat="server"
+                                       autocomplete="off" id="txtChangeDate" style="width: 100%;cursor: pointer"/>        
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
     <asp:HiddenField runat="server" ClientIDMode="Static" ID="PMid"/>
     <script>
         $(document).ready(function () {
-            var customOptions = {
-                placeholder: "روز / ماه / سال"
-                , twodigit: true
-                , closeAfterSelect: true
-                , nextButtonIcon: "fa fa-arrow-circle-right"
-                , previousButtonIcon: "fa fa-arrow-circle-left"
-                , buttonsColor: "blue"
-                , forceFarsiDigits: true
-                , markToday: true
-                , markHolidays: true
-                , highlightSelectedDay: true
-                , sync: true
-                , gotoToday: true
-            }
             kamaDatepicker('txtChangeDate', customOptions);
         });
         $('#txtChangeDate').change(function () {
@@ -156,7 +143,7 @@ WHERE        (dbo.p_pmcontrols.tarikh <= @a) AND (dbo.p_pmcontrols.act = 0) ORDE
 
         $("table").on("click", "tr a#changepriod", function () {
             $('#PMid').val($(this).closest('tr').find("input[type=hidden][id=machineId]").val());
-            $('#ModalChangeDate').show();
+            $('#ModalChangeDate').modal('show');
         });
     </script>
 </asp:Content>
