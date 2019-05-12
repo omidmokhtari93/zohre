@@ -46,5 +46,16 @@ namespace CMMS
             SqlRequests.DataBind();
             gridRepiarHistory.DataBind();
         }
+
+        protected void drFailLevel_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (drFailLevel.SelectedValue != "-1")
+            {
+                SqlRequests.FilterExpression = "rep_state=" + drFailLevel.SelectedValue;
+            }
+            SqlRequests.DataBind();
+            gridRepiarHistory.DataBind();
+
+        }
     }
 }

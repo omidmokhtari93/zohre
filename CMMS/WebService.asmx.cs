@@ -1847,7 +1847,12 @@ namespace CMMS
                                                   "("+replyId+","+action.ActionId+")",_cnn);
                 insertAction.ExecuteNonQuery();
             }
-
+            foreach (var stop in obj.StopReason)
+            {
+                var insertStop = new SqlCommand("INSERT INTO [dbo].[r_stop]([id_rep],[stop_id])VALUES" +
+                                                  "(" + replyId + "," + stop.StopReasonId + ")", _cnn);
+                insertStop.ExecuteNonQuery();
+            }
             foreach (var prt in obj.PartChange)
             {
                 var insertpart =new SqlCommand("INSERT INTO [dbo].[r_helppart]([rep_id],[mid],[sub_id],[part_id])" +
@@ -1942,6 +1947,7 @@ namespace CMMS
             var failList = new List<FailReason>();
             var delayList = new List<DelayReason>();
             var actionList = new List<Action>();
+            var stopList = new List<Stop>();
             var partsList = new List<PartsRepairRecords>();
             var changedParts=  new List<PartChanges>();
             var personelList = new List<RepairerOfRepairRedords>();
@@ -1986,6 +1992,14 @@ namespace CMMS
             while (readDelay.Read())
             {
                 delayList.Add(new DelayReason(){DelayReasonName = readDelay["delay"].ToString()});
+            }
+            _cnn.Close();
+            _cnn.Open();
+            var selectStop = new SqlCommand("select i_stop_reason.stop from r_stop inner join i_stop_reason on r_stop.stop_id = i_stop_reason.id where r_stop.id_rep = " + replyId + " ", _cnn);
+            var readStop = selectStop.ExecuteReader();
+            while (readStop.Read())
+            {
+                stopList.Add(new Stop() { StopName = readStop["stop"].ToString() });
             }
             _cnn.Close();
             _cnn.Open();
@@ -2052,6 +2066,7 @@ namespace CMMS
                 delayList,
                 actionList,
                 partsList,
+                stopList,
                 changedParts,
                 personelList,
                 contractorList

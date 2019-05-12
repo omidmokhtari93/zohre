@@ -312,7 +312,7 @@ $("#gridTakhir").on("click", "tr a", function () {
 });
 function AddAction() {
     if ($('#drAction > option').length < 1) {
-        RedAlert('drFail', '!!ابتدا عملیات را در صفحه مربوطه تعریف نمایید');
+        RedAlert('drAction', '!!ابتدا عملیات را در صفحه مربوطه تعریف نمایید');
         return;
     }
     var actionText = $('#drAction :selected').text();
@@ -347,7 +347,43 @@ $("#gridAction").on("click", "tr a", function () {
         $(this).parent().parent().remove();
     }
 });
-
+function AddStop() {
+    if ($('#DrstopReason > option').length < 1) {
+        RedAlert('DrstopReason', '!!ابتدا علل توقف را در صفحه مربوطه تعریف نمایید');
+        return;
+    }
+    var stopText = $('#DrstopReason :selected').text();
+    var stopValue = $('#DrstopReason :selected').val();
+    var rowsCount = $('#gridStop tr').length;
+    var table = document.getElementById('gridStop');
+    for (var a = 0; a < rowsCount; a++) {
+        if (table.rows[a].cells[0].innerHTML == stopValue) {
+            RedAlert('n', "!!این مورد قبلا ثبت شده است");
+            return;
+        }
+    }
+    var actionTableHeader = '<th>علت توقف</th><th></th>';
+    var actionTableBody = '<tr>' +
+        '<td style="display:none;">' + stopValue + '</td>' +
+        '<td>' + stopText + '</td>' +
+        '<td><a>حذف</a></td>' +
+        '</tr>';
+    if ($('#gridStop tr').length !== 0) {
+        $("#gridStop tbody").append(actionTableBody);
+    } else {
+        $("#gridStop thead").append(actionTableHeader);
+        $("#gridStop tbody").append(actionTableBody);
+    }
+}
+$("#gridStop").on("click", "tr a", function () {
+    var row = $('#gridAction tr').length;
+    if (row === 1) {
+        $("#gridStop thead").empty();
+        $("#gridStop tbody").empty();
+    } else {
+        $(this).parent().parent().remove();
+    }
+});
 $('#drhelpunit').on('change', function () {
     $('#drhelpsub').empty();
     if ($('#drhelpunit :selected').val() === '-1') {
@@ -854,11 +890,18 @@ function SendDataToDB(btn) {
         RedAlert('EndRepairTime', "!!لطفا زمان پایان تعمیر را مشخص کنید");
         flag = 1;
     }
+    if ($('#drFailLevel').val() == '-1') {
+        RedAlert('EndRepairTime', "!!لطفا وضعیت تعمیر را مشخص کنید");
+        $('#drFailLevel').focus();
+
+        flag = 1;
+    }
     if (flag === 0) {
         var table;
         var obj = {};
         var replyInfo = [];
         var failReason = [];
+        var stopReason = [];
         var delayReason = [];
         var action = [];
         var partChange = [];
@@ -899,6 +942,12 @@ function SendDataToDB(btn) {
                 ActionId: table.rows[c].cells[0].innerHTML
             });
         }
+        table = document.getElementById('gridStop');
+        for (var s = 0; s < table.rows.length; s++) {
+            stopReason.push({
+                StopReasonId: table.rows[s].cells[0].innerHTML
+            });
+        }
         table = document.getElementById('gridHelppart');
         for (var g = 1; g < table.rows.length; g++) {
             partChange.push({
@@ -935,6 +984,7 @@ function SendDataToDB(btn) {
             FailReason: failReason,
             DelayReason: delayReason,
             Action: action,
+            StopReason:stopReason,
             PartChange: partChange,
             Parts: parts,
             Personel: personel,
@@ -1008,7 +1058,7 @@ $("#gridPartChangeFailReason").on("click", "tr a", function () {
         $(this).parent().parent().remove();
     }
 });
-
+$(".chosen-select").chosen({ width: "30%" });
 function SubmitPartChange(btn) {
     if ($('#txttarikhPartChange').val() === '') {
         RedAlert('txttarikhPartChange', 'لطفا تاریخ را مشخص نمایید');

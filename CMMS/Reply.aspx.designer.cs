@@ -76,13 +76,22 @@ namespace CMMS {
         protected global::System.Web.UI.WebControls.SqlDataSource SqlFailReason;
         
         /// <summary>
-        /// drFailLevel control.
+        /// DrstopReason control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList drFailLevel;
+        protected global::System.Web.UI.WebControls.DropDownList DrstopReason;
+        
+        /// <summary>
+        /// SqlStop control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource SqlStop;
         
         /// <summary>
         /// drAction control.
@@ -103,22 +112,13 @@ namespace CMMS {
         protected global::System.Web.UI.WebControls.SqlDataSource Sqlaction;
         
         /// <summary>
-        /// drhelpunit control.
+        /// drFailLevel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList drhelpunit;
-        
-        /// <summary>
-        /// sqlhelpunit control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource sqlhelpunit;
+        protected global::System.Web.UI.WebControls.DropDownList drFailLevel;
         
         /// <summary>
         /// Drmeasurement control.
@@ -191,6 +191,24 @@ namespace CMMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource SqlContractor;
+        
+        /// <summary>
+        /// drhelpunit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drhelpunit;
+        
+        /// <summary>
+        /// sqlhelpunit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource sqlhelpunit;
         
         /// <summary>
         /// drpartChangeFailReason control.
