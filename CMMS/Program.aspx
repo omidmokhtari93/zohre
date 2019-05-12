@@ -1,13 +1,13 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MainDesign.Master" AutoEventWireup="true" CodeBehind="Program.aspx.cs" Inherits="CMMS.Program" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <style>
-        .dr{border: none; border-radius: 5px; width: 100%; direction: rtl; outline: none; font-weight: 800; height: 22px; padding: 1px;}
+        .dr{border: none; border-radius: 5px; width: 100%; direction: rtl; outline: none; font-weight: 800; height: 26px; padding: 1px;}
         .txt{border: none; border-radius: 5px; width: 100%; direction: rtl; outline: none; font-weight: 800;}
         label{ margin: 0;}
     </style>
-    <div class="panel panel-primary">
-        <div class="panel-heading">برنامه نت پیشگیرانه</div>
-        <div class="panel-body">
+    <div class="card sans">
+        <div class="card-header bg-primary text-white">برنامه نت پیشگیرانه</div>
+        <div class="card-body">
             <div class="row" style="margin: 0; border: 1px solid rgb(190, 190, 190);border-radius: 5px; background-color: #dfecfe;">
                 <div class="col-lg-2" style="padding: 5px;">
                     <label style="display: block; text-align: right;"> : تا تاریخ</label>
@@ -57,9 +57,7 @@
                         <asp:SqlDataSource ID="SqlUnits" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT unit_name, unit_code FROM i_units"></asp:SqlDataSource>
                     </div>
                 </div>
-                <div style="padding: 10px;">
-                <button type="button" class="btn btn-info" style="width: 100%; margin-top: 10px;" onclick="GetProgram();">دریافت برنامه</button>
-                </div>
+                <button type="button" class="btn btn-info w-100" onclick="GetProgram();">دریافت برنامه</button>
             </div>
             <%-- -------------   Report Area ---------------------  --%>
             <div id="pnlReportArea" style="display: none;">
@@ -71,12 +69,8 @@
                 <div id="ReportArea" style="margin-top: 15px; text-align: center;">
                     <style>
                         @font-face {
-                            font-family: 'myfont';
-                            src: url('/fonts/BYekan.eot'), 
-                                 url('/fonts/BYekan.eot?#FooAnything') format('embedded-opentype');
-                            src: local('☺'), url('/fonts/BYekan.woff') format('woff'), 
-                                 url('/fonts/BYekan.ttf') format('truetype'),
-                                 url('/fonts/BYekan.svg') format('svg');
+                            font-family: 'sans';
+                            src: url('assets/fonts/sans/IRANSans.woff2')
                         }
                         .square {
                             height: 13px;
@@ -85,11 +79,11 @@
                             vertical-align: middle;
                             display: inline-block;
                         }
-                        table{ font-family: myfont;}
+                        table{ font-family: sans;}
                         img{ width: auto;height: 60px;}
                         #tblcontrols td,#tbldates td ,#tblsubheader td{border: 1px solid #625f5f;padding: 3px;position: relative !important;font-size: 10pt;}
                         #tblcontrols,#tbldates ,#tblsubheader{width: 100%;direction: rtl;position: relative;margin-right: 0;padding: 0;border-collapse: collapse;}
-                        #HeaderTable td *{font-family: myfont;}
+                        #HeaderTable td *{font-family: sans;}
                         #HeaderTable { width: 100%;direction: rtl;position: relative;margin-right: 0;padding: 0;border-collapse: collapse;}
                         #HeaderTable  tr{ position: relative;}
                         #HeaderTable  td{ border: 1px solid #625f5f;padding: 3px;position: relative !important;font-size: 10pt;}
@@ -112,7 +106,7 @@
                     <div style="width: 211mm; height: 300mm; margin: auto; border: 1px solid black;" id="program">
                         <table id="HeaderTable">
                             <tr style="height: 100px; text-align: center;">
-                                <td><img src="Images/zohre1.png" /></td>
+                                <td><img src="assets/Images/zohre1.png" /></td>
                                 <td colspan="2">
                                     <h3 style="margin: 0;">برنامه نگهداری و تعمیر پیشگیرانه</h3>
                                     <h4 style="display: block;" id="lblUnitName"></h4>
@@ -139,5 +133,5 @@
             </div>
         </div>
     </div>
-    <script src="Scripts/program.js"></script>
+    <script src="assets/js/program.js"></script>
 </asp:Content>
