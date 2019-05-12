@@ -10,7 +10,7 @@ function CopyData() {
         return;
     }
     var data = [];
-    $('#copyModal').hide();
+    $('#copyModal').modal('hide');
     $('#loadingPage').show();
     getMachineInfo();
     function getMachineInfo() {

@@ -1,21 +1,8 @@
-﻿$(document).ready(function () {
-  var subSystemModal = document.getElementById('addSubSystem');
-  var btnAddNewSubSystem = document.getElementById('btnAddNewSubSystem');
-  var closeSubSystem = document.getElementById('btncloseSubSystem');
-  btnAddNewSubSystem.onclick = function () {
-    subSystemModal.style.display = "block";
-  }
-  closeSubSystem.onclick = function () {
-    subSystemModal.style.display = "none";
-  }
-});
-
-var subData = [];
+﻿var subData = [];
 function CreateBadge(text, val) {
   var badgeHtml = '<div class="Subsystembadge" ' +
     'onclick="removeThis($(this));$(this).remove();">' +
     '<label style="direction:rtl;">' + text + '</label>' +
-
     '<p style="display:none;">' + val + '</p>' +
     '<span>&times;</span>' +
     '</div>';

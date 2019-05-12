@@ -15,7 +15,7 @@
         .table td a {
             padding: 0 4px;
             background-color: #5389db;
-            color: white;
+            color: white!important;
             font-weight: 500;
             border-radius: 2px;
         }
@@ -74,10 +74,10 @@
     <link href="assets/css/MachineStyles.css" rel="stylesheet" />
     <asp:HiddenField runat="server" ClientIDMode="Static" ID="Mid" />
     <div id="machineform" class="sans">
-        <div class="card" id="pnlNewMachine" style="display: none;">
+        <div class="card" id="pnlNewMachine" style="display: block;">
             <div class="card-header bg-primary text-white" style="position: relative;">
                 <img id="loadingPage" class="loadingSend" src="assets/Images/loading.png" />
-                <button type="button" title="کپی اطلاعات دستگاه" id="btnCopy" onclick="$('#copyModal').show();"></button>
+                <button type="button" title="کپی اطلاعات دستگاه" id="btnCopy" onclick="$('#copyModal').modal('show');"></button>
                 ثبت دستگاه جدید
             </div>
             <asp:HiddenField runat="server" ClientIDMode="Static" ID="catalog" />
@@ -364,7 +364,7 @@
             </div>
         </div>
         <%--موارد کلیدی دستگاه --%>
-        <div class="card" id="pnlMavaredKey" style="display: block;">
+        <div class="card" id="pnlMavaredKey" style="display: none;">
             <div class="card-header bg-primary text-white">
                 <label class="float-left" lblmcode></label>
                 <label class="float-right">موارد و توضیحات کلیدی دستگاه</label>&nbsp;
@@ -433,11 +433,12 @@
         <div class="card" id="pnlMavaredControli" style="display: none;">
             <asp:HiddenField runat="server" ClientIDMode="Static" ID="chMDcontrol" />
             <div class="card-header bg-primary text-white">
-                <label style="width: 50%" lblmcode></label>
-                &nbsp; موارد کنترلی دستگاه</div>
+                <label class="float-left" lblmcode></label>
+                <div class="float-right">موارد کنترلی دستگاه</div>&nbsp;
+            </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-12 rtl">
                         <label>مورد کنترلی :</label>
                         <input id="txtControliMoredControl" tabindex="44" class="form-control" />
                     </div>
@@ -492,7 +493,7 @@
                         </select>
                     </div>
                     <div class="col-md-6 rtl">
-                        <label style="margin-bottom: 5px;">آیا این دستگاه برای سرویس کاری روزانه یا ماهانه نمایش داده شود ؟</label>
+                        <label class="sans-small" style="margin-bottom: 5px;">آیا این دستگاه برای سرویس کاری روزانه یا ماهانه نمایش داده شود ؟</label>
                         <div class="switch-field">
                             <input type="radio" id="servicebale" name="switch_3" checked />
                             <label for="servicebale">بله</label>
@@ -509,13 +510,13 @@
                 </div>
             </div>
             <div class="card-footer">
+                <button type="button" class="button fa fa-arrow-left" title="صفحه بعد" tabindex="40" id="btnMavaredControlFor"></button>
+                <button type="button" class="button fa fa-arrow-right" title="صفحه قبل" id="btnMavaredControlBack"></button>
+                <button type="button" tabindex="39" id="btnAddControli" class="button" onclick="addControli();">
+                    <span class="fa fa-plus mr-2 align-middle"></span>ثبت
+                </button>
                 <button class="button" style="display: none;" type="button" id="btnEditControls" onclick="EditControliItems();">ویرایش</button>
                 <button class="button" style="display: none;" type="button" id="btnCancelEditCotntrols" onclick="EmptyControls();">انصراف</button>
-                <button type="button" tabindex="39" id="btnAddControli" class="button" onclick="addControli();">
-                    <span class="fa fa-plus" style="vertical-align: middle; margin-left: 5px;"></span>ثبت
-                </button>
-                <button type="button" class="button fa fa-arrow-right" title="صفحه قبل" id="btnMavaredControlBack"></button>
-                <button type="button" class="button fa fa-arrow-left" title="صفحه بعد" tabindex="40" id="btnMavaredControlFor"></button>
             </div>
             <div class="card-footer">
                 <table class="table" id="gridMavaredControli">
@@ -523,16 +524,17 @@
             </div>
         </div>
 
-
+        <%--ثبت اجزا ماشین--%>
         <div class="card" id="pnlSubSytem" style="display: none;">
             <div class="card-header bg-primary text-white">
-                <label style="width: 50%" lblmcode></label>
-                &nbsp; ثبت اجزا ماشین</div>
+                <label class="float-left" lblmcode></label>
+                <div class="float-right">ثبت اجزا ماشین</div>&nbsp;
+            </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-3">
                         <label>شماره پلاک </label>
-                        <input class="form-control" tabindex="39" id="txtSubPelak" />
+                        <input class="form-control ltr text-left" tabindex="39" id="txtSubPelak"/>
                     </div>
                     <div class="col-md-9">
                         <label>&nbsp;</label>
@@ -552,19 +554,20 @@
                 </div>
             </div>
             <div class="card-footer">
+                <button type="button" class="button fa fa-arrow-left" title="صفحه بعد" tabindex="40" id="btnSubsystemFor"></button>
+                <button type="button" class="button fa fa-arrow-right" title="صفحه قبل" id="btnSubsystemBack"></button>
                 <button type="button" id="btnAddSubsystem" class="button" onclick="CreateSubTable();">
-                    <span class="fa fa-plus" style="vertical-align: middle; margin-left: 5px;"></span>ثبت  
+                    <span class="fa fa-plus mr-2 align-middle"></span>ثبت  
                 </button>
-                <button type="button" id="btnAddNewSubSystem" class="button" style="direction: rtl;">
+                <button type="button" id="btnAddNewSubSystem" class="button" style="direction: rtl;" data-toggle="modal" data-target="#addSubSystem">
                     مشاهده اجزای ثبت شده 
                 </button>
-                <button type="button" class="button fa fa-arrow-right" title="صفحه قبل" id="btnSubsystemBack"></button>
-                <button type="button" class="button fa fa-arrow-left" title="صفحه بعد" tabindex="40" id="btnSubsystemFor"></button>
             </div>
             <div class="card-footer">
                 <style>
-                    #subSystemTable tr td:nth-child(4) {
-                        cursor: pointer;
+                    #subSystemTable tr td:nth-child(4) input {
+                        direction: ltr;
+                        text-align: left;
                     }
                 </style>
                 <table id="subSystemTable" style="width: 60%; margin: auto; direction: rtl;" class="table">
@@ -572,18 +575,19 @@
             </div>
         </div>
 
-
+        <%--ثبت قطعات مصرفی--%>
         <div class="card" id="pnlGhatatMasrafi" style="display: none;">
             <div class="card-header bg-primary text-white">
-                <label style="width: 50%" lblmcode></label>
-                &nbsp; ثبت قطعات مصرفی</div>
+                <label class="float-left" lblmcode></label>
+                <div class="float-right">ثبت قطعات مصرفی</div>&nbsp;
+            </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-3 rtl">
                         <label>مصرف در سال :</label>
                         <input id="txtGhatatPerYear" tabindex="42" class="form-control" />
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 rtl">
                         <label>واحد :</label>
                         <asp:DropDownList Dir="rtl" class="form-control" ClientIDMode="Static" ID="Drmeasurement" runat="server" Style="display: inline-block; padding: 0;" DataSourceID="SqlMeasurement" DataTextField="measurement" DataValueField="id">
                         </asp:DropDownList>
@@ -600,7 +604,7 @@
                                 <input type="text" id="txtSubSearchPart" autocomplete="off" />
                                 <img src="assets/Images/funnel.png" class="imgfilter" />
                             </div>
-                            <div style="overflow: auto; width: 422px; max-height: 200px;">
+                            <div style="overflow: auto; width: 412px; max-height: 200px;">
                                 <table id="gridParts" class="PartsTable">
                                     <tbody></tbody>
                                 </table>
@@ -627,34 +631,37 @@
                         <label>تاریخ تقریبی تعویض بعدی :</label>
                         <input type="text" id="txtGhatatChangePeriod" tabindex="45" class="form-control text-center" readonly style="cursor: pointer;" />
                         <span class="fa fa-remove" title="این مقدار را حذف کن" onclick="$('#txtGhatatChangePeriod').val('');"
-                            style="position: absolute; top: 27px; left: 25px; color: darkgray; cursor: pointer; font-size: 15pt;"></span>
+                            style="position: absolute; top: 32px; left: 25px; color: darkgray; cursor: pointer; font-size: 15pt;"></span>
                     </div>
                 </div>
             </div>
             <div class="card-footer">
+                <button type="button" tabindex="48" title="صفحه بعد" class="button fa fa-arrow-left" id="btnGhatatFor"></button>
+                <button type="button" class="button fa fa-arrow-right" title="صفحه قبل" id="btnGhatatBack"></button>
+                <button type="button" id="btnAddMasrafi" class="button" onclick="addParts();" tabindex="47">
+                    <span class="fa fa-plus mr-2 align-middle"></span>ثبت
+                </button>
                 <button class="button" style="display: none;" type="button" id="btnEditPart" onclick="editParts();">ویرایش</button>
                 <button class="button" style="display: none;" type="button" id="btnCancelEditPart" onclick="ClearFields('pnlGhatatMasrafi');CancelDeletePart();">انصراف</button>
-                <button type="button" id="btnAddMasrafi" class="button" onclick="addParts();" tabindex="47">
-                    <span class="fa fa-plus" style="vertical-align: middle; margin-left: 5px;"></span>ثبت
-                </button>
-                <button type="button" class="button fa fa-arrow-right" title="صفحه قبل" id="btnGhatatBack"></button>
-                <button type="button" tabindex="48" title="صفحه بعد" class="button fa fa-arrow-left" id="btnGhatatFor"></button>
+                
             </div>
             <div class="card-footer">
                 <table class="table" id="gridGhataatMasrafi">
                 </table>
             </div>
         </div>
-
+        
+    <%--دستورالعمل ایمنی و محیط زیستی--%>
         <div class="card" id="pnlDastoor" style="display: none;">
             <asp:HiddenField runat="server" ClientIDMode="Static" ID="chEnergy" />
             <div class="card-header bg-primary text-white">
-                <label lblmcode></label>
-                &nbsp; دستورالعمل ایمنی و محیط زیستی</div>
+                <label class="float-left" lblmcode></label>
+                <div class="float-right">دستورالعمل ایمنی و محیط زیستی</div>&nbsp;
+            </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <textarea class="form-control" tabindex="49" style="resize: none; min-height: 500px;" id="txtInstruc">
+                        <textarea class="form-control sans-small" tabindex="49" style="resize: none; min-height: 500px;" id="txtInstruc">
 1-استفاده از لوازم حفاظت فردی متناسب با نوع کار الزامی می باشد.
 2-ایمنی را همواره سرلوحه کار خود قرار دهید و درهنگام کار با ابزار برنده از شوخی کردن پرهیز کنید،یادتان باشد اول ایمنی،دوم ایمنی،سوم ایمنی...وبعد از برقراری شرایط ایمن انجام هرکاری صحیح و مجاز می باشد.
 3-حتما از خوب و مناسب بسته شدن قطعات و گیره به میز و به همدیگر مطمئن شوید.
@@ -677,169 +684,167 @@
                     </div>
                 </div>
                 <br />
-                <div class="row" style="margin: 0; padding: 0 15px 0 15px">
-                    <div id="pnlModiriatEnergy" style="border: 2px solid darkgray; border-radius: 5px; padding-bottom: 0;">
-                        <div class="row">
-                            <div class="col-md-6 rtl"></div>
-                            <div class="col-md-6 rtl">
-                                <label style="display: block;">تاریخ مراجعه : </label>
-                                <input type="text" tabindex="50" id="txtDastoorTarikh" class="form-control text-center" />
-                            </div>
+                <div id="pnlModiriatEnergy" style="border: 2px solid darkgray; border-radius: 5px; padding-bottom: 0;">
+                    <div class="row pr-3 pl-3">
+                        <div class="col-md-6 rtl"></div>
+                        <div class="col-md-6 rtl">
+                            <label style="display: block;">تاریخ مراجعه : </label>
+                            <input type="text" tabindex="50" id="txtDastoorTarikh" class="form-control text-center" />
                         </div>
-                        <div class="row">
-                            <div class="col-md-6 rtl"></div>
-                            <div class="col-md-6 rtl">
-                                <label>نوع دستگاه :</label>
-                                <input id="txtDastoorMachineType" tabindex="51" class="form-control" />
-                            </div>
+                    </div>
+                    <div class="row pr-3 pl-3">
+                        <div class="col-md-6 rtl"></div>
+                        <div class="col-md-6 rtl">
+                            <label>نوع دستگاه :</label>
+                            <input id="txtDastoorMachineType" tabindex="51" class="form-control" />
                         </div>
-                        <hr />
-                        <div style="display: block; padding: 5px 15px;">
-                            <label>ارزیابی عملکرد موتور</label>
+                    </div>
+                    <hr />
+                    <div style="display: block; padding: 5px 15px;">
+                        <label>ارزیابی عملکرد موتور</label>
+                    </div>
+                    <div class="row pr-3 pl-3">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3 rtl">
+                            <label>آمپرفاز3 :</label>
+                            <input id="txtDastoorAmper3" tabindex="54" class="form-control" />
                         </div>
-                        <div class="row">
-                            <div class="col-md-3"></div>
-                            <div class="col-md-3">
-                                <label>آمپرفاز3 :</label>
-                                <input id="txtDastoorAmper3" tabindex="54" class="form-control" />
-                            </div>
-                            <div class="col-md-3">
-                                <label>آمپرفاز2 :</label>
-                                <input id="txtDastoorAmper2" tabindex="53" class="form-control" />
-                            </div>
-                            <div class="col-md-3">
-                                <label>آمپرفاز1 :</label>
-                                <input id="txtDastoorAmper1" tabindex="52" class="form-control" />
-                            </div>
+                        <div class="col-md-3 rtl">
+                            <label>آمپرفاز2 :</label>
+                            <input id="txtDastoorAmper2" tabindex="53" class="form-control" />
                         </div>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label>PF :</label>
-                                <input id="txtDastoorPF" tabindex="58" class="form-control" />
-                            </div>
-                            <div class="col-md-3">
-                                <label>ولتاژفاز3 :</label>
-                                <input id="txtDastoorVP3" tabindex="57" class="form-control" />
-                            </div>
-                            <div class="col-md-3">
-                                <label>ولتاژفاز2 :</label>
-                                <input id="txtDastoorVP2" tabindex="56" class="form-control" />
-                            </div>
-                            <div class="col-md-3">
-                                <label>ولتاژفاز1 :</label>
-                                <input id="txtDastoorVP1" tabindex="55" class="form-control" />
-                            </div>
+                        <div class="col-md-3 rtl">
+                            <label>آمپرفاز1 :</label>
+                            <input id="txtDastoorAmper1" tabindex="52" class="form-control" />
                         </div>
-                        <div class="card-footer" style="margin-top: 15px;">
-                            <button type="button" class="button" onclick="insertEnergy();">ثبت مورد</button>
+                    </div>
+                    <div class="row pr-3 pl-3">
+                        <div class="col-md-3 rtl">
+                            <label>PF :</label>
+                            <input id="txtDastoorPF" tabindex="58" class="form-control" />
                         </div>
-                        <div class="card-footer">
-                            <table class="table" id="gridEnergy"></table>
+                        <div class="col-md-3 rtl">
+                            <label>ولتاژفاز3 :</label>
+                            <input id="txtDastoorVP3" tabindex="57" class="form-control" />
                         </div>
+                        <div class="col-md-3 rtl">
+                            <label>ولتاژفاز2 :</label>
+                            <input id="txtDastoorVP2" tabindex="56" class="form-control" />
+                        </div>
+                        <div class="col-md-3 rtl">
+                            <label>ولتاژفاز1 :</label>
+                            <input id="txtDastoorVP1" tabindex="55" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="card-footer" style="margin-top: 15px;">
+                        <button type="button" class="button" onclick="insertEnergy();">ثبت مورد</button>
+                    </div>
+                    <div class="card-footer">
+                        <table class="table" id="gridEnergy"></table>
                     </div>
                 </div>
             </div>
             <div class="card-footer">
-                <button type="button" class="button fa fa-arrow-right" title="صفحه قبل" id="btnDastoorBack"></button>
-                <label style="display: inline-block; color: red; margin-left: 20px; display: none;" id="lblwarn">** لطفا فیلد خالی را پر کنید **</label>
                 <button id="btnFinalSave" style="outline: none;" type="button" class="button" onclick="SendTablesToDB();" tabindex="61">
                     ثبت نهایی
-            <img id="btnFinalLoading" style="position: absolute; left: 50px; bottom: 28px; display: inline; width: 20px; display: none;" src="assets/Images/loading.png" />
+                    <img id="btnFinalLoading" style="position: absolute; left: 30px; bottom: 21px; display: inline; width: 20px; display: none;" src="assets/Images/loading.png" />
                 </button>
+                <button type="button" class="button fa fa-arrow-right" title="صفحه قبل" id="btnDastoorBack"></button>
+                <label style="display: inline-block; color: red; margin-left: 20px; display: none;" id="lblwarn">** لطفا فیلد خالی را پر کنید **</label>
             </div>
         </div>
     </div>
 
-    <div id="addSubSystem" class="modal">
-        <div class="modal-content">
-            <span class="fa fa-remove" id="btncloseSubSystem"
-                style="position: absolute; top: 10px; left: 10px; color: black; cursor: pointer; font-size: 15pt;"></span>
-            <div class="card">
-                <div class="card-header bg-primary text-white">ثبت اجزا جدید ماشین آلات</div>
-                <div class="card-body">
-                    <p>.لطفا در ثبت اجزا ماشین دقت فرمایید و از ثبت اجزا تکراری خوداری فرمایید <span class="fa fa-circle" style="color: red;"></span></p>
-                    <div class="row">
-                        <div class="col-lg-2">
-                            <button class="button" type="button" onclick="AddSubSystems();">+</button>
-                        </div>
-                        <div class="col-lg-5">
-                            <input type="number" tabindex="2" autocomplete="off" id="txtToolCode" class="form-control" style="display: inline-block; direction: rtl;" placeholder="کد تجهیز" />
-                            <div id="codeTooltip" class="tooltipp" style="width: 140px;">
-                                .این کد قبلا ثبت شده است
+    <div id="addSubSystem" class="modal fade rtl" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="card sans">
+                    <div class="card-header bg-primary text-white">ثبت اجزا جدید ماشین آلات</div>
+                    <div class="card-body">
+                        <p class="ltr sans-small">.لطفا در ثبت اجزا ماشین دقت فرمایید و از ثبت اجزا تکراری خوداری فرمایید <span class="fa fa-circle text-danger"></span></p>
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <button class="button btn-block align-middle" type="button" onclick="AddSubSystems();">+</button>
+                            </div>
+                            <div class="col-lg-5">
+                                <input type="number" tabindex="2" autocomplete="off" id="txtToolCode" class="form-control" style="display: inline-block; direction: rtl;" placeholder="کد تجهیز" />
+                                <div id="codeTooltip" class="tooltipp" style="width: 140px;">
+                                    .این کد قبلا ثبت شده است
+                                </div>
+                            </div>
+                            <div class="col-lg-5">
+                                <input type="text" autocomplete="off" tabindex="1" id="txtToolName" class="form-control" style="display: inline-block; direction: rtl;" placeholder="نام تجهیز" />
+                                <div id="nameTooltip" class="tooltipp">
+                                </div>
                             </div>
                         </div>
-                        <div class="col-lg-5">
-                            <input type="text" autocomplete="off" tabindex="1" id="txtToolName" class="form-control" style="display: inline-block; direction: rtl;" placeholder="نام تجهیز" />
-                            <div id="nameTooltip" class="tooltipp">
+                        <div style="width: 100%; height: 250px; margin: 10px 0 0px 0; overflow: auto;">
+                            <table id="gridPopupSubsystem" class="table" style="direction: rtl;">
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ModalDeleteControl" class="modal fade" style="direction: rtl;" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content sans">
+                <div class="card" style="margin-bottom: 0;">
+                    <div class="card-header bg-danger text-white" style="font-weight: 800;">حذف مورد کنترلی</div>
+                    <div class="card-body" style="text-align: center;">
+                        <strong style="color: red;">** کاربر گرامی **</strong>
+                        <p class="sans-small text-center">
+                            در صورت حذف مورد کنترلی کلیه سوابق ثبت شده سرویسکاری مربوط به آن نیز حذف خواهد شد!<br>
+                            آیا مایل به حذف هستید؟
+                        </p>
+                        <div style="text-align: center;">
+                            <button class="button" type="button" onclick="DeleteControls();">حذف</button>
+                            <button class="button" type="button" onclick="$('#ModalDeleteControl').modal('hide');">انصراف</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ModalDeletePart" class="modal fade" style="direction: rtl;" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="card sans">
+                    <div class="card-header bg-danger text-white">حذف قطعه</div>
+                    <div class="card-body">
+                        <p class="text-center">آیا مایل به حذف هستید؟</p>
+                        <div style="text-align: center;">
+                            <button class="button" type="button" onclick="DeletePart();">حذف</button>
+                            <button class="button" type="button" onclick="$('#ModalDeletePart').modal('hide');">انصراف</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="copyModal" class="modal fade" style="direction: rtl;" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="card sans">
+                    <div class="card-header bg-primary text-white">کپی اطلاعات دستگاه ها</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <label>&nbsp;</label>
+                                <button type="button" class="button" style="display: block; width: 100%;" onclick="CopyData();">کپی</button>
                             </div>
-                        </div>
-                    </div>
-                    <div style="width: 100%; height: 250px; margin: 10px 0 0px 0; overflow: auto;">
-                        <table id="gridPopupSubsystem" class="table" style="direction: rtl;">
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="ModalDeleteControl" class="modal" style="direction: rtl;">
-        <div class="modal-content">
-            <span class="fa fa-remove" id="CloseDeleteControl" onclick="$(this).parent().parent().hide();"
-                style="position: absolute; top: 10px; left: 10px; color: black; cursor: pointer; font-size: 15pt;"></span>
-            <div class="card" style="margin-bottom: 0;">
-                <div class="card-header bg-danger text-white" style="font-weight: 800;">حذف مورد کنترلی</div>
-                <div class="card-body" style="text-align: center;">
-                    <strong style="color: red;">** کاربر گرامی **</strong>
-                    <p style="font-weight: 800;">
-                        در صورت حذف مورد کنترلی کلیه سوابق ثبت شده سرویسکاری مربوط به آن نیز حذف خواهد شد!<br>
-                        آیا مایل به حذف هستید؟
-                    </p>
-                    <div style="text-align: center;">
-                        <button class="button" type="button" onclick="DeleteControls();">حذف</button>
-                        <button class="button" type="button" onclick="$('#ModalDeleteControl').hide();">انصراف</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="ModalDeletePart" class="modal" style="direction: rtl;">
-        <div class="modal-content">
-            <span class="fa fa-remove" id="CloseDeletePart" onclick="$(this).parent().parent().hide();"
-                style="position: absolute; top: 10px; left: 10px; color: black; cursor: pointer; font-size: 15pt;"></span>
-            <div class="card-header bg-danger text-white" style="margin-bottom: 0;">
-                <div class="card-header bg-primary text-white" style="font-weight: 800;">حذف قطعه</div>
-                <div class="card-body" style="text-align: center;">
-                    <p style="font-weight: 800;">آیا مایل به حذف هستید؟</p>
-                    <div style="text-align: center;">
-                        <button class="button" type="button" onclick="DeletePart();">حذف</button>
-                        <button class="button" type="button" onclick="$('#ModalDeletePart').hide();">انصراف</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="copyModal" class="modal" style="direction: rtl;">
-        <div class="modal-content" style="width: 50%;">
-            <span class="fa fa-remove" onclick="$(this).parent().parent().hide();"
-                style="position: absolute; top: 10px; left: 10px; color: black; cursor: pointer; font-size: 15pt;"></span>
-            <div class="card" style="margin-bottom: 0;">
-                <div class="card-header bg-primary text-white" style="font-weight: 800;">کپی اطلاعات دستگاه ها</div>
-                <div class="card-body" style="text-align: right;">
-                    <div class="row">
-                        <div class="col-lg-4">
-                            <label>&nbsp;</label>
-                            <button type="button" class="button" style="display: block; width: 100%;" onclick="CopyData();">کپی</button>
-                        </div>
-                        <div class="col-lg-8">
-                            نام ماشین
-                       <asp:DropDownList ID="drMachinesCopy" AppendDataBoundItems="True" CssClass="form-control" runat="server" ClientIDMode="Static" DataSourceID="SqlMAchineBase" DataTextField="name" DataValueField="code">
-                           <asp:ListItem Value="0">نام ماشین / دستگاه را انتخاب نمایید</asp:ListItem>
-                       </asp:DropDownList>
-                            <asp:SqlDataSource ID="SqlMAchineBase" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT code, name FROM b_machine"></asp:SqlDataSource>
+                            <div class="col-lg-8">
+                                نام ماشین
+                                <asp:DropDownList ID="drMachinesCopy" AppendDataBoundItems="True" CssClass="form-control" runat="server" ClientIDMode="Static" DataSourceID="SqlMAchineBase" DataTextField="name" DataValueField="code">
+                                    <asp:ListItem Value="0">نام ماشین / دستگاه را انتخاب نمایید</asp:ListItem>
+                                </asp:DropDownList>
+                                <asp:SqlDataSource ID="SqlMAchineBase" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT code, name FROM b_machine"></asp:SqlDataSource>
+                            </div>
                         </div>
                     </div>
                 </div>

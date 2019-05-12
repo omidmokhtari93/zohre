@@ -9,20 +9,6 @@ var partId;
 var rowItems = [];
 //
 $(document).ready(function () {
-    var customOptions = {
-        placeholder: "روز / ماه / سال"
-        , twodigit: true
-        , closeAfterSelect: true
-        , nextButtonIcon: "fa fa-arrow-circle-right"
-        , previousButtonIcon: "fa fa-arrow-circle-left"
-        , buttonsColor: "blue"
-        , forceFarsiDigits: true
-        , markToday: true
-        , markHolidays: true
-        , highlightSelectedDay: true
-        , sync: true
-        , gotoToday: true
-    }
     kamaDatepicker('txtDastoorTarikh', customOptions);
     kamaDatepicker('txtStartPMDate', customOptions);
     kamaDatepicker('txtGhatatChangePeriod', customOptions);
@@ -322,7 +308,7 @@ function addControli() {
 $("#gridMavaredControli").on("click", "tr a#delete", function () {
     target_tr = $(this).parent().parent();
     controlId = $(this).parent().parent().find('td:eq(0)').text();
-    $('#ModalDeleteControl').show();
+    $('#ModalDeleteControl').modal('show');
 });
 $("#gridMavaredControli").on("click", "tr a#edit", function () {
     EmptyControls();
@@ -389,7 +375,7 @@ function DeleteControls() {
         dataType: "json",
         success: function () {
             GreenAlert('nothing',"✔ مورد کنترلی با موفقیت حذف شد");
-            $('#ModalDeleteControl').hide();
+            $('#ModalDeleteControl').modal('hide');
             var row = $('#gridMavaredControli tr').length;
             if (row === 2) {
                 $("#gridMavaredControli").empty();
@@ -520,7 +506,7 @@ function checkPartInputs() {
 $("#gridGhataatMasrafi").on("click", "tr a#deletePart", function () {
     target_tr = $(this).parent().parent();
     partId = $(this).parent().parent().find('td:eq(0)').text();
-    $('#ModalDeletePart').show();
+    $('#ModalDeletePart').modal('show');
 });
 $("#gridGhataatMasrafi").on("click", "tr a#editPart", function () {
     if (partData.length > 0) {
@@ -593,7 +579,7 @@ function DeletePart() {
         dataType: "json",
         success: function () {
             GreenAlert('nothing',"✔ قطعه با موفقیت حذف شد");
-            $('#ModalDeletePart').hide();
+            $('#ModalDeletePart').modal('hide');
             var row = $('#gridGhataatMasrafi tr').length;
             if (row === 2) {
                 $("#gridGhataatMasrafi").empty();
