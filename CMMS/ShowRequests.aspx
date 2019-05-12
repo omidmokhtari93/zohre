@@ -16,9 +16,9 @@
         }
         .reqPartBadge:hover *{ cursor: pointer;}
     </style>
-    <div class="panel panel-primary">
-        <div class="panel-heading">درخواست های تعمیر</div>
-        <div class="panel-body">
+    <div class="card">
+        <div class="card-header bg-primary text-white">درخواست های تعمیر</div>
+        <div class="card-body">
              <asp:GridView runat="server" ID="gridRequests" CssClass="table" dir="rtl" AutoGenerateColumns="False" ClientIDMode="Static"
                            DataKeyNames="req_id" DataSourceID="SqlRequests" OnRowCommand="gridRequests_OnRowCommand">
         <Columns>
@@ -60,25 +60,25 @@ where r_request.state <> 4 order by dbo.r_request.req_id desc"></asp:SqlDataSour
     </div>
     
     <div id="partRequestModal" class="modal" style="direction: rtl;">
-        <div class="modal-content" style="width: 35%;">
-            <span class="fa fa-remove" onclick="$(this).parent().parent().hide();removefields();"
-                  style="position: absolute; top: 10px; left: 10px; color: black; cursor: pointer; font-size: 15pt;"></span>
-            <div class="panel panel-primary" style="margin-bottom: 0;">
-                <div class="panel-heading" style="font-weight: 800;">قطعات</div>
-                <div class="panel-body" style="text-align: right;">
-                    <div id="badgeLocation" style="width: 100%; padding: 0 10px;"></div>
-                    <div class="row" style="margin: 0;">
-                        <div class="col-lg-6">
-                            تاریخ درخواست
-                            <input class="form-control text-center" id="txtPartRequestDate"/>
-                        </div>
-                        <div class="col-lg-6">
-                            شماره درخواست
-                            <input class="form-control text-center" id="txtPartRequestNumber"/>
-                        </div>
-                        <div class="col-lg-12">
-                            شرح درخواست
-                            <textarea rows="2" class="form-control" style="width: 100%; resize: none;" id="txtPartRequestComment"></textarea>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="card">
+                    <div class="card-header">قطعات</div>
+                    <div class="card-body">
+                        <div id="badgeLocation" style="width: 100%; padding: 0 10px;"></div>
+                        <div class="row" style="margin: 0;">
+                            <div class="col-lg-6">
+                                تاریخ درخواست
+                                <input class="form-control text-center" id="txtPartRequestDate"/>
+                            </div>
+                            <div class="col-lg-6">
+                                شماره درخواست
+                                <input class="form-control text-center" id="txtPartRequestNumber"/>
+                            </div>
+                            <div class="col-lg-12">
+                                شرح درخواست
+                                <textarea rows="2" class="form-control" style="width: 100%; resize: none;" id="txtPartRequestComment"></textarea>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -93,13 +93,11 @@ where r_request.state <> 4 order by dbo.r_request.req_id desc"></asp:SqlDataSour
             if (state !== '3') {
                 return;
             }
-            var data = [];
-            data.push({
+            AjaxData({
                 url: 'WebService.asmx/GetRequestedParts',
-                parameters: [{requestId : reqid}],
+                param: {requestId : reqid},
                 func:modalOpen
             });
-            AjaxCall(data);
             function modalOpen(e) {
                 var d = JSON.parse(e.d);
                 $('#txtPartRequestComment').val(d.info.Info);
@@ -112,7 +110,7 @@ where r_request.state <> 4 order by dbo.r_request.req_id desc"></asp:SqlDataSour
                 }
                 $('#badgeLocation').append(partsArr.join(''));
             }
-            $('#partRequestModal').show();
+            $('#partRequestModal').modal('show');
         });
 
         function removefields() {
