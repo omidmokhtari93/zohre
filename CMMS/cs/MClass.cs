@@ -259,7 +259,9 @@ namespace CMMS
         public List<ReplyInfo> ReplyInfo { get; set; }
         public List<FailReason> FailReason { get; set; }
         public List<DelayReason> DelayReason { get; set; }
+      
         public List<Action> Action { get; set; }
+        public List<Stop> StopReason { get; set; }
         public List<PartChanges> PartChange { get; set; }
         public List<PartsRepairRecords> Parts { get; set; }
         public List<RepairerOfRepairRedords> Personel { get; set; }
@@ -291,6 +293,11 @@ namespace CMMS
     {
         public int ActionId { get; set; }
         public string ActionName { get; set; }
+    }
+    public class Stop
+    {
+        public int StopReasonId { get; set; }
+        public string StopName { get; set; }
     }
     public class ReplyInfo
     {
