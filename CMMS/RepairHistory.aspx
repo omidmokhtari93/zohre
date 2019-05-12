@@ -3,7 +3,7 @@
     <style>
         .searchButton {
             position: absolute;
-            background-image: url(/Images/Search_Dark.png);
+            background-image: url(assets/Images/Search_Dark.png);
             background-repeat: no-repeat;
             background-size: 15px;
             background-color: transparent;
@@ -11,20 +11,19 @@
             height: 15px;
             border: none;
             left: 3px;
-            top: 3px;
+            top: 8px;
             z-index: 900;
             outline: none;
         }
          #gridRepiarHistory table { text-align: center;border: 1px solid #c6cdd5;}
     </style>
-    <div class="panel panel-primary">
-        <div class="panel-heading">تعمیرات انجام شده</div>
-        <div class="panel-body">
+    <div class="card">
+        <div class="card-header bg-primary text-white">تعمیرات انجام شده</div>
+        <div class="card-body">
             <div class="row" style="margin: 0; border: 1px solid rgb(190, 190, 190);border-radius: 5px; background-color: #dfecfe;">
                 <div class="col-lg-4" style="padding: 5px;">
                     <asp:Panel runat="server" DefaultButton="btnSearch">
-                        <label style="display: block; text-align: right;"> : وضعیت دستگاه در زمان تعمیر/سرویسکاری</label>
-                   
+                        <label style="display: block; text-align: right;" class="sans-small"> : وضعیت دستگاه در زمان تعمیر/سرویسکاری</label>
                         <asp:DropDownList dir="rtl" runat="server" ID="drFailLevel" AutoPostBack="True" ClientIDMode="Static"  CssClass="form-control" OnSelectedIndexChanged="drFailLevel_OnSelectedIndexChanged">
                             <asp:ListItem Value="-1">انتخاب نمایید</asp:ListItem>
                             <asp:ListItem Value="1"> بدون توقف دستگاه</asp:ListItem>
@@ -37,7 +36,7 @@
                 </div>
                 <div class="col-lg-4" style="padding: 5px;">
                     <asp:Panel runat="server" DefaultButton="btnSearchCode">
-                        <label style="display: block; text-align: right;"> : کد ماشین</label>
+                        <label style="display: block; text-align: right;" class="sans-small"> : کد ماشین</label>
                         <div style="border: 1px solid darkgray; border-radius:5px; position: relative;">
                             <input type="text" runat="server" id="txtCodeSearch" style="border: none; border-radius: 5px;height: 32px; width: 100%; direction: rtl; outline: none; font-weight: 800;"/>
                             <asp:Button ToolTip="جستجو" runat="server" CssClass="searchButton" ID="btnSearchCode" OnClick="btnSearchCode_OnClick"/>
@@ -47,7 +46,7 @@
                 
                 <div class="col-lg-4" style="padding: 5px;">
                     <asp:Panel runat="server" DefaultButton="btnSearch">
-                        <label style="display: block; text-align: right;"> : نام ماشین</label>
+                        <label style="display: block; text-align: right;" class="sans-small"> : نام ماشین</label>
                         <div style="border: 1px solid darkgray; border-radius:5px; position: relative;">
                             <input type="text" runat="server" id="txtSearch" style="border: none; border-radius: 5px; width: 100%; direction: rtl; height: 32px; outline: none; font-weight: 800;"/>
                             <asp:Button ToolTip="جستجو" runat="server" CssClass="searchButton" ID="btnSearch" OnClick="btnSearch_OnClick"/>
