@@ -2,10 +2,14 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <style>
         #partsLoading{width: 20px; height: 20px; position: absolute;top: 7px; left:7px; display: none;}
+        #PartsSearchResulat tr:hover {
+            background-color: #007bff;
+            color: white;
+        }
         #PartsSearchResulat {
             display: none;
             position: absolute;
-            width: 872px;
+            width: 820px;
             padding-left: 0px;
             z-index: 999;
             max-height: 200px;
@@ -19,25 +23,30 @@
         #txtSubSearchPart{ width: 100%;outline: none;padding: 0px 3px 0 0;font-weight: 800;border: none;border-radius: 3px;}
         .imgfilter{ position: absolute;top: 7px;right: 6px;width: 17px;height: 17px;}
     </style>
-    <div class="panel panel-primary">
-        <div class="panel-heading">مشاهده موجودی انبار قطعات</div>
-        <div class="panel-body">
-            <ul class="nav nav-tabs" style="padding: 0 15px 0 15px;">
-                <li class="active"><a data-toggle="tab" href="#PartsAcc">موجودی انبار</a></li>
-                <li><a data-toggle="tab" href="#MachineParts">موجودی قطعات یدکی دستگاه ها</a></li>
+    <div class="card">
+        <div class="card-header bg-primary text-white">مشاهده موجودی انبار قطعات</div>
+        <div class="card-body">
+            <ul class="nav nav-tabs sans-small mt-1 rtl" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#PartsAcc" role="tab" aria-controls="home"
+                       aria-selected="true">موجودی انبار</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#MachineParts" role="tab" aria-controls="profile"
+                       aria-selected="false">موجودی قطعات یدکی دستگاه ها</a>
+                </li>
             </ul>
             <div class="tab-content" id="opFrom">
-                <div id="PartsAcc" class="tab-pane fade in active">
+                <div id="PartsAcc" class="tab-pane fade show active">
                     <div class="menubody" style="position: relative;">
                         <label>نام قطعه</label>
                         <div id="PartBadgeArea" style="position: relative;">
                             <input autocomplete="off" dir="rtl" class="form-control text-right" id="txtPartsSearch" placeholder="جستجوی قطعه ..."/>
-                            <img src="Images/loading.png" id="partsLoading"/>
                         </div>
                         <div id="PartsSearchResulat">
                             <div style="padding: 5px 28px 5px 5px;background-color: #dfecfe">
                                 <input type="text" id="txtSubSearchPart" dir="rtl" autocomplete="off"/>
-                                <img src="Images/funnel.png" class="imgfilter"/>
+                                <img src="assets/Images/funnel.png" class="imgfilter"/>
                             </div>
                             <div style="overflow: auto; width: 100%; max-height: 200px;">
                                 <table id="gridParts" class="PartsTable">
@@ -54,14 +63,14 @@
                             <label class="badgelbl" id="partremain"></label>
                         </div>
                         <div id="partloading">
-                            <img class="loading-image" src="Images/loading.gif"/>
+                            <img class="loading-image" src="assets/Images/loading.gif"/>
                         </div>
                     </div>
                 </div>
 
                 <div id="MachineParts" class="tab-pane fade">
                     <div class="menubody" style="position: relative;">
-                        <div class="row" style="margin: 0; direction: rtl;">
+                        <div class="row ltr">
                             <div class="col-lg-4">
                                 <label class="lbl">&nbsp;</label>
                                 <button class="button" type="button" onclick="GetMachineParts();">مشاهده</button>
@@ -85,13 +94,13 @@
                             </table>
                         </div>
                         <div id="machinePartloading">
-                            <img class="loading-image" src="Images/loading.gif"/>
+                            <img class="loading-image" src="assets/Images/loading.gif"/>
                         </div>
                     </div>
                 </div>  
             </div>
         </div>
     </div>
-    <script src="Scripts/PartAcc.js"></script>
+    <script src="assets/js/PartAcc.js"></script>
 </asp:Content>
 

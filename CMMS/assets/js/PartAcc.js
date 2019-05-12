@@ -19,13 +19,11 @@ function doneTyping() {
         $.notify("!!حداقل سه حرف از نام قطعه را وارد نمایید", { globalPosition: 'top left' });
     }
     if (($input).val().length > 2) {
-        var data = [];
-        data.push({
+        AjaxData({
             url: 'WebService.asmx/PartsFilter',
-            parameters: [{ partName: $input.val() }],
+            param: { partName: $input.val() },
             func: createPartTable
         });
-        AjaxCall(data);
         function createPartTable(e) {
             var tableRows = '';
             var filteredParts = JSON.parse(e.d);
@@ -79,13 +77,11 @@ $('#gridParts').on('click', 'tr', function () {
 
 function GetMachineParts() {
     $('#machinePartloading').show();
-    var data = [];
-    data.push({
+    AjaxData({
         url: 'WebService.asmx/MojoodiMachinePart',
-        parameters: [{ machineid: $('#drMachines :selected').val() }],
+        param: { machineid: $('#drMachines :selected').val() },
         func: mojoodiMachineAnbar
     });
-    AjaxCall(data);
     function mojoodiMachineAnbar(e) {
         $('#machinePartMojoodi tbody').empty();
         var mojoodi = JSON.parse(e.d);
