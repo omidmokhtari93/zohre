@@ -6,41 +6,41 @@
         label{ margin: 0;margin-right: 5px;}
         .switch-field label { width: 105px;}
     </style>
-    <div class="panel panel-primary">
-        <div class="panel-heading">ثبت درخواست تعمیر متفرقه</div>
-        <div class="panel-body">
+    <div class="card">
+        <div class="card-header bg-primary text-white">ثبت درخواست تعمیر متفرقه</div>
+        <div class="card-body">
             <div style="text-align: left; padding-left: 15px;">
                 <asp:TextBox ID="txtreqid" runat="server" style="display: inline-block; width: 100px; text-align: center;" Enabled="False" CssClass="form-control"></asp:TextBox>
                 <label style="display: inline-block;">شماره درخواست</label>
             </div>
             <hr/>
-            <div class="row" style="margin: 0; direction: rtl; text-align: right;">
-                <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-6 rtl">
                     <label>به : </label>
                     <asp:TextBox CssClass="form-control" runat="server" Enabled="False" Text="امور فنی"></asp:TextBox>        
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 rtl">
                     <label>از واحد : </label>
                     <asp:DropDownList id="drunit" AppendDataBoundItems="True" runat="server" CssClass="form-control"  DataSourceID="Sqlunit" DataTextField="unit_name" DataValueField="unit_code" TabIndex="1" > <asp:ListItem Value="-1">واحد را انتخاب کنید</asp:ListItem></asp:DropDownList>       
                 </div>
                 <asp:SqlDataSource ID="sqlrequest" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT i_units.unit_name, r_request.other_machine, r_request.id,r_request.req_id ,CASE WHEN r_request.type_fail = 1 THEN 'مکانیکی' WHEN r_request.type_fail = 2 THEN 'تاسیساتی-الکتریکی' WHEN r_request.type_fail = 3 THEN 'الکتریکی واحد برق' ELSE 'غیره' END AS Tfail, r_request.req_name, CASE WHEN r_request.type_req = 1 THEN 'اضطراری' WHEN r_request.type_req = 2 THEN 'پیش بینانه' ELSE 'پیش گیرانه' END AS Treq, r_request.time_req + '__' + r_request.date_req AS totaltime, r_request.state FROM r_request INNER JOIN i_units ON r_request.unit_id = i_units.unit_code WHERE (r_request.type_repair=0 and r_request.state = 1) ORDER BY r_request.id DESC"></asp:SqlDataSource>
                 <asp:SqlDataSource ID="Sqlunit" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT [unit_code], [unit_name] FROM [i_units]"></asp:SqlDataSource>
             </div>
-            <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
-                <div class="col-md-6" style="padding-top: 25px;">   
+            <div class="row mt-3">
+                <div class="col-md-6 rtl" style="padding-top: 25px;">   
                     <label style="display: inline-block;">اقدام نمایید.</label>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 rtl">
                     <label>خواهشمند است نسبت به تعمیر  : </label>
                     <asp:TextBox ID="txtrepair" runat="server" CssClass="form-control" TabIndex="2"></asp:TextBox>        
                 </div>
             </div>
-            <div class="row" style="margin: 0; direction: rtl; text-align: right;margin-top: 15px;">
-                <div class="col-md-4">
+            <div class="row mt-3" >
+                <div class="col-md-4 rtl">
                     <label>نام درخواست کننده : </label>
                    <asp:TextBox ID="txtreq_name" ClientIDMode="Static" CssClass="form-control" runat="server" TabIndex="7"></asp:TextBox>    
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-8 rtl">
                     <label>نوع خرابی : </label>
                     <div class="switch-field">
                         <input type="radio" id="mech" name="switch1" checked tabindex="3" value="1"/>
@@ -54,9 +54,9 @@
                     </div>
                 </div>
             </div>
-            <div class="row" style="margin: 0; direction: rtl; text-align: right;margin-top: 15px;">
+            <div class="row mt-3">
                 <div class="col-md-6"></div>
-                <div class="col-md-6">
+                <div class="col-md-6 rtl">
                     <label>نوع درخواست : </label>
                     <div class="switch-field">
                         <input type="radio" id="EM" name="switch_3" value="EM" checked tabindex="8"/>
@@ -68,30 +68,30 @@
                     </div>
                 </div>
             </div>
-            <div class="row" style="margin: 0; direction: rtl; text-align: right;margin-top: 15px;">
-                <div class="col-md-12">
+            <div class="row mt-3">
+                <div class="col-md-12 rtl">
                     <label> توضیحات : </label>
                     <asp:TextBox ID="txtcomment" CssClass="form-control" runat="server" TabIndex="11"></asp:TextBox>        
                 </div>
             </div>
-            <div class="row" style="margin: 0; direction: rtl; text-align: right;margin-top: 15px;">
-                <div class="col-md-6">
+            <div class="row mt-3" >
+                <div class="col-md-6 rtl">
                     <label style="display: block;">ساعت درخواست : </label>
                     <input id="txtRequestTime" ClientIDMode="Static" runat="server" class="form-control text-center" readonly style="cursor: pointer;"/>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 rtl">
                     <label style="display: block;">تاریخ درخواست : </label>
                     <input id="txtRequestDate" ClientIDMode="Static" runat="server" class="form-control text-center" readonly style="cursor: pointer;"/>
                 </div>
             </div>
                
         </div>
-        <div class="panel-footer">
+        <div class="card-footer">
             <asp:Button runat="server" CssClass="button" TabIndex="17" Text="ثبت" ID="btninsert" OnClick="btninsert_OnClick" OnClientClick="getRadioFail();getRadioreq();"/>
             <asp:Button runat="server" CssClass="button" Visible="False" TabIndex="18" Text="ویرایش" ID="btnedit" OnClick="btnedit_OnClick" OnClientClick="getRadioreq();getRadioFail();"/>
             <asp:Button runat="server" CssClass="button" Visible="False" TabIndex="19" Text="انصراف" ID="btncancel" OnClick="btncancel_OnClick"/>
         </div>
-        <div class="panel-footer">
+        <div class="card-footer">
             <asp:GridView ID="gridrequest" runat="server" CssClass="table" AutoGenerateColumns="False" DataSourceID="sqlrequest" DataKeyNames="id"  OnRowCommand="gridrequest_OnRowCommand">
                 <Columns>
                     <asp:BoundField DataField="req_id" HeaderText="شماره درخواست" SortExpression="req_id" InsertVisible="False" ReadOnly="True" />
@@ -102,29 +102,15 @@
                     <asp:BoundField DataField="Tfail" HeaderText="نوع خرابی" SortExpression="Tfail" ReadOnly="True" />
                     <asp:BoundField DataField="totaltime" HeaderText="زمان درخواست" SortExpression="totaltime" />
                     <asp:ButtonField Text="ویرایش" CommandName="ed"/>
-                    
-                    
                 </Columns>
             </asp:GridView>
         </div>
     </div>
 <script>
-    var customOptions = {
-        placeholder: "روز / ماه / سال"
-        , twodigit: true
-        , closeAfterSelect: true
-        , nextButtonIcon: "fa fa-arrow-circle-right"
-        , previousButtonIcon: "fa fa-arrow-circle-left"
-        , buttonsColor: "blue"
-        , forceFarsiDigits: true
-        , markToday: true
-        , markHolidays: true
-        , highlightSelectedDay: true
-        , sync: true
-        , gotoToday: true
-    }
-    kamaDatepicker('txtRequestDate', customOptions);
-    $('#txtRequestTime').clockpicker({ autoclose: true, placement: 'top' });
+    $(function() {
+        kamaDatepicker('txtRequestDate', customOptions);
+        $('#txtRequestTime').clockpicker({ autoclose: true, placement: 'top' });
+    })
     function Err()
     {
         if ($('#txtreq_name').val() == '') {
