@@ -1,59 +1,60 @@
-﻿ <%@ Page Title="مدیریت کاربران" Language="C#" MasterPageFile="~/MainDesign.Master" AutoEventWireup="true" CodeBehind="userManagment.aspx.cs" Inherits="CMMS.userManagment" %>
+﻿<%@ Page Title="مدیریت کاربران" Language="C#" MasterPageFile="~/MainDesign.Master" AutoEventWireup="true" CodeBehind="userManagment.aspx.cs" Inherits="CMMS.userManagment" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <asp:HiddenField runat="server" ClientIDMode="Static" ID="userState"/>
+    <asp:HiddenField runat="server" ClientIDMode="Static" ID="userState" />
     <style>
         label {
             margin: 0;
             margin-right: 5px;
         }
     </style>
-    <div class="panel panel-primary">
-        <div class="panel-heading">ثبت کاربر جدید</div>
-        <div class="panel-body">
-            <div class="row" style="margin: 0; direction: rtl; text-align: right;">
+    <div class="card">
+        <div class="card-header bg-primary text-white">ثبت کاربر جدید</div>
+        <div class="card-body">
+            <div class="row rtl">
                 <div class="col-md-6">
                     <label>نام و نام خانوادگی : </label>
-                    <asp:TextBox ClientIDMode="Static" ID="txtName" TabIndex="2" CssClass="form-control" runat="server"></asp:TextBox>  
+                    <asp:TextBox ClientIDMode="Static" ID="txtName" TabIndex="2" CssClass="form-control" runat="server"></asp:TextBox>
                 </div>
                 <div class="col-md-6">
                     <label>نام واحد : </label>
                     <asp:DropDownList runat="server" TabIndex="1" ClientIDMode="Static" CssClass="form-control" ID="drUnitname" AppendDataBoundItems="True" DataSourceID="SqlUnitName" DataTextField="unit_name" DataValueField="unit_code">
                         <asp:ListItem Value="-1">انتخاب کنید</asp:ListItem>
-                    </asp:DropDownList>        
+                    </asp:DropDownList>
                     <asp:SqlDataSource ID="SqlUnitName" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT unit_name, unit_code FROM i_units"></asp:SqlDataSource>
                 </div>
             </div>
-            <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
-                <div class="col-md-4">
+            <div class="row ltr mt-3">
+                <div class="col-md-4 rtl">
                     <label>تکرار رمز عبور : </label>
-                    <asp:TextBox ClientIDMode="Static" TabIndex="5" placeholder="اعداد و حروف انگلیسی" ID="txtPasswordRep" CssClass="form-control" runat="server"></asp:TextBox>        
+                    <asp:TextBox ClientIDMode="Static" TabIndex="5" placeholder="اعداد و حروف انگلیسی" ID="txtPasswordRep" CssClass="form-control" runat="server"></asp:TextBox>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 rtl">
                     <label>رمز عبور : </label>
-                    <asp:TextBox ClientIDMode="Static" TabIndex="4" placeholder="اعداد و حروف انگلیسی" ID="txtPassword" CssClass="form-control" runat="server"></asp:TextBox>        
+                    <asp:TextBox ClientIDMode="Static" TabIndex="4" placeholder="اعداد و حروف انگلیسی" ID="txtPassword" CssClass="form-control" runat="server"></asp:TextBox>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 rtl">
                     <label>نام کاربری : </label>
-                    <asp:TextBox ClientIDMode="Static" TabIndex="3" placeholder="اعداد و حروف انگلیسی" ID="txtUserName" runat="server" CssClass="form-control"></asp:TextBox>        
+                    <asp:TextBox ClientIDMode="Static" TabIndex="3" placeholder="اعداد و حروف انگلیسی" ID="txtUserName" runat="server" CssClass="form-control"></asp:TextBox>
                 </div>
             </div>
-            <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
+            <div class="row rtl mt-3">
                 <div class="col-md-6">
                     <label>آدرس آیمیل : </label>
-                    <asp:TextBox ClientIDMode="Static" TabIndex="7" ID="txtEmail" CssClass="form-control" runat="server"></asp:TextBox>        
+                    <asp:TextBox ClientIDMode="Static" TabIndex="7" ID="txtEmail" CssClass="form-control" runat="server"></asp:TextBox>
                 </div>
                 <div class="col-md-6">
                     <label>شماره تماس : </label>
-                    <asp:TextBox ClientIDMode="Static" TabIndex="6" ID="txtTell" runat="server" CssClass="form-control"></asp:TextBox>        
+                    <asp:TextBox ClientIDMode="Static" TabIndex="6" ID="txtTell" runat="server" CssClass="form-control"></asp:TextBox>
                 </div>
             </div>
-            <div class="row" style="margin: 0; direction: rtl; text-align: right; margin-top: 15px;">
+            <div class="row rtl mt-3">
                 <div class="col-md-6">
                     <label>وضعیت : </label>
                     <div class="switch-field">
-                        <input type="radio" id="active" TabIndex="9" name="switch_2" value="yes" checked/>
+                        <input type="radio" id="active" tabindex="9" name="switch_2" value="yes" checked />
                         <label for="active">فعال</label>
-                        <input type="radio" id="deactive" TabIndex="10" name="switch_2" value="no" />
+                        <input type="radio" id="deactive" tabindex="10" name="switch_2" value="no" />
                         <label for="deactive">غیرفعال</label>
                     </div>
                 </div>
@@ -63,17 +64,17 @@
                         <asp:ListItem Value="0">فنی و مهندسی</asp:ListItem>
                         <asp:ListItem Value="1">مدیریت</asp:ListItem>
                         <asp:ListItem Value="2" Selected="True">کاربر عادی</asp:ListItem>
-                    </asp:DropDownList>        
+                    </asp:DropDownList>
                 </div>
             </div>
         </div>
-        <div class="panel-footer">
-            <asp:Button runat="server" CssClass="button" Text="ثبت" ID="btnSabt" OnClientClick="getRadio();" OnClick="btnSabt_OnClick"/>
-            <asp:Button runat="server" CssClass="button" Text="ویرایش" Visible="False" ID="btnEdit" OnClientClick="getRadio();" OnClick="btnEdit_OnClick"/>
-            <asp:Button runat="server" CssClass="button" Text="انصراف" Visible="False" ID="btnCancel" OnClick="btnCancel_OnClick"/>
+        <div class="card-footer">
+            <asp:Button runat="server" CssClass="button" Text="ثبت" ID="btnSabt" OnClientClick="getRadio();" OnClick="btnSabt_OnClick" />
+            <asp:Button runat="server" CssClass="button" Text="ویرایش" Visible="False" ID="btnEdit" OnClientClick="getRadio();" OnClick="btnEdit_OnClick" />
+            <asp:Button runat="server" CssClass="button" Text="انصراف" Visible="False" ID="btnCancel" OnClick="btnCancel_OnClick" />
         </div>
-        <div class="panel-footer">
-            
+        <div class="card-footer">
+
             <asp:GridView runat="server" CssClass="table" AutoGenerateColumns="False" DataSourceID="SqlUsers" DataKeyNames="uid" ID="gridUsers" OnRowDataBound="gridUsers_OnRowDataBound" OnRowCommand="gridUsers_OnRowCommand">
                 <Columns>
                     <asp:BoundField DataField="name" HeaderText="نام" SortExpression="name" />
@@ -84,8 +85,8 @@
                     <asp:BoundField DataField="tell" HeaderText="تلفن" SortExpression="tell" />
                     <asp:BoundField DataField="email" HeaderText="ایمیل" SortExpression="email" />
                     <asp:BoundField DataField="unit" HeaderText="واحد" SortExpression="unit" />
-                    <asp:ButtonField Text="ویرایش" CommandName="ed"/>
-                    
+                    <asp:ButtonField Text="ویرایش" CommandName="ed" />
+
                 </Columns>
             </asp:GridView>
             <asp:SqlDataSource ID="SqlUsers" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT       dbo.users.id AS uid, dbo.users.name, dbo.users.username, dbo.users.password, CASE WHEN users.usrlevel = 0 THEN 'فنی و مهندسی' WHEN users.usrlevel = 1 THEN 'مدیریت' WHEN users.usrlevel = 2 THEN 'کاربر عادی' END AS usrlevel, 
@@ -130,7 +131,7 @@ from users where unit='-1'"></asp:SqlDataSource>
                 setTimeout(function () { $('#drUnitname').removeClass('form-controlError'); }, 4000);
                 $.notify("!!لطفا واحد انتخاب نمایید", { globalPosition: 'top left' });
             }
-            if ($('#txtPassword').val() != $('#txtPasswordRep').val() ) {
+            if ($('#txtPassword').val() != $('#txtPasswordRep').val()) {
                 $('#txtPassword').addClass('form-controlError');
                 setTimeout(function () { $('#txtPassword').removeClass('form-controlError'); }, 4000);
                 $('#txtPasswordRep').addClass('form-controlError');
