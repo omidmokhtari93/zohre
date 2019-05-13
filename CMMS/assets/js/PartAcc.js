@@ -1,71 +1,20 @@
-﻿var rowss;
-var typingTimer;
-var doneTypingInterval = 2000;
-var $input = $('#txtPartsSearch');
-$input.on('keyup', function () {
-    clearTimeout(typingTimer);
-    typingTimer = setTimeout(doneTyping, doneTypingInterval);
-    $('#partsLoading').show();
-    $('#gridParts tbody').empty();
-    if ($('#txtPartsSearch').val() === '') {
-        $('#PartsSearchResulat').hide();
-    }
-});
-$input.on('keydown', function () {
-    clearTimeout(typingTimer);
-});
-function doneTyping() {
-    if (($input).val().length <= 2 && ($input).val() != '') {
-        $.notify("!!حداقل سه حرف از نام قطعه را وارد نمایید", { globalPosition: 'top left' });
-    }
-    if (($input).val().length > 2) {
-        AjaxData({
-            url: 'WebService.asmx/PartsFilter',
-            param: { partName: $input.val() },
-            func: createPartTable
-        });
-        function createPartTable(e) {
-            var tableRows = '';
-            var filteredParts = JSON.parse(e.d);
-            for (var i = 0; i < filteredParts.length; i++) {
-                tableRows += '<tr><td partid="' + filteredParts[i].PartId + '">' + filteredParts[i].PartName + '</td></tr>';
-            }
-            $('#gridParts tbody').append(tableRows);
-            rowss = $('#gridParts tr').clone();
-        }
-    }
-    $('#partsLoading').hide();
-    $('#PartsSearchResulat').show();
-    if ($('#txtPartsSearch').val() === '') {
-        $('#PartsSearchResulat').hide();
-    }
-}
-
-$('#drUnits').change(function () {
-    FilterMachineByUnit('drUnits', 'drMachines');
+﻿$('#partsearch').search({
+    width: '50%',
+    placeholder: 'جستجوی قطعه ...',
+    url: 'WebService.asmx/PartsFilter',
+    arg: 'partName',
+    text: 'PartName',
+    id: 'PartId',
+    func: getMojoodi
 });
 
-$('#txtSubSearchPart').keyup(function () {
-    var val = $(this).val();
-    $('#gridParts tbody').empty();
-    rowss.filter(function (idx, el) {
-        return val === '' || $(el).text().indexOf(val) >= 0;
-    }).appendTo('#gridParts');
-});
-
-$('#gridParts').on('click', 'tr', function () {
+function getMojoodi(id,text) {
     $('#partloading').show();
-    var $row = $(this).find("td");
-    var pid = $row.attr('partid');
-    $('#PartsSearchResulat').hide();
-    $('#txtPartsSearch').val('');
-    var data = [];
-    data.push({
+    AjaxData({
         url: 'WebService.asmx/MojoodiAnbar',
-        parameters: [{ partid: pid }],
+        param: { partid: id },
         func: mojoodiAnbar
     });
-    AjaxCall(data);
     function mojoodiAnbar(e) {
         var mojoodi = JSON.parse(e.d);
         $('#partname').text(mojoodi[0][0]);
@@ -73,6 +22,10 @@ $('#gridParts').on('click', 'tr', function () {
         $('#partremain').text(mojoodi[0][2]);
         $('#partloading').hide();
     }
+}
+
+$('#drUnits').change(function () {
+    FilterMachineByUnit('drUnits', 'drMachines');
 });
 
 function GetMachineParts() {

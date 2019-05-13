@@ -1,6 +1,6 @@
 ﻿.search-input {
     position: relative;
-    display: block;
+    display: inline-block;
     width: 100%;
     min-height: 38px;
     padding: 3px;

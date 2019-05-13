@@ -64,6 +64,7 @@
     div.append('<span id="' + id + '">' + text + '</span>');
     input.val('');
     input.removeAttr('placeholder');
+    options.func(id, text);
   }
 
   $('#' + div.attr('id')).on('click', 'span', function (x) {

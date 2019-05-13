@@ -38,22 +38,9 @@
             </ul>
             <div class="tab-content" id="opFrom">
                 <div id="PartsAcc" class="tab-pane fade show active">
-                    <div class="menubody" style="position: relative;">
-                        <label>نام قطعه</label>
-                        <div id="PartBadgeArea" style="position: relative;">
-                            <input autocomplete="off" dir="rtl" class="form-control text-right" id="txtPartsSearch" placeholder="جستجوی قطعه ..."/>
-                        </div>
-                        <div id="PartsSearchResulat">
-                            <div style="padding: 5px 28px 5px 5px;background-color: #dfecfe">
-                                <input type="text" id="txtSubSearchPart" dir="rtl" autocomplete="off"/>
-                                <img src="assets/Images/funnel.png" class="imgfilter"/>
-                            </div>
-                            <div style="overflow: auto; width: 100%; max-height: 200px;">
-                                <table id="gridParts" class="PartsTable">
-                                    <tbody></tbody>
-                                </table>
-                            </div>
-                        </div>
+                    <div class="menubody text-right" style="position: relative;">
+                        <p class="mb-1 sans">نام قطعه</p>
+                        <div id="partsearch"></div>
                         <div class="partcheckRes">
                             <label>نام قطعه : </label>
                             <label class="badgelbl" id="partname"></label>&emsp;&emsp;
