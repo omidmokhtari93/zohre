@@ -4,9 +4,9 @@
         .hidethis{ display: none;}
         .print{display: block; text-align: center; font-size: 15pt; color: black; padding: 5px;}
     </style>
-    <div class="panel panel-primary">
-        <div class="panel-heading">ثبت واحد جدید</div>
-        <div class="panel-body">
+    <div class="card">
+        <div class="card-header bg-primary text-white">ثبت واحد جدید</div>
+        <div class="card-body">
             <div class="row" style="margin: 0; direction: rtl; text-align: right;">
                 <div class="col-md-4">
                     <label>نام سرپرست واحد</label>
@@ -22,12 +22,12 @@
                 </div>
             </div> 
         </div>
-        <div class="panel-footer">
+        <div class="card-footer">
             <asp:Button runat="server" ClientIDMode="Static" CssClass="button" TabIndex="4" Text="ثبت" ID="btnSave" OnClick="btnSave_OnClick"/>
             <asp:Button runat="server" ClientIDMode="Static" CssClass="button" TabIndex="5" Text="ویرایش" ID="btnEdit" OnClick="btnEdit_OnClick" Visible="False"/>
             <asp:Button runat="server" ClientIDMode="Static" CssClass="button" TabIndex="6" Text="انصراف" ID="btnCancel" OnClick="btnCancel_OnClick" Visible="False"/>
         </div>
-        <div class="panel-footer">
+        <div class="card-footer">
             <a href="UnitPrint.aspx" class="fa fa-print print" target="_blank" title="پرینت"></a>
             <asp:GridView runat="server" CssClass="table" AutoGenerateColumns="False" DataSourceID="SqlUnits" DataKeyNames="id,unit_code" ID="gridUnits" OnRowCommand="gridUnits_OnRowCommand">
                 <Columns>
@@ -87,7 +87,7 @@
             }
             if ($('#txtUnitCode').val() == '') {
                 $('#txtUnitCode').addClass('form-controlError');
-                setTimeout(function () { $('#txtunitmanager').removeClass('form-controlError'); }, 4000);
+                setTimeout(function () { $('#txtUnitCode').removeClass('form-controlError'); }, 4000);
                 $.notify("!!لطفا کد واحد را وارد نمایید", { globalPosition: 'top left' });
             }
         }
