@@ -4,8 +4,8 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <script src="Scripts/jquery-3.3.1.min.js"></script>
-    <script src="Scripts/script.js"></script>
+    <script src="assets/js/jquery-3.3.1.min.js"></script>
+    <script src="assets/js/script.js"></script>
     <title>پرسنل واحد فنی و مهندسی</title>
 </head>
 <body>
@@ -17,13 +17,8 @@
             }
 
             @font-face {
-                font-family: 'myfont';
-                src: url('/fonts/BYekan.eot'),
-                     url('/fonts/BYekan.eot?#FooAnything') format('embedded-opentype');
-                src: local('☺'), url('/fonts/BYekan.woff') format('woff'),
-                     url('/fonts/BYekan.ttf') format('truetype'),
-                     url('/fonts/BYekan.svg') format('svg');
-                font-weight: 800;
+                font-family: 'sans';
+                src: url('assets/fonts/sans/IRANSans.woff2')
             }
             @page {
                 size: A4;
@@ -53,7 +48,7 @@
                 width: 100%;
                 direction: rtl;
                 position: relative;
-                font-family: myfont;
+                font-family: sans;
                 margin-right: 0;
                 padding: 0;
                 margin-bottom: -2px;
@@ -80,7 +75,7 @@
             }
 
             .tbl {
-                font-family: myfont;
+                font-family: sans;
                 text-align: center;
                 font-size: 10pt;
                 font-weight: 800;
@@ -111,7 +106,7 @@
         var footerContent;
         var hfContent;
         $(function() {
-            $.get("Content/personelprint.html",
+            $.get("/assets/Content/personelprint.html",
                 function(htmlString) {
                     hfContent = htmlString;
                     hfContent = hfContent.replace("#date#", JalaliDateTime());

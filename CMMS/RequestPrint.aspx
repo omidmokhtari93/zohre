@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <script src="Scripts/jquery-3.3.1.min.js"></script>
+    <script src="assets/js/jquery-3.3.1.min.js"></script>
     <title>چاپ دستور کار</title>
     <style> 
         @media print {
@@ -13,13 +13,8 @@
             }
         }
         @font-face {
-            font-family: 'myfont';
-            src: url('/fonts/BYekan.eot'), 
-                 url('/fonts/BYekan.eot?#FooAnything') format('embedded-opentype');
-            src: local('☺'), url('/fonts/BYekan.woff') format('woff'), 
-                 url('/fonts/BYekan.ttf') format('truetype'),
-                 url('/fonts/BYekan.svg') format('svg');
-            font-weight: 800;
+            font-family: 'sans';
+            src: url('assets/fonts/sans/IRANSans.woff2')
         }
         input{ margin: 0;padding: 0;vertical-align: middle;}
         .rightText{ position: absolute;right: -30px;}
@@ -30,7 +25,7 @@
             -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083)";
             transform: rotate(-90.0deg);
         }
-        table{ width: 100%;direction: rtl;position: relative;font-family: myfont;margin-right: 0;padding: 0;border-collapse: collapse;}
+        table{ width: 100%;direction: rtl;position: relative;font-family: sans;margin-right: 0;padding: 0;border-collapse: collapse;}
         table tr{ position: relative;}
         table td{ border: 1px solid #625f5f;padding: 3px;position: relative !important;font-size: 9pt;}
         img{ width: auto;height: 60px;}
@@ -68,7 +63,7 @@
                 </td>
                 <td><h2 style="margin: 0;"> دستور کار <br>
                     نگهداری و تعمیرات </h2></td>
-                <td style="width: 33%;"><img src="Images/zohre1.png" /></td>
+                <td style="width: 33%;"><img src="assets/Images/zohre1.png" /></td>
             </tr>
         </table>
         <table class="tbl1">

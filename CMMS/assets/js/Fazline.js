@@ -5,17 +5,14 @@ var itemId;
 $(function () {
     FillFazTable();
     FilllineTable();
-   
 });
 function FillFazTable() {
     $('#FazTable tbody').empty();
-    data = [];
-    data.push({
+    AjaxData({
         url: 'WebService.asmx/GetFazTable',
-        parameters: [],
+        param: {},
         func: fillFaz
     });
-    AjaxCall(data);
     function fillFaz(e) {
         data = JSON.parse(e.d);
         body = [];
@@ -29,13 +26,11 @@ function FillFazTable() {
 
 function FilllineTable() {
     $('#LineTable tbody').empty();
-    data = [];
-    data.push({
+    AjaxData({
         url: 'WebService.asmx/GetLineTable',
-        parameters: [],
+        param: {},
         func: fillLine
     });
-    AjaxCall(data);
     function fillLine(e) {
         data = JSON.parse(e.d);
         if (data.length > 0) {

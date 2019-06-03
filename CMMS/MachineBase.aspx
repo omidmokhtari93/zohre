@@ -18,7 +18,7 @@
     #btnCopy{ position: absolute;left: 8px;top: 8px;width: 25px;height: 25px;border: none;background-color: transparent;background-image: url(Images/copy.png);background-size: 25px;outline: none;}
     .chkbox{ width: 25px;height: 25px;}
 </style>
-<link href="Scripts/MachineStyles.css" rel="stylesheet" />
+<link href="assets/css/MachineStyles.css" rel="stylesheet" />
 <asp:HiddenField runat="server" ClientIDMode="Static" ID="Mid"/>
 <div id="machineform">
 <div class="panel panel-primary" id="pnlNewMachine" style="display: block;">
