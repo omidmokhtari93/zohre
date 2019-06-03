@@ -4,7 +4,7 @@
   div.css('width', options.width).addClass('search-input');
   var result_area = $('<div name="result-area" style="width:' + this.outerWidth() + 'px;"></div>');
   var search_lodaing = $('<img src="assets/Images/loading.png"/>');
-  var input = $('<input type="text" name="search-field" placeholder="' + options.placeholder + '"/>');
+  var input = $('<input type="text" name="search-field" autocomplete="off" placeholder="' + options.placeholder + '"/>');
   searchInit();
 
   function searchInit() {
@@ -44,7 +44,7 @@
       }
       var opt = [];
       div.append(result_area);
-      result_area.append('<input name="filter-items"/>');
+      result_area.append('<input name="filter-items" placeholder="فیلتر ..."/>');
       $.each(d, function (x, y) {
         opt.push('<li ' + options.id + '="' + y[options.id] + '">' + y[options.text] + '</li>');
       })
