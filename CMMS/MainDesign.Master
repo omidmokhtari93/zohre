@@ -53,7 +53,7 @@
                             <li class='has-sub' id="arshiv" runat="server"><a href='#'><span>آرشیو فنی</span></a>
                                 <ul>
                                     <li>
-                                        <img class="Icon1" src="assets/Images/service.png" /><a href="Contractor.aspx">پیمانکارن</a></li>
+                                        <img class="Icon1" src="assets/Images/service.png" /><a href="Contractor.aspx">پیمانکاران</a></li>
                                     <li>
                                         <img class="Icon1" src="assets/Images/delaystop.png" /><a href="intrupt.aspx">لیست سرویسکاری / خرابی / تاخیر/ توقفات</a></li>
                                     <li>
