@@ -3,7 +3,7 @@
     <style>
         .searchButton {
             position: absolute;
-            background-image: url(/Images/Search_Dark.png);
+            background-image: url(assets/Images/Search_Dark.png);
             background-repeat: no-repeat;
             background-size: 15px;
             background-color: transparent;
@@ -11,33 +11,71 @@
             height: 15px;
             border: none;
             left: 3px;
-            top: 3px;
+            top: 5px;
             z-index: 900;
             outline: none;
         }
-        label{ margin: 0;}
-        .dr {
-            border: none; border-radius: 5px; width: 100%; direction: rtl; outline: none; font-weight: 800; height: 22px; padding: 1px;
+
+        label {
+            margin: 0;
         }
-        .txtStyle{border: none; border-radius: 5px; width: 100%; direction: rtl; outline: none; font-weight: 800;}
-        #gridDailyCM tr td:first-child{ display: none;}
-        #gridDailyCM tr th:first-child{ display: none;}
-        #gridDailyCM td:nth-child(3),#gridDailyCM td:nth-child(2) ,#gridDailyCM td:nth-child(4) , #gridDailyCM td:nth-child(5) ,
-        #gridDailyCM th:nth-child(3),#gridDailyCM th:nth-child(2),#gridDailyCM th:nth-child(4),#gridDailyCM th:nth-child(5) {
+
+        .dr {
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+            direction: rtl;
+            outline: none;
+            font-weight: 800;
+            height: 26px;
+            padding: 1px;
+        }
+
+        .txtStyle {
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+            direction: rtl;
+            outline: none;
+            font-weight: 800;
+        }
+
+        #gridDailyCM tr td:first-child {
+            display: none;
+        }
+
+        #gridDailyCM tr th:first-child {
+            display: none;
+        }
+
+        #gridDailyCM td:nth-child(3), #gridDailyCM td:nth-child(2), #gridDailyCM td:nth-child(4), #gridDailyCM td:nth-child(5),
+        #gridDailyCM th:nth-child(3), #gridDailyCM th:nth-child(2), #gridDailyCM th:nth-child(4), #gridDailyCM th:nth-child(5) {
             display: none
         }
+        table tr td a {
+            color: blue!important;
+        }
+        ul {
+            direction: rtl;
+        }
     </style>
-    <div class="panel panel-primary">
-        <div class="panel-heading">برنامه نت پیش بینانه</div>
-        <div class="panel-body">
+    <div class="card">
+        <div class="card-header bg-primary text-white">برنامه نت پیش بینانه</div>
+        <div class="card-body">
 
-            <ul class="nav nav-tabs" style="padding: 0px 15px 0 15px; margin-top: 10px;">
-                <li class="active"><a data-toggle="tab" href="#TodayCm">نت پیش بینانه امروز</a></li>
-                <li><a data-toggle="tab" href="#DateCm">نت پیش بینانه در محدودی تاریخ</a></li>
+            <ul class="nav nav-tabs sans" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#TodayCm" role="tab" aria-controls="home"
+                       aria-selected="true">نت پیش بینانه امروز</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#DateCm" role="tab" aria-controls="profile"
+                       aria-selected="false">نت پیش بینانه در محدودی تاریخ</a>
+                </li>
             </ul>
 
             <div class="tab-content">
-                <div id="TodayCm" class="tab-pane fade in active">
+                <div id="TodayCm" class="tab-pane fade show active">
                     <div class="menubody">
                         <div style="width: 100%; padding: 2px 15px 2px 15px; text-align: center;">
                             <div class="row" style="margin: 0; border: 1px solid rgb(190, 190, 190); border-radius: 5px; background-color: #dfecfe;">
@@ -53,7 +91,10 @@
                                 <div class="col-lg-6" style="padding: 5px;">
                                     <label style="display: block; text-align: right;"> : نام واحد</label>
                                     <div style="border: 1px solid darkgray; border-radius: 5px; position: relative;">
-                                        <asp:DropDownList runat="server" CssClass="form-control dr" AppendDataBoundItems="True" ClientIDMode="Static" ID="drUnits" AutoPostBack="True" DataSourceID="SqlUnits" DataTextField="unit_name" DataValueField="unit_code" OnSelectedIndexChanged="drUnits_OnSelectedIndexChanged">
+                                        <asp:DropDownList runat="server" CssClass="form-control dr" AppendDataBoundItems="True" 
+                                                          ClientIDMode="Static" ID="drUnits" AutoPostBack="True" DataSourceID="SqlUnits" 
+                                                          DataTextField="unit_name" DataValueField="unit_code" 
+                                                          OnSelectedIndexChanged="drUnits_OnSelectedIndexChanged">
                                             <asp:ListItem Value="-1">همه واحدها</asp:ListItem>
                                         </asp:DropDownList>
                                         <asp:SqlDataSource ID="SqlUnits" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT [unit_name], [unit_code] FROM [i_units]"></asp:SqlDataSource>
@@ -136,13 +177,13 @@ where (Forecast.tarikh <= @tarikh) and Forecast.act=0 ">
                             <div class="col-lg-6" style="padding: 5px;">
                                 <label style="display: block; text-align: right;"> : تا تاریخ</label>
                                 <div style="border: 1px solid darkgray; border-radius: 5px; position: relative;">
-                                    <input type="text" class="txtStyle text-center" id="txtEndDate" autocomplete="off"/>
+                                    <input type="text" class="txtStyle text-center sans" id="txtEndDate" autocomplete="off"/>
                                 </div>
                             </div>
                             <div class="col-lg-6" style="padding: 5px;">
                                 <label style="display: block; text-align: right;"> : از تاریخ</label>
                                 <div style="border: 1px solid darkgray; border-radius: 5px; position: relative;">
-                                    <input type="text" id="txtStartDate" class="txtStyle text-center" autocomplete="off"/>
+                                    <input type="text" id="txtStartDate" class="txtStyle text-center sans" autocomplete="off"/>
                                 </div>
                             </div>
                             <button type="button" class="btn btn-info" style="width: 100%; margin: auto;" onclick="filterGridDailyCm();">مشاهده</button>
@@ -160,9 +201,9 @@ where (Forecast.tarikh <= @tarikh) and Forecast.act=0 ">
         <div class="modal-content">
             <span class="fa fa-remove" onclick="$(this).parent().parent().hide();"
                   style="position: absolute; top: 10px; left: 10px; color: black; cursor: pointer; font-size: 15pt;"></span>
-            <div class="panel panel-primary" style="margin-bottom: 0;">
-                <div class="panel-heading" style="font-weight: 800;">تاریخ تعویض بعدی</div>
-                <div class="panel-body" style="text-align: center;">
+            <div class="card" style="margin-bottom: 0;">
+                <div class="card-header bg-primary text-white" style="font-weight: 800;">تاریخ تعویض بعدی</div>
+                <div class="card-body" style="text-align: center;">
                     <label style="display: block; text-align: right;">تاریخ تعویض بعدی</label>
                     <div class="row" style="margin: 0;">
                         <div class="col-lg-3">
@@ -182,9 +223,9 @@ where (Forecast.tarikh <= @tarikh) and Forecast.act=0 ">
         <div class="modal-content">
             <span class="fa fa-remove" onclick="$(this).parent().parent().hide();"
                   style="position: absolute; top: 10px; left: 10px; color: black; cursor: pointer; font-size: 15pt;"></span>
-            <div class="panel panel-primary" style="margin-bottom: 0;">
-                <div class="panel-heading" style="font-weight: 800;">تاریخ تعویض بعدی(منجر به تعویض)</div>
-                <div class="panel-body" style="text-align: center;">
+            <div class="card" style="margin-bottom: 0;">
+                <div class="card-header bg-primary text-white" style="font-weight: 800;">تاریخ تعویض بعدی(منجر به تعویض)</div>
+                <div class="card-body" style="text-align: center;">
                     <label style="display: block; text-align: right;">تاریخ تعویض بعدی</label>
                     <div class="row" style="margin: 0;">
                         <div class="col-lg-3">
@@ -203,20 +244,6 @@ where (Forecast.tarikh <= @tarikh) and Forecast.act=0 ">
 
     <script>
         $(document).ready(function () {
-            var customOptions = {
-                placeholder: "روز / ماه / سال"
-                , twodigit: true
-                , closeAfterSelect: true
-                , nextButtonIcon: "fa fa-arrow-circle-right"
-                , previousButtonIcon: "fa fa-arrow-circle-left"
-                , buttonsColor: "blue"
-                , forceFarsiDigits: true
-                , markToday: true
-                , markHolidays: true
-                , highlightSelectedDay: true
-                , sync: true
-                , gotoToday: true
-            }
             kamaDatepicker('txtPartchangeDate', customOptions);
             kamaDatepicker('txtChangeDate', customOptions);
             kamaDatepicker('txtStartDate', customOptions);
@@ -262,17 +289,15 @@ where (Forecast.tarikh <= @tarikh) and Forecast.act=0 ">
                 RedAlert('txtEndDate', '');
                 return;
             }
-            if (!CheckPastTime(sDate,'12:00',eDate,'12:00')) {
+            if (!CheckPastTime(sDate, '12:00', eDate, '12:00')) {
                 RedAlert('no', 'لطفا محدودی تاریخ را چک کنید');
                 return;
             }
-            var data = [];
-            data.push({
+            AjaxData({
                 url: 'WebService.asmx/FilterGridCm',
-                parameters: [{ s: sDate, e: eDate }],
-                func:createGrid
+                param: { s: sDate, e: eDate },
+                func: createGrid
             });
-            AjaxCall(data);
             function createGrid(e) {
                 $('#gridDailyCMbyDate tbody').empty();
                 var d = JSON.parse(e.d);
