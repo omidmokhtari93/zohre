@@ -197,21 +197,23 @@ where (Forecast.tarikh <= @tarikh) and Forecast.act=0 ">
         </div>
     </div>
 
-    <div id="ModalChangeDate" class="modal" style="direction: rtl;">
-        <div class="modal-content">
-            <span class="fa fa-remove" onclick="$(this).parent().parent().hide();"
-                  style="position: absolute; top: 10px; left: 10px; color: black; cursor: pointer; font-size: 15pt;"></span>
-            <div class="card" style="margin-bottom: 0;">
-                <div class="card-header bg-primary text-white" style="font-weight: 800;">تاریخ تعویض بعدی</div>
-                <div class="card-body" style="text-align: center;">
-                    <label style="display: block; text-align: right;">تاریخ تعویض بعدی</label>
-                    <div class="row" style="margin: 0;">
-                        <div class="col-lg-3">
-                            <button class="button" ClientIDMode="Static" disabled id="btnChangeDate" style="width: 100%;" runat="server" OnServerClick="btnChangeDate_OnClick">ثبت</button>
-                        </div>
-                        <div class="col-lg-9">
-                            <input class="form-control text-center" ClientIDMode="Static" readonly runat="server"
-                                autocomplete="off" id="txtChangeDate" style="width: 100%;cursor: pointer"/>        
+    <div id="ModalChangeDate" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <span class="fa fa-remove" onclick="$(this).parent().parent().hide();"
+                      style="position: absolute; top: 10px; left: 10px; color: black; cursor: pointer; font-size: 15pt;"></span>
+                <div class="card" style="margin-bottom: 0;">
+                    <div class="card-header bg-primary text-white" style="font-weight: 800;">تاریخ تعویض بعدی</div>
+                    <div class="card-body" style="text-align: center;">
+                        <label style="display: block; text-align: right;">تاریخ تعویض بعدی</label>
+                        <div class="row" style="margin: 0;">
+                            <div class="col-lg-3">
+                                <button class="button" ClientIDMode="Static" disabled id="btnChangeDate" style="width: 100%;" runat="server" OnServerClick="btnChangeDate_OnClick">ثبت</button>
+                            </div>
+                            <div class="col-lg-9">
+                                <input class="form-control text-center" ClientIDMode="Static" readonly runat="server"
+                                       autocomplete="off" id="txtChangeDate" style="width: 100%;cursor: pointer"/>        
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -219,22 +221,24 @@ where (Forecast.tarikh <= @tarikh) and Forecast.act=0 ">
         </div>
     </div>
     
-    <div id="ModalChangePart" class="modal" style="direction: rtl;">
-        <div class="modal-content">
-            <span class="fa fa-remove" onclick="$(this).parent().parent().hide();"
-                  style="position: absolute; top: 10px; left: 10px; color: black; cursor: pointer; font-size: 15pt;"></span>
-            <div class="card" style="margin-bottom: 0;">
-                <div class="card-header bg-primary text-white" style="font-weight: 800;">تاریخ تعویض بعدی(منجر به تعویض)</div>
-                <div class="card-body" style="text-align: center;">
-                    <label style="display: block; text-align: right;">تاریخ تعویض بعدی</label>
-                    <div class="row" style="margin: 0;">
-                        <div class="col-lg-3">
-                            <button class="button" ClientIDMode="Static" disabled id="btnChangePart"
-                                style="width: 100%;" runat="server" OnServerClick="btnChangePart_OnServerClick">ثبت و ادامه</button>
-                        </div>
-                        <div class="col-lg-9">
-                            <input class="form-control text-center" ClientIDMode="Static" readonly runat="server" autocomplete="off"
-                                id="txtPartchangeDate" style="width: 100%;cursor: pointer"/>        
+    <div id="ModalChangePart" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <span class="fa fa-remove" onclick="$(this).parent().parent().hide();"
+                      style="position: absolute; top: 10px; left: 10px; color: black; cursor: pointer; font-size: 15pt;"></span>
+                <div class="card" style="margin-bottom: 0;">
+                    <div class="card-header bg-primary text-white rtl" style="font-weight: 800;">تاریخ تعویض بعدی(منجر به تعویض)</div>
+                    <div class="card-body" style="text-align: center;">
+                        <label style="display: block; text-align: right;">تاریخ تعویض بعدی</label>
+                        <div class="row" style="margin: 0;">
+                            <div class="col-lg-3">
+                                <button class="button" ClientIDMode="Static" disabled id="btnChangePart"
+                                        style="width: 100%;" runat="server" OnServerClick="btnChangePart_OnServerClick">ثبت و ادامه</button>
+                            </div>
+                            <div class="col-lg-9">
+                                <input class="form-control text-center" ClientIDMode="Static" readonly runat="server" autocomplete="off"
+                                       id="txtPartchangeDate" style="width: 100%;cursor: pointer"/>        
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -252,7 +256,7 @@ where (Forecast.tarikh <= @tarikh) and Forecast.act=0 ">
 
         $("table").on("click", "tr a#changeDate", function () {
             $('#ForecastId').val($(this).closest('tr').find("input[type=hidden][id=id]").val());
-            $('#ModalChangeDate').show();
+            $('#ModalChangeDate').modal('show');
         });
         $('#txtChangeDate').change(function () {
             if (checkPastDate('txtChangeDate') == false) {
@@ -269,7 +273,7 @@ where (Forecast.tarikh <= @tarikh) and Forecast.act=0 ">
             $('#Unit_Code').val($(this).closest('tr').find("input[type=hidden][id=UnitCode]").val());
             $('#M_PartId').val($(this).closest('tr').find("input[type=hidden][id=mPartId]").val());
             $('#Part_Id').val($(this).closest('tr').find("input[type=hidden][id=PartId]").val());
-            $('#ModalChangePart').show();
+            $('#ModalChangePart').modal('show');
         });
 
         $('#txtPartchangeDate').change(function () {
