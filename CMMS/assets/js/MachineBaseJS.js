@@ -101,41 +101,59 @@ function addKey() {
     var volt = $('#txtvolt').val();
     var country = $('#txtcountry').val();
     var commentKey = $('#txtcomment').val();
-    var head = '<thead>' +
-        '<tr>' +
-        '<th>نام/شرح</th>' +
-        '<th>KW</th>' +
-        '<th>RPM</th>' +
-        '<th>سازنده</th>' +
-        '<th>ولتاژ</th>' +
-        '<th>جریان</th>' +
-        '<th>ملاحضات</th>' +
-        '<th></th>' +
-        '<th></th>' +
-        '</tr>' +
-        '</thead>';
-    var tbody = '<tbody></tbody>';
-    var row = '<tr>' +
-
-        '<td>' + keyname + '</td>' +
-        '<td >' + kw + '</td>' +
-        '<td >' + rpm + '</td>' +
-        '<td >' + country + '</td>' +
-        '<td >' + volt + '</td>' +
-        '<td >' + flow + '</td>' +
-        '<td >' + commentKey + '</td>' +
-        '<td><a id="edit">ویرایش</a></td>' +
-        '<td><a id="delete">حذف</a></td>' +
-        '</tr>';
-    if ($('#gridMavaredKey tr').length != 0) {
-        $("#gridMavaredKey tbody").append(row);
-    } else {
-        $("#gridMavaredKey").append(head);
-        $("#gridMavaredKey").append(tbody);
-        $("#gridMavaredKey tbody").append(row);
+    if (keyname !== '' &&
+        (rpm !== '' || kw !== '' || flow !== '' || volt !== '' || country !== '' || commentKey !== '')) {
+        var head = '<thead>' +
+            '<tr>' +
+            '<th>نام/شرح</th>' +
+            '<th>KW</th>' +
+            '<th>RPM</th>' +
+            '<th>سازنده</th>' +
+            '<th>ولتاژ</th>' +
+            '<th>جریان</th>' +
+            '<th>ملاحضات</th>' +
+            '<th></th>' +
+            '<th></th>' +
+            '</tr>' +
+            '</thead>';
+        var tbody = '<tbody></tbody>';
+        var row = '<tr>' +
+            '<td>' +
+            keyname +
+            '</td>' +
+            '<td >' +
+            kw +
+            '</td>' +
+            '<td >' +
+            rpm +
+            '</td>' +
+            '<td >' +
+            country +
+            '</td>' +
+            '<td >' +
+            volt +
+            '</td>' +
+            '<td >' +
+            flow +
+            '</td>' +
+            '<td >' +
+            commentKey +
+            '</td>' +
+            '<td><a id="edit">ویرایش</a></td>' +
+            '<td><a id="delete">حذف</a></td>' +
+            '</tr>';
+        if ($('#gridMavaredKey tr').length != 0) {
+            $("#gridMavaredKey tbody").append(row);
+        } else {
+            $("#gridMavaredKey").append(head);
+            $("#gridMavaredKey").append(tbody);
+            $("#gridMavaredKey tbody").append(row);
+        }
+        ClearFields('pnlMavaredKey');
+        $('#txtCommentKey').val(keycom);
     }
-    ClearFields('pnlMavaredKey');
-    $('#txtCommentKey').val(keycom);
+    else
+        RedAlert('txtKeyName', "!!لطفا موارد کلیدی را وارد نمایید");
 }
 $("#gridMavaredKey").on("click", "tr a#delete", function () {
     target_tr = $(this).parent().parent();
