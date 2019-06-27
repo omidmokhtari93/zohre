@@ -1,39 +1,20 @@
 ﻿var subData = [];
-function CreateBadge(text, val) {
-  var badgeHtml = '<div class="Subsystembadge" ' +
-    'onclick="removeThis($(this));$(this).remove();">' +
-    '<label style="direction:rtl;">' + text + '</label>' +
-    '<p style="display:none;">' + val + '</p>' +
-    '<span>&times;</span>' +
-    '</div>';
-  if ($('#badgeArea').text().indexOf(text) > -1) {
-    RedAlert('n', "!!این مورد قبلا انتخاب شده است");
-  } else {
-    $('#subPanel').append(badgeHtml);
-    subData.push({ Name: text, Id: val });
-    $('#txtSearchSubsystem').val('');
-    $('#txtSearchSubsystem').attr('disabled', 'disabled');
-    $('#subSystemSearchRes').hide();
-  }
-}
 
-$('.SubSystemTable').on('click', 'tr', function () {
-  var $row = $(this).closest("tr");
-  var $text = $row.find("td").eq(0).html();
-  var $value = $row.find("td").eq(1).html();
 
-  CreateBadge($text, $value);
+$('#searchSubsystem').search({
+  width: '100%',
+  placeholder: 'جستجو',
+  url: 'WebService.asmx/FilteredGridSubSystem',
+  arg: 'subSystemName',
+  text: 'ToolName',
+  id: 'ToolId',
+  func: consolelog
 });
-function removeThis(e) {
-  subData = [];
-  $('#txtSearchSubsystem').removeAttr('disabled');
+
+function consolelog(id, text) {
+  subData.push({ Name: text, Id: id });
+  console.log(id + ' ' + text);
 }
-$(document).click(function (e) {
-  if ($(e.target).closest('#subSearchArea').length === 0) {
-    $('#subSystemSearchRes').hide();
-    $('#txtSearchSubsystem').val('');
-  }
-});
 
 function CreateSubTable() {
   var j = 1;
@@ -41,12 +22,12 @@ function CreateSubTable() {
   var i, a, b, c;
   var array = [];
   var pelak = $('#txtSubPelak').val();
-  if (pelak.length > 12) {
-    RedAlert('txtSearchSubsystem', "!!شماره پلاک نامعتبر");
+  if (pelak.length !== 12) {
+    RedAlert('txtSubPelak', "!!شماره پلاک نامعتبر");
     return;
   }
   if (subData.length === 0) {
-    RedAlert('txtSearchSubsystem', "!!حداقل یک مورد را انتخاب نمایید");
+    RedAlert('searchSubsystem', "!!حداقل یک مورد را انتخاب نمایید");
     return;
   }
 
@@ -85,7 +66,6 @@ function CreateSubTable() {
     $('#subSystemTable tbody').append(array.join(''));
   }
   subData = [];
-  $('#txtSearchSubsystem').removeAttr('disabled');
   $('.Subsystembadge').remove();
   $('#txtSubPelak').val($('#txtSubPelak').val().substr(0, $('#txtSubPelak').val().indexOf('-') + 1));
 }
@@ -129,52 +109,8 @@ function editsubsystempelak(e) {
 }
 
 
-var typingTimersub;
-var doneTypingIntervalsub = 1000;
-var $subinput = $('#txtSearchSubsystem');
-$subinput.on('keyup', function () {
-  clearTimeout(typingTimersub);
-  typingTimersub = setTimeout(doneTypingsub, doneTypingIntervalsub);
-  $('#subsystemLoading').show();
-  $('#gridSubsystem tbody').empty();
-  if ($('#txtSearchSubsystem').val() === '') {
-    $('#subSystemSearchRes').hide();
-  }
-});
-$subinput.on('keydown', function () {
-  clearTimeout(typingTimersub);
-});
-function doneTypingsub() {
-  if (($subinput).val().length > 1) {
-    $.ajax({
-      type: "POST",
-      url: "WebService.asmx/FilteredGridSubSystem",
-      contentType: "application/json; charset=utf-8",
-      data: JSON.stringify({ 'subSystemName': $subinput.val() }),
-      dataType: "json",
-      success: function (e) {
-        var items = JSON.parse(e.d);
-        var array = [];
-        var itemCount = items.length;
-        for (var i = 0; i < itemCount; i++) {
-          array.push('<tr><td>' +
-            items[i].ToolName + '</td>' + '<td style="display:none;">' + items[i].ToolId + '</td></tr>');
-        }
-        $('#gridSubsystem').append(array.join(''));
-      },
-      error: function () {
-      }
-    });
-  }
-  if (($subinput).val().length <= 1 && ($subinput).val() != '') {
-    RedAlert('no', "!!حداقل دو حرف از نام قطعه را وارد نمایید");
-  }
-  $('#subsystemLoading').hide();
-  $('#subSystemSearchRes').show();
-  if ($('#txtSearchSubsystem').val() === '') {
-    $('#subSystemSearchRes').hide();
-  }
-}
+
+
 var flag = 0;
 var typingTimerName;
 var doneTypingIntervalName = 500;

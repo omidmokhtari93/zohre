@@ -24,15 +24,9 @@
             display: none;
         }
 
-        #gridEnergy tr td a {
-            cursor: pointer;
-        }
-
-        #gridRepairRecord tr td a {
-            cursor: pointer;
-        }
-
-        #gridRepairRequest tr td a {
+        #gridEnergy tr td a,
+        #gridRepairRecord tr td a,
+        #gridRepairRequest tr td a{
             cursor: pointer;
         }
 
@@ -51,6 +45,9 @@
 
         .fa-trash {
             color: red;
+        }
+        .boxx {
+            color: white !important;
         }
     </style>
     <div class="card sans" runat="server" id="pnlMachineInfo">
@@ -101,17 +98,17 @@
                         <asp:BoundField DataField="faz_name" HeaderText="فاز" SortExpression="faz_name" />
                         <asp:TemplateField>
                             <ItemTemplate>
-                                <a style="cursor: pointer" class="bg-primary text-white pr-1 pl-1 sans-small" id="RepiarRequest">درخواست های تعمیر</a>
+                                <a style="cursor: pointer" class="bg-light pr-1 pl-1 sans-small rounded" id="RepiarRequest">درخواست های تعمیر</a>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField>
                             <ItemTemplate>
-                                <a style="cursor: pointer" class="bg-primary text-white pr-1 pl-1 sans-small" id="RepairRecord">سوابق تعمیر</a>
+                                <a style="cursor: pointer" class="bg-light pr-1 pl-1 sans-small rounded" id="RepairRecord">سوابق تعمیر</a>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField>
                             <ItemTemplate>
-                                <a style="cursor: pointer" class="bg-primary text-white pr-1 pl-1 sans-small" id="energy">ثبت موارد انرژی</a>
+                                <a style="cursor: pointer" class="bg-light pr-1 pl-1 sans-small rounded" id="energy">ثبت موارد انرژی</a>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:ButtonField CommandName="Ed">
