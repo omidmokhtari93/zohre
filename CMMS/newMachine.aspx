@@ -620,7 +620,7 @@
                         <label>تاریخ تقریبی تعویض بعدی :</label>
                         <input type="text" id="txtGhatatChangePeriod" tabindex="45" class="form-control text-center" readonly style="cursor: pointer;" />
                         <span class="fa fa-remove" title="این مقدار را حذف کن" onclick="$('#txtGhatatChangePeriod').val('');"
-                            style="position: absolute; top: 32px; left: 25px; color: darkgray; cursor: pointer; font-size: 15pt;"></span>
+                            style="position: absolute; top: 25px; left: 25px; color: darkgray; cursor: pointer; font-size: 15pt;"></span>
                     </div>
                 </div>
             </div>
@@ -650,7 +650,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <textarea class="form-control sans-small" tabindex="49" style="resize: none; min-height: 500px;" id="txtInstruc">
+                        <textarea class="form-control sans-small" tabindex="49" style="resize: none; min-height: 400px;" id="txtInstruc">
 1-استفاده از لوازم حفاظت فردی متناسب با نوع کار الزامی می باشد.
 2-ایمنی را همواره سرلوحه کار خود قرار دهید و درهنگام کار با ابزار برنده از شوخی کردن پرهیز کنید،یادتان باشد اول ایمنی،دوم ایمنی،سوم ایمنی...وبعد از برقراری شرایط ایمن انجام هرکاری صحیح و مجاز می باشد.
 3-حتما از خوب و مناسب بسته شدن قطعات و گیره به میز و به همدیگر مطمئن شوید.
