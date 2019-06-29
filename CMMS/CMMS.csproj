@@ -259,7 +259,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="assets\Content\contactus.htm" />
+    <Content Include="assets\Content\contactus.html" />
     <Content Include="assets\fonts\fontawesome-webfont.svg" />
     <Content Include="assets\Images\1.png" />
     <Content Include="assets\Images\aboutus.png" />
