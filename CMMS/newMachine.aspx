@@ -74,7 +74,7 @@
     <link href="assets/css/MachineStyles.css" rel="stylesheet" />
     <asp:HiddenField runat="server" ClientIDMode="Static" ID="Mid" />
     <div id="machineform" class="sans">
-        <div class="card" id="pnlNewMachine" style="display: none;">
+        <div class="card" id="pnlNewMachine" style="display: block;">
             <div class="card-header bg-primary text-white" style="position: relative;">
                 <img id="loadingPage" class="loadingSend" src="assets/Images/loading.png" />
                 <button type="button" title="کپی اطلاعات دستگاه" id="btnCopy" onclick="$('#copyModal').modal('show');"></button>
@@ -525,7 +525,7 @@
         </div>
 
         <%--ثبت اجزا ماشین--%>
-        <div class="card" id="pnlSubSytem" style="display: block;">
+        <div class="card" id="pnlSubSytem" style="display: none;">
             <div class="card-header bg-primary text-white">
                 <label class="float-left" lblmcode></label>
                 <div class="float-right">ثبت اجزا ماشین</div>&nbsp;

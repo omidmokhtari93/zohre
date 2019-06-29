@@ -600,7 +600,7 @@ label {
         width: 100px;
         background-color: #e4e4e4;
         color: rgba(0, 0, 0, 0.6);
-        font-size: 14px;
+        font-size: 13px;
         text-align: center;
         text-shadow: none;
         padding: 6px 14px;
@@ -833,6 +833,10 @@ label {
         visibility: visible;
         opacity: 1;
     }
+.mytooltip table tr td:hover {
+    background-color: #0c0183;
+    color: white;
+}
 
 .helpicon {
     background-image: url(../Images/help.png);

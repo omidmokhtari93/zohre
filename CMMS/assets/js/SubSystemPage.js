@@ -29,7 +29,7 @@ function doneTypingNamee() {
         var toolnames = JSON.parse(e.d);
         if (toolnames.length > 0) {
           $('#nameTooltip').empty();
-          $('#nameTooltip').append('<p style="display: block; text-align: right;padding-right:3px;margin-bottom:5px;">: موارد مشابه ثبت شده</p>');
+          $('#nameTooltip').append('<p style="display: block; text-align: right;padding-right:3px;margin-bottom:5px;direction:ltr;">: موارد مشابه ثبت شده</p>');
           for (var i = 0; i < toolnames.length; i++) {
             span += '<div>' + toolnames[i] + '</div>';
           }

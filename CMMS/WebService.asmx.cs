@@ -113,7 +113,7 @@ namespace CMMS
                     mail.From = new MailAddress("borna.assistanse@gmail.com", "اطلاعات حساب کاربری", System.Text.Encoding.UTF8);
                     mail.Subject = "بازیابی نام کاربری و رمز عبور";
                     mail.SubjectEncoding = Encoding.UTF8;
-                    var formBody = File.ReadAllText(HttpContext.Current.Server.MapPath("~/Content/forgetPasswordForm.html"));
+                    var formBody = File.ReadAllText(HttpContext.Current.Server.MapPath("~/assets/Content/forgetPasswordForm.html"));
                     formBody = formBody.Replace("#nameAndFamily#", nameAndFamily);
                     formBody = formBody.Replace("#username#", forgottenUsername);
                     formBody = formBody.Replace("#password#", forgottenPassword);
@@ -131,7 +131,7 @@ namespace CMMS
                     client.Send(mail);
                     return new JavaScriptSerializer().Serialize(new { flag = 1, message = ".نام کاربری و رمز عبور به ایمیل شما ارسال گردید" });
                 }
-                catch
+                catch(Exception e)
                 {
                     return new JavaScriptSerializer().Serialize(new { flag = 0, message = "!خطا در ارسال ایمیل" });
                 }
@@ -149,7 +149,7 @@ namespace CMMS
                 mail.From = new MailAddress("borna.assistanse@gmail.com", email, System.Text.Encoding.UTF8);
                 mail.Subject = name;
                 mail.SubjectEncoding = System.Text.Encoding.UTF8;
-                var userMessage = File.ReadAllText(HttpContext.Current.Server.MapPath("/Content/contactus.htm"));
+                var userMessage = File.ReadAllText(HttpContext.Current.Server.MapPath("~/assets/Content/contactus.htm"));
                 userMessage = userMessage.Replace("#Name#", name);
                 userMessage = userMessage.Replace("#Email#", email);
                 userMessage = userMessage.Replace("#Phone#", phone);
