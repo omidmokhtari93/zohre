@@ -2,7 +2,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <style>
         .dr{border: none; border-radius: 5px; width: 100%; direction: rtl; outline: none; font-weight: 800; height: 26px; padding: 1px;}
-        .txt{border: none; border-radius: 5px; width: 100%; direction: rtl; outline: none; font-weight: 800;}
+        .txt{border: none; border-radius: 5px; width: 100%; direction: rtl; outline: none; font-weight: 800;height: 26px;}
         label{ margin: 0;}
     </style>
     <div class="card sans">
