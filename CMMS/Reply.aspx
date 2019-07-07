@@ -139,7 +139,7 @@
         <div class="card-header bg-primary text-white">شرح درخواست</div>
         <div class="card-body">
             <div style="width: 700px; min-height: 250px; background-color: #9cdffb; border-radius: 5px; margin: auto; padding: 20px; text-align: right;">
-                <div class="row">
+                <div class="row bold-sans">
                     <div class="col-lg-6 text-left">
                         <label class="listlable" id="lblRequestNumber"></label>
                         <label>: شماره درخواست</label>
@@ -150,7 +150,7 @@
                     </div>
                 </div>
                 <hr />
-                <div class="row">
+                <div class="row bold-sans">
                     <div class="col-lg-6">
                         <label class="listlable" id="lblNameRequest"></label>
                         <label>: نام درخواست کننده</label>
@@ -160,7 +160,7 @@
                         <label>: واحد درخواست کننده</label>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row bold-sans">
                     <div class="col-lg-2">
                         <label class="listlable" id="lblline"></label>
                         <label>: خط</label>
@@ -174,7 +174,7 @@
                         <label>: مورد تعمیر</label>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row bold-sans">
                     <div class="col-lg-8">
                         <label class="listlable" id="lblSubName"></label>
                         <label>: تجهیز</label>
@@ -184,7 +184,7 @@
                         <label>: به شماره فنی</label>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row bold-sans">
                     <div class="col-lg-6">
                         <label class="listlable" id="lblRequestType"></label>
                         <label>: نوع درخواست</label>
@@ -200,7 +200,7 @@
                         <label>: توضیحات</label>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row bold-sans">
                     <div class="col-lg-12">
                         <div style="background-color: white; border-radius: 5px; width: 100%;">
                             <div style="padding: 5px;">
@@ -263,7 +263,7 @@
     <div class="card sans" id="pnlRepairExplain" style="display: none;">
         <div class="card-header bg-primary text-white">شرح تعمیر</div>
         <div class="card-body">
-            <div class="row">
+            <div class="row bold-sans">
                 <div class="col-sm-3">
                     شماره درخواست
                     <input class="form-control text-center" disabled="disabled" type="text" id="txtRequsetNumber" />
@@ -276,7 +276,7 @@
                 <div class="col-sm-3"></div>
             </div>
             <hr />
-            <div class="row">
+            <div class="row bold-sans">
                 <div class="col-sm-3">
                     تجهیز مورد تعمیر
                     <asp:DropDownList dir="rtl" runat="server" ID="drSubSystem" ClientIDMode="Static" CssClass="form-control" DataSourceID="SqlsubSystem" DataTextField="name" DataValueField="id" />
@@ -300,7 +300,7 @@
                 </div>
             </div>
             <hr />
-            <div class="row">
+            <div class="row bold-sans">
                 <div class="col-sm-6">
                     <div class="card">
                         <div class="card-body p-2">
@@ -347,7 +347,7 @@
                 </div>
             </div>
             <hr />
-            <div class="row">
+            <div class="row bold-sans">
                 <div class="col-sm-6">
                     <div class="card">
                         <div class="card-body p-2">
@@ -396,7 +396,7 @@
             <div class="row mt-3">
                 <div class="col-sm-12">
                     <div class="card">
-                        <div class="card-body p-2">
+                        <div class="card-body p-2 bold-sans">
                             <div>شرح عملیات</div>
                             <textarea class="form-control" id="txtActionExplain" rows="3" style="resize: none; direction: rtl;"></textarea>
                         </div>
@@ -405,7 +405,7 @@
             </div>
             <hr />
 
-            <div class="row">
+            <div class="row bold-sans">
                 <div class="col-sm-5">
                     <div class="card">
                         <div class="card-body p-2">
@@ -441,7 +441,7 @@
                 </div>
             </div>
             <hr />
-            <div class="row">
+            <div class="row bold-sans">
                 <div class="col-sm-6">
                     <div class="card">
                         <div class="card-body p-2">
@@ -470,7 +470,7 @@
                 </div>
             </div>
             <hr />
-            <div class="row">
+            <div class="row bold-sans">
                 <div class="col-sm-6">
                     <div class="card">
                         <div class="card-body p-2">
@@ -516,7 +516,7 @@
                 </div>
             </div>
             <hr />
-            <div class="row">
+            <div class="row bold-sans">
                 <div class="col-sm-6"></div>
                 <div class="col-sm-6">
                     <div class="card">
@@ -545,7 +545,7 @@
                 </div>
             </div>
             <hr />
-            <div class="row">
+            <div class="row bold-sans">
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body p-2">

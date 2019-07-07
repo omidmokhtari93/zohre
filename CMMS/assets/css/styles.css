@@ -138,8 +138,10 @@ input, textarea, select {
 }
 
 .card-header {
-    text-align: center;
+    text-align: right;
     font-family: sans;
+    font-size: medium;
+    font-weight: 500;
 }
 
 .btn {
@@ -516,7 +518,7 @@ label {
 
 .form-control {
     font-family: sans;
-    font-weight: 800;
+    /*font-weight: 800;*/
 }
 
 .inline {

@@ -86,7 +86,7 @@
             <div class="card-body">
                 <div class="row ltr text-right">
                     <div class="col-md-6 rtl">
-                        <label style="display: block; direction: rtl;">کد دستگاه :</label>
+                        <label style="display: block; direction: rtl;" class="bold-sans">کد دستگاه :</label>
                         <input class="form-control text-center" dir="ltr" style="width: 70%; display: inline-block; margin-left: 5px;" tabindex="2" id="txtmachineCode" />
                         <div id="machine" class="MachineCodeButtons">
                             <div class="mytooltip">
@@ -110,12 +110,12 @@
                             <button class="btnVahed" title="واحدها" id="btnVahed" type="button"></button>
                         </div>
                     </div>
-                    <div class="col-md-6 rtl">
+                    <div class="col-md-6 rtl bold-sans">
                         نام دستگاه :
                     <input id="txtmachineName" tabindex="1" class="form-control" />
                     </div>
                 </div>
-                <div class="row mt-3">
+                <div class="row mt-3 bold-sans">
                     <div class="col-md-4 rtl">
                         تاریخ نصب :
                     <input class="form-control" tabindex="4" id="txtMachineNasbDate" />
@@ -134,7 +134,7 @@
                     </div>
                     </div>
                 </div>
-                <div class="row mt-3">
+                <div class="row mt-3 bold-sans">
                     <div class="col-md-6 rtl">
                         تاریخ بهره برداری :
                     <input class="form-control" tabindex="7" id="txtmachineTarikh" />
@@ -144,7 +144,7 @@
                     <input id="txtMachineModel" tabindex="6" class="form-control" />
                     </div>
                 </div>
-                <div class="row mt-3">
+                <div class="row mt-3 bold-sans">
                     <div class="col-md-4 rtl">
                         فاز :
                     <asp:DropDownList runat="server" CssClass="form-control" AppendDataBoundItems="True" ID="drFaz" ClientIDMode="Static" DataSourceID="SqlFaz" DataTextField="faz_name" DataValueField="id">
@@ -166,7 +166,7 @@
                         <asp:SqlDataSource ID="sqlUnits" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT unit_name, unit_code FROM i_units"></asp:SqlDataSource>
                     </div>
                 </div>
-                <div class="row mt-3">
+                <div class="row mt-3 bold-sans">
                     <div class="col-md-6 rtl">
                         هزینه توقف بر ساعت :
                     <input class="form-control text-center" id="txtstopperhour" />
@@ -177,7 +177,7 @@
                     </div>
                 </div>
                 <hr />
-                <div class="row mt-3">
+                <div class="row mt-3 bold-sans">
                     <div class="col-md-6 rtl">
                         وضعیت تجهیز :
                     <div class="switch-field">
@@ -203,36 +203,36 @@
                 <label style="display: block; padding: 0 15px;">MTBF</label>
                 <div class="row mt-3">
                     <div class="col-md-6 rtl">
-                        <label style="display: block;">دوره پذیرش :</label>
+                        <label style="display: block;" class="bold-sans">دوره پذیرش :</label>
                         <input class="form-control text-center" tabindex="12" id="txtAdmissionperiodMTBF" style="width: 70%; display: inline-block;" />
                         &nbsp;&nbsp;&nbsp;&nbsp;
                     <label>ماه</label>
                     </div>
                     <div class="col-md-6 rtl">
-                        <label style="display: block;">هدف :</label>
+                        <label style="display: block;" class="bold-sans">هدف :</label>
                         <input id="txttargetMTBF" tabindex="11" style="width: 70%; display: inline-block;" class="form-control text-center" />
                         &nbsp;&nbsp;&nbsp;&nbsp;
                     <label>روز</label>
                     </div>
                 </div>
                 <hr />
-                <label style="display: block; padding: 0 15px;">MTTR</label>
+                <label style="display: block; padding: 0 15px;" class="bold-sans">MTTR</label>
                 <div class="row mt-3">
                     <div class="col-md-6 rtl">
-                        <label style="display: block;">دوره پذیرش :</label>
+                        <label style="display: block;" class="bold-sans">دوره پذیرش :</label>
                         <input class="form-control text-center" tabindex="14" id="txtAdmissionperiodMTTR" style="width: 70%; display: inline-block;" />
                         &nbsp;&nbsp;&nbsp;&nbsp;
                     <label>ماه</label>
                     </div>
                     <div class="col-md-6 rtl">
-                        <label style="display: block;">هدف :</label>
+                        <label style="display: block;" class="bold-sans">هدف :</label>
                         <input id="txttargetMTTR" tabindex="13" style="width: 70%; display: inline-block;" class="form-control text-center" />
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                    <label>ساعت</label>
+                    <label class="bold-sans">ساعت</label>
                     </div>
                 </div>
                 <hr />
-                <div class="row mt-3">
+                <div class="row mt-3 bold-sans">
                     <div class="col-md-6 rtl">
                         مشخصات مراکز خدمات پس از فروش :
                     <input class="form-control" tabindex="16" id="txtSupInfo" />
@@ -504,7 +504,7 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <label>توضیحات :</label>
+                        <label>: توضیحات </label>
                         <input class="form-control" tabindex="38" id="txtMavaredComment" />
                     </div>
                 </div>

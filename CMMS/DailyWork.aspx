@@ -7,18 +7,21 @@
         });
         </script>
     <div class="card sans">
-    <div class="card bg-primary text-white">تعمیرات انجام شده </div>
+        <div class="card-header bg-primary text-white">تعمیرات انجام شده</div>
     <div class="card-body">
         <div class="row">
-            <div class="col-md-9"></div>
+            <div class="col-md-6">
+                
+            </div>
+            <div class="col-md-3">
+                <asp:Button runat="server" style="width: 100%;" ID="btnShow" Text="دریافت گزارش"  CssClass="btn btn-primary" OnClick="btnShow_OnClick"/>
+            </div>
             <div class="col-md-3" style="text-align: right;">
                 <label style="display: block;"> : تاریخ</label>
                 <input class="form-control text-center" readonly style="cursor: pointer;" autocomplete="on" id="txtWorkDate" runat="server" ClientIDMode="Static"/>
             </div>
         </div>
-        <div style="padding: 15px 0;">
-            <asp:Button runat="server" style="width: 100%;" ID="btnShow" Text="دریافت گزارش" CssClass="btn btn-primary" OnClick="btnShow_OnClick"/>
-        </div> 
+        
         <hr/>
         <div class="alert alert-info" align="center">مدت زمان توقف خطوط</div>
         <asp:GridView runat="server" ID="grid_LineWorks" CssClass="table" dir="rtl" ClientIDMode="Static"

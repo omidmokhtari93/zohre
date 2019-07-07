@@ -63,7 +63,7 @@
                 <div id="editmeasur" class="tab-pane fade">
                     <div class="menubody">
                         <div class="card card-info">
-                            <div class="card-body" id="pnlPart">
+                            <div class="card-body rtl" id="pnlPart">
                                 <div class="col-lg-4"></div>
                                 <div class="col-lg-3">
                                     <label style="display: block; text-align: right;">واحد اقلام / کالا</label>

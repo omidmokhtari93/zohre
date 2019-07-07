@@ -10,7 +10,7 @@
         </div>
     </div>
 
-    <ul class="nav nav-tabs sans-small mt-1 rtl" role="tablist">
+    <ul class="nav nav-tabs sans mt-1 rtl" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" id="Mtbf-tab" data-toggle="tab" href="#RepReqTypes" role="tab" aria-controls="home"
                 aria-selected="true">نوع درخواست تعمیر</a>

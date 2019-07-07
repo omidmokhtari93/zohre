@@ -56,9 +56,9 @@
             <div style="width: 100%; padding: 2px 15px 2px 15px; text-align: center;">
                 <div class="row" style="margin: 0; border: 1px solid rgb(190, 190, 190); border-radius: 5px; background-color: #dfecfe;">
                     <div class="col-lg-4" style="padding: 5px;">
-                        <label style="display: block; text-align: right;">: محل استقرار</label>
+                        <label style="display: block; text-align: right;" >: محل استقرار</label>
                         <div style="border: 1px solid darkgray; border-radius: 5px; position: relative;">
-                            <asp:DropDownList runat="server" CssClass="form-control" AppendDataBoundItems="True" Style="border: none; border-radius: 5px; width: 100%; direction: rtl; outline: none; font-weight: 500; height: 26px; padding: 1px;"
+                            <asp:DropDownList runat="server" CssClass="form-control sans" AppendDataBoundItems="True" Style="border: none; border-radius: 5px; width: 100%; direction: rtl; outline: none; font-weight: 500; height: 26px; padding: 1px;"
                                 DataSourceID="Sqlunits" DataTextField="unit_name" DataValueField="unit_code" ID="drUnits" OnSelectedIndexChanged="drUnits_OnSelectedIndexChanged" AutoPostBack="True">
                                 <asp:ListItem Value="0">همه واحدها</asp:ListItem>
                             </asp:DropDownList>
@@ -69,7 +69,7 @@
                         <asp:Panel runat="server" DefaultButton="btnSearchCode">
                             <label style="display: block; text-align: right;">: کد ماشین</label>
                             <div style="border: 1px solid darkgray; border-radius: 5px; position: relative;">
-                                <input type="text" runat="server" id="txtCodeSearch" style="border: none; border-radius: 5px; width: 100%; direction: rtl; outline: none; font-weight: 800; padding-right: 4px;" />
+                                <input type="text" runat="server" id="txtCodeSearch" style="border: none; border-radius: 5px; width: 100%; direction: rtl; outline: none; font-weight: 800; padding-right: 4px;" class="sans" />
                                 <asp:Button ToolTip="جستجو" runat="server" CssClass="searchButton" ID="btnSearchCode" OnClick="btnSearchCode_OnClick" />
                             </div>
                         </asp:Panel>
@@ -78,7 +78,7 @@
                         <asp:Panel runat="server" DefaultButton="btnSearch">
                             <label style="display: block; text-align: right;">: نام ماشین</label>
                             <div style="border: 1px solid darkgray; border-radius: 5px; position: relative;">
-                                <input type="text" runat="server" id="txtSearch" style="border: none; border-radius: 5px; width: 100%; direction: rtl; outline: none; font-weight: 800; padding-right: 4px;" />
+                                <input type="text" runat="server" id="txtSearch" style="border: none; border-radius: 5px; width: 100%; direction: rtl; outline: none; font-weight: 800; padding-right: 4px;" class="sans"/>
                                 <asp:Button ToolTip="جستجو" runat="server" CssClass="searchButton" ID="btnSearch" OnClick="btnSearch_OnClick" />
                             </div>
                         </asp:Panel>

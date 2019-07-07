@@ -94,27 +94,27 @@
             <div class="row" style="margin: 0; border: 1px solid rgb(190, 190, 190);border-radius: 5px; background-color: #dfecfe;">
                 <div class="col-lg-4" style="padding: 5px;">
                     <asp:Panel runat="server" DefaultButton="btnSearchTag">
-                    <label style="display: block; text-align: right;">شماره پلاک :</label>
+                    <label style="display: block; text-align: right;margin-right: 5px">شماره پلاک </label>
                     <div style="border: 1px solid darkgray; border-radius:5px; position: relative;">
-                        <input type="text" runat="server" id="txtSearchTag" style="border: none; border-radius: 5px; width: 100%; direction: rtl; outline: none; font-weight: 800;"/>
+                        <input type="text" runat="server" id="txtSearchTag" style="border: none; border-radius: 5px; width: 100%; direction: rtl;height: 30px; outline: none; " class="sans"/>
                         <asp:Button ToolTip="جستجو" runat="server" CssClass="searchButton" ID="btnSearchTag" OnClick="btnSearchTag_OnClick"/>
                     </div>
                     </asp:Panel>
                 </div>
                 <div class="col-lg-4" style="padding: 5px;">
                     <asp:Panel runat="server" DefaultButton="btnSearchCode">
-                        <label style="display: block; text-align: right;">کد قطعه :</label>
+                        <label style="display: block; text-align: right;margin-right: 5px">کد قطعه </label>
                         <div style="border: 1px solid darkgray; border-radius:5px; position: relative;">
-                            <input type="text" runat="server" id="txtSearchCode" style="border: none; border-radius: 5px; width: 100%; direction: rtl; outline: none; font-weight: 800;"/>
+                            <input type="text" runat="server" id="txtSearchCode" style="border: none; border-radius: 5px; width: 100%; direction: rtl;height: 30px; outline: none; " class="sans"/>
                             <asp:Button ToolTip="جستجو" runat="server" CssClass="searchButton" ID="btnSearchCode" OnClick="btnSearchCode_OnClick"/>
                         </div>
                     </asp:Panel>
                 </div>
                 <div class="col-lg-4" style="padding: 5px;">
                     <asp:Panel runat="server" DefaultButton="btnSearchName">
-                        <label style="display: block; text-align: right;">نام قطعه :</label>
+                        <label style="display: block; text-align: right;margin-right: 5px">نام قطعه </label>
                         <div style="border: 1px solid darkgray; border-radius:5px; position: relative;">
-                            <input type="text" runat="server" id="txtSearchName" style="border: none; border-radius: 5px; width: 100%; direction: rtl; outline: none; font-weight: 800;"/>
+                            <input type="text" runat="server" id="txtSearchName" style="border: none; border-radius: 5px; width: 100%; direction: rtl; height: 30px; outline: none; " class="sans"/>
                             <asp:Button ToolTip="جستجو" runat="server" CssClass="searchButton" ID="btnSearchName" OnClick="btnSearchName_OnClick"/>
                         </div>
                     </asp:Panel>

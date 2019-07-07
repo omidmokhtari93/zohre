@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MainDesign.Master" AutoEventWireup="true" CodeBehind="RCFA.aspx.cs" Inherits="CMMS.RCFA" %>
+﻿<%@ Page Title="گزارشات خرابی" Language="C#" MasterPageFile="~/MainDesign.Master" AutoEventWireup="true" CodeBehind="RCFA.aspx.cs" Inherits="CMMS.RCFA" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <style>
@@ -10,7 +10,7 @@
         </div>
     </div>
 
-    <ul class="nav nav-tabs sans-small mt-1 rtl" role="tablist">
+    <ul class="nav nav-tabs sans mt-1 rtl" role="tablist">
         <li class="nav-item">
             <a class="nav-link active"  data-toggle="tab" href="#FailTypes" role="tab" aria-controls="home"
                 aria-selected="true">نوع خرابی</a>

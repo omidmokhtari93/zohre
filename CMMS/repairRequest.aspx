@@ -14,16 +14,16 @@
             </div>
             <hr/>
             <div class="row">
-                <div class="col-md-3 rtl">
+                <div class="col-md-3 rtl bold-sans">
                     فاز :
-                    <asp:DropDownList runat="server" CssClass="form-control" AppendDataBoundItems="True" ID="drFaz" ClientIDMode="Static" DataSourceID="SqlFaz" DataTextField="faz_name" DataValueField="id" TabIndex="3">
+                    <asp:DropDownList runat="server" CssClass="form-control " AppendDataBoundItems="True" ID="drFaz" ClientIDMode="Static" DataSourceID="SqlFaz" DataTextField="faz_name" DataValueField="id" TabIndex="3">
                         <asp:ListItem Value="0">انتخاب کنید</asp:ListItem>
                     </asp:DropDownList>
                     <asp:SqlDataSource ID="SqlFaz" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, faz_name FROM i_faz"></asp:SqlDataSource>
                 </div>
-                <div class="col-md-3 rtl">
+                <div class="col-md-3 rtl bold-sans">
                     خط :
-                    <asp:DropDownList runat="server" CssClass="form-control" ID="drLine" ClientIDMode="Static" AppendDataBoundItems="True" DataSourceID="Sqlline" DataTextField="line_name" DataValueField="id" TabIndex="2">
+                    <asp:DropDownList runat="server" CssClass="form-control " ID="drLine" ClientIDMode="Static" AppendDataBoundItems="True" DataSourceID="Sqlline" DataTextField="line_name" DataValueField="id" TabIndex="2">
                         <asp:ListItem Value="0">انتخاب کنید</asp:ListItem>
                     </asp:DropDownList>
                     <asp:SqlDataSource ID="Sqlline" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT line_name, id FROM i_lines"></asp:SqlDataSource>
@@ -51,11 +51,18 @@
                     <label style="display: block;">
             <asp:SqlDataSource ID="sqlrequest" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT i_units.unit_name, r_request.id,r_request.req_id , CASE WHEN r_request.type_fail = 1 THEN 'مکانیکی' WHEN r_request.type_fail = 2 THEN 'تاسیساتی-الکتریکی' WHEN r_request.type_fail = 3 THEN 'الکتریکی واحد برق' ELSE 'غیره' END AS Tfail, r_request.req_name, CASE WHEN r_request.type_req = 1 THEN 'اضطراری' WHEN r_request.type_req = 2 THEN 'پیش بینانه' ELSE 'پیش گیرانه' END AS Treq, r_request.time_req + '__' + r_request.date_req AS totaltime, r_request.state, r_request.machine_code, m_machine.code FROM r_request INNER JOIN i_units ON r_request.unit_id = i_units.unit_code INNER JOIN m_machine ON r_request.machine_code = m_machine.id WHERE (r_request.type_repair = 1 and r_request.state = 1) ORDER BY r_request.id DESC"></asp:SqlDataSource>
             </label>
+            
             <div class="row mt-3">
                 <div class="col-md-5 rtl">
                     <label style="display: block;">تجهیز : </label>
-                    <asp:DropDownList runat="server" id="dr_tools"  Width="200px" style="display: inline-block;"  ClientIDMode="Static" TabIndex="5" CssClass="chosen-select"  ></asp:DropDownList>  
-                    <label style="display: inline-block;">اقدام نمایید.</label>
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <asp:DropDownList runat="server" id="dr_tools" ClientIDMode="Static" TabIndex="5" CssClass="chosen-select"  ></asp:DropDownList>
+                        </div>
+                        <div class="col-sm-4">
+                            <label style="line-height: 33px;">اقدام نمایید.</label>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-3 rtl">
                     <label style="display: block;">به شماره فنی : </label>

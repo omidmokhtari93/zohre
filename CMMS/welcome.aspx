@@ -5,7 +5,7 @@
         .btns{width: 100%; font-weight: 500; margin-top: 10px; color: #323232;font-weight: 800;}
     </style>
     <div class="card">
-        <div class="card-header">درخواست های تعمیر</div>
+        <div class="card-header" style="text-align: center;">درخواست های تعمیر</div>
         <div class="card-body" >
             <asp:GridView runat="server" ID="gridRequests" CssClass="table" dir="rtl" AutoGenerateColumns="False" DataKeyNames="req_id" DataSourceID="SqlRequests" >
                 <Columns>
@@ -37,7 +37,7 @@ where r_request.state <> 4"></asp:SqlDataSource>
         </div>
     </div>
     <div class="card mt-2">
-        <div class="card-header">(برنامه نت پیش گیرانه (موارد کنترلی</div>
+        <div class="card-header" style="text-align: center;">(برنامه نت پیش گیرانه (موارد کنترلی</div>
         <div class="card-body">
             <asp:GridView runat="server" dir="rtl" CssClass="table" ID="gridcontrols" DataSourceID="SqlPM" AutoGenerateColumns="False" DataKeyNames="id" AllowPaging="True">
                 <Columns>
@@ -66,7 +66,7 @@ ORDER BY dbo.p_pmcontrols.tarikh">
         </div>
     </div>
     <div class="card mt-2">
-        <div class="card-header">(برنامه نت پیش بینانه (تعویض قطعات</div>
+        <div class="card-header" style="text-align: center;"> (برنامه نت پیش بینانه (تعویض قطعات</div>
         <div class="card-body">
             <asp:GridView runat="server" dir="rtl" CssClass="table" ID="gridparts" AutoGenerateColumns="False" DataSourceID="SqlCM" AllowPaging="True">
                 <Columns>

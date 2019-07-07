@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    <ul class="nav nav-tabs sans-small mt-1 rtl" role="tablist">
+    <ul class="nav nav-tabs sans mt-1 rtl" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" data-toggle="tab" href="#StopPerline" role="tab" aria-controls="home"
                 aria-selected="true">گزارش توقفات مکانیکی/الکتریکی</a>

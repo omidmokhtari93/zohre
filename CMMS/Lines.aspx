@@ -23,7 +23,7 @@
         <div class="card-header bg-primary text-white">تعریف فاز / خط جدید </div>
         <div class="card-body">
 
-            <ul class="nav nav-tabs sans-small mt-1 rtl" role="tablist">
+            <ul class="nav nav-tabs sans mt-1 rtl" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" data-toggle="tab" href="#NewFaz" role="tab" aria-controls="home"
                         aria-selected="true">تعریف فاز</a>

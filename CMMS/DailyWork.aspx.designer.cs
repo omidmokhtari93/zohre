@@ -22,15 +22,6 @@ namespace CMMS {
         protected global::System.Web.UI.WebControls.HiddenField Date;
         
         /// <summary>
-        /// txtWorkDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText txtWorkDate;
-        
-        /// <summary>
         /// btnShow control.
         /// </summary>
         /// <remarks>
@@ -38,6 +29,15 @@ namespace CMMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnShow;
+        
+        /// <summary>
+        /// txtWorkDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtWorkDate;
         
         /// <summary>
         /// grid_LineWorks control.

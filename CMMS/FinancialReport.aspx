@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MainDesign.Master" AutoEventWireup="true" CodeBehind="FinancialReport.aspx.cs" Inherits="CMMS.FinancialReport" %>
+﻿<%@ Page Title="گزارشات مالی" Language="C#" MasterPageFile="~/MainDesign.Master" AutoEventWireup="true" CodeBehind="FinancialReport.aspx.cs" Inherits="CMMS.FinancialReport" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <style>
@@ -26,7 +26,7 @@
         </div>
     </div>
 
-    <ul class="nav nav-tabs sans-xsmall mt-1 rtl" role="tablist">
+    <ul class="nav nav-tabs sans mt-1 rtl" role="tablist">
         <li class="nav-item">
             <a class="nav-link active"  data-toggle="tab" href="#RepairCost" role="tab" aria-controls="home"
                 aria-selected="true">هزینه کلی تعمیرات</a>

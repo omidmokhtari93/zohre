@@ -24,9 +24,9 @@
         .imgfilter{ position: absolute;top: 7px;right: 6px;width: 17px;height: 17px;}
     </style>
     <div class="card">
-        <div class="card-header bg-primary text-white">مشاهده موجودی انبار قطعات</div>
+        <div class="card-header bg-primary text-white ">مشاهده موجودی انبار قطعات</div>
         <div class="card-body">
-            <ul class="nav nav-tabs sans-small mt-1 rtl" role="tablist">
+            <ul class="nav nav-tabs sans mt-1 rtl" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" data-toggle="tab" href="#PartsAcc" role="tab" aria-controls="home"
                        aria-selected="true">موجودی انبار</a>

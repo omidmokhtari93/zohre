@@ -45,14 +45,14 @@
         <div id="subsystemform" class="card-body">
             <p class="sans ltr">.لطفا در ثبت اجزا ماشین دقت فرمایید و از ثبت اجزا تکراری خودداری فرمایید <span class="fa fa-circle" style="color: red;"></span></p>
             <div class="row sans ltr text-right" >
-                <div class="col-md-6">
+                <div class="col-md-6 bold-sans">
                     کد تجهیز     
                     <input class="form-control" type="number" dir="rtl" tabindex="1" id="txtDeviceCode" autocomplete="off"/>
                     <div id="codeTooltip" class="tooltipp" style="width: 140px;">
                         .این کد قبلا ثبت شده است
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 bold-sans">
                     نام تجهیز
                     <input class="form-control" autocomplete="off" tabindex="2" id="txtSubName" />
                     <div id="nameTooltip" class="tooltipp">
