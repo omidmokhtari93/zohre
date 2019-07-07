@@ -182,7 +182,6 @@
         });
         function fillitems(e) {
             var d = JSON.parse(e.d);
-            console.log(d);
             $('#txtmachin_code').val(d.SubSystemCode);
             $('#machine_value').val($('#drMachines :selected').val());
             $('#drFaz').val(d.FazName);
