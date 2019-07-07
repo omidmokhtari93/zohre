@@ -19,7 +19,7 @@
         .dr {
             border: none; border-radius: 5px; width: 100%; direction: rtl; outline: none; font-weight: 800; height: 26px; padding: 1px;
         }
-        .txtStyle{border: none; border-radius: 5px; width: 100%; direction: rtl; outline: none; font-weight: 800;}
+        .txtStyle{border: none; border-radius: 5px; width: 100%; direction: rtl; outline: none; font-weight: 800;height: 26px;padding: 1px 5px;}
     </style>
     <div class="card sans">
         <div class="card-header bg-primary text-white">برنامه نت پیشگیرانه روزانه</div>
