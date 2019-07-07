@@ -2341,7 +2341,7 @@ namespace CMMS
                                           " GROUP BY dbo.m_machine.code) " +
                                           " GROUP BY dbo.m_machine.name, dbo.m_machine.mttrH", cnn);
 
-            var cmdMttrRLine = new SqlCommand("SELECT dbo.m_machine.name + ' _ ' + dbo.i_lines.line_name AS MachineName,dbo.i_faz.faz_name, SUM(DATEDIFF(minute, 0, dbo.r_reply.rep_time_help)) AS TR, COUNT(dbo.m_machine.code) AS Trcount," +
+            var cmdMttrRLine = new SqlCommand("SELECT dbo.m_machine.name  AS MachineName,dbo.i_lines.line_name,dbo.i_faz.faz_name, SUM(DATEDIFF(minute, 0, dbo.r_reply.rep_time_help)) AS TR, COUNT(dbo.m_machine.code) AS Trcount," +
                                          " SUM(DATEDIFF(minute, 0, dbo.r_reply.rep_time_help)) / 60 / COUNT(dbo.m_machine.code) AS MTTRrep, dbo.m_machine.mttrH" +
                                               " FROM dbo.m_machine INNER JOIN " +
                                               " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
@@ -2352,7 +2352,7 @@ namespace CMMS
                                          " WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine.line = " + line + ")" +
                                          " GROUP BY dbo.m_machine.name, dbo.m_machine.mttrH,dbo.i_faz.faz_name,dbo.i_lines.line_name", cnn);
 
-            var cmdMttrRFaz = new SqlCommand("SELECT dbo.m_machine.name + ' _ ' + dbo.i_lines.line_name AS MachineName,dbo.i_faz.faz_name,SUM(DATEDIFF(minute, 0, dbo.r_reply.rep_time_help)) AS TR, COUNT(dbo.m_machine.code) AS Trcount," +
+            var cmdMttrRFaz = new SqlCommand("SELECT dbo.m_machine.name AS MachineName,dbo.i_lines.line_name,dbo.i_faz.faz_name,SUM(DATEDIFF(minute, 0, dbo.r_reply.rep_time_help)) AS TR, COUNT(dbo.m_machine.code) AS Trcount," +
                                               " SUM(DATEDIFF(minute, 0, dbo.r_reply.rep_time_help)) / 60 / COUNT(dbo.m_machine.code) AS MTTRrep, dbo.m_machine.mttrH" +
                                              " FROM dbo.m_machine INNER JOIN " +
                                              " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +

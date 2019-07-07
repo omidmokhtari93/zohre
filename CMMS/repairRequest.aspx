@@ -148,11 +148,11 @@
     
 
 <script>
-   $(function() {
-       kamaDatepicker('txtRequestDate', customOptions);
-       $(".chosen-select").chosen({ width: "100%" });
-       $('#txtRequestTime').clockpicker({ autoclose: true, placement: 'top' });
-   })
+    $(function() {
+        kamaDatepicker('txtRequestDate', customOptions);
+        $(".chosen-select").chosen({ width: "100%" });
+        $('#txtRequestTime').clockpicker({ autoclose: true, placement: 'top' });
+    });
 
 
     $('#drUnits').change(function () {
