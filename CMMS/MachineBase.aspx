@@ -286,7 +286,7 @@
                 </div>
                 <hr />
                 <div class="rtl">
-                    <div style="padding-right: 15px;">
+                    <div>
                         <label class="checklabel">
                             <input type="checkbox" tabindex="23" id="chksokht" />
                             سوخت مایع
@@ -434,7 +434,7 @@
         </div>
 
 
-        <div class="card" id="pnlSubSytem" style="display: none;">
+        <div class="card sans" id="pnlSubSytem" style="display: none;">
             <div class="card-header bg-primary text-white">ثبت اجزا ماشین</div>
             <div class="card-body" id="subSearchArea">
                 <div style="padding: 5px 15px;">
@@ -471,7 +471,7 @@
         </div>
 
 
-        <div class="card" id="pnlGhatatMasrafi" style="display: none;">
+        <div class="card sans" id="pnlGhatatMasrafi" style="display: none;">
             <div class="card-header bg-primary text-white">ثبت قطعات مصرفی</div>
             <div class="card-body">
                 <div class="row">
@@ -527,7 +527,7 @@
             </div>
         </div>
 
-        <div class="card" id="pnlDastoor" style="display: none;">
+        <div class="card sans" id="pnlDastoor" style="display: none;">
             <asp:HiddenField runat="server" ClientIDMode="Static" ID="chEnergy" />
             <div class="card-header bg-primary text-white">دستورالعمل ایمنی و محیط زیستی</div>
             <div class="card-body">
@@ -557,7 +557,7 @@
                 <br />
 
             </div>
-            <div class="card-footer">
+            <div class="card-footer rtl">
                 <button type="button" class="button fa fa-arrow-right" title="صفحه قبل" id="btnDastoorBack"></button>
                 <label style="display: inline-block; color: red; margin-left: 20px; display: none;" id="lblwarn">** لطفا فیلد خالی را پر کنید **</label>
                 <button id="btnFinalSave" style="outline: none;" type="button" class="button" onclick="SendTablesToDB();" tabindex="61">
