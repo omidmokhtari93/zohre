@@ -201,7 +201,7 @@ function SubmitRepairRequest(btn) {
     };
     AjaxData({
       url: "WebService.asmx/RequestStateDifinition",
-      parameters: { d: obj, parts: partObj },
+      param: { d: obj, parts: partObj },
       func: stateDifinition
     })
     function stateDifinition(e) {
