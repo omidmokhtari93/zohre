@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <script src="Scripts/jquery-3.3.1.min.js"></script>
+    <script src="assets/js/jquery-3.3.1.min.js"></script>
     <title></title>
     <style>
         @media print {
@@ -13,13 +13,8 @@
             }
         }
         @font-face {
-            font-family: 'myfont';
-            src: url('/fonts/BYekan.eot'), 
-                 url('/fonts/BYekan.eot?#FooAnything') format('embedded-opentype');
-            src: local('☺'), url('/fonts/BYekan.woff') format('woff'), 
-                 url('/fonts/BYekan.ttf') format('truetype'),
-                 url('/fonts/BYekan.svg') format('svg');
-            font-weight: 800;
+            font-family: 'sans';
+            src: url('assets/fonts/sans/IRANSans.woff2')
         }
         input{ margin: 0;padding: 0;vertical-align: middle;}
         .rightText{ position: absolute;right: -30px;}
@@ -30,7 +25,7 @@
             -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083)";
             transform: rotate(-90.0deg);
         }
-        table{ width: 100%;direction: rtl;position: relative;font-family: myfont;margin-right: 0;padding: 0;margin-bottom: -2px;}
+        table{ width: 100%;direction: rtl;position: relative;font-family: sans;margin-right: 0;padding: 0;margin-bottom: -2px;}
         table tr{ position: relative;}
         table td{ border: 1px solid #625f5f;padding: 3px;position: relative !important;font-size: 10pt;}
         img{ width: auto;height: 60px;}
@@ -39,7 +34,7 @@
             border: 1px solid #625f5f;
         }
         .tbl {
-            font-family: myfont;
+            font-family: sans;
             text-align: center;
             font-size: 10pt;
             font-weight: 800;
@@ -62,7 +57,7 @@
             <div style="border: 1px solid #625f5f; padding-bottom: 2px; min-height: 210mm; position: relative;">
                 <table>
                     <tr style="height: 100px; text-align: center;">
-                        <td><img src="Images/zohre1.png" /></td>
+                        <td><img src="assets/Images/zohre1.png" /></td>
                         <td colspan="2"><h2 style="margin: 0;">گزارش کار</h2></td>
                         <td style="width: 150px;">
                             <span style="position: absolute; top: 5px; right: 5px;">تاریخ :</span>
