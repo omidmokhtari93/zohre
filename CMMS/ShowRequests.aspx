@@ -59,14 +59,16 @@ where r_request.state <> 4 order by dbo.r_request.req_id desc"></asp:SqlDataSour
         </div>
     </div>
     
-    <div id="partRequestModal" class="modal" style="direction: rtl;">
+    <div id="partRequestModal" class="modal fade" style="direction: rtl;">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="card">
-                    <div class="card-header">قطعات</div>
+                <div class="card sans">
+                    <div class="card-header bg-primary text-white">قطعات</div>
                     <div class="card-body">
-                        <div id="badgeLocation" style="width: 100%; padding: 0 10px;"></div>
-                        <div class="row" style="margin: 0;">
+                        <div class="row">
+                            <div id="badgeLocation" class="col-sm-12"></div>
+                        </div>
+                        <div class="row mt-2">
                             <div class="col-lg-6">
                                 تاریخ درخواست
                                 <input class="form-control text-center" id="txtPartRequestDate"/>
@@ -75,6 +77,8 @@ where r_request.state <> 4 order by dbo.r_request.req_id desc"></asp:SqlDataSour
                                 شماره درخواست
                                 <input class="form-control text-center" id="txtPartRequestNumber"/>
                             </div>
+                        </div>
+                        <div class="row mt-2">
                             <div class="col-lg-12">
                                 شرح درخواست
                                 <textarea rows="2" class="form-control" style="width: 100%; resize: none;" id="txtPartRequestComment"></textarea>
@@ -105,9 +109,10 @@ where r_request.state <> 4 order by dbo.r_request.req_id desc"></asp:SqlDataSour
                 $('#txtPartRequestDate').val(d.info.BuyRequestDate);
                 var partsArr = [];
                 for (var i = 0; i < d.parts.length; i++) {
-                    partsArr.push('<div class="reqPartBadge">' +
+                    partsArr.push('<div class="badge bg-info text-white m-1 p-1">' +
                         '<label style="direction:rtl;white-space:nowrap;margin:0;">' + d.parts[i].PartName + '</label></div>');
                 }
+                $('#badgeLocation').empty();
                 $('#badgeLocation').append(partsArr.join(''));
             }
             $('#partRequestModal').modal('show');
