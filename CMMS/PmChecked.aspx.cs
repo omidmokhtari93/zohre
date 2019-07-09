@@ -22,7 +22,7 @@ namespace CMMS
             drMachines.Items.Clear();
             _cnn.Open();
             var list = new List<DrMachine>();
-            var selecctItems = new SqlCommand("SELECT [id],[name] FROM [dbo].[m_machine] where loc = "+drUnits.SelectedValue+" ", _cnn);
+            var selecctItems = new SqlCommand("SELECT [id],[name] FROM [dbo].[m_machine] where loc = '"+drUnits.SelectedValue+"' ", _cnn);
             var r = selecctItems.ExecuteReader();
             while (r.Read())
             {
