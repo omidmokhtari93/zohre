@@ -49,7 +49,7 @@
             height: 15px;
             border: none;
             left: 3px;
-            top: 3px;
+            top: 7px;
             z-index: 900;
             outline: none;
         }
