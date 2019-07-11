@@ -310,7 +310,7 @@ FROM m_control WHERE (Mid = @id)">
                 </tr>
                 <tr>
                     <td colspan="5" style="padding-left: 9px;">
-                        <textarea class="form-control" style="resize: none;direction: rtl; font-family: myfont; width: 100%; border: none; outline: none;" id="txtInstruc">
+                        <textarea class="form-control" style="resize: none;direction: rtl; font-family: sans; width: 100%; border: none; outline: none;" id="txtInstruc">
                         </textarea>
                     </td>
                 </tr>
