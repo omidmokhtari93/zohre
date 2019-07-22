@@ -1800,8 +1800,11 @@ namespace CMMS
             int MTBF = 0;
             if (StopR != "00:00" && lastRep!="")
             {
-                var calcuteMttr = new SqlCommand("select  DATEDIFF(day, '" + lastRep + "', '" + obj.ReplyInfo[0].StartDate + "') AS MTBF", _cnn);
-                MTBF = Convert.ToInt32(calcuteMttr.ExecuteScalar());
+                DateTime strttime = ShamsiCalendar.Shamsi2Miladi(obj.ReplyInfo[0].StartDate);
+                DateTime lastreptime = ShamsiCalendar.Shamsi2Miladi(lastRep);
+                MTBF= ((TimeSpan)(strttime - lastreptime)).Days;
+                //var calcuteMttr = new SqlCommand("select  DATEDIFF(day, '" + lastRep + "', '" + obj.ReplyInfo[0].StartDate + "') AS MTBF", _cnn);
+                //MTBF = Convert.ToInt32(calcuteMttr.ExecuteScalar());
             }
             else
             {

@@ -247,6 +247,8 @@ namespace CMMS
                 return;
             }
             cnn.Open();
+            if (tools_value.Value == "")
+                tools_value.Value = "0";
             var insertRequest = new SqlCommand("insert into r_request ([req_id],[unit_id],[machine_code],[subid],[type_fail]," +
                                                "[req_name],[type_req],[comment],[date_req],[time_req],[type_repair],[state],[faz],[line])" +
                                                 "values("+txtreqid.Text+",'"+ drUnits.SelectedValue+"'," + machine_value.Value + "," +
