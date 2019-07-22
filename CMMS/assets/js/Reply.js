@@ -963,7 +963,7 @@ function SaveAffectedMachines(btn) {
   }
   AjaxData({
     url: 'WebService.asmx/AffectedMachinesSave',
-    parameters: { obj: d },
+    param: { obj: d },
     func: succesfullydone
   })
   function succesfullydone() {
