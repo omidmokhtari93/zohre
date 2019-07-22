@@ -1,16 +1,17 @@
-﻿$('#StartRepiarTime').clockpicker({ autoclose: true, placement: 'top' });
-$('#EndRepairTime').clockpicker({ autoclose: true, placement: 'top' });
-$('#txtWorkTime').clockpicker({ autoclose: true, placement: 'top' });
-var requestPart = [];
-var reqId = $('#ReqId').val();
-if (reqId !== '') {
-  $.ajax({
-    type: "POST",
-    url: "WebService.asmx/GetRequestDetails",
-    data: "{reqId : " + reqId + "}",
-    contentType: "application/json; charset=utf-8",
-    dataType: "json",
-    success: function (e) {
+﻿var requestPart = [];
+$(function () {
+  $('#StartRepiarTime').clockpicker({ autoclose: true, placement: 'top' });
+  $('#EndRepairTime').clockpicker({ autoclose: true, placement: 'top' });
+  $('#txtWorkTime').clockpicker({ autoclose: true, placement: 'top' });
+  var reqId = $('#ReqId').val();
+  if (reqId !== '') {
+    AjaxData({
+      url: 'WebService.asmx/GetRequestDetails',
+      param: { reqId: reqId },
+      func: fillReplyinfo
+    })
+
+    function fillReplyinfo(e) {
       var reqDetails = JSON.parse(e.d);
       $('#RequestTime').val(reqDetails[0].RequestTime);
       $('#RequestDate').val(reqDetails[0].RequestDate);
@@ -28,11 +29,9 @@ if (reqId !== '') {
       $('#lblRequestType').text(reqDetails[0].RequestType);
       $('#lblComment').text(reqDetails[0].Comment);
       $('#pnlRequestDetail').show();
-    },
-    error: function () {
     }
-  });
-}
+  }
+})
 function BackToPreviousPage() {
   $('#pnlRepairExplain').hide();
   $('#pnlRequestDetail').fadeIn();
@@ -680,7 +679,6 @@ $("#gridContractors").on("click", "tr a", function () {
 });
 
 var CmParts;
-
 function SendDataToDB(btn) {
   var flag = 0;
   if (CheckPastTime($('#StartRepairDate').val(), $('#StartRepiarTime').val(), $('#EndRepairDate').val(), $('#EndRepairTime').val()) === false) {
@@ -712,7 +710,7 @@ function SendDataToDB(btn) {
     flag = 1;
   }
   if ($('#drFailLevel').val() == '-1') {
-    RedAlert('EndRepairTime', "!!لطفا وضعیت تعمیر را مشخص کنید");
+    RedAlert('drFailLevel', "!!لطفا وضعیت تعمیر را مشخص کنید");
     $('#drFailLevel').focus();
 
     flag = 1;
@@ -811,35 +809,31 @@ function SendDataToDB(btn) {
       Personel: personel,
       Contractors: contractors
     }
-    $.ajax({
-      type: "POST",
-      url: "WebService.asmx/ReplyDataToDb",
-      contentType: "application/json; charset=utf-8",
-      dataType: "json",
-      data: JSON.stringify({ 'obj': obj }),
-      success: function (e) {
-        CmParts = JSON.parse(e.d);
-        if (CmParts.length > 0) {
-          var option = [];
-          for (var i = 0; i < CmParts.length; i++) {
-            option.push('<option value="' + CmParts[i].PartId + '" forecast="' + CmParts[i].ForeCastId + '"' +
-              ' machinid="' + CmParts[i].MachineId + '">' + CmParts[i].PartName + '' +
-              '&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp; برنامه زمانی تعویض اصلی : ' + CmParts[i].CmDate + '</option>');
+    AjaxData({
+      url: 'WebService.asmx/ReplyDataToDb',
+      param: { obj: obj },
+      func: saveReplySuccess
+    })
 
-          }
-
-          $('#drPartChangeParts').append(option.join(''));
-          $('#PartChangeModal').show();
-          return;
-        } else {
-          CheckAffectedMachines();
-          return;
+    function saveReplySuccess(e) {
+      CmParts = JSON.parse(e.d);
+      if (CmParts.length > 0) {
+        var option = [];
+        for (var i = 0; i < CmParts.length; i++) {
+          option.push('<option ' +
+            'value="' + CmParts[i].PartId + '" ' +
+            'forecast="' + CmParts[i].ForeCastId + '" ' +
+            'machinid="' + CmParts[i].MachineId + '">' + CmParts[i].PartName + '' +
+            '&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp; برنامه زمانی تعویض اصلی : ' + CmParts[i].CmDate + '</option>');
         }
-      },
-      error: function () {
-        RedAlert('no', 'خطا در ثبت اطلاعات');
+        $('#drPartChangeParts').append(option.join(''));
+        $('#PartChangeModal').modal('show');
+        return;
+      } else {
+        CheckAffectedMachines();
+        return;
       }
-    });
+    }
   }
 }
 
@@ -894,7 +888,7 @@ function SubmitPartChange(btn) {
   }
   AjaxData({
     url: 'WebService.asmx/SubmitReplyForcast',
-    parameters: {
+    param: {
       obj: {
         FailReasonList: failReasonList,
         MachineId: $('#drPartChangeParts :selected').attr('machinid'),
@@ -903,7 +897,8 @@ function SubmitPartChange(btn) {
         PartId: $('#drPartChangeParts :selected').val(),
         Info: $('#txtCommentPartChange').val(),
         ForeCastId: $('#drPartChangeParts :selected').attr('forecast')
-      } },
+      }
+    },
     func: doneSubmit
   })
   function doneSubmit(e) {
@@ -923,15 +918,13 @@ function SubmitPartChange(btn) {
 }
 
 function CheckAffectedMachines() {
-  var data = [];
   var machCode = $('#txtMachineCode').val();
   $('#effectMachinName').html($('#txtMachineName').val());
-  data.push({
+  AjaxData({
     url: 'WebService.asmx/GetAffectedMachines',
-    parameters: [{ machineCode: machCode }],
+    param: { machineCode: machCode },
     func: createaffected
   });
-  AjaxCall(data);
   function createaffected(r) {
     var e = JSON.parse(r.d);
     if (e.length > 0) {
@@ -945,7 +938,7 @@ function CheckAffectedMachines() {
           '</tr>');
       }
       $('#gridAffectedMachines tbody').append(body.join(''));
-      $('#effectModal').show();
+      $('#effectModal').modal('show');
     } else {
       GreenAlert('n', "✔ پایان تعمیر با موفقیت ثبت شد");
       setTimeout(function () { window.location.replace("/ShowRequests.aspx"); }, 2000);
@@ -980,7 +973,7 @@ function SaveAffectedMachines(btn) {
   }
 }
 
-$(function() {
+$(function () {
   kamaDatepicker('EndRepairDate', customOptions);
   kamaDatepicker('StartRepairDate', customOptions);
   kamaDatepicker('txtPartRequestDate', customOptions);

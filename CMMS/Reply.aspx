@@ -160,7 +160,7 @@
                         <label>: واحد درخواست کننده</label>
                     </div>
                 </div>
-                <div class="row bold-sans">
+                <div class="row bold-sans mt-2">
                     <div class="col-lg-2">
                         <label class="listlable" id="lblline"></label>
                         <label>: خط</label>
@@ -174,7 +174,7 @@
                         <label>: مورد تعمیر</label>
                     </div>
                 </div>
-                <div class="row bold-sans">
+                <div class="row bold-sans mt-2">
                     <div class="col-lg-8">
                         <label class="listlable" id="lblSubName"></label>
                         <label>: تجهیز</label>
@@ -184,7 +184,7 @@
                         <label>: به شماره فنی</label>
                     </div>
                 </div>
-                <div class="row bold-sans">
+                <div class="row bold-sans mt-2">
                     <div class="col-lg-6">
                         <label class="listlable" id="lblRequestType"></label>
                         <label>: نوع درخواست</label>
@@ -194,13 +194,13 @@
                         <label>: نوع خرابی</label>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row mt-1">
                     <div class="col-lg-12">
                         <label class="listlable" id="lblComment"></label>
                         <label>: توضیحات</label>
                     </div>
                 </div>
-                <div class="row bold-sans">
+                <div class="row bold-sans mt-2">
                     <div class="col-lg-12">
                         <div style="background-color: white; border-radius: 5px; width: 100%;">
                             <div style="padding: 5px;">
