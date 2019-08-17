@@ -78,6 +78,8 @@
     <Content Include="assets\css\search.css" />
     <Content Include="assets\Images\chosen-sprite%402x.png" />
     <Content Include="assets\Images\chosen-sprite.png" />
+    <Content Include="assets\Images\No-Units.png" />
+    <Content Include="assets\Images\taghdis_logo.jpg" />
     <Content Include="assets\js\chosen.jquery.js" />
     <Content Include="assets\js\mdb.min.js" />
     <Content Include="assets\js\PartsReports.js" />

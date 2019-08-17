@@ -70,7 +70,7 @@ $(document).click(function (e) {
 });
 $('#gridMachines').on("click", "td", function () {
     var tdData = $(this).find('i').text();
-    if ($('#txtmachineCode').val() !== '' && $('#txtmachineCode').val().length == 2) {
+    if ($('input[name=switchCode]:checked').attr('value') === "0") {
         $('#txtmachineCode').val($('#txtmachineCode').val() + tdData);
         $.ajax({
             type: "POST",

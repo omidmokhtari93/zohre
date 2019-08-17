@@ -39,7 +39,8 @@ $('#btnNewMachineFor').on('click', function () {
             if ($('#txttargetMTTR').val() == '') { RedAlert('txttargetMTTR', "!!را مشخص کنید MTTR لطفا هدف"); flag = 1; }
             if ($('#txtAdmissionperiodMTTR').val() == '') { RedAlert('txtAdmissionperiodMTTR', "!!را مشخص کنید MTTR لطفا دوره پذیرش"); flag = 1; }
             if (check === 1) { RedAlert('txtmachineCode', "!!این کد دستگاه قبلا ثبت شده است"); flag = 1; }
-            if (mCode.length !== 8) { RedAlert('txtmachineCode', "!!لطفا کد دستگاه را 8 رقمی تعیین کنید"); flag = 1; }
+            if ($('#txtmachineCode').val().length !== 8 && ($('input[name=switchCode]:checked').attr('value') === "1")) { RedAlert('txtmachineCode', "!!لطفا کد دستگاه را 8 رقمی تعیین کنید"); flag = 1; }
+            if ($('#txtmachineCode').val().length !== 6 && ($('input[name=switchCode]:checked').attr('value') === "0")) { RedAlert('txtmachineCode', "!!لطفا کد دستگاه را 6 رقمی تعیین کنید"); flag = 1; }
             if ($('#Mid').val() == '') {
                 if (flag === 0) { $('#pnlNewMachine').hide(); $('#pnlMavaredMasrafi').fadeIn(); }
             } else { if (flag === 0) { $('#pnlNewMachine').hide(); $('#pnlMavaredMasrafi').fadeIn(); } }
@@ -49,7 +50,14 @@ $('#btnNewMachineFor').on('click', function () {
         }
     });
 });
-
+$('input[name=switchCode]').change(function (e) {
+    if ($('input[name=switchCode]:checked').attr('value') === "1") {
+        $('#vahed').show();
+    } else {
+        $('#vahed').hide();
+    }
+   
+});
 $('#chkbargh').change(function () {
     if (this.checked) {
         $('#chkbargh').parent().addClass("isSelected");

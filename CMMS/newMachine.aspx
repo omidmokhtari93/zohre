@@ -85,7 +85,16 @@
             <asp:HiddenField runat="server" ClientIDMode="Static" ID="vaziatTajhiz" />
             <div class="card-body">
                 <div class="row ltr text-right">
-                    <div class="col-md-6 rtl">
+                    <div class="col-md-3 pr-0 rtl bold-sans">
+                        کدگذاری : 
+                        <div class="switch-field">
+                            <input type="radio" name="switchCode" id="bavahed" value="1" checked/>
+                            <label for="bavahed" style="width: 100px!important; padding: 6px 6px !important;">با واحد</label>
+                            <input type="radio" name="switchCode" id="bivahed" value="0" />
+                            <label for="bivahed" style="width: 100px!important;   padding: 6px 6px !important;">بدون واحد</label>
+                        </div>
+                    </div>
+                    <div class="col-md-5 rtl">
                         <label style="display: block; direction: rtl;" class="bold-sans">کد دستگاه :</label>
                         <input class="form-control text-center" dir="ltr" style="width: 70%; display: inline-block; margin-left: 5px;" tabindex="2" id="txtmachineCode" />
                         <div id="machine" class="MachineCodeButtons">
@@ -109,8 +118,10 @@
                             </div>
                             <button class="btnVahed" title="واحدها" id="btnVahed" type="button"></button>
                         </div>
-                    </div>
-                    <div class="col-md-6 rtl bold-sans">
+                        
+                      </div>
+                    
+                    <div class="col-md-4 rtl bold-sans">
                         نام دستگاه :
                     <input id="txtmachineName" tabindex="1" class="form-control" />
                     </div>

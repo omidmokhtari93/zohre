@@ -41,7 +41,18 @@ table tr a {
 .SubSystemTable tr{ cursor: pointer;}
 .PartsTable tr{cursor: pointer;}
 .btnVahed{width: 34px; height: 34px;background-image: url(/assets/Images/Units.png);outline: none;}
-.btnMachine{width: 34px; height: 34px;background-image: url(/assets/Images/machine.png);outline: none;}
+.btnMachine {
+    width: 34px;
+    height: 34px;
+    background-image: url(/assets/Images/machine.png);
+    outline: none;
+}
+.btnNovahed {
+    width: 34px;
+    height: 34px;
+    background-image: url(/assets/Images/No-Units.png);
+    outline: none;
+}
 .MachineCodeButtons {
     position: relative;
     display: inline-block;
