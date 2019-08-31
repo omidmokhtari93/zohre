@@ -16,12 +16,13 @@
     <script>
         $(function() {
             $('#inp').search({
-                width: '80%',
+                width: '70%',
                 placeholder: 'جستجوی قطعه ...',
                 url: 'WebService.asmx/PartsFilter',
                 arg: 'partName',
                 text: 'PartName',
-                id:'PartId'
+                id: 'PartId',
+                func: something
             }); 
             $('#mm').search({
                 width: '100%',
@@ -29,8 +30,13 @@
                 url: 'WebService.asmx/FilteredGridSubSystem',
                 arg: 'subSystemName',
                 text: 'ToolName',
-                id: 'ToolId'
-            }); 
+                id: 'ToolId',
+                func: something
+            });
+
+            function something(id , text) {
+                console.log(id , text)
+            }
         })
     </script>
 </asp:Content>
