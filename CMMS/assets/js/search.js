@@ -1,23 +1,24 @@
 ﻿$.fn.search = function (options) {
   var div = this;
+  $(div).empty();
   var allOpt;
   div.css('width', options.width).addClass('search-input');
-  var result_area = $('<div name="result-area" style="width:' + this.outerWidth() + 'px;"></div>');
-  var search_lodaing = $('<img src="assets/Images/loading.png"/>');
+  var resultArea = $('<div name="result-area" style="width:' + this.outerWidth() + 'px;"></div>');
+  var searchLodaing = $('<img src="assets/Images/loading.png"/>');
   var input = $('<input type="text" name="search-field" autocomplete="off" placeholder="' + options.placeholder + '"/>');
   searchInit();
 
   function searchInit() {
     div.append(input);
-    div.append(search_lodaing.hide());
+    div.append(searchLodaing.hide());
   }
 
   var typingTimer;
   var doneTypingInterval = 1000;
   var $searchinput = $('#' + div.attr('id') + ' [name=search-field]');
   $searchinput.on('keyup', function () {
-    search_lodaing.show();
-    result_area.empty();
+    searchLodaing.show();
+    resultArea.empty();
     clearTimeout(typingTimer);
     typingTimer = setTimeout(doneTyping, doneTypingInterval);
   });
@@ -26,8 +27,8 @@
   });
   function doneTyping() {
     if ($searchinput.val().length <= 1) {
-      result_area.empty();
-      search_lodaing.hide();
+      resultArea.empty();
+      searchLodaing.hide();
       return;
     }
     var par = '{"' + options.arg + '\" : \"' + $searchinput.val() + '\"}';
@@ -43,28 +44,30 @@
         return;
       }
       var opt = [];
-      div.append(result_area);
-      result_area.append('<input name="filter-items" placeholder="فیلتر ..."/>');
+      div.append(resultArea);
+      resultArea.append('<input name="filter-items" placeholder="فیلتر ..."/>');
       $.each(d, function (x, y) {
         opt.push('<li ' + options.id + '="' + y[options.id] + '">' + y[options.text] + '</li>');
       })
-      result_area.append('<ul>' + opt.join('') + '</ul>');
+      resultArea.append('<ul>' + opt.join('') + '</ul>');
       allOpt = $('#' + div.attr('id') + ' ul li').clone();
-      search_lodaing.hide();
+      searchLodaing.hide();
     }
   }
 
   $('#' + div.attr('id')).on('click', 'li', function (x) {
     div.attr('value', $(this).attr(options.id));
     createBadge($(this).attr(options.id), $(this).text());
-    result_area.empty();
+    resultArea.empty();
   });
 
   function createBadge(id, text) {
     div.append('<span id="' + id + '">' + text + '</span>');
     input.val('');
     input.removeAttr('placeholder');
-    options.func(id, text);
+    if (options.func !== undefined) {
+      options.func(id, text);
+    }
   }
 
   $('#' + div.attr('id')).on('click', 'span', function (x) {
