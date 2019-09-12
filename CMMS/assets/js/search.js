@@ -1,5 +1,6 @@
 ﻿$.fn.search = function (options) {
   var div = this;
+  var badge = options.badge != undefined ? options.badge : true;
   $(div).empty();
   var allOpt;
   div.css('width', options.width).addClass('search-input');
@@ -57,7 +58,13 @@
 
   $('#' + div.attr('id')).on('click', 'li', function (x) {
     div.attr('value', $(this).attr(options.id));
-    createBadge($(this).attr(options.id), $(this).text());
+    if (badge) {
+      createBadge($(this).attr(options.id), $(this).text());
+    }
+    input.val('');
+    if (options.func !== undefined) {
+      options.func($(this).attr(options.id), $(this).text());
+    }
     resultArea.empty();
   });
 
@@ -65,9 +72,6 @@
     div.append('<span id="' + id + '">' + text + '</span>');
     input.val('');
     input.removeAttr('placeholder');
-    if (options.func !== undefined) {
-      options.func(id, text);
-    }
   }
 
   $('#' + div.attr('id')).on('click', 'span', function (x) {

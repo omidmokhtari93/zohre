@@ -1,5 +1,7 @@
 ﻿var requestPart = [];
 $(function () {
+  $("#drTakhir, #drFail ,#drAction ,#DrstopReason").chosen({ width: "100%", rtl: true });
+  $("#drRepairers, #drelec").chosen({ width: "30%" });
   $('#StartRepiarTime').clockpicker({ autoclose: true, placement: 'top' });
   $('#EndRepairTime').clockpicker({ autoclose: true, placement: 'top' });
   $('#txtWorkTime').clockpicker({ autoclose: true, placement: 'top' });
@@ -39,14 +41,22 @@ function BackToPreviousPage() {
 
 $('#drChangeReqState').change(function () {
   if ($('#drChangeReqState :selected').val() == '3') {
-    var data = [];
-    data.push({
+    AjaxData({
       url: 'WebService.asmx/GetRequestedParts',
-      parameters: [{ requestId: $('#ReqId').val() }],
+      param: { requestId: $('#ReqId').val() },
       func: createBadges
     });
-    AjaxCall(data);
     function createBadges(e) {
+      $('#requestPartSearch').search({
+        width: '100%',
+        placeholder: 'جستجو کنید ...',
+        url: 'WebService.asmx/PartsFilter',
+        arg: 'partName',
+        text: 'PartName',
+        id: 'PartId',
+        badge: false,
+        func: createRequestPartBadge
+      })
       var d = JSON.parse(e.d);
       $('#txtPartRequestComment').val(d.info.Info);
       $('#txtPartRequestNumber').val(d.info.BuyRequestNumber);
@@ -54,11 +64,8 @@ $('#drChangeReqState').change(function () {
       var partsArr = [];
       for (var i = 0; i < d.parts.length; i++) {
         requestPart.push({ PartName: d.parts[i].PartName, PartId: d.parts[i].PartId });
-        partsArr.push('<div class="reqPartBadge" ' +
-          'onclick="RemoveRequestPartpBadge($(this));$(this).remove();">' +
-          '<label style="direction:rtl;white-space:nowrap;" partid="' + d.parts[i].PartId + '">' + d.parts[i].PartName + '</label> ' +
-          '<span>&times;</span>' +
-          '</div>');
+        partsArr.push('<span class="badge badge-primary sans ml-2" ' +
+          'partid="' + d.parts[i].PartId + '">' + d.parts[i].PartName + '</span>');
       }
       $('#badgeLocation').append(partsArr.join(''));
     }
@@ -71,102 +78,24 @@ $('#drChangeReqState').change(function () {
   }
 });
 
-var rows;
-var typingTimer;
-var doneTypingInterval = 2000;
-var $requestPartinput = $('#txtSearchRequestedPart');
-$requestPartinput.on('keyup', function () {
-  clearTimeout(typingTimer);
-  typingTimer = setTimeout(doneTypingPartRequest, doneTypingInterval);
-  $('#PartRequestloading').show();
-  $('#txtPartRequestSubSearch').val('');
-  $('#griRequestParts tbody').empty();
-  if ($('#txtSearchRequestedPart').val() === '') {
-    $('#PartRequestSearchResult').hide();
-  }
-});
-$requestPartinput.on('keydown', function () {
-  clearTimeout(typingTimer);
-});
-function doneTypingPartRequest() {
-  if (($requestPartinput).val().length > 2) {
-    $.ajax({
-      type: "POST",
-      url: "WebService.asmx/PartsFilter",
-      contentType: "application/json; charset=utf-8",
-      dataType: "json",
-      data: JSON.stringify({ 'partName': $requestPartinput.val() }),
-      success: function (e) {
-        var tableRows = '';
-        var filteredParts = JSON.parse(e.d);
-        for (var i = 0; i < filteredParts.length; i++) {
-          tableRows += '<tr id="sel"><td partid="' + filteredParts[i].PartId + '",>' + filteredParts[i].PartName + '</td></tr>';
-        }
-        $('#griRequestParts tbody').append(tableRows);
-        rows = $('#griRequestParts tr').clone();
-        $('#PartRequestloading').hide();
-        $('#PartRequestSearchResult').show();
-      },
-      error: function () {
-      }
-    });
-  } if (($requestPartinput).val().length <= 2 && ($requestPartinput).val() != '') {
-    $.notify("!!حداقل سه حرف از نام قطعه را وارد نمایید", { globalPosition: 'top left' });
-  }
-  if ($('#txtSearchRequestedPart').val() === '') {
-    $('#PartRequestSearchResult').hide();
-    $('#PartRequestloading').hide();
+function createRequestPartBadge(id, text) {
+  if (!$('#badgeLocation').find('span[partid=' + id + ']').length) {
+    var badgeHtml = '<span class="badge badge-primary sans ml-2" partid="' + id + '">' + text + '</span>';
+    $('#badgeLocation').append(badgeHtml);
+    requestPart.push({ PartName: text, PartId: parseInt(id) });
+  } else {
+    RedAlert('n', 'این قطعه اضافه شده است');
   }
 }
 
-$('#griRequestParts').on('click', 'tr#sel', function () {
-  var $row = $(this).find("td");
-  var $text = $row.text();
-  var $value = $row.attr('partid');
-
+$('#badgeLocation').on('click', 'span', function () {
   for (var i = 0; i < requestPart.length; i++) {
-    if (requestPart[i].PartId == parseInt($value)) {
-      RedAlert('no', 'این قطعه قبلا انتخاب شده است');
-      return;
-    }
-  }
-  $('#Drmeasurement').val();
-  $('#PartRequestSearchResult').hide();
-  $('#txtSearchRequestedPart').val('');
-  createRequestPartBadge($text, $value);
-});
-function createRequestPartBadge(text, val) {
-  var badgeHtml = '<div class="reqPartBadge" ' +
-    'onclick="RemoveRequestPartpBadge($(this));$(this).remove();">' +
-    '<label style="direction:rtl;white-space:nowrap;" partid="' + val + '">' + text + '</label> ' +
-    '<span>&times;</span>' +
-    '</div>';
-  $('#badgeLocation').append(badgeHtml);
-  requestPart.push({ PartName: text, PartId: parseInt(val) });
-}
-
-function RemoveRequestPartpBadge(e) {
-  for (var i = 0; i < requestPart.length; i++) {
-    if (requestPart[i].PartId === parseInt(e.children('label').attr('partid'))) {
+    if (requestPart[i].PartId === parseInt($(this).attr('partid'))) {
       requestPart.splice(i, 1);
     }
   }
-}
-
-$('#txtPartRequestSubSearch').keyup(function () {
-  var val = $(this).val();
-  $('#griRequestParts tbody').empty();
-  rows.filter(function (idx, el) {
-    return val === '' || $(el).text().indexOf(val) >= 0;
-  }).appendTo('#griRequestParts');
-});
-
-var ele = $('#no');
-$('#griRequestParts').on('mouseenter', 'tr', function () {
-  ele.css({ 'background-color': '', 'color': '' });
-  ele = $(this);
-  ele.css({ 'background-color': '#5186d7', 'color': 'white' });
-});
+  $(this).remove();
+})
 
 function SubmitRepairRequest(btn) {
   if ($('#drChangeReqState :selected').val() === "4") {
@@ -219,7 +148,7 @@ function SubmitRepairRequest(btn) {
 
 function searchjsInit() {
   $('#helpPartsSearch').search({
-    width: '22%',
+    width: '25%',
     placeholder: 'جستجو کنید ...',
     url: 'WebService.asmx/PartsFilter',
     arg: 'partName',
@@ -232,7 +161,7 @@ function searchjsInit() {
   }
 
   $('#MasrafiPartsSearch').search({
-    width: '30%',
+    width: '40%',
     placeholder: 'جستجو کنید ...',
     url: 'WebService.asmx/PartsFilter',
     arg: 'partName',
@@ -246,176 +175,10 @@ function searchjsInit() {
   }
 }
 
-function AddFailReason() {
-  if ($('#drFail > option').length < 1) {
-    RedAlert('drFail', '!!ابتدا علت خرابی را در صفحه مربوطه تعریف نمایید');
-    return;
-  }
-  var failText = $('#drFail :selected').text();
-  var failValue = $('#drFail :selected').val();
-  var rowsCount = $('#gridKharabi tr').length;
-  var table = document.getElementById('gridKharabi');
-  for (var a = 0; a < rowsCount; a++) {
-    if (table.rows[a].cells[0].innerHTML == failValue) {
-      RedAlert('n', "!!این مورد قبلا ثبت شده است");
-      return;
-    }
-  }
-  var failTableHeader = '<th>علت خرابی</th><th></th>';
-  var failTableBody = '<tr>' +
-    '<td style="display:none;">' + failValue + '</td>' +
-    '<td>' + failText + '</td>' +
-    '<td><a>حذف</a></td>' +
-    '</tr>';
-  if ($('#gridKharabi tr').length !== 0) {
-    $("#gridKharabi tbody").append(failTableBody);
-  } else {
-    $("#gridKharabi thead").append(failTableHeader);
-    $("#gridKharabi tbody").append(failTableBody);
-  }
-}
-$("#gridKharabi").on("click", "tr a", function () {
-  var row = $('#gridKharabi tr').length;
-  if (row === 1) {
-    $("#gridKharabi thead").empty();
-    $("#gridKharabi tbody").empty();
-  } else {
-    $(this).parent().parent().remove();
-  }
-});
-function AddDelayReason() {
-  if ($('#drTakhir > option').length < 1) {
-    RedAlert('drFail', '!!ابتدا علت تاخیر را در صفحه مربوطه تعریف نمایید');
-    return;
-  }
-  var delayText = $('#drTakhir :selected').text();
-  var delayValue = $('#drTakhir :selected').val();
-  var rowsCount = $('#gridTakhir tr').length;
-  for (var a = 0; a < rowsCount; a++) {
-    if ($('#gridTakhir tr').text().indexOf(delayText) > -1) {
-      RedAlert('n', "!!این مورد قبلا ثبت شده است");
-      return;
-    }
-  }
-  var delayTableHeader = '<th>علت تاخیر</th><th></th>';
-  var delayTableBody = '<tr>' +
-    '<td style="display:none;">' + delayValue + '</td>' +
-    '<td>' + delayText + '</td>' +
-    '<td><a>حذف</a></td>' +
-    '</tr>';
-  if ($('#gridTakhir tr').length !== 0) {
-    $("#gridTakhir tbody").append(delayTableBody);
-  } else {
-    $("#gridTakhir thead").append(delayTableHeader);
-    $("#gridTakhir tbody").append(delayTableBody);
-  }
-}
-$("#gridTakhir").on("click", "tr a", function () {
-  var row = $('#gridTakhir tr').length;
-  if (row === 1) {
-    $("#gridTakhir thead").empty();
-    $("#gridTakhir tbody").empty();
-  } else {
-    $(this).parent().parent().remove();
-  }
-});
-function AddAction() {
-  if ($('#drAction > option').length < 1) {
-    RedAlert('drAction', '!!ابتدا عملیات را در صفحه مربوطه تعریف نمایید');
-    return;
-  }
-  var actionText = $('#drAction :selected').text();
-  var actionValue = $('#drAction :selected').val();
-  var rowsCount = $('#gridAction tr').length;
-  var table = document.getElementById('gridAction');
-  for (var a = 0; a < rowsCount; a++) {
-    if (table.rows[a].cells[0].innerHTML == actionValue) {
-      RedAlert('n', "!!این مورد قبلا ثبت شده است");
-      return;
-    }
-  }
-  var actionTableHeader = '<th>عملیات</th><th></th>';
-  var actionTableBody = '<tr>' +
-    '<td style="display:none;">' + actionValue + '</td>' +
-    '<td>' + actionText + '</td>' +
-    '<td><a>حذف</a></td>' +
-    '</tr>';
-  if ($('#gridAction tr').length !== 0) {
-    $("#gridAction tbody").append(actionTableBody);
-  } else {
-    $("#gridAction thead").append(actionTableHeader);
-    $("#gridAction tbody").append(actionTableBody);
-  }
-}
-$("#gridAction").on("click", "tr a", function () {
-  var row = $('#gridAction tr').length;
-  if (row === 1) {
-    $("#gridAction thead").empty();
-    $("#gridAction tbody").empty();
-  } else {
-    $(this).parent().parent().remove();
-  }
-});
-function AddStop() {
-  if ($('#DrstopReason > option').length < 1) {
-    RedAlert('DrstopReason', '!!ابتدا علل توقف را در صفحه مربوطه تعریف نمایید');
-    return;
-  }
-  var stopText = $('#DrstopReason :selected').text();
-  var stopValue = $('#DrstopReason :selected').val();
-  var rowsCount = $('#gridStop tr').length;
-  var table = document.getElementById('gridStop');
-  for (var a = 0; a < rowsCount; a++) {
-    if (table.rows[a].cells[0].innerHTML == stopValue) {
-      RedAlert('n', "!!این مورد قبلا ثبت شده است");
-      return;
-    }
-  }
-  var actionTableHeader = '<th>علت توقف</th><th></th>';
-  var actionTableBody = '<tr>' +
-    '<td style="display:none;">' + stopValue + '</td>' +
-    '<td>' + stopText + '</td>' +
-    '<td><a>حذف</a></td>' +
-    '</tr>';
-  if ($('#gridStop tr').length !== 0) {
-    $("#gridStop tbody").append(actionTableBody);
-  } else {
-    $("#gridStop thead").append(actionTableHeader);
-    $("#gridStop tbody").append(actionTableBody);
-  }
-}
-$("#gridStop").on("click", "tr a", function () {
-  var row = $('#gridAction tr').length;
-  if (row === 1) {
-    $("#gridStop thead").empty();
-    $("#gridStop tbody").empty();
-  } else {
-    $(this).parent().parent().remove();
-  }
-});
+
+
 $('#drhelpunit').on('change', function () {
-  $('#drhelpsub').empty();
-  if ($('#drhelpunit :selected').val() === '-1') {
-    $('#drhelpmachine').empty();
-  } else {
-    var data = [];
-    data.push({
-      url: 'WebService.asmx/FilterMachineOrderByLocation',
-      parameters: [{ loc: $('#drhelpunit :selected').val() }],
-      func: fillMachineDr
-    });
-    AjaxCall(data);
-    function fillMachineDr(e) {
-      var dr = JSON.parse(e.d);
-      var body = [];
-      $('#drhelpmachine').empty();
-      body.push('<option value="-1">انتخاب کنید</option>');
-      for (var i = 0; i < dr.length; i++) {
-        body.push('<option value="' + dr[i].MachineId + '">' + dr[i].MachineName + '</option>');
-      }
-      $('#drhelpmachine').append(body.join(''));
-    }
-  }
+  FilterMachineByUnit('drhelpunit', 'drhelpmachine');
 });
 
 $('#drhelpmachine').on('change', function () {
@@ -685,11 +448,11 @@ function SendDataToDB(btn) {
     RedAlert('nothing', '!!زمان پایان تعمیر باید بزرگتر از زمان شروع تعمیر باشد');
     flag = 1;
   }
-  if ($('#gridKharabi tr').length < 1) {
+  if ($('#drFail :selected').length < 1) {
     RedAlert('drFail', '!!لطفا علت خرابی را مشخص کنید');
     flag = 1;
   }
-  if ($('#gridAction tr').length < 1) {
+  if ($('#drAction :selected').length < 1) {
     RedAlert('drAction', "!!لطفا عملیات را مشخص کنید");
     flag = 1;
   }
@@ -741,32 +504,30 @@ function SendDataToDB(btn) {
       SubSystem: $('#drSubSystem :selected').val(),
       Mechtime: $('#txtmechtime').val(),
       Electime: $('#txtelectime').val()
-
     });
-    table = document.getElementById('gridKharabi');
-    for (var a = 0; a < table.rows.length; a++) {
+
+    for (var a = 0; a < $('#drFail :selected').length; a++) {
       failReason.push({
-        FailReasonId: table.rows[a].cells[0].innerHTML
+        FailReasonId: $('#drFail :selected').value()
       });
     }
-    table = document.getElementById('gridTakhir');
-    for (var b = 0; b < table.rows.length; b++) {
+    for (var b = 0; b < $('#drTakhir :selected').length; b++) {
       delayReason.push({
-        DelayReasonId: table.rows[b].cells[0].innerHTML
+        DelayReasonId: $('#drTakhir :selected').value()
       });
     }
-    table = document.getElementById('gridAction');
-    for (var c = 0; c < table.rows.length; c++) {
+    for (var c = 0; c < $('#drAction :selected').length; c++) {
       action.push({
-        ActionId: table.rows[c].cells[0].innerHTML
+        ActionId: $('#drAction :selected').value()
       });
     }
-    table = document.getElementById('gridStop');
-    for (var s = 0; s < table.rows.length; s++) {
+    for (var s = 0; s < $('#DrstopReason :selected').length; s++) {
       stopReason.push({
-        StopReasonId: table.rows[s].cells[0].innerHTML
+        StopReasonId: $('#DrstopReason :selected').value()
       });
     }
+    ///////need to complete ------->>>>>>>
+
     table = document.getElementById('gridHelppart');
     for (var g = 1; g < table.rows.length; g++) {
       partChange.push({
@@ -873,7 +634,6 @@ $("#gridPartChangeFailReason").on("click", "tr a", function () {
     $(this).parent().parent().remove();
   }
 });
-$(".chosen-select").chosen({ width: "30%" });
 function SubmitPartChange(btn) {
   if ($('#txttarikhPartChange').val() === '') {
     RedAlert('txttarikhPartChange', 'لطفا تاریخ را مشخص نمایید');

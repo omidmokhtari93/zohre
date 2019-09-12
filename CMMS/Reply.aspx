@@ -22,34 +22,6 @@
                 cursor: pointer;
             }
 
-        .reqPartBadge {
-            z-index: 999;
-            display: inline-block;
-            border-radius: 10px;
-            font-size: 9pt;
-            background-color: darkblue;
-            color: white;
-            padding: 2px 5px;
-            vertical-align: middle;
-            margin: 2px 1px;
-            direction: ltr !important;
-        }
-
-            .reqPartBadge:hover * {
-                cursor: pointer;
-            }
-
-        #PartsSearchResulat, #PartRequestSearchResult {
-            display: none;
-            position: absolute;
-            width: 100%;
-            padding-left: 0px;
-            z-index: 999;
-            max-height: 200px;
-            left: 0px;
-            text-align: right;
-        }
-
         .PartsTable tr:hover {
             cursor: pointer;
         }
@@ -108,23 +80,6 @@
             left: 0px;
         }
 
-        #PartRequestSearchResult {
-            display: none;
-            position: absolute;
-            width: 100%;
-            padding-left: 0px;
-            z-index: 999;
-            left: 0px;
-        }
-
-        #txthelpSubSearchPart, #txtPartRequestSubSearch {
-            width: 100%;
-            outline: none;
-            padding: 0px 3px 0 0;
-            font-weight: 800;
-            border: none;
-            border-radius: 3px;
-        }
 
         #helpgridParts tr td {
             text-align: right;
@@ -133,6 +88,10 @@
         .chkbox {
             width: 25px;
             height: 25px;
+        }
+
+        #badgeLocation span {
+            cursor: pointer;
         }
     </style>
     <div class="card" id="pnlRequestDetail" style="display: none;">
@@ -215,26 +174,9 @@
                             <div id="pnlPartRequest" style="display: none;">
                                 <hr />
                                 <div class="row p-2">
-                                    <div class="col-lg-12">
-                                        <div style="width: 100%; position: relative;">
-                                            <div style="width: 100%; position: relative;" id="badgeLocation">
-                                            </div>
-                                            <div id="PartRequestBadgeArea" style="position: relative;">
-                                                <input style="width: 100%;" class="form-control" dir="rtl" id="txtSearchRequestedPart" placeholder="جستجوی قطعه ..." />
-                                                <img src="assets/Images/loading.png" id="PartRequestloading" style="width: 20px; height: 20px; position: absolute; top: 7px; left: 7px; display: none;" />
-                                            </div>
-                                            <div id="PartRequestSearchResult">
-                                                <div style="padding: 5px 28px 5px 5px; background-color: #dfecfe">
-                                                    <input type="text" id="txtPartRequestSubSearch" autocomplete="off" dir="rtl" />
-                                                    <img src="assets/Images/funnel.png" class="imgfilter" />
-                                                </div>
-                                                <div style="overflow: auto; width: 100%; max-height: 200px;">
-                                                    <table id="griRequestParts" class="PartsTable">
-                                                        <tbody></tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class="col-md-12">
+                                        <div id="badgeLocation"></div>
+                                        <div id="requestPartSearch"></div>
                                     </div>
                                 </div>
                                 <div class="row sans p-2">
@@ -306,20 +248,11 @@
                         <div class="card-body p-2">
                             <div>علت تاخیر</div>
                             <div class="row">
-                                <div class="col-sm-2">
-                                    <button class="button" type="button" onclick="AddDelayReason();">+</button>
-                                </div>
-                                <div class="col-sm-10">
-                                    <asp:DropDownList Dir="rtl" class="form-control" ClientIDMode="Static" ID="drTakhir" runat="server" DataSourceID="sqlDelayReason" DataTextField="delay" DataValueField="id" />
+                                <div class="col-sm-12 sans">
+                                    <asp:DropDownList multiple data-placeholder="انتخاب کنید" class="chosen-select" ClientIDMode="Static" ID="drTakhir" runat="server" DataSourceID="sqlDelayReason" DataTextField="delay" DataValueField="id" />
                                     <asp:SqlDataSource ID="sqlDelayReason" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, delay FROM i_delay_reason"></asp:SqlDataSource>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card-footer">
-                            <table id="gridTakhir" class="table">
-                                <thead></thead>
-                                <tbody></tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
@@ -328,20 +261,11 @@
                         <div class="card-body p-2">
                             <div>علت خرابی</div>
                             <div class="row">
-                                <div class="col-sm-2">
-                                    <button class="button" type="button" onclick="AddFailReason();">+</button>
-                                </div>
-                                <div class="col-sm-10">
-                                    <asp:DropDownList Dir="rtl" class="form-control" ID="drFail" ClientIDMode="Static" runat="server" DataSourceID="SqlFailReason" DataTextField="fail" DataValueField="id" />
+                                <div class="col-sm-12 sans">
+                                    <asp:DropDownList multiple data-placeholder="انتخاب کنید" class="chosen-select" ID="drFail" ClientIDMode="Static" runat="server" DataSourceID="SqlFailReason" DataTextField="fail" DataValueField="id" />
                                     <asp:SqlDataSource ID="SqlFailReason" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, fail FROM i_fail_reason"></asp:SqlDataSource>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card-footer">
-                            <table id="gridKharabi" class="table">
-                                <thead></thead>
-                                <tbody></tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
@@ -353,20 +277,11 @@
                         <div class="card-body p-2">
                             <div>علل توقف</div>
                             <div class="row">
-                                <div class="col-sm-2">
-                                    <button class="button" type="button" onclick="AddStop();">+</button>
-                                </div>
-                                <div class="col-sm-10">
-                                    <asp:DropDownList Dir="rtl" ClientIDMode="Static" class="form-control" ID="DrstopReason" runat="server" DataSourceID="SqlStop" DataTextField="stop" DataValueField="id" />
+                                <div class="col-sm-12 sans">
+                                    <asp:DropDownList multiple data-placeholder="انتخاب کنید" class="chosen-select" ClientIDMode="Static" ID="DrstopReason" runat="server" DataSourceID="SqlStop" DataTextField="stop" DataValueField="id" />
                                     <asp:SqlDataSource ID="SqlStop" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, stop FROM i_stop_reason"></asp:SqlDataSource>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card-footer">
-                            <table id="gridStop" class="table">
-                                <thead></thead>
-                                <tbody></tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
@@ -375,20 +290,11 @@
                         <div class="card-body p-2">
                             <div>عملیات</div>
                             <div class="row">
-                                <div class="col-sm-2">
-                                    <button class="button" type="button" onclick="AddAction();">+</button>
-                                </div>
-                                <div class="col-sm-10">
-                                    <asp:DropDownList Dir="rtl" ClientIDMode="Static" class="form-control" ID="drAction" runat="server" DataSourceID="Sqlaction" DataTextField="operation" DataValueField="id" />
+                                <div class="col-sm-12 sans">
+                                    <asp:DropDownList multiple data-placeholder="انتخاب کنید" class="chosen-select" ClientIDMode="Static" ID="drAction" runat="server" DataSourceID="Sqlaction" DataTextField="operation" DataValueField="id" />
                                     <asp:SqlDataSource ID="Sqlaction" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, operation FROM i_repairs"></asp:SqlDataSource>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card-footer">
-                            <table id="gridAction" class="table">
-                                <thead></thead>
-                                <tbody></tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
@@ -406,7 +312,7 @@
             <hr />
 
             <div class="row bold-sans">
-                <div class="col-sm-5">
+                <div class="col-sm-4">
                     <div class="card">
                         <div class="card-body p-2">
                             <div>وضعیت دستگاه در زمان تعمیر/سرویسکاری</div>
@@ -415,12 +321,11 @@
                                 <asp:ListItem Value="1"> بدون توقف دستگاه</asp:ListItem>
                                 <asp:ListItem Value="2"> حالت خواب دستگاه</asp:ListItem>
                                 <asp:ListItem Value="3">توقف دستگاه</asp:ListItem>
-                                <asp:ListItem Value="4">ادامه فعالیت دستگاه تا رسیدن قطعه یا تامین نیرو</asp:ListItem>
                             </asp:DropDownList>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-7">
+                <div class="col-sm-8">
                     <div class="card">
                         <div class="card-body p-2">
                             <div>قطعات و لوازم مصرفی</div>
@@ -475,9 +380,9 @@
                     <div class="card">
                         <div class="card-body p-2">
                             <div class="row text-right">
-                                <div class="col-sm-4" >ساعت کارکرد</div>
-                                <div class="col-sm-4" >نیروی فنی برق</div>
-                                <div class="col-sm-4" >نیروی فنی مکانیک</div>
+                                <div class="col-sm-4">ساعت کارکرد</div>
+                                <div class="col-sm-4">نیروی فنی برق</div>
+                                <div class="col-sm-4">نیروی فنی مکانیک</div>
                             </div>
                             <button class="button" type="button" onclick="AddRepairers();">+</button>
                             <input type="text" id="txtWorkTime" class="form-control text-center" readonly="readonly" style="width: 25%; display: inline-block; cursor: pointer;" />
@@ -502,8 +407,8 @@
                     <div class="card">
                         <div class="card-body p-2 text-center">
                             <div class="row">
-                                <div class="col-sm-6 text-center" >میزان توقف الکتریکی</div>
-                                <div class="col-sm-6 text-center" >میزان توقف مکانیکی</div>
+                                <div class="col-sm-6 text-center">میزان توقف الکتریکی</div>
+                                <div class="col-sm-6 text-center">میزان توقف مکانیکی</div>
                             </div>
                             <div style="width: 47%; display: inline-block;">
                                 <input type="text" id="txtelectime" class="form-control text-center" style="direction: rtl" placeholder="دقیقه" />
@@ -550,21 +455,21 @@
                     <div class="card">
                         <div class="card-body p-2">
                             <div class="col-lg-12" style="text-align: right; color: #00008b;">قطعات یدکی / تعویضی</div>
-                        <hr />
-                        <div class="row">
-                            <div class="col-sm-3" style="text-align: right;">نام قطعه</div>
-                            <div class="col-sm-3" style="text-align: right;">نام تجهیز</div>
-                            <div class="col-sm-3" style="text-align: right;">نام ماشین</div>
-                            <div class="col-sm-3" style="text-align: right;">نام واحد</div>
-                        </div>
-                        <button class="button" type="button" onclick="Helppart();">+</button>
-                        <div id="helpPartsSearch"></div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-sm-3" style="text-align: right;">نام قطعه</div>
+                                <div class="col-sm-3" style="text-align: right;">نام تجهیز</div>
+                                <div class="col-sm-3" style="text-align: right;">نام ماشین</div>
+                                <div class="col-sm-3" style="text-align: right;">نام واحد</div>
+                            </div>
+                            <button class="button" type="button" onclick="Helppart();">+</button>
+                            <div id="helpPartsSearch"></div>
                             <select dir="rtl" class="form-control" id="drhelpsub" style="width: 22%; display: inline-block; padding: 0;"></select>
-                        <select dir="rtl" class="form-control" id="drhelpmachine" style="width: 22%; display: inline-block; padding: 0;"></select>
-                        <asp:DropDownList Dir="rtl" class="form-control" ClientIDMode="Static" AppendDataBoundItems="True" ID="drhelpunit" runat="server" Style="width: 22%; display: inline-block; padding: 0;" DataSourceID="sqlhelpunit" DataTextField="unit_name" DataValueField="unit_code">
-                            <asp:ListItem Value="-1">انتخاب کنید</asp:ListItem>
-                        </asp:DropDownList>
-                        <asp:SqlDataSource ID="sqlhelpunit" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT unit_name, unit_code FROM i_units"></asp:SqlDataSource>
+                            <select dir="rtl" class="form-control" id="drhelpmachine" style="width: 22%; display: inline-block; padding: 0;"></select>
+                            <asp:DropDownList Dir="rtl" class="form-control" ClientIDMode="Static" AppendDataBoundItems="True" ID="drhelpunit" runat="server" Style="width: 22%; display: inline-block; padding: 0;" DataSourceID="sqlhelpunit" DataTextField="unit_name" DataValueField="unit_code">
+                                <asp:ListItem Value="-1">انتخاب کنید</asp:ListItem>
+                            </asp:DropDownList>
+                            <asp:SqlDataSource ID="sqlhelpunit" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT unit_name, unit_code FROM i_units"></asp:SqlDataSource>
                         </div>
                         <div class="card-footer">
                             <table id="gridHelppart" class="table">
@@ -584,53 +489,53 @@
     <div id="PartChangeModal" class="modal fade sans" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-            <div class="card">
-                <div class="card-header bg-danger text-white">هشدار</div>
-                <div class="card-body" style="text-align: right;">
-                    <p class="alert alert-warning mb-2">
-                        قطعات زیر زودتر از برنامه پیش بینی شده خراب شده اند.
+                <div class="card">
+                    <div class="card-header bg-danger text-white">هشدار</div>
+                    <div class="card-body" style="text-align: right;">
+                        <p class="alert alert-warning mb-2">
+                            قطعات زیر زودتر از برنامه پیش بینی شده خراب شده اند.
                     در صورت اهمیت موضوع علت خرابی را ذکر نمایید!
-                    </p>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            نام قطعه
+                        </p>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                نام قطعه
                         <select class="form-control" id="drPartChangeParts"></select>
-                        </div>
-                    </div>
-                    <div class="card mt-3">
-                        <div class="card-body p-2">
-                            <div>علت خرابی</div>
-                            <div class="row">
-                                <div class="col-sm-2">
-                                    <button class="button" type="button" onclick="PartChangeFailReason();">+</button>
-                                </div>
-                                <div class="col-sm-10">
-                                    <asp:DropDownList Dir="rtl" class="form-control" ID="drpartChangeFailReason" ClientIDMode="Static" runat="server" DataSourceID="SqlFailReason" DataTextField="fail" DataValueField="id" />
-                                </div>
                             </div>
                         </div>
-                        <div class="card-footer">
-                            <table id="gridPartChangeFailReason" class="table">
-                                <tbody></tbody>
-                            </table>
+                        <div class="card mt-3">
+                            <div class="card-body p-2">
+                                <div>علت خرابی</div>
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <button class="button" type="button" onclick="PartChangeFailReason();">+</button>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <asp:DropDownList Dir="rtl" class="form-control" ID="drpartChangeFailReason" ClientIDMode="Static" runat="server" DataSourceID="SqlFailReason" DataTextField="fail" DataValueField="id" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <table id="gridPartChangeFailReason" class="table">
+                                    <tbody></tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-sm-6">
-                            تاریخ تعویض بعدی
+                        <div class="row mt-3">
+                            <div class="col-sm-6">
+                                تاریخ تعویض بعدی
                         <input class="form-control text-center" id="txttarikhPartChange" style="cursor: pointer;" readonly />
-                        </div>
-                        <div class="col-sm-6">
-                            نکات مهم و ضروری
+                            </div>
+                            <div class="col-sm-6">
+                                نکات مهم و ضروری
                         <textarea rows="2" class="form-control" dir="rtl" id="txtCommentPartChange" style="resize: none;"></textarea>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="card-footer">
-                    <button type="button" class="button" onclick="SubmitPartChange(this);">ثبت</button>
+                    <div class="card-footer">
+                        <button type="button" class="button" onclick="SubmitPartChange(this);">ثبت</button>
+                    </div>
                 </div>
             </div>
-        </div>
         </div>
     </div>
 
