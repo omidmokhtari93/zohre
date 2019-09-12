@@ -382,7 +382,33 @@
             </div>
         </div>
         <%--موارد کنترلی دستگاه--%>
+        
+        <div class="card sans" id="pnlPartControli" style="display: none;">
+            <asp:HiddenField runat="server" ClientIDMode="Static" ID="HiddenField1" />
+            <div class="card-header bg-primary text-white">ثبت بخش های کنترلی</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12 rtl">
+                        <label>نام بخش کنترلی:</label>
+                        <input id="txtPartControli" tabindex="27" class="form-control" />
+                    </div>
+                </div>
 
+            </div>
+            <div class="card-footer rtl">
+                <button class="button" style="display: none;" type="button" id="btnEditPartControls" onclick="EditControliItems();">ویرایش</button>
+                <button class="button" style="display: none;" type="button" id="btnCancelPartCotntrols" onclick="EmptyControls();">انصراف</button>
+                <button type="button" tabindex="31" id="btnAddPartControli" class="button" onclick="addPartControli();">
+                    <span class="fa fa-plus" style="vertical-align: middle; margin-left: 5px;"></span>ثبت
+                </button>
+                <button type="button" class="button fa fa-arrow-right" title="صفحه قبل" id="btnPartControlBack"></button>
+                <button type="button" class="button fa fa-arrow-left" title="صفحه بعد" tabindex="31" id="btnPartControlFor"></button>
+            </div>
+            <div class="card-footer">
+                <table class="table" id="gridPartControli">
+                </table>
+            </div>
+        </div>
 
         <div class="card sans" id="pnlMavaredControli" style="display: none;">
             <asp:HiddenField runat="server" ClientIDMode="Static" ID="chMDcontrol" />
@@ -433,7 +459,7 @@
             </div>
         </div>
 
-
+    <%--ثبت اجزاء ماشین --%>
         <div class="card sans" id="pnlSubSytem" style="display: none;">
             <div class="card-header bg-primary text-white">ثبت اجزا ماشین</div>
             <div class="card-body" id="subSearchArea">

@@ -1,5 +1,7 @@
-﻿$(document).ready(function() {
-    setInterval(function() {
+﻿var remindId = 0;
+var tarikh = '';
+$(document).ready(function () {
+    setInterval(function () {
         AjaxData({
             url: 'WebService.asmx/CheckReminders',
             param: {},
@@ -9,6 +11,9 @@
             if (e.d === "0") {
                 return;
             } else {
+                var data = JSON.parse(e.d);
+                remindId = data.id;
+                tarikh = data.tarikh;
                 NotifyMe();
             }
         }
@@ -19,30 +24,49 @@ function NotifyMe() {
     $.notify.addStyle('foo', {
         html:
             "<div>" +
-                "<div class='clearfix'>" +
-                "<div class='title' data-notify-html='title'/>" +
-                "<div class='buttons'>" +
-                "<button class='no'>مشاهده</button>" +
-                "<button class='yes' data-notify-text='button'></button>" +
-                "</div>" +
-                "</div>" +
-                "</div>"
+            "<div class='clearfix'>" +
+            "<div class='title' data-notify-html='title'/>" +
+            "<div class='buttons'>" +
+            "<button class='yes'>مشاهده</button>" +
+            "<button class='no' data-notify-text='button'></button>" +
+            "</div>" +
+            "</div>" +
+            "</div>"
     });
     $(document).on('click', '.notifyjs-foo-base .no', function () {
         $(this).trigger('notify-hide');
+        updateReminder(true);
     });
     $(document).on('click', '.notifyjs-foo-base .yes', function () {
-        alert($(this).text() + " clicked!");
         $(this).trigger('notify-hide');
+        updateReminder(false);
     });
+
     $.notify({
         title: 'یادآوری گزارش کارها',
         button: 'انصراف'
     }, {
-        style: 'foo',
-        autoHide: false,
-        clickToHide: false,
-        position: 'bottom right'
+            style: 'foo',
+            autoHide: true,
+            clickToHide: false,
+            autoHideDelay: 10000,
+            position: 'bottom right'
+        });
+    $('.title').append(' ' + tarikh + ' ');
+}
+
+function updateReminder(cancel) {
+    AjaxData({
+        url: 'WebService.asmx/UpdateReminders',
+        param: { id: remindId },
+        func: updated
     });
-    $('.title').append(' ' + JalaliDateTime() + ' ');
+
+    function updated(e) {
+        if (!cancel) {
+            window.open("/DailyReportPrint?id=" + remindId,'_blank');
+        } else {
+            $(this).trigger('notify-hide');
+        }
+    }
 }

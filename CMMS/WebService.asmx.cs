@@ -60,7 +60,7 @@ namespace CMMS
             var decPass = re.Decrypt(userPassword);
             if (decPass != password.Trim()) return new JavaScriptSerializer().Serialize(new { flag = 0, message = "! نام کاربری یا رمز عبور اشتباه است" });
             var ticket = new FormsAuthenticationTicket(1, username.Trim(), DateTime.Now,
-                DateTime.Now.AddMinutes(60), false, userId + "," + userLevel+","+unit);
+                DateTime.Now.AddMinutes(60), false, userId + "," + userLevel + "," + unit);
             var cookie1 = new HttpCookie(FormsAuthentication.FormsCookieName,
                 FormsAuthentication.Encrypt(ticket));
             HttpContext.Current.Response.Cookies.Add(cookie1);
@@ -131,7 +131,7 @@ namespace CMMS
                     client.Send(mail);
                     return new JavaScriptSerializer().Serialize(new { flag = 1, message = ".نام کاربری و رمز عبور به ایمیل شما ارسال گردید" });
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     return new JavaScriptSerializer().Serialize(new { flag = 0, message = "!خطا در ارسال ایمیل" });
                 }
@@ -187,16 +187,16 @@ namespace CMMS
         }
 
         [WebMethod]
-        public string CheckDuplicateMachineCode(string machinCode , int mid)
+        public string CheckDuplicateMachineCode(string machinCode, int mid)
         {
             _cnn.Open();
-            var checkDuplicate = new SqlCommand("select count(id) from m_machine where code = '"+ machinCode + "' and id <> "+mid+" ",_cnn);
+            var checkDuplicate = new SqlCommand("select count(id) from m_machine where code = '" + machinCode + "' and id <> " + mid + " ", _cnn);
             var chk = checkDuplicate.ExecuteScalar().ToString();
             _cnn.Close();
             return chk;
         }
         [WebMethod]
-        public string MachineInfo(string mid , MachineMainInfo minfo)
+        public string MachineInfo(string mid, MachineMainInfo minfo)
         {
             _cnn.Open();
             if (Convert.ToInt32(mid) == 0)
@@ -204,12 +204,12 @@ namespace CMMS
                 var inserMachInfo = new SqlCommand("INSERT INTO [dbo].[m_machine]([name],[code],[imp],[creator],[insDate],[maModel]," +
                                                    "[startDate],[faz],[loc],[line] ,[pow],[stopcost],[catGroup],[catState]," +
                                                    "[mtbfH],[mtbfD],[mttrH],[mttrD],[selinfo],[supinfo],[keyComment])VALUES " +
-                                                   "('" + minfo.Name + "' , '" + minfo.Code + "' , " + minfo.Ahamiyat + " , '" + minfo.Creator +"'" +
-                                                   ",'" + minfo.InsDate + "', '" + minfo.Model + "' , '" + minfo.Tarikh + "' , "+minfo.Faz+" " +
-                                                   ", '" + minfo.Location +"' ,"+minfo.Line+", '" + minfo.Power + "',"+minfo.StopCostPerHour+" ,"
+                                                   "('" + minfo.Name + "' , '" + minfo.Code + "' , " + minfo.Ahamiyat + " , '" + minfo.Creator + "'" +
+                                                   ",'" + minfo.InsDate + "', '" + minfo.Model + "' , '" + minfo.Tarikh + "' , " + minfo.Faz + " " +
+                                                   ", '" + minfo.Location + "' ," + minfo.Line + ", '" + minfo.Power + "'," + minfo.StopCostPerHour + " ,"
                                                    + minfo.CatGroup + " , " + minfo.VaziatTajhiz + " ,'" + minfo.MtbfH + "' , '" + minfo.MtbfD + "'," +
                                                    " '" + minfo.MttrH + "' , '" + minfo.MttrD + "' ," +
-                                                   " '" + minfo.SellInfo + "' , '" + minfo.SuppInfo + "','"+minfo.Keycomment+"') SELECT CAST(scope_identity() AS int)", _cnn);
+                                                   " '" + minfo.SellInfo + "' , '" + minfo.SuppInfo + "','" + minfo.Keycomment + "') SELECT CAST(scope_identity() AS int)", _cnn);
                 return inserMachInfo.ExecuteScalar().ToString();
             }
             var updateMachine = new SqlCommand("UPDATE [dbo].[m_machine] " +
@@ -233,7 +233,7 @@ namespace CMMS
                                                ",[mttrD] = '" + minfo.MttrD + "' " +
                                                ",[selinfo] = '" + minfo.SellInfo + "' " +
                                                ",[supinfo] = '" + minfo.SuppInfo + "' " +
-                                               ",[keyComment] = '"+minfo.Keycomment+"'" +
+                                               ",[keyComment] = '" + minfo.Keycomment + "'" +
                                                "WHERE id = " + mid + " ", _cnn);
             updateMachine.ExecuteNonQuery();
             _cnn.Close();
@@ -243,15 +243,15 @@ namespace CMMS
         public string BaseMachineInfo(string mid, MachineMainInfo minfo) //Base Information
         {
             _cnn.Open();
-            var checkcode=new SqlCommand("select code from b_machine where code="+mid+"",_cnn);
+            var checkcode = new SqlCommand("select code from b_machine where code=" + mid + "", _cnn);
             object check = checkcode.ExecuteScalar();
 
-            if (check==null)
+            if (check == null)
             {
                 var inserMachInfo = new SqlCommand("INSERT INTO [dbo].[b_machine]([name],[code],[imp],[creator],[maModel]," +
                                                    "[pow],[stopcost],[catGroup],[catState]," +
                                                    "[mtbfH],[mtbfD],[mttrH],[mttrD],[selinfo],[supinfo],[keyComment])VALUES " +
-                                                   "('" + minfo.Name + "' ,"+mid+",  " + minfo.Ahamiyat + " , '" + minfo.Creator + "'" +
+                                                   "('" + minfo.Name + "' ," + mid + ",  " + minfo.Ahamiyat + " , '" + minfo.Creator + "'" +
                                                    ",'" + minfo.Model + "' , '" + minfo.Power + "'," + minfo.StopCostPerHour + " ,"
                                                    + minfo.CatGroup + " , " + minfo.VaziatTajhiz + " ,'" + minfo.MtbfH + "' , '" + minfo.MtbfD + "'," +
                                                    " '" + minfo.MttrH + "' , '" + minfo.MttrD + "' ," +
@@ -292,7 +292,7 @@ namespace CMMS
                                                    ",[mttrH] = '" + minfo.MttrH + "' " +
                                                    ",[mttrD] = '" + minfo.MttrD + "' " +
                                                    ",[keyComment] = '" + minfo.Keycomment + "'" +
-                                                   ",[supinfo] = '" + minfo.SuppInfo + "' where SUBSTRING(CONVERT(varchar(8), code), 3, 3) ="+mid+" ", _cnn);
+                                                   ",[supinfo] = '" + minfo.SuppInfo + "' where SUBSTRING(CONVERT(varchar(8), code), 3, 3) =" + mid + " ", _cnn);
                 updateMachine.ExecuteNonQuery();
             }
             _cnn.Close();
@@ -303,7 +303,7 @@ namespace CMMS
         {
             _cnn.Open();
             var insertFuel = new SqlCommand(
-                "if (select count(Mid) from m_fuel where Mid = "+mid+") <> 0  " +
+                "if (select count(Mid) from m_fuel where Mid = " + mid + ") <> 0  " +
                 "UPDATE [dbo].[m_fuel] " +
                 "SET[length] = '" + masrafiMain.Length + "' " +
                 ",[width] = '" + masrafiMain.Width + "' " +
@@ -312,16 +312,16 @@ namespace CMMS
                 ",[ele] = " + masrafiMain.BarghChecked + " " +
                 ",[masraf] = '" + masrafiMain.Masraf + "' " +
                 ",[voltage] = '" + masrafiMain.Voltage + "' " +
-                ",[phase] = '"+ masrafiMain.Phase + "' " +
+                ",[phase] = '" + masrafiMain.Phase + "' " +
                 ",[cycle] = '" + masrafiMain.Cycle + "' " +
                 ",[gas] = " + masrafiMain.GasChecked + " " +
                 ",[gasPres] = '" + masrafiMain.GasPressure + "' " +
                 ",[air] = " + masrafiMain.AirChecked + " " +
-                ",[airPres] = '"+ masrafiMain.AirPressure + "' " +
+                ",[airPres] = '" + masrafiMain.AirPressure + "' " +
                 ",[fuel] = " + masrafiMain.FuelChecked + " " +
                 ",[fuelType] = '" + masrafiMain.FuelType + "' " +
                 ",[fueltot] = '" + masrafiMain.FuelMasraf + "' " +
-                " WHERE Mid = "+ mid +" " +
+                " WHERE Mid = " + mid + " " +
                 " else " +
                 "INSERT INTO [dbo].[m_fuel]([Mid],[length],[width],[height],[weight],[ele],[masraf] " +
                 ",[voltage],[phase],[cycle],[gas],[gasPres],[air],[airPres],[fuel],[fuelType],[fueltot]) " +
@@ -331,7 +331,7 @@ namespace CMMS
                 masrafiMain.Phase + "','" + masrafiMain.Cycle + "'," +
                 " " + masrafiMain.GasChecked + ",'" + masrafiMain.GasPressure + "'," + masrafiMain.AirChecked + ",'" +
                 masrafiMain.AirPressure + "'," + masrafiMain.FuelChecked + "" +
-                ",'" + masrafiMain.FuelType + "','" + masrafiMain.FuelMasraf + "') " , _cnn);
+                ",'" + masrafiMain.FuelType + "','" + masrafiMain.FuelMasraf + "') ", _cnn);
             insertFuel.ExecuteNonQuery();
             _cnn.Close();
         }
@@ -365,7 +365,7 @@ namespace CMMS
         {
             List<string> machinelist = new List<string>();
             _cnn.Open();
-            var cmddel=new SqlCommand("delete from b_keyitem where Mid="+mid+" ",_cnn);
+            var cmddel = new SqlCommand("delete from b_keyitem where Mid=" + mid + " ", _cnn);
             cmddel.ExecuteNonQuery();
             foreach (var item in keyItemsMain)
             {
@@ -374,8 +374,8 @@ namespace CMMS
                     "(" + mid + ",'" + item.Keyname + "','" + item.Kw + "' , '" + item.Rpm + "' , '" + item.Country + "' ," +
                     " '" + item.Volt + "', '" + item.Flow + "' , '" + item.CommentKey + "') ", _cnn);
                 insertKey.ExecuteNonQuery();
-               
-               
+
+
             }
             var chooseIdmachin =
                 new SqlCommand("select id from m_machine where SUBSTRING(code,3,3) =" + mid + " ", _cnn);
@@ -389,7 +389,7 @@ namespace CMMS
             _cnn.Open();
             foreach (var midd in machinelist)
             {
-                var Delmainkeyitem = new SqlCommand("delete from m_keyitem where Mid="+midd, _cnn);
+                var Delmainkeyitem = new SqlCommand("delete from m_keyitem where Mid=" + midd, _cnn);
                 Delmainkeyitem.ExecuteNonQuery();
             }
             foreach (var item in keyItemsMain)
@@ -467,8 +467,8 @@ namespace CMMS
         public void DeleteControlItem(int controlId)
         {
             _cnn.Open();
-            var deleteItems = new SqlCommand("delete from m_control where id ="+controlId+" " +
-                                             "delete from p_pmcontrols where idmcontrol = "+controlId+" ", _cnn);
+            var deleteItems = new SqlCommand("delete from m_control where id =" + controlId + " " +
+                                             "delete from p_pmcontrols where idmcontrol = " + controlId + " ", _cnn);
             deleteItems.ExecuteNonQuery();
             _cnn.Close();
         }
@@ -481,13 +481,13 @@ namespace CMMS
             _cnn.Close();
         }
 
-        public void InsertControli(string IdCon,string Tarikh,int Kind,string week,string other)
-        {            
+        public void InsertControli(string IdCon, string Tarikh, int Kind, string week, string other)
+        {
             var Pmcontrol =
                 new SqlCommand(
                     "IF (SELECT  COUNT(idmcontrol) AS Idm FROM  dbo.p_pmcontrols WHERE  (idmcontrol = " + IdCon + "))=0 " +
                     "begin " +
-                    "INSERT INTO [dbo].[p_pmcontrols]([idmcontrol],[act],[tarikh],[kind],[week],[other]) VALUES (" + IdCon + ",0,'" + Tarikh + "',"+ Kind + ","+week+","+other+") end " +
+                    "INSERT INTO [dbo].[p_pmcontrols]([idmcontrol],[act],[tarikh],[kind],[week],[other]) VALUES (" + IdCon + ",0,'" + Tarikh + "'," + Kind + "," + week + "," + other + ") end " +
                     "Else if(SELECT  COUNT(idmcontrol) AS Idm FROM  dbo.p_pmcontrols WHERE  (idmcontrol = " + IdCon + "))=1 " +
                     "begin " +
                     " delete from p_pmcontrols where idmcontrol=" + IdCon + " " +
@@ -508,11 +508,11 @@ namespace CMMS
                 var selectrepeatrow = new SqlCommand(
                     "if(SELECT COUNT(id) AS idd FROM dbo.m_control WHERE (id IN (SELECT DISTINCT idmcontrol AS Idm FROM dbo.p_pmcontrols WHERE (idmcontrol = " + item.Idcontrol + "))))>0  " +
                     "begin UPDATE [dbo].[m_control] SET [contName] ='" + item.Control + "',[period] =" + item.Time + " " +
-                    ",[rooz] =" + item.Day + ",[opr] = "+item.Operation+",[MDser] =" + item.MDservice + " ," +
+                    ",[rooz] =" + item.Day + ",[opr] = " + item.Operation + ",[MDser] =" + item.MDservice + " ," +
                     "[comment] ='" + item.Comment + "' ,[pmstart] ='" + item.PmDate + "' WHERE id=" + item.Idcontrol +
                     " SELECT '" + item.Idcontrol + "' AS IDc end " +
-                    "else if("+item.Bidcontrol+")=0 begin  INSERT INTO [dbo].[m_control]([Mid],[contName],[period],[rooz],[opr],[pmstart],[MDser],[comment])" +
-                    "VALUES(" + mid + ",'" + item.Control + "'," + item.Time + "," + item.Day + ","+item.Operation+"," +
+                    "else if(" + item.Bidcontrol + ")=0 begin  INSERT INTO [dbo].[m_control]([Mid],[contName],[period],[rooz],[opr],[pmstart],[MDser],[comment])" +
+                    "VALUES(" + mid + ",'" + item.Control + "'," + item.Time + "," + item.Day + "," + item.Operation + "," +
                     "'" + item.PmDate + "'," + item.MDservice + ",'" + item.Comment +
                     "') insert into b_control (Mid,contName,comment,opr,broadcast) VALUES((select SUBSTRING(code,3,3) from m_machine where id =" + mid + "),'" + item.Control + "','" + item.Comment + "'," + item.Operation + ",0)" +
                     " update m_control set idcontrol=i.id from (select id from b_control where id=(select MAX(id) from b_control)) i where m_control.id=(select MAX(id) from m_control)  SELECT CAST(scope_identity() AS nvarchar) end  " +
@@ -520,7 +520,7 @@ namespace CMMS
                     "VALUES(" + mid + "," + item.Bidcontrol + ",'" + item.Control + "'," + item.Time + "," + item.Day + "," + item.Operation + "," +
                     "'" + item.PmDate + "'," + item.MDservice + ",'" + item.Comment + "')  SELECT CAST(scope_identity() AS nvarchar) end else begin UPDATE [dbo].[m_control] SET [contName] ='" + item.Control + "',[period] =" + item.Time + " " +
                     ",[rooz] =" + item.Day + ",[opr] = " + item.Operation + ",[MDser] =" + item.MDservice + " ," +
-                    "[comment] ='" + item.Comment + "' ,[pmstart] ='" + item.PmDate + "' WHERE idcontrol=" + item.Bidcontrol + " and id=" + item.Idcontrol +"  " +
+                    "[comment] ='" + item.Comment + "' ,[pmstart] ='" + item.PmDate + "' WHERE idcontrol=" + item.Bidcontrol + " and id=" + item.Idcontrol + "  " +
                     " select id from m_control where idcontrol=" + item.Bidcontrol + " and id=" + item.Idcontrol + " end ", _cnn);
                 string idmcontrol = "";
                 idmcontrol = selectrepeatrow.ExecuteScalar().ToString();
@@ -536,7 +536,7 @@ namespace CMMS
                     case 1: //month 
                         if (item.Day < 10)
                         {
-                            day = "0"+item.Day.ToString();
+                            day = "0" + item.Day.ToString();
                         }
                         else
                         {
@@ -651,27 +651,27 @@ namespace CMMS
             var bcontrolid = "";
             foreach (var item in controls)
             {
-                 lst = lst + Convert.ToString(item.Idcontrol) + ','; 
-                
+                lst = lst + Convert.ToString(item.Idcontrol) + ',';
+
                 var broad = item.Broadcast == true ? 1 : 0;
-                var searchcontrol =new SqlCommand("select id from b_control where id="+item.Idcontrol,_cnn);
+                var searchcontrol = new SqlCommand("select id from b_control where id=" + item.Idcontrol, _cnn);
                 object obj = searchcontrol.ExecuteScalar();
                 if (obj == null)
                 {
                     var selectrepeatrow = new SqlCommand(
                         "INSERT INTO [dbo].[b_control]([Mid],[contName],[opr],[comment],[broadcast])" +
-                        "VALUES(" + mid + ",'" + item.Control + "'," + item.Operation + "," + "'" + item.Comment + "'," + broad + ") select max(id) from b_control where Mid="+mid ,_cnn);
+                        "VALUES(" + mid + ",'" + item.Control + "'," + item.Operation + "," + "'" + item.Comment + "'," + broad + ") select max(id) from b_control where Mid=" + mid, _cnn);
                     bcontrolid = Convert.ToString(selectrepeatrow.ExecuteScalar());
                     lst = lst + bcontrolid + ',';
                 }
-                else 
+                else
                 {
-                    var updateBroadcast=new SqlCommand("update b_control set broadcast="+ broad, _cnn);
+                    var updateBroadcast = new SqlCommand("update b_control set broadcast=" + broad, _cnn);
                     updateBroadcast.ExecuteNonQuery();
                 }
             }
             lst = lst.Substring(0, lst.Length - 1);
-            var delcontrol=new SqlCommand("delete from b_control where Mid="+mid+" and id not in ("+lst+")",_cnn);
+            var delcontrol = new SqlCommand("delete from b_control where Mid=" + mid + " and id not in (" + lst + ")", _cnn);
             delcontrol.ExecuteNonQuery();
 
             //===================insert new control into m_control =============
@@ -690,9 +690,9 @@ namespace CMMS
                 var broad = item.Broadcast == true ? 1 : 0;
                 if (broad == 1)
                 {
-                   foreach (var Midd in machinelist)
+                    foreach (var Midd in machinelist)
                     {
-                        var insertMcontrol = new SqlCommand(" if (select count(id) from m_control where Mid="+Midd+ " and idcontrol = "+item.Idcontrol+" )=0 begin " +
+                        var insertMcontrol = new SqlCommand(" if (select count(id) from m_control where Mid=" + Midd + " and idcontrol = " + item.Idcontrol + " )=0 begin " +
                             "insert into m_control ([Mid],[idcontrol],[contName],[period],[rooz],[MDser],[comment],[pmstart],[opr]) VALUES " +
                             "(" + Midd + "," + item.Idcontrol + ",'" + item.Control + "',0,0,1," +
                             "'" + item.Comment + "','1400/01/01'," + item.Operation + ") end ", _cnn);
@@ -714,7 +714,7 @@ namespace CMMS
             {
                 var insertParts = new SqlCommand(
                     "INSERT INTO [dbo].[m_subsystem](Mid , subId,code)" +
-                    "VALUES(" + mid + "," + item.SubSystemId + ",'"+item.SubSystemCode+"')", _cnn);
+                    "VALUES(" + mid + "," + item.SubSystemId + ",'" + item.SubSystemCode + "')", _cnn);
                 insertParts.ExecuteNonQuery();
             }
             _cnn.Close();
@@ -729,7 +729,7 @@ namespace CMMS
             {
                 var insertParts = new SqlCommand(
                     "INSERT INTO [dbo].[b_subsystem](Mid , subId)" +
-                    "VALUES(" + mid + "," + item.SubSystemId + ")" , _cnn);
+                    "VALUES(" + mid + "," + item.SubSystemId + ")", _cnn);
                 insertParts.ExecuteNonQuery();
             }
             var deleteM = new SqlCommand("delete from m_subsystem where Mid in (select id from m_machine where SUBSTRING(CONVERT(varchar(8), code), 3, 3)= " + mid + " ) and code IS NULL ", _cnn);
@@ -739,11 +739,11 @@ namespace CMMS
             //============================================
             _cnn.Open();
             List<string> machinelist = new List<string>();
-            var machine=new SqlCommand("select id from m_machine where SUBSTRING(CONVERT(varchar(8), code), 3, 3)= " + mid+ "" , _cnn);
+            var machine = new SqlCommand("select id from m_machine where SUBSTRING(CONVERT(varchar(8), code), 3, 3)= " + mid + "", _cnn);
             var rd = machine.ExecuteReader();
             while (rd.Read())
             {
-                machinelist.Add(rd["id"].ToString()); 
+                machinelist.Add(rd["id"].ToString());
             }
             _cnn.Close();
             _cnn.Open();
@@ -753,13 +753,13 @@ namespace CMMS
                 {
 
                     var insertParts = new SqlCommand(
-                        "if(select count(id) from m_subsystem where Mid="+Mid+ " and subId="+item.SubSystemId+")=0 begin INSERT INTO [dbo].[m_subsystem](Mid , subId)" +
-                        "VALUES(" +Mid + "," + item.SubSystemId + ") end ", _cnn);
-                   
+                        "if(select count(id) from m_subsystem where Mid=" + Mid + " and subId=" + item.SubSystemId + ")=0 begin INSERT INTO [dbo].[m_subsystem](Mid , subId)" +
+                        "VALUES(" + Mid + "," + item.SubSystemId + ") end ", _cnn);
+
                     insertParts.ExecuteNonQuery();
                 }
             }
-            
+
             _cnn.Close();
         }
         [WebMethod]
@@ -783,7 +783,7 @@ namespace CMMS
         public void BSendGridGhataat(int mid, List<Parts> parts) //Base Information
         {
             _cnn.Open();
-            var cmdDellPart= new SqlCommand("delete from b_parts where Mid=" + mid + " ",_cnn);
+            var cmdDellPart = new SqlCommand("delete from b_parts where Mid=" + mid + " ", _cnn);
             cmdDellPart.ExecuteNonQuery();
             foreach (var item in parts)
             {
@@ -829,11 +829,11 @@ namespace CMMS
                     "begin UPDATE [dbo].[m_parts] SET [PartId] ='" + item.PartId + "',[mYear] ='" + item.UsePerYear + "' ,[min] ='" + item.Min + "',[max] ='" + item.Max + "' ," +
                     "[comment] ='" + item.Comment + "' ,[chPeriod] ='" + item.ChangePeriod + "' WHERE id=" + item.Id +
                     " SELECT '" + item.Id + "'+'0' AS IDc end " +
-                    "else if(SELECT COUNT(id) AS idd FROM dbo.m_parts WHERE (chPeriod='' AND id ="+item.Id+"))>0  " +
+                    "else if(SELECT COUNT(id) AS idd FROM dbo.m_parts WHERE (chPeriod='' AND id =" + item.Id + "))>0  " +
                     "begin UPDATE [dbo].[m_parts] SET [PartId] ='" + item.PartId + "',[mYear] ='" + item.UsePerYear + "' ,[min] ='" + item.Min + "',[max] ='" + item.Max + "' ," +
                     "[comment] ='" + item.Comment + "' ,[chPeriod] ='" + item.ChangePeriod + "' WHERE id=" + item.Id +
                     " SELECT '" + item.Id + "'+'1' AS IDc end " +
-                    "else if(select COUNT(id) AS idd FROM dbo.m_parts where Mid=" + mid+ " and PartId ='" + item.PartId + "') = 0 begin  INSERT INTO [dbo].[m_parts]([Mid],[PartId],[mYear],[min],[max],[chPeriod],[comment]) " +
+                    "else if(select COUNT(id) AS idd FROM dbo.m_parts where Mid=" + mid + " and PartId ='" + item.PartId + "') = 0 begin  INSERT INTO [dbo].[m_parts]([Mid],[PartId],[mYear],[min],[max],[chPeriod],[comment]) " +
                     "VALUES(" + mid + "," + item.PartId + " ,'" + item.UsePerYear + "','" + item.Min + "'," +
                     "'" + item.Max + "','" + item.ChangePeriod + "','" + item.Comment + "') SELECT CAST(scope_identity() AS nvarchar)+'2' end else begin UPDATE [dbo].[m_parts] SET [PartId] ='" + item.PartId + "',[mYear] ='" + item.UsePerYear + "' ,[min] ='" + item.Min + "',[max] ='" + item.Max + "' ," +
                     "[comment] ='" + item.Comment + "' ,[chPeriod] ='" + item.ChangePeriod + "' WHERE id=" + item.Id + "   SELECT '" + item.Id + "'+'2' AS IDc end ", _cnn);
@@ -879,7 +879,7 @@ namespace CMMS
                     case "2":
                         if (item.ChangePeriod != "")
                         {
-                            var Insertforecast =new SqlCommand(
+                            var Insertforecast = new SqlCommand(
                                     "INSERT INTO [dbo].[p_forecast]([m_partId],[tarikh],[PartId],[act]) VALUES (" +
                                     idmPart + ",'" + item.ChangePeriod.Trim() + "'," + item.PartId + ",0)", _cnn);
                             Insertforecast.ExecuteNonQuery();
@@ -913,7 +913,7 @@ namespace CMMS
             _cnn.Open();
             //if (instructions.Count != 0)
             {
-                var checkExistsEnergy = new SqlCommand("delete from m_energy where Mid = "+mid+" ",_cnn);
+                var checkExistsEnergy = new SqlCommand("delete from m_energy where Mid = " + mid + " ", _cnn);
                 checkExistsEnergy.ExecuteNonQuery();
                 foreach (var item in instructions)
                 {
@@ -934,8 +934,8 @@ namespace CMMS
             var insertInstruct = new SqlCommand(
                 "if (select count(Mid) from m_inst where Mid = " + mid + ") <> 0 " +
                 "UPDATE [dbo].[m_inst] " +
-                "SET[inst] = '"+ dastoor +"' " +
-                "WHERE Mid = "+ mid +" " +
+                "SET[inst] = '" + dastoor + "' " +
+                "WHERE Mid = " + mid + " " +
                 " else " +
                 "INSERT INTO [dbo].[m_inst]([Mid],[inst])VALUES" +
                 "(" + mid + ",'" + dastoor + "')", _cnn);
@@ -957,7 +957,7 @@ namespace CMMS
                 "dbo.m_machine.line, dbo.m_machine.loc,dbo.m_machine.keyComment FROM dbo.m_machine left JOIN " +
                 "dbo.i_lines ON dbo.m_machine.line = dbo.i_lines.id left JOIN " +
                 "dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code left JOIN " +
-                "dbo.i_faz ON dbo.m_machine.faz = dbo.i_faz.id WHERE(dbo.m_machine.id = "+mid+") ", _cnn);
+                "dbo.i_faz ON dbo.m_machine.faz = dbo.i_faz.id WHERE(dbo.m_machine.id = " + mid + ") ", _cnn);
             var rd = getMachInfo.ExecuteReader();
             if (rd.Read())
             {
@@ -1117,7 +1117,7 @@ namespace CMMS
             var controliList = new List<Controls>();
             _cnn.Open();
             var getControls =
-                new SqlCommand("SELECT [id],[contName],[idcontrol],[period],[rooz],[pmstart],[opr],[MDser],[comment]FROM [dbo].[m_control] where Mid = " + mid+"", _cnn);
+                new SqlCommand("SELECT [id],[contName],[idcontrol],[period],[rooz],[pmstart],[opr],[MDser],[comment]FROM [dbo].[m_control] where Mid = " + mid + "", _cnn);
             var rd = getControls.ExecuteReader();
             while (rd.Read())
             {
@@ -1193,8 +1193,8 @@ namespace CMMS
                     new Controls
                     {
                         Idcontrol = Convert.ToInt32(rd["id"]),
-                        Control = rd["contName"].ToString(),                       
-                        Operation = Convert.ToInt32(rd["opr"]), 
+                        Control = rd["contName"].ToString(),
+                        Operation = Convert.ToInt32(rd["opr"]),
                         Broadcast = Convert.ToBoolean(rd["broadcast"]),
                         Comment = rd["comment"].ToString()
                     }
@@ -1210,7 +1210,7 @@ namespace CMMS
             _cnn.Open();
             var subs = new SqlCommand("SELECT dbo.subsystem.name, dbo.m_subsystem.subId ,dbo.m_subsystem.code FROM " +
                                       "dbo.subsystem INNER JOIN dbo.m_subsystem ON dbo.subsystem.id " +
-                                      "= dbo.m_subsystem.subId WHERE(dbo.m_subsystem.Mid = "+mid+")",_cnn);
+                                      "= dbo.m_subsystem.subId WHERE(dbo.m_subsystem.Mid = " + mid + ")", _cnn);
             var rd = subs.ExecuteReader();
             while (rd.Read())
             {
@@ -1295,10 +1295,10 @@ namespace CMMS
                         Id = Convert.ToInt32(rd["id"]),
                         PartId = Convert.ToInt32(rd["PartId"]),
                         PartName = rd["PartName"].ToString(),
-                        UsePerYear = rd["mYear"].ToString(),                     
+                        UsePerYear = rd["mYear"].ToString(),
                         Min = rd["min"].ToString(),
                         Max =rd["max"].ToString()
-                       
+
                     }
                 });
             }
@@ -1310,13 +1310,13 @@ namespace CMMS
         {
             var energyList = new List<Instructions>();
             _cnn.Open();
-            var selectDastoor = new SqlCommand("select inst from m_inst where Mid = " + mid + " ",_cnn);
+            var selectDastoor = new SqlCommand("select inst from m_inst where Mid = " + mid + " ", _cnn);
             var i = selectDastoor.ExecuteScalar();
             if (i == null)
             {
                 goto NoInstruction;
             }
-            energyList.Add(new Instructions(){Dastoor = i.ToString()});
+            energyList.Add(new Instructions() { Dastoor = i.ToString() });
             var selectEnergy = new SqlCommand("select [tarikh],[mtype],[ap1],[ap2],[ap3],[vp1],[vp2],[vp3],[pf] from m_energy where Mid = " + mid + " ", _cnn);
             var rdd = selectEnergy.ExecuteReader();
             while (rdd.Read())
@@ -1331,7 +1331,7 @@ namespace CMMS
                     }
                 });
             }
-            NoInstruction:
+        NoInstruction:
             _cnn.Close();
             return new JavaScriptSerializer().Serialize(energyList);
         }
@@ -1341,7 +1341,7 @@ namespace CMMS
         {
             var contList = new List<ContractorInfo>();
             _cnn.Open();
-            var selectCont = new SqlCommand("SELECT [name],[webmail],[address],[phone],[tell],[fax],[permit],[comment]FROM [dbo].[i_contractor] where id = "+cid+" ",_cnn);
+            var selectCont = new SqlCommand("SELECT [name],[webmail],[address],[phone],[tell],[fax],[permit],[comment]FROM [dbo].[i_contractor] where id = " + cid + " ", _cnn);
             var rd = selectCont.ExecuteReader();
             if (rd.Read())
             {
@@ -1364,7 +1364,7 @@ namespace CMMS
         {
             var drItemsList = new List<ToolsTableItems>();
             _cnn.Open();
-            var drItems = new SqlCommand("select id , code , name from subsystem",_cnn);
+            var drItems = new SqlCommand("select id , code , name from subsystem", _cnn);
             var rd = drItems.ExecuteReader();
             while (rd.Read())
             {
@@ -1378,9 +1378,9 @@ namespace CMMS
         }
 
         [WebMethod]
-        public string NewTool(string toolName , string toolCode)
+        public string NewTool(string toolName, string toolCode)
         {
-           _cnn.Open();
+            _cnn.Open();
             var insertTool = new SqlCommand("insert into subsystem (name,code)values('" + toolName + "' , '" + toolCode + "')", _cnn);
             insertTool.ExecuteNonQuery();
             _cnn.Close();
@@ -1388,10 +1388,10 @@ namespace CMMS
         }
 
         [WebMethod]
-        public void EditSubSystem(string name , string code , string editCode)
+        public void EditSubSystem(string name, string code, string editCode)
         {
             _cnn.Open();
-            var updateSub = new SqlCommand("UPDATE [dbo].[subsystem] SET [name] = '"+name+"',[code] ='"+code+"'  WHERE code = "+editCode+" ",_cnn);
+            var updateSub = new SqlCommand("UPDATE [dbo].[subsystem] SET [name] = '" + name + "',[code] ='" + code + "'  WHERE code = " + editCode + " ", _cnn);
             updateSub.ExecuteNonQuery();
             _cnn.Close();
         }
@@ -1400,7 +1400,7 @@ namespace CMMS
         public void DeleteSubSystem(int subcode)
         {
             _cnn.Open();
-            var del = new SqlCommand("delete from subsystem where code = "+subcode+" ",_cnn);
+            var del = new SqlCommand("delete from subsystem where code = " + subcode + " ", _cnn);
             del.ExecuteNonQuery();
         }
 
@@ -1436,7 +1436,7 @@ namespace CMMS
             {
 
                 faz = rdfazline["faz_name"].ToString();
-                line =rdfazline["line_name"].ToString();
+                line = rdfazline["line_name"].ToString();
 
             }
             _cnn.Close();
@@ -1444,12 +1444,12 @@ namespace CMMS
             var rd = reqDetails.ExecuteReader();
             if (rd.Read())
             {
-                
-               reqDetList.AddRange(new List<RequestDetails>
+
+                reqDetList.AddRange(new List<RequestDetails>
                {
                     new RequestDetails
-                    {   
-                       
+                    {
+
                         MachineName = rd["name"].ToString() ,Faz = faz, Line = line ,MachineCode = rd["code"].ToString(),SubName = rd["subname"].ToString(),
                         UnitName = rd["unit_name"].ToString(),FailType = rd["Tfail"].ToString(),NameRequest = rd["req_name"].ToString(),SubId = Convert.ToInt32(rd["subid"]),
                         RequestType = rd["Treq"].ToString(),Comment = rd["comment"].ToString(),Time = rd["time"].ToString(),RequestNumber = rd["req_id"].ToString(),
@@ -1457,19 +1457,19 @@ namespace CMMS
                     }
                });
             }
-           
-            
+
+
             _cnn.Close();
             return new JavaScriptSerializer().Serialize(reqDetList);
         }
 
         [WebMethod]
-        public void RequestStateDifinition(PartRequest d ,List<int> parts)
+        public void RequestStateDifinition(PartRequest d, List<int> parts)
         {
             _cnn.Open();
-            var stateDifinition = new SqlCommand("if (select "+d.State+ ") = 2 or (select " + d.State + ") = 3" +
-                                                 "begin UPDATE[dbo].[r_request] SET[state] = " + d.State + " WHERE req_id = "+d.RequestId+" " +
-                                                 "end else begin delete from r_request where req_id = " + d.RequestId+" end",_cnn);
+            var stateDifinition = new SqlCommand("if (select " + d.State + ") = 2 or (select " + d.State + ") = 3" +
+                                                 "begin UPDATE[dbo].[r_request] SET[state] = " + d.State + " WHERE req_id = " + d.RequestId + " " +
+                                                 "end else begin delete from r_request where req_id = " + d.RequestId + " end", _cnn);
             stateDifinition.ExecuteNonQuery();
             if (d.State != 3)
             {
@@ -1477,16 +1477,16 @@ namespace CMMS
                 return;
             }
             var deleteAllReq = new SqlCommand("DELETE FROM [dbo].[r_reqwaitpart] where id_wait = (select id from r_partwait where req_id = " + d.RequestId + ") " +
-                                              "DELETE FROM [dbo].[r_partwait] WHERE req_id = "+d.RequestId+"", _cnn);
+                                              "DELETE FROM [dbo].[r_partwait] WHERE req_id = " + d.RequestId + "", _cnn);
             deleteAllReq.ExecuteNonQuery();
             var insertPartRequest = new SqlCommand("INSERT INTO [dbo].[r_partwait]([req_id],[info],[date_reqbuy],[num_reqbuy],[delivery_date])" +
-                                                   "VALUES("+d.RequestId+",'"+d.Info+"','"+d.BuyRequestDate+"','"+d.BuyRequestNumber+"',NULL)" +
+                                                   "VALUES(" + d.RequestId + ",'" + d.Info + "','" + d.BuyRequestDate + "','" + d.BuyRequestNumber + "',NULL)" +
                                                    "SELECT CAST(scope_identity() AS int)", _cnn);
             var id = insertPartRequest.ExecuteScalar();
             foreach (var p in parts)
             {
                 var inserParts = new SqlCommand("INSERT INTO [dbo].[r_reqwaitpart]([id_wait],[part_id])" +
-                                                "VALUES("+id+","+p+")",_cnn);
+                                                "VALUES(" + id + "," + p + ")", _cnn);
                 inserParts.ExecuteNonQuery();
             }
             _cnn.Close();
@@ -1547,12 +1547,12 @@ namespace CMMS
             var rd = subsystems.ExecuteReader();
             while (rd.Read())
             {
-                filteredSubList.Add(new ToolsTableItems{ToolName = rd["name"].ToString(), ToolId = rd["id"].ToString()});
+                filteredSubList.Add(new ToolsTableItems { ToolName = rd["name"].ToString(), ToolId = rd["id"].ToString() });
             }
             _cnn.Close();
             return new JavaScriptSerializer().Serialize(filteredSubList);
         }
-       
+
         [WebMethod]
         public string FilterTagedDevices(string device)
         {
@@ -1567,7 +1567,7 @@ namespace CMMS
             var r = find.ExecuteReader();
             while (r.Read())
             {
-                devList.Add(new []{r["device"].ToString()});
+                devList.Add(new[] { r["device"].ToString() });
             }
             _cnn.Close();
             return new JavaScriptSerializer().Serialize(devList);
@@ -1579,11 +1579,11 @@ namespace CMMS
             var unitList = new List<Units>();
             var machineList = new List<Machines>();
             _cnn.Open();
-            var selectUnits = new SqlCommand("select unit_code , unit_name from i_units order by unit_name",_cnn);
+            var selectUnits = new SqlCommand("select unit_code , unit_name from i_units order by unit_name", _cnn);
             var rd = selectUnits.ExecuteReader();
             while (rd.Read())
             {
-                unitList.Add(new Units(){UnitName = rd["unit_name"].ToString(),UnitCode = rd["unit_code"].ToString()});
+                unitList.Add(new Units() { UnitName = rd["unit_name"].ToString(), UnitCode = rd["unit_code"].ToString() });
             }
             _cnn.Close();
             _cnn.Open();
@@ -1595,7 +1595,8 @@ namespace CMMS
             }
             var data = new
             {
-                UnitData = unitList ,MachineData = machineList
+                UnitData = unitList,
+                MachineData = machineList
             };
             _cnn.Close();
             return new JavaScriptSerializer().Serialize(data);
@@ -1605,16 +1606,16 @@ namespace CMMS
         public string GetLatestMachineCode(string machineCode)
         {
             _cnn.Open();
-            var selectCode = new SqlCommand("if (SELECT count(code) FROM [dbo].[m_machine] where code like '"+ machineCode + "%') <> 0 "+
-                                            "begin SELECT max(substring(code,3,6) + 1) as Ncode FROM[dbo].[m_machine] where code like '" + machineCode + "%' end else begin Select substring('"+machineCode+"',3,3)+'001' end", _cnn);
+            var selectCode = new SqlCommand("if (SELECT count(code) FROM [dbo].[m_machine] where code like '" + machineCode + "%') <> 0 " +
+                                            "begin SELECT max(substring(code,3,6) + 1) as Ncode FROM[dbo].[m_machine] where code like '" + machineCode + "%' end else begin Select substring('" + machineCode + "',3,3)+'001' end", _cnn);
             var code = selectCode.ExecuteScalar().ToString();
-            code = machineCode.Substring(0, 2)+code;
+            code = machineCode.Substring(0, 2) + code;
             _cnn.Close();
             return new JavaScriptSerializer().Serialize(code);
         }
 
         [WebMethod]
-        public string CheckDuplicateToolName(string subSystemName , int editCode)
+        public string CheckDuplicateToolName(string subSystemName, int editCode)
         {
             _cnn.Open();
             var nameList = new List<string>();
@@ -1623,7 +1624,7 @@ namespace CMMS
             var selectName = new SqlCommand("select name from subsystem where " +
                                             "(name like N'%" + subSystemName + "%' OR " +
                                             "name like N'%" + sub1 + "%' OR " +
-                                            "name like N'%" + sub2 + "%') AND code <> "+editCode+" ", _cnn);
+                                            "name like N'%" + sub2 + "%') AND code <> " + editCode + " ", _cnn);
             var rd = selectName.ExecuteReader();
             while (rd.Read())
             {
@@ -1634,10 +1635,10 @@ namespace CMMS
         }
 
         [WebMethod]
-        public string CheckDuplicateToolCode(string subSystemCode , int editCode)
+        public string CheckDuplicateToolCode(string subSystemCode, int editCode)
         {
             _cnn.Open();
-            var selectCode = new SqlCommand("select code from subsystem where code = '"+subSystemCode+"' AND code <> '"+editCode+"' ", _cnn);
+            var selectCode = new SqlCommand("select code from subsystem where code = '" + subSystemCode + "' AND code <> '" + editCode + "' ", _cnn);
             var code = selectCode.ExecuteScalar();
             if (code != null)
             {
@@ -1652,7 +1653,7 @@ namespace CMMS
         public string LatestDeviceTagNumber()
         {
             _cnn.Open();
-            var latestSubtag = new SqlCommand("if(SELECT max(tag)+1 FROM [dbo].[s_subtag]) is null begin select 100 end "+
+            var latestSubtag = new SqlCommand("if(SELECT max(tag)+1 FROM [dbo].[s_subtag]) is null begin select 100 end " +
                                               "else begin SELECT max(tag) + 1 FROM[dbo].[s_subtag] end", _cnn);
             var la = latestSubtag.ExecuteScalar().ToString();
             _cnn.Close();
@@ -1784,7 +1785,7 @@ namespace CMMS
                         //TRep without change 
                         break;
                     }
-                    
+
             }
             //Calcute MTBF 
             var selectpreviousrep = new SqlCommand("SELECT        MAX(end_repdate) AS Tmax" +
@@ -1798,11 +1799,11 @@ namespace CMMS
                                                    " WHERE(r_request_1.req_id = " + obj.ReplyInfo[0].RequestId + "))) AND(dbo.r_reply.stop_time <> '00:00')) AS i", _cnn);
             string lastRep = selectpreviousrep.ExecuteScalar().ToString();
             int MTBF = 0;
-            if (StopR != "00:00" && lastRep!="")
+            if (StopR != "00:00" && lastRep != "")
             {
                 DateTime strttime = ShamsiCalendar.Shamsi2Miladi(obj.ReplyInfo[0].StartDate);
                 DateTime lastreptime = ShamsiCalendar.Shamsi2Miladi(lastRep);
-                MTBF= ((TimeSpan)(strttime - lastreptime)).Days;
+                MTBF = ((TimeSpan)(strttime - lastreptime)).Days;
                 //var calcuteMttr = new SqlCommand("select  DATEDIFF(day, '" + lastRep + "', '" + obj.ReplyInfo[0].StartDate + "') AS MTBF", _cnn);
                 //MTBF = Convert.ToInt32(calcuteMttr.ExecuteScalar());
             }
@@ -1817,7 +1818,7 @@ namespace CMMS
             {
                 ElecT = obj.ReplyInfo[0].Electime;
             }
-            
+
             if (obj.ReplyInfo[0].Mechtime != "")
             {
                 MechT = obj.ReplyInfo[0].Mechtime;
@@ -1825,29 +1826,29 @@ namespace CMMS
 
             var insertInfo = new SqlCommand("INSERT INTO [dbo].[r_reply]([idreq],[rep_state],[info_rep],[start_repdate]" +
                                             ",[start_reptime],[end_repdate],[end_reptime],[rep_time],[stop_time],[mtbf],[subsystem],[rep_time_help],[stop_time_help],[elec_time],[mech_time],[delay_time])VALUES" +
-                                            "("+obj.ReplyInfo[0].RequestId+","+ obj.ReplyInfo[0].State+ ",'"+ obj.ReplyInfo[0].Comment+ "'" +
-                                            ",'"+ obj.ReplyInfo[0].StartDate+ "','"+ obj.ReplyInfo[0].StartTime+ "','"+ obj.ReplyInfo[0].EndDate+ "'" +
-                                            ",'"+ obj.ReplyInfo[0].EndTime+ "','"+TRep+"','"+StopR+"',"+MTBF+","+ obj.ReplyInfo[0].SubSystem+ ",'"+helprepair+"','"+helpStop+"',"+ ElecT + "," + MechT + ",'"+help_delay+"') SELECT CAST(scope_identity() AS int)", _cnn);
+                                            "(" + obj.ReplyInfo[0].RequestId + "," + obj.ReplyInfo[0].State + ",'" + obj.ReplyInfo[0].Comment + "'" +
+                                            ",'" + obj.ReplyInfo[0].StartDate + "','" + obj.ReplyInfo[0].StartTime + "','" + obj.ReplyInfo[0].EndDate + "'" +
+                                            ",'" + obj.ReplyInfo[0].EndTime + "','" + TRep + "','" + StopR + "'," + MTBF + "," + obj.ReplyInfo[0].SubSystem + ",'" + helprepair + "','" + helpStop + "'," + ElecT + "," + MechT + ",'" + help_delay + "') SELECT CAST(scope_identity() AS int)", _cnn);
             replyId = Convert.ToInt32(insertInfo.ExecuteScalar());
 
             foreach (var fail in obj.FailReason)
             {
                 var insertFails = new SqlCommand("INSERT INTO [dbo].[r_rfail]([id_rep],[fail_id])VALUES" +
-                                                 "("+replyId+","+fail.FailReasonId+")",_cnn);
+                                                 "(" + replyId + "," + fail.FailReasonId + ")", _cnn);
                 insertFails.ExecuteNonQuery();
             }
 
             foreach (var delay in obj.DelayReason)
             {
                 var insertDelay = new SqlCommand("INSERT INTO [dbo].[r_rdelay]([id_rep],[delay_id])VALUES" +
-                                                 "("+replyId+","+delay.DelayReasonId+")",_cnn);
+                                                 "(" + replyId + "," + delay.DelayReasonId + ")", _cnn);
                 insertDelay.ExecuteNonQuery();
             }
 
             foreach (var action in obj.Action)
             {
                 var insertAction = new SqlCommand("INSERT INTO [dbo].[r_action]([id_rep],[act_id])VALUES" +
-                                                  "("+replyId+","+action.ActionId+")",_cnn);
+                                                  "(" + replyId + "," + action.ActionId + ")", _cnn);
                 insertAction.ExecuteNonQuery();
             }
             foreach (var stop in obj.StopReason)
@@ -1858,41 +1859,41 @@ namespace CMMS
             }
             foreach (var prt in obj.PartChange)
             {
-                var insertpart =new SqlCommand("INSERT INTO [dbo].[r_helppart]([rep_id],[mid],[sub_id],[part_id])" +
-                                               "VALUES(" + replyId + ","+prt.Machine+","+prt.Sub+","+prt.Part+")", _cnn);
+                var insertpart = new SqlCommand("INSERT INTO [dbo].[r_helppart]([rep_id],[mid],[sub_id],[part_id])" +
+                                               "VALUES(" + replyId + "," + prt.Machine + "," + prt.Sub + "," + prt.Part + ")", _cnn);
                 insertpart.ExecuteNonQuery();
             }
 
             foreach (var part in obj.Parts)
-                                                          {
+            {
                 var rp = 0;
-                if (part.Rptools==true)
+                if (part.Rptools == true)
                 {
                     rp = 1;
                 }
                 var insertParts = new SqlCommand("INSERT INTO [dbo].[r_tools]([id_rep],[tools_id],[count],[rptools])VALUES" +
-                                                 "("+replyId+","+part.Part+","+part.Count+","+rp+")",_cnn);
+                                                 "(" + replyId + "," + part.Part + "," + part.Count + "," + rp + ")", _cnn);
                 insertParts.ExecuteNonQuery();
-                
-                var insertMeasurement=new SqlCommand("if(select count(Serial) from i_measurement_part where Serial="+part.Part+")=0" +
-                                                      "begin insert into i_measurement_part (Serial,measurement) VALUES ("+ part.Part + ","+part.Measur+ ") end ",_cnn);
+
+                var insertMeasurement = new SqlCommand("if(select count(Serial) from i_measurement_part where Serial=" + part.Part + ")=0" +
+                                                      "begin insert into i_measurement_part (Serial,measurement) VALUES (" + part.Part + "," + part.Measur + ") end ", _cnn);
                 insertMeasurement.ExecuteNonQuery();
             }
 
             foreach (var person in obj.Personel)
             {
                 var insertPersonel = new SqlCommand("INSERT INTO [dbo].[r_personel]([id_rep],[per_id],[time_work])VALUES" +
-                                                    "("+replyId+","+person.Repairer+",'"+person.RepairTime+"')",_cnn);
+                                                    "(" + replyId + "," + person.Repairer + ",'" + person.RepairTime + "')", _cnn);
                 insertPersonel.ExecuteNonQuery();
             }
 
             foreach (var cont in obj.Contractors)
             {
                 var insertCont = new SqlCommand("INSERT INTO [dbo].[r_contract]([id_rep],[contract_id],[cost])VALUES" +
-                                                "("+replyId+","+cont.Contractor+",'"+cont.Cost+"')",_cnn);
+                                                "(" + replyId + "," + cont.Contractor + ",'" + cont.Cost + "')", _cnn);
                 insertCont.ExecuteNonQuery();
             }
-            var updateRequestState = new SqlCommand("UPDATE [dbo].[r_request] SET [state] = 4 where req_id = "+obj.ReplyInfo[0].RequestId+" ", _cnn);
+            var updateRequestState = new SqlCommand("UPDATE [dbo].[r_request] SET [state] = 4 where req_id = " + obj.ReplyInfo[0].RequestId + " ", _cnn);
             updateRequestState.ExecuteNonQuery();
 
             var listforecast = new List<ForeCastList>();
@@ -1908,15 +1909,19 @@ namespace CMMS
             {
                 listforecast.Add(new ForeCastList()
                 {
-                    ForeCastId = Convert.ToInt32(r["id"]),PartId = Convert.ToInt32(r["PartId"]),PartName = r["PartName"].ToString(),
-                    CmDate = r["tarikh"].ToString(),MachineId = Convert.ToInt32(r["m_partId"]),ReplyDate = obj.ReplyInfo[0].StartDate
+                    ForeCastId = Convert.ToInt32(r["id"]),
+                    PartId = Convert.ToInt32(r["PartId"]),
+                    PartName = r["PartName"].ToString(),
+                    CmDate = r["tarikh"].ToString(),
+                    MachineId = Convert.ToInt32(r["m_partId"]),
+                    ReplyDate = obj.ReplyInfo[0].StartDate
                 });
             }
             _cnn.Close();
             _cnn.Open();
-            var uppartwait=new SqlCommand(" UPDATE [dbo].[r_partwait] SET [r_partwait].[delivery_date] = dbo.r_reply.start_repdate "+
-                                          " FROM            dbo.r_reply INNER JOIN "+
-                                          " dbo.r_partwait ON dbo.r_reply.idreq = dbo.r_partwait.req_id "+
+            var uppartwait = new SqlCommand(" UPDATE [dbo].[r_partwait] SET [r_partwait].[delivery_date] = dbo.r_reply.start_repdate " +
+                                          " FROM            dbo.r_reply INNER JOIN " +
+                                          " dbo.r_partwait ON dbo.r_reply.idreq = dbo.r_partwait.req_id " +
                                           " WHERE(dbo.r_reply.idreq = " + obj.ReplyInfo[0].RequestId + ")", _cnn);
             uppartwait.ExecuteNonQuery();
             _cnn.Close();
@@ -1930,14 +1935,14 @@ namespace CMMS
             foreach (var fail in obj.FailReasonList)
             {
                 var insertfails = new SqlCommand("INSERT INTO [dbo].[p_forcastFail]([id_forecast],[fail_id])VALUES" +
-                                                 "("+obj.ForeCastId+","+fail+")", _cnn);
+                                                 "(" + obj.ForeCastId + "," + fail + ")", _cnn);
                 insertfails.ExecuteNonQuery();
             }
             var inserPforecast = new SqlCommand("INSERT INTO [dbo].[p_forecast]([m_partId],[tarikh],[PartId],[act])VALUES" +
-                                                "("+obj.MachineId+",'"+obj.Tarikh+"',"+obj.PartId+",0)", _cnn);
+                                                "(" + obj.MachineId + ",'" + obj.Tarikh + "'," + obj.PartId + ",0)", _cnn);
             inserPforecast.ExecuteNonQuery();
-            var updatePforecast = new SqlCommand("UPDATE [dbo].[p_forecast]SET [permaturely_tarikh] = '"+obj.ReplyDate+"'" +
-                                                 ",[act] = 1 ,[inforeason] = '"+obj.Info+"' WHERE id = "+obj.ForeCastId+" ", _cnn);
+            var updatePforecast = new SqlCommand("UPDATE [dbo].[p_forecast]SET [permaturely_tarikh] = '" + obj.ReplyDate + "'" +
+                                                 ",[act] = 1 ,[inforeason] = '" + obj.Info + "' WHERE id = " + obj.ForeCastId + " ", _cnn);
             updatePforecast.ExecuteNonQuery();
             _cnn.Close();
         }
@@ -1952,7 +1957,7 @@ namespace CMMS
             var actionList = new List<Action>();
             var stopList = new List<Stop>();
             var partsList = new List<PartsRepairRecords>();
-            var changedParts=  new List<PartChanges>();
+            var changedParts = new List<PartChanges>();
             var personelList = new List<RepairerOfRepairRedords>();
             var contractorList = new List<ContractorsOfRepairRecords>();
             var replyId = 0;
@@ -1963,8 +1968,8 @@ namespace CMMS
                                                  "when rep_state = 4 then 'ادامه فعالیت دستگاه تا رسیدن قطعه یا تامین نیرو'" +
                                                  " end as rep_state ,[info_rep],[start_repdate],[start_reptime], [end_repdate],[end_reptime]," +
                                                  "[elec_time],[mech_time],[rep_time],[stop_time],subsystem.name as subsystem FROM [dbo].[r_reply]" +
-                                                 " left join subsystem on subsystem.id = r_reply.subsystem where idreq= "+requestId+" ", _cnn);
-            var rd = selectReplyInfo.ExecuteReader(); 
+                                                 " left join subsystem on subsystem.id = r_reply.subsystem where idreq= " + requestId + " ", _cnn);
+            var rd = selectReplyInfo.ExecuteReader();
             if (rd.Read())
             {
                 replyId = Convert.ToInt32(rd["id"]);
@@ -1982,19 +1987,19 @@ namespace CMMS
             }
             _cnn.Close();
             _cnn.Open();
-            var selectFails = new SqlCommand("select i_fail_reason.fail from r_rfail inner join i_fail_reason on r_rfail.fail_id = i_fail_reason.id where r_rfail.id_rep = " + replyId+" ",_cnn);
+            var selectFails = new SqlCommand("select i_fail_reason.fail from r_rfail inner join i_fail_reason on r_rfail.fail_id = i_fail_reason.id where r_rfail.id_rep = " + replyId + " ", _cnn);
             var readFail = selectFails.ExecuteReader();
             while (readFail.Read())
             {
-                failList.Add(new FailReason(){FailReasonName = readFail["fail"].ToString()});
+                failList.Add(new FailReason() { FailReasonName = readFail["fail"].ToString() });
             }
             _cnn.Close();
             _cnn.Open();
-            var selectDelays = new SqlCommand("select i_delay_reason.delay from r_rdelay inner join i_delay_reason on r_rdelay.delay_id = i_delay_reason.id where r_rdelay.id_rep = " + replyId+" ",_cnn);
+            var selectDelays = new SqlCommand("select i_delay_reason.delay from r_rdelay inner join i_delay_reason on r_rdelay.delay_id = i_delay_reason.id where r_rdelay.id_rep = " + replyId + " ", _cnn);
             var readDelay = selectDelays.ExecuteReader();
             while (readDelay.Read())
             {
-                delayList.Add(new DelayReason(){DelayReasonName = readDelay["delay"].ToString()});
+                delayList.Add(new DelayReason() { DelayReasonName = readDelay["delay"].ToString() });
             }
             _cnn.Close();
             _cnn.Open();
@@ -2006,11 +2011,11 @@ namespace CMMS
             }
             _cnn.Close();
             _cnn.Open();
-            var selectAction = new SqlCommand("SELECT i_repairs.operation FROM [dbo].[r_action] inner join i_repairs on r_action.act_id = i_repairs.id where id_rep = " + replyId+" ",_cnn);
+            var selectAction = new SqlCommand("SELECT i_repairs.operation FROM [dbo].[r_action] inner join i_repairs on r_action.act_id = i_repairs.id where id_rep = " + replyId + " ", _cnn);
             var readAction = selectAction.ExecuteReader();
             while (readAction.Read())
             {
-                actionList.Add(new Action(){ActionName = readAction["operation"].ToString()});
+                actionList.Add(new Action() { ActionName = readAction["operation"].ToString() });
             }
             _cnn.Close();
             _cnn.Open();
@@ -2029,11 +2034,11 @@ namespace CMMS
             var readParts = selectParts.ExecuteReader();
             while (readParts.Read())
             {
-                partsList.Add(new PartsRepairRecords(){PartName = readParts["PartName"].ToString(),Count = Convert.ToInt32(readParts["count"]),Measur = readParts["Measur"].ToString(), Rptooltip =readParts["rptool"].ToString() });
+                partsList.Add(new PartsRepairRecords() { PartName = readParts["PartName"].ToString(), Count = Convert.ToInt32(readParts["count"]), Measur = readParts["Measur"].ToString(), Rptooltip = readParts["rptool"].ToString() });
             }
             _cnn.Close();
             _cnn.Open();
-            var selecchangedParts = new SqlCommand("SELECT dbo.subsystem.name as subname,Part.PartName as partname, m_machine.name as machname "+
+            var selecchangedParts = new SqlCommand("SELECT dbo.subsystem.name as subname,Part.PartName as partname, m_machine.name as machname " +
                                                    "FROM dbo.r_helppart inner join m_machine on r_helppart.mid = m_machine.id " +
                                                    "INNER JOIN dbo.subsystem ON dbo.r_helppart.sub_id = dbo.subsystem.id " +
                                                    "inner join sgdb.inv.Part on dbo.r_helppart.part_id = Part.Serial " +
@@ -2043,24 +2048,26 @@ namespace CMMS
             {
                 changedParts.Add(new PartChanges()
                 {
-                    MachineName = rcParts["machname"].ToString(),PartName = rcParts["partname"].ToString(),SubName = rcParts["subname"].ToString()
+                    MachineName = rcParts["machname"].ToString(),
+                    PartName = rcParts["partname"].ToString(),
+                    SubName = rcParts["subname"].ToString()
                 });
             }
             _cnn.Close();
             _cnn.Open();
-            var selectPersonel = new SqlCommand("select i_personel.per_name,r_personel.time_work from r_personel inner join i_personel on r_personel.per_id = i_personel.id where r_personel.id_rep = "+replyId+" ", _cnn);
+            var selectPersonel = new SqlCommand("select i_personel.per_name,r_personel.time_work from r_personel inner join i_personel on r_personel.per_id = i_personel.id where r_personel.id_rep = " + replyId + " ", _cnn);
             var readPersonel = selectPersonel.ExecuteReader();
             while (readPersonel.Read())
             {
-                personelList.Add(new RepairerOfRepairRedords{PersonelName = readPersonel["per_name"].ToString(),RepairTime = readPersonel["time_work"].ToString()});
+                personelList.Add(new RepairerOfRepairRedords { PersonelName = readPersonel["per_name"].ToString(), RepairTime = readPersonel["time_work"].ToString() });
             }
             _cnn.Close();
             _cnn.Open();
-            var selectCont = new SqlCommand("select i_contractor.name,r_contract.cost from r_contract inner join i_contractor on r_contract.contract_id = i_contractor.id where r_contract.id_rep ="+replyId+" ", _cnn);
+            var selectCont = new SqlCommand("select i_contractor.name,r_contract.cost from r_contract inner join i_contractor on r_contract.contract_id = i_contractor.id where r_contract.id_rep =" + replyId + " ", _cnn);
             var readCont = selectCont.ExecuteReader();
             while (readCont.Read())
             {
-                contractorList.Add(new ContractorsOfRepairRecords(){ContractorName = readCont["name"].ToString(),Cost = readCont["cost"].ToString()});
+                contractorList.Add(new ContractorsOfRepairRecords() { ContractorName = readCont["name"].ToString(), Cost = readCont["cost"].ToString() });
             }
             var obj = new
             {
@@ -2083,11 +2090,11 @@ namespace CMMS
             _cnn.Open();
             var listMachines = new List<Machines>();
             var filter = new SqlCommand("SELECT dbo.m_machine.id, dbo.m_machine.name FROM dbo.m_machine INNER JOIN " +
-                                        "dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code where i_units.unit_code = '"+loc+"' ",_cnn);
+                                        "dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code where i_units.unit_code = '" + loc + "' ", _cnn);
             var rd = filter.ExecuteReader();
             while (rd.Read())
             {
-                listMachines.Add(new Machines(){MachineId = rd["id"].ToString(),MachineName = rd["name"].ToString()});
+                listMachines.Add(new Machines() { MachineId = rd["id"].ToString(), MachineName = rd["name"].ToString() });
             }
             _cnn.Close();
             return new JavaScriptSerializer().Serialize(listMachines);
@@ -2111,14 +2118,15 @@ namespace CMMS
         {
             _cnn.Open();
             var list = new List<SubSystems>();
-            var filter = new SqlCommand("SELECT dbo.m_subsystem.subId, dbo.subsystem.name FROM dbo.m_subsystem INNER JOIN "+
-                                        "dbo.subsystem ON dbo.m_subsystem.subId = dbo.subsystem.id where m_subsystem.Mid = "+mid+" ", _cnn);
+            var filter = new SqlCommand("SELECT dbo.m_subsystem.subId, dbo.subsystem.name FROM dbo.m_subsystem INNER JOIN " +
+                                        "dbo.subsystem ON dbo.m_subsystem.subId = dbo.subsystem.id where m_subsystem.Mid = " + mid + " ", _cnn);
             var r = filter.ExecuteReader();
             while (r.Read())
             {
                 list.Add(new SubSystems()
                 {
-                    SubSystemName = r["name"].ToString() , SubSystemId = Convert.ToInt32(r["subId"])
+                    SubSystemName = r["name"].ToString(),
+                    SubSystemId = Convert.ToInt32(r["subId"])
                 });
             }
             _cnn.Close();
@@ -2132,15 +2140,15 @@ namespace CMMS
             if (editFlag == 0)
             {
                 var insertDailyReport = new SqlCommand("INSERT INTO [dbo].[daily_report]([tarikh],[rp],[reportexp],[tips],[subject],[date_remind],[check_remind])" +
-                                                       "VALUES('" + dailyDate[0].Date + "','"+dailyDate[0].ReportProducer+"','" + dailyDate[0].ReportExplain + "','" + dailyDate[0].ReportTips + "','" + dailyDate[0].Subject + "'" +
+                                                       "VALUES('" + dailyDate[0].Date + "','" + dailyDate[0].ReportProducer + "','" + dailyDate[0].ReportExplain + "','" + dailyDate[0].ReportTips + "','" + dailyDate[0].Subject + "'" +
                                                        ",'" + dailyDate[0].RemindTime + "',0)", _cnn);
                 insertDailyReport.ExecuteNonQuery();
             }
             else
             {
-             var updateDaily = new SqlCommand("UPDATE [dbo].[daily_report]" +
-                                              "SET [tarikh] = '" + dailyDate[0].Date + "',[rp] = '"+dailyDate[0].ReportProducer+"',[reportexp] = '" + dailyDate[0].ReportExplain + "',[tips] = '" + dailyDate[0].ReportTips + "'," +
-                                              "[subject] = '" + dailyDate[0].Subject + "',[date_remind] ='" + dailyDate[0].RemindTime + "' ,[check_remind] = 0  WHERE id = "+editFlag+" ", _cnn);
+                var updateDaily = new SqlCommand("UPDATE [dbo].[daily_report]" +
+                                                 "SET [tarikh] = '" + dailyDate[0].Date + "',[rp] = '" + dailyDate[0].ReportProducer + "',[reportexp] = '" + dailyDate[0].ReportExplain + "',[tips] = '" + dailyDate[0].ReportTips + "'," +
+                                                 "[subject] = '" + dailyDate[0].Subject + "',[date_remind] ='" + dailyDate[0].RemindTime + "' ,[check_remind] = 0  WHERE id = " + editFlag + " ", _cnn);
                 updateDaily.ExecuteNonQuery();
             }
             _cnn.Close();
@@ -2157,8 +2165,14 @@ namespace CMMS
             {
                 dailyList.Add(new DailyReport()
                 {
-                    Date = rd["tarikh"].ToString(),Id = rd["id"].ToString(),ReportProducer = rd["rp"].ToString(),ReportExplain = rd["reportexp"].ToString()
-                    ,ReportTips = rd["tips"].ToString(),RemindTime = rd["date_remind"].ToString(),Subject = rd["subject"].ToString()
+                    Date = rd["tarikh"].ToString(),
+                    Id = rd["id"].ToString(),
+                    ReportProducer = rd["rp"].ToString(),
+                    ReportExplain = rd["reportexp"].ToString()
+                    ,
+                    ReportTips = rd["tips"].ToString(),
+                    RemindTime = rd["date_remind"].ToString(),
+                    Subject = rd["subject"].ToString()
                 });
             }
             _cnn.Close();
@@ -2170,7 +2184,7 @@ namespace CMMS
         {
             _cnn.Open();
             var dailyList = new List<DailyReport>();
-            var getDailyReport = new SqlCommand("SELECT [id],[tarikh],[rp],[reportexp],[tips],[subject],[date_remind]FROM [dbo].[daily_report] where id = "+id+" ", _cnn);
+            var getDailyReport = new SqlCommand("SELECT [id],[tarikh],[rp],[reportexp],[tips],[subject],[date_remind]FROM [dbo].[daily_report] where id = " + id + " ", _cnn);
             var rd = getDailyReport.ExecuteReader();
             while (rd.Read())
             {
@@ -2194,8 +2208,8 @@ namespace CMMS
         public string GetRepairRequestTable(int machineId)
         {
             var list = new List<RepairRequest>();
-           _cnn.Open();
-            var cmd = new SqlCommand("SELECT dbo.r_request.id, dbo.r_request.req_id, dbo.i_units.unit_name, dbo.r_request.req_name, "+
+            _cnn.Open();
+            var cmd = new SqlCommand("SELECT dbo.r_request.id, dbo.r_request.req_id, dbo.i_units.unit_name, dbo.r_request.req_name, " +
                                      "CASE WHEN r_request.type_fail = 1 THEN 'مکانیکی' WHEN r_request.type_fail = 2 THEN 'تاسیساتی-الکتریکی' WHEN r_request.type_fail = 3 THEN 'الکتریکی واحد برق' ELSE 'غیره' END AS Tfail, " +
                                      "CASE WHEN r_request.type_req = 1 THEN 'اضطراری' WHEN r_request.type_req = 2 THEN 'پیش بینانه' ELSE 'پیش گیرانه' END AS Treq, CASE WHEN m_machine.code IS NULL THEN CAST('___' AS nvarchar(10)) " +
                                      "ELSE CAST(m_machine.code AS nvarchar(10)) END AS code, dbo.r_request.date_req + '_' + dbo.r_request.time_req AS time " +
@@ -2203,16 +2217,21 @@ namespace CMMS
                                      "dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id LEFT OUTER JOIN " +
                                      "dbo.i_units ON dbo.r_request.unit_id = dbo.i_units.unit_code LEFT OUTER JOIN " +
                                      "dbo.subsystem ON dbo.r_request.subid = dbo.subsystem.id " +
-                                     "WHERE(dbo.m_machine.id = "+machineId+") " +
+                                     "WHERE(dbo.m_machine.id = " + machineId + ") " +
                                      "ORDER BY dbo.r_request.date_req, dbo.r_request.time_req DESC", _cnn);
             var rd = cmd.ExecuteReader();
             while (rd.Read())
             {
                 list.Add(new RepairRequest()
                 {
-                    Id = Convert.ToInt32(rd["id"]),UnitName = rd["unit_name"].ToString(),RequestId = rd["req_id"].ToString(),
-                    Requester = rd["req_name"].ToString(),FailType = rd["Tfail"].ToString(),RequestType = rd["Treq"].ToString(),
-                    Code = rd["code"].ToString(),Time = rd["time"].ToString()
+                    Id = Convert.ToInt32(rd["id"]),
+                    UnitName = rd["unit_name"].ToString(),
+                    RequestId = rd["req_id"].ToString(),
+                    Requester = rd["req_name"].ToString(),
+                    FailType = rd["Tfail"].ToString(),
+                    RequestType = rd["Treq"].ToString(),
+                    Code = rd["code"].ToString(),
+                    Time = rd["time"].ToString()
                 });
             }
             _cnn.Close();
@@ -2227,14 +2246,19 @@ namespace CMMS
             var cmd = new SqlCommand("SELECT dbo.r_reply.idreq, dbo.m_machine.name, dbo.m_machine.code, dbo.r_reply.stop_time, dbo.r_reply.rep_time,dbo.r_reply.start_repdate " +
                                      "FROM dbo.r_request INNER JOIN dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq INNER JOIN " +
                                      "dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
-                                     "WHERE(dbo.m_machine.id = "+machineId+")", _cnn);
+                                     "WHERE(dbo.m_machine.id = " + machineId + ")", _cnn);
             var rd = cmd.ExecuteReader();
             while (rd.Read())
             {
                 list.Add(new RepairRecord()
                 {
-                    RequestId = Convert.ToInt32(rd["idreq"]),MachineName = rd["name"].ToString(),Code = rd["code"].ToString()
-                    ,RepairTime = rd["rep_time"].ToString(),StopTime = rd["stop_time"].ToString(),RepairDate = rd["start_repdate"].ToString()
+                    RequestId = Convert.ToInt32(rd["idreq"]),
+                    MachineName = rd["name"].ToString(),
+                    Code = rd["code"].ToString()
+                    ,
+                    RepairTime = rd["rep_time"].ToString(),
+                    StopTime = rd["stop_time"].ToString(),
+                    RepairDate = rd["start_repdate"].ToString()
                 });
             }
             _cnn.Close();
@@ -2262,11 +2286,11 @@ namespace CMMS
             _cnn.Open();
             var list = new List<string[]>();
             var array = new List<string[]>();
-            var selectAllStop = new SqlCommand("SELECT [id],[stop]FROM [dbo].[i_stop_reason]",_cnn);
+            var selectAllStop = new SqlCommand("SELECT [id],[stop]FROM [dbo].[i_stop_reason]", _cnn);
             var rd = selectAllStop.ExecuteReader();
             while (rd.Read())
             {
-                array.Add(new []{rd["id"].ToString(),rd["stop"].ToString()});
+                array.Add(new[] { rd["id"].ToString(), rd["stop"].ToString() });
             }
             list.AddRange(array);
             _cnn.Close();
@@ -2403,7 +2427,7 @@ namespace CMMS
             return "e";
         }
         [WebMethod]
-        public string InsertAndUpdateStopReason(string text , int editId)
+        public string InsertAndUpdateStopReason(string text, int editId)
         {
             _cnn.Open();
             if (editId == 0)
@@ -2458,7 +2482,7 @@ namespace CMMS
             _cnn.Open();
             if (editId == 0)
             {
-                var insertPersonel = new SqlCommand("insert into i_repairs (operation) values ('" + text + "')",_cnn);
+                var insertPersonel = new SqlCommand("insert into i_repairs (operation) values ('" + text + "')", _cnn);
                 insertPersonel.ExecuteNonQuery();
                 _cnn.Close();
                 return "i";
@@ -2506,7 +2530,7 @@ namespace CMMS
             _cnn.Open();
             var list = new List<string[]>();
             var partlist = new List<string[]>();
-           
+
             var getMojoodi = new SqlCommand("SELECT dbo.m_parts.PartId, sgdb.dbo.kalaMojodi.partname, sgdb.dbo.kalaMojodi.Mojodi " +
                                             "FROM dbo.m_machine INNER JOIN " +
                                             "dbo.m_parts ON dbo.m_machine.id = dbo.m_parts.Mid INNER JOIN " +
@@ -2515,7 +2539,7 @@ namespace CMMS
             var rd = getMojoodi.ExecuteReader();
             while (rd.Read())
             {
-                partlist.Add(new []{rd["partname"].ToString() ,rd["PartId"].ToString(), rd["Mojodi"].ToString() });
+                partlist.Add(new[] { rd["partname"].ToString(), rd["PartId"].ToString(), rd["Mojodi"].ToString() });
             }
             list.AddRange(partlist);
             _cnn.Close();
@@ -2528,7 +2552,7 @@ namespace CMMS
             _partsConnection.Open();
             var list = new List<string[]>();
             var partlist = new List<string[]>();
-            var getAnbar = new SqlCommand("SELECT [PartRef],[partname],[Mojodi] FROM [sgdb].[dbo].[kalaMojodi] where PartRef = " + partid+" ",_partsConnection);
+            var getAnbar = new SqlCommand("SELECT [PartRef],[partname],[Mojodi] FROM [sgdb].[dbo].[kalaMojodi] where PartRef = " + partid + " ", _partsConnection);
             var rd = getAnbar.ExecuteReader();
             while (rd.Read())
             {
@@ -2545,25 +2569,37 @@ namespace CMMS
             _cnn.Open();
             ShamsiCalendar.ChangCulter(ShamsiCalendar.CulterType.Fa);
             var tarikh = DateTime.Now.ToString("yyyy/MM/dd");
-            var check = new SqlCommand("if (select count(*) from daily_report where check_remind = 0 and date_remind like '%"+tarikh+"%') > 0 "+
-                                       "begin select 1 update daily_report set check_remind = 1 where check_remind = 0 and date_remind like '%" + tarikh + "%' end select 0", _cnn);
-            var count = Convert.ToInt32(check.ExecuteScalar());
-            if (count > 0)
+            var check = new SqlCommand("select id , date_remind from  daily_report where check_remind = 0 and date_remind <='" + tarikh + "'  and  " +
+                                       " date_remind = (select min(date_remind) from daily_report where check_remind = 0 and date_remind <='" + tarikh + "' )", _cnn);
+            var rd = check.ExecuteReader();
+            if (rd.Read())
             {
+                var json = new JavaScriptSerializer().Serialize(new
+                {
+                    id = Crypto.Crypt(rd["id"].ToString()),
+                    tarikh = rd["date_remind"]
+                });
                 _cnn.Close();
-                return "1";
+                return json;
             }
             _cnn.Close();
             return "0";
         }
 
         [WebMethod]
+        public void UpdateReminders(string id)
+        {
+            _cnn.Open();
+            var check = new SqlCommand(" update daily_report set check_remind = 1 where id=" + Crypto.Decrypt(id) + " ", _cnn);
+            check.ExecuteNonQuery();
+        }
+        [WebMethod]
         public void MtbfReports(MtbfReports obj)
         {
             _cnn.Open();
             var insertData = new SqlCommand("INSERT INTO [dbo].[MT_report]([type],[name],[producer],[tarikh],[manager],[exp],[analyze])" +
-                                            "VALUES("+obj.Type+",'"+obj.ReportName+"','"+obj.Producer+"','"+obj.Tarikh+"'" +
-                                            ",'"+obj.Manager+"','"+obj.Exp+"','"+obj.Analyse+"')", _cnn);
+                                            "VALUES(" + obj.Type + ",'" + obj.ReportName + "','" + obj.Producer + "','" + obj.Tarikh + "'" +
+                                            ",'" + obj.Manager + "','" + obj.Exp + "','" + obj.Analyse + "')", _cnn);
             insertData.ExecuteNonQuery();
             _cnn.Close();
         }
@@ -2572,14 +2608,14 @@ namespace CMMS
         public void UpdateReport(MtbfReports obj)
         {
             _cnn.Open();
-            var update = new SqlCommand("UPDATE [dbo].[MT_report] "+
+            var update = new SqlCommand("UPDATE [dbo].[MT_report] " +
                                         "SET[name] = '" + obj.ReportName + "'" +
                                         ",[producer] = '" + obj.Producer + "'" +
                                         ",[tarikh] = '" + obj.Tarikh + "'" +
                                         ",[manager] = '" + obj.Manager + "'" +
                                         ",[exp] = '" + obj.Exp + "'" +
                                         ",[analyze] = '" + obj.Analyse + "'" +
-                                        "WHERE id = "+obj.Id+" ", _cnn);
+                                        "WHERE id = " + obj.Id + " ", _cnn);
             update.ExecuteNonQuery();
             _cnn.Close();
         }
@@ -2587,7 +2623,7 @@ namespace CMMS
         public void DeleteReport(int reportIdd)
         {
             _cnn.Open();
-            var delete = new SqlCommand("delete from MT_report where id = "+ reportIdd + " ", _cnn);
+            var delete = new SqlCommand("delete from MT_report where id = " + reportIdd + " ", _cnn);
             delete.ExecuteNonQuery();
             _cnn.Close();
         }
@@ -2597,14 +2633,19 @@ namespace CMMS
             _cnn.Open();
             var rep = new List<MtbfReports>();
             var get = new SqlCommand("SELECT [id],[name],[producer],[tarikh],[manager],[exp],[analyze] FROM [dbo].[MT_report]" +
-                                     " where tarikh between '"+dateS+"' and '"+dateE+"' and [type] = "+type+" ", _cnn);
+                                     " where tarikh between '" + dateS + "' and '" + dateE + "' and [type] = " + type + " ", _cnn);
             var r = get.ExecuteReader();
             while (r.Read())
             {
                 rep.Add(new MtbfReports()
                 {
-                    Id = Convert.ToInt32(r["id"]),ReportName = r["name"].ToString(),Producer = r["producer"].ToString(),
-                    Tarikh = r["tarikh"].ToString(),Manager = r["manager"].ToString(),Exp = r["exp"].ToString(),Analyse = r["analyze"].ToString()
+                    Id = Convert.ToInt32(r["id"]),
+                    ReportName = r["name"].ToString(),
+                    Producer = r["producer"].ToString(),
+                    Tarikh = r["tarikh"].ToString(),
+                    Manager = r["manager"].ToString(),
+                    Exp = r["exp"].ToString(),
+                    Analyse = r["analyze"].ToString()
                 });
             }
             _cnn.Close();
@@ -2638,7 +2679,7 @@ namespace CMMS
         }
 
         [WebMethod]
-        public string FilterGridCm(string s , string e)
+        public string FilterGridCm(string s, string e)
         {
             _cnn.Open();
             var list = new List<string[]>();
@@ -2650,11 +2691,11 @@ namespace CMMS
                                         "dbo.m_parts ON dbo.m_machine.id = dbo.m_parts.Mid INNER JOIN " +
                                         "dbo.p_forecast AS Forecast INNER JOIN " +
                                         "sgdb.dbo.kalaMojodi AS Part ON Forecast.PartId = Part.PartRef ON dbo.m_parts.id = Forecast.m_partId " +
-                                        "where(Forecast.tarikh between '"+s+"' and '"+e+"') and Forecast.act = 0",_cnn);
+                                        "where(Forecast.tarikh between '" + s + "' and '" + e + "') and Forecast.act = 0", _cnn);
             var r = filter.ExecuteReader();
             while (r.Read())
             {
-                list.Add(new []{ r["unit_name"].ToString(), r["name"].ToString() , r["code"].ToString() ,
+                list.Add(new[]{ r["unit_name"].ToString(), r["name"].ToString() , r["code"].ToString() ,
                     r["partname"].ToString() , r["tarikh"].ToString(),r["Mojodi"].ToString() });
             }
             listt.AddRange(list);
@@ -2663,20 +2704,20 @@ namespace CMMS
         }
 
         [WebMethod]
-        public string GetPersonels(int task , int unit)
+        public string GetPersonels(int task, int unit)
         {
             _cnn.Open();
-            var persList =  new List<string[]>();
+            var persList = new List<string[]>();
             var list = new List<string[]>();
-            var p = new SqlCommand("select per,perid,unit,task,permit from(SELECT per_name as per,case when unit = 0 then 'تاسیسات' when unit = 1 then 'برق'  "+
+            var p = new SqlCommand("select per,perid,unit,task,permit from(SELECT per_name as per,case when unit = 0 then 'تاسیسات' when unit = 1 then 'برق'  " +
                                    "end as unit, case when task = 0 then 'نیروی معمولی' when task = 1 then 'نیروی ماهر' when task = 2 then 'سرشیفت' when " +
                                    "task = 3 then 'سرپرست' when task = 4 then 'مدیر فنی' end as task, unit as vahed, task as semat,per_id as perid, case when permit = 1 " +
                                    "then 'فعال' else 'غیرفعال' end as permit FROM i_personel)i " +
-                                   "where (vahed = "+unit+" or "+unit+" = -1) and (semat = "+task+" or "+task+" = -1) ", _cnn);
+                                   "where (vahed = " + unit + " or " + unit + " = -1) and (semat = " + task + " or " + task + " = -1) ", _cnn);
             var r = p.ExecuteReader();
             while (r.Read())
             {
-                persList.Add(new []{r["per"].ToString() , r["perid"].ToString() , r["task"].ToString() , r["unit"].ToString(), r["permit"].ToString() });
+                persList.Add(new[] { r["per"].ToString(), r["perid"].ToString(), r["task"].ToString(), r["unit"].ToString(), r["permit"].ToString() });
             }
             list.AddRange(persList);
             _cnn.Close();
@@ -2689,7 +2730,7 @@ namespace CMMS
             _cnn.Open();
             var info = new PartRequest();
             var parts = new List<Parts>();
-            var getinfo = new SqlCommand("SELECT [info],[date_reqbuy],[num_reqbuy] FROM [dbo].[r_partwait] where req_id="+requestId+" ",_cnn);
+            var getinfo = new SqlCommand("SELECT [info],[date_reqbuy],[num_reqbuy] FROM [dbo].[r_partwait] where req_id=" + requestId + " ", _cnn);
             var r = getinfo.ExecuteReader();
             if (r.Read())
             {
@@ -2702,40 +2743,43 @@ namespace CMMS
             var getparts = new SqlCommand("SELECT part.PartName as name, part.Serial as id FROM CMMS.dbo.r_reqwaitpart as main " +
                                           "inner join sgdb.inv.Part as part on main.part_id = part.Serial " +
                                           "inner join CMMS.dbo.r_partwait as req on main.id_wait = req.id " +
-                                          "where req.req_id = "+requestId+" ",_cnn);
+                                          "where req.req_id = " + requestId + " ", _cnn);
             var re = getparts.ExecuteReader();
             while (re.Read())
             {
-                parts.Add(new Parts(){PartId = Convert.ToInt32(re["id"]), PartName = re["name"].ToString()});
+                parts.Add(new Parts() { PartId = Convert.ToInt32(re["id"]), PartName = re["name"].ToString() });
             }
             _cnn.Close();
             var obj = new
             {
-                info,parts
+                info,
+                parts
             };
             return new JavaScriptSerializer().Serialize(obj);
-        } 
+        }
 
         [WebMethod]
         public string GetAffectedMachines(string machineCode)
         {
             var list = new List<Machines>();
             _cnn.Open();
-            var selAffected = new SqlCommand("SELECT dbo.m_effect.sub_mid, m_machine_1.code, m_machine_1.name, "+
+            var selAffected = new SqlCommand("SELECT dbo.m_effect.sub_mid, m_machine_1.code, m_machine_1.name, " +
                                              "(SELECT id FROM dbo.m_machine AS m_machine_2 " +
-                                             "WHERE(code = '"+ machineCode + "')) AS main_mid " +
+                                             "WHERE(code = '" + machineCode + "')) AS main_mid " +
                                              "FROM dbo.m_machine INNER JOIN " +
                                              "dbo.m_effect ON dbo.m_machine.id = dbo.m_effect.main_mid INNER JOIN " +
                                              "dbo.m_machine AS m_machine_1 ON dbo.m_effect.sub_mid = m_machine_1.id " +
                                              "WHERE(dbo.m_effect.main_mid = (SELECT id " +
                                              "FROM dbo.m_machine AS m_machine_2 " +
-                                             "WHERE(code = '"+ machineCode + "')))", _cnn);
+                                             "WHERE(code = '" + machineCode + "')))", _cnn);
             var r = selAffected.ExecuteReader();
             while (r.Read())
             {
                 list.Add(new Machines()
                 {
-                    MachineName = r["name"].ToString(),MachineId = r["main_mid"].ToString(),AfftectedMachineId = r["sub_mid"].ToString()
+                    MachineName = r["name"].ToString(),
+                    MachineId = r["main_mid"].ToString(),
+                    AfftectedMachineId = r["sub_mid"].ToString()
                 });
             }
             _cnn.Close();
@@ -2749,20 +2793,20 @@ namespace CMMS
             foreach (var i in obj)
             {
                 var ins = new SqlCommand("INSERT INTO [dbo].[t_StopEffect]([reqid],[main_mid],[sub_mid],[stop_time])VALUES" +
-                                         "("+i.RequestId+","+i.MachineId+","+i.AfftectedMachineId+",'"+i.StopTime+"')",_cnn);
+                                         "(" + i.RequestId + "," + i.MachineId + "," + i.AfftectedMachineId + ",'" + i.StopTime + "')", _cnn);
                 ins.ExecuteNonQuery();
             }
             _cnn.Close();
         }
 
         [WebMethod]
-        public string GetCatalogFiles(string name ,string code)
+        public string GetCatalogFiles(string name, string code)
         {
             _cnn.Open();
             var e = new List<CatalogFiles>();
             var selfiles = new SqlCommand("select id,name,code,address from catalog where " +
-                                          "(name like '%"+name+"%' or '"+name+"' = '') AND " +
-                                          "(code like '%"+code+"%' or '"+code+"' = '')", _cnn);
+                                          "(name like '%" + name + "%' or '" + name + "' = '') AND " +
+                                          "(code like '%" + code + "%' or '" + code + "' = '')", _cnn);
             var r = selfiles.ExecuteReader();
             while (r.Read())
             {
@@ -2782,7 +2826,7 @@ namespace CMMS
         public void DeleteCatFile(int id)
         {
             _cnn.Open();
-            var selfile = new SqlCommand("select address from catalog where id = "+id+" ",_cnn);
+            var selfile = new SqlCommand("select address from catalog where id = " + id + " ", _cnn);
             var delfile = new SqlCommand("delete from catalog where id = " + id + " ", _cnn);
             var filePath = selfile.ExecuteScalar().ToString();
             if (!string.IsNullOrEmpty(filePath))
