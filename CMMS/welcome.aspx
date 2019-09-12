@@ -86,7 +86,7 @@ ORDER BY dbo.p_pmcontrols.tarikh">
                          dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code INNER JOIN
                          dbo.m_parts ON dbo.m_machine.id = dbo.m_parts.Mid INNER JOIN
                          dbo.p_forecast AS Forecast INNER JOIN
-                         sgdb.inv.Part AS Part ON Forecast.PartId = Part.Serial ON dbo.m_parts.id = Forecast.m_partId
+                         bornatek_sgdb.inv.Part AS Part ON Forecast.PartId = Part.Serial ON dbo.m_parts.id = Forecast.m_partId
 where (Forecast.tarikh <= @tarikh) and Forecast.act=0">
                 <SelectParameters>
                     <asp:ControlParameter ControlID="DateTime" Name="tarikh" PropertyName="Value" />

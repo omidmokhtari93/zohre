@@ -119,7 +119,7 @@
                                 </Columns>
                             </asp:GridView>
                             <asp:SqlDataSource ID="Sqltools" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT  ROW_NUMBER()over (order by s_subtools.id_reptag) as rn,
-                                Part.PartName, cast([count] as nvarchar)+ ' ' +CMMS.dbo.i_measurement.measurement  as count FROM CMMS.dbo.s_subtools inner join sgdb.inv.Part on s_subtools.tools_id = sgdb.inv.Part.Serial
+                                Part.PartName, cast([count] as nvarchar)+ ' ' +bornatek_cmms.dbo.i_measurement.measurement  as count FROM bornatek_cmms.dbo.s_subtools inner join bornatek_sgdb.inv.Part on s_subtools.tools_id = bornatek_sgdb.inv.Part.Serial
                                 inner join i_measurement_part on i_measurement_part.Serial=s_subtools.tools_id inner join i_measurement on i_measurement.id=i_measurement_part.measurement where s_subtools.id_reptag = @subtagId
 
 ">

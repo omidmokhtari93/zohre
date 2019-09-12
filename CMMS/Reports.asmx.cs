@@ -546,7 +546,7 @@ namespace CMMS
                                                 " dbo.i_fail_reason ON dbo.p_forcastFail.fail_id = dbo.i_fail_reason.id INNER JOIN " +
                                                 " dbo.m_parts ON dbo.p_forecast.m_partId = dbo.m_parts.id INNER JOIN " +
                                                 " dbo.m_machine ON dbo.m_parts.Mid = dbo.m_machine.id INNER JOIN " +
-                                                " sgdb.inv.Part on CMMS.dbo.p_forecast.PartId = sgdb.inv.Part.Serial  " +
+                                                " sgdb.inv.Part on bornatek_cmms.dbo.p_forecast.PartId = sgdb.inv.Part.Serial  " +
                                                 " where p_forecast.permaturely_tarikh BETWEEN '" + dateS + "' AND '" + dateE + "' " +
                                                 " order by dbo.p_forecast.tarikh ", cnn);
            
@@ -674,28 +674,28 @@ namespace CMMS
         {
             var infoTools=new List<string[]>();
             cnn.Open();
-            var cmdToolsReport=new SqlCommand(" SELECT CMMS.dbo.i_units.unit_name,CMMS.dbo.m_machine.name,sgdb.inv.Part.PartName , SUM(CMMS.dbo.r_tools.count) AS countt,CMMS.dbo.i_measurement.measurement AS Measur " +
-                                              " FROM CMMS.dbo.m_machine INNER JOIN " +
-                                              " CMMS.dbo.i_units ON CMMS.dbo.m_machine.loc = CMMS.dbo.i_units.unit_code INNER JOIN " +
-                                              " CMMS.dbo.r_request ON CMMS.dbo.m_machine.id = CMMS.dbo.r_request.machine_code INNER JOIN " +
-                                              " CMMS.dbo.r_reply ON CMMS.dbo.r_request.req_id = CMMS.dbo.r_reply.idreq INNER JOIN " +
-                                              " CMMS.dbo.r_tools ON CMMS.dbo.r_reply.id = CMMS.dbo.r_tools.id_rep INNER JOIN " +
-                                              " sgdb.inv.Part on CMMS.dbo.r_tools.tools_id = sgdb.inv.Part.Serial INNER JOIN " +
-                                              " CMMS.dbo.i_measurement_part ON CMMS.dbo.r_tools.tools_id = CMMS.dbo.i_measurement_part.Serial INNER JOIN " +
-                                              " CMMS.dbo.i_measurement ON CMMS.dbo.i_measurement_part.measurement = CMMS.dbo.i_measurement.id " +
-                                              " where CMMS.dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "' and CMMS.dbo.r_tools.tools_id = " + toolsId+ " AND dbo.r_tools.rptools = 0 " +
-                                              " GROUP BY  dbo.i_units.unit_name, dbo.m_machine.name, sgdb.inv.Part.PartName,CMMS.dbo.i_measurement.measurement", cnn);
-            var cmdNullToolsReport = new SqlCommand(" SELECT CMMS.dbo.i_units.unit_name,CMMS.dbo.m_machine.name,sgdb.inv.Part.PartName , SUM(CMMS.dbo.r_tools.count) AS countt ,CMMS.dbo.i_measurement.measurement AS Measur " +
-                                                    " FROM CMMS.dbo.m_machine INNER JOIN " +
-                                                    " CMMS.dbo.i_units ON CMMS.dbo.m_machine.loc = CMMS.dbo.i_units.unit_code INNER JOIN " +
-                                                    " CMMS.dbo.r_request ON CMMS.dbo.m_machine.id = CMMS.dbo.r_request.machine_code INNER JOIN " +
-                                                    " CMMS.dbo.r_reply ON CMMS.dbo.r_request.req_id = CMMS.dbo.r_reply.idreq INNER JOIN " +
-                                                    " CMMS.dbo.r_tools ON CMMS.dbo.r_reply.id = CMMS.dbo.r_tools.id_rep INNER JOIN " +
-                                                    " sgdb.inv.Part on CMMS.dbo.r_tools.tools_id = sgdb.inv.Part.Serial INNER JOIN " +
-                                                    " CMMS.dbo.i_measurement_part ON CMMS.dbo.r_tools.tools_id = CMMS.dbo.i_measurement_part.Serial INNER JOIN " +
-                                                    " CMMS.dbo.i_measurement ON CMMS.dbo.i_measurement_part.measurement = CMMS.dbo.i_measurement.id " +
-                                                " where CMMS.dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "' AND dbo.r_tools.rptools = 0 " +
-                                                " GROUP BY  dbo.i_units.unit_name, dbo.m_machine.name, sgdb.inv.Part.PartName,CMMS.dbo.i_measurement.measurement", cnn);
+            var cmdToolsReport=new SqlCommand(" SELECT bornatek_cmms.dbo.i_units.unit_name,bornatek_cmms.dbo.m_machine.name,sgdb.inv.Part.PartName , SUM(bornatek_cmms.dbo.r_tools.count) AS countt,bornatek_cmms.dbo.i_measurement.measurement AS Measur " +
+                                              " FROM bornatek_cmms.dbo.m_machine INNER JOIN " +
+                                              " bornatek_cmms.dbo.i_units ON bornatek_cmms.dbo.m_machine.loc = bornatek_cmms.dbo.i_units.unit_code INNER JOIN " +
+                                              " bornatek_cmms.dbo.r_request ON bornatek_cmms.dbo.m_machine.id = bornatek_cmms.dbo.r_request.machine_code INNER JOIN " +
+                                              " bornatek_cmms.dbo.r_reply ON bornatek_cmms.dbo.r_request.req_id = bornatek_cmms.dbo.r_reply.idreq INNER JOIN " +
+                                              " bornatek_cmms.dbo.r_tools ON bornatek_cmms.dbo.r_reply.id = bornatek_cmms.dbo.r_tools.id_rep INNER JOIN " +
+                                              " sgdb.inv.Part on bornatek_cmms.dbo.r_tools.tools_id = sgdb.inv.Part.Serial INNER JOIN " +
+                                              " bornatek_cmms.dbo.i_measurement_part ON bornatek_cmms.dbo.r_tools.tools_id = bornatek_cmms.dbo.i_measurement_part.Serial INNER JOIN " +
+                                              " bornatek_cmms.dbo.i_measurement ON bornatek_cmms.dbo.i_measurement_part.measurement = bornatek_cmms.dbo.i_measurement.id " +
+                                              " where bornatek_cmms.dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "' and bornatek_cmms.dbo.r_tools.tools_id = " + toolsId+ " AND dbo.r_tools.rptools = 0 " +
+                                              " GROUP BY  dbo.i_units.unit_name, dbo.m_machine.name, sgdb.inv.Part.PartName,bornatek_cmms.dbo.i_measurement.measurement", cnn);
+            var cmdNullToolsReport = new SqlCommand(" SELECT bornatek_cmms.dbo.i_units.unit_name,bornatek_cmms.dbo.m_machine.name,sgdb.inv.Part.PartName , SUM(bornatek_cmms.dbo.r_tools.count) AS countt ,bornatek_cmms.dbo.i_measurement.measurement AS Measur " +
+                                                    " FROM bornatek_cmms.dbo.m_machine INNER JOIN " +
+                                                    " bornatek_cmms.dbo.i_units ON bornatek_cmms.dbo.m_machine.loc = bornatek_cmms.dbo.i_units.unit_code INNER JOIN " +
+                                                    " bornatek_cmms.dbo.r_request ON bornatek_cmms.dbo.m_machine.id = bornatek_cmms.dbo.r_request.machine_code INNER JOIN " +
+                                                    " bornatek_cmms.dbo.r_reply ON bornatek_cmms.dbo.r_request.req_id = bornatek_cmms.dbo.r_reply.idreq INNER JOIN " +
+                                                    " bornatek_cmms.dbo.r_tools ON bornatek_cmms.dbo.r_reply.id = bornatek_cmms.dbo.r_tools.id_rep INNER JOIN " +
+                                                    " sgdb.inv.Part on bornatek_cmms.dbo.r_tools.tools_id = sgdb.inv.Part.Serial INNER JOIN " +
+                                                    " bornatek_cmms.dbo.i_measurement_part ON bornatek_cmms.dbo.r_tools.tools_id = bornatek_cmms.dbo.i_measurement_part.Serial INNER JOIN " +
+                                                    " bornatek_cmms.dbo.i_measurement ON bornatek_cmms.dbo.i_measurement_part.measurement = bornatek_cmms.dbo.i_measurement.id " +
+                                                " where bornatek_cmms.dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "' AND dbo.r_tools.rptools = 0 " +
+                                                " GROUP BY  dbo.i_units.unit_name, dbo.m_machine.name, sgdb.inv.Part.PartName,bornatek_cmms.dbo.i_measurement.measurement", cnn);
             SqlDataReader rd;
             if (toolsId == -1)
             {
@@ -1428,8 +1428,8 @@ namespace CMMS
         {
             var infotools = new List<string[]>();
             cnn.Open();
-            var cmdtoolscost=new SqlCommand("SELECT sgdb.dbo.Fee.perFee * SUM(i.count) AS Tot, sgdb.dbo.Fee.perFee, SUM(i.count) AS count," +
-                                            " sgdb.dbo.Fee.partname FROM(SELECT dbo.r_tools.tools_id, SUM(dbo.r_tools.count) AS count "+
+            var cmdtoolscost=new SqlCommand("SELECT bornatek_sgdb.dbo.Fee.perFee * SUM(i.count) AS Tot, bornatek_sgdb.dbo.Fee.perFee, SUM(i.count) AS count," +
+                                            " bornatek_sgdb.dbo.Fee.partname FROM(SELECT dbo.r_tools.tools_id, SUM(dbo.r_tools.count) AS count "+
                                             " FROM dbo.r_reply INNER JOIN  dbo.r_tools ON dbo.r_reply.id = dbo.r_tools.id_rep "+
                                             " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND dbo.r_tools.rptools=0 " +
                                             " GROUP BY dbo.r_tools.tools_id  UNION ALL "+
@@ -1438,11 +1438,11 @@ namespace CMMS
                                             " dbo.s_subtools ON dbo.s_subhistory.id = dbo.s_subtools.id_reptag "+
                                             " WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "') " +
                                             " GROUP BY dbo.s_subtools.tools_id) AS i INNER JOIN "+
-                                            " sgdb.dbo.Fee ON i.tools_id = sgdb.dbo.Fee.Partref "+
-                                            " GROUP BY i.tools_id, sgdb.dbo.Fee.partname, sgdb.dbo.Fee.perFee",cnn);
+                                            " bornatek_sgdb.dbo.Fee ON i.tools_id = bornatek_sgdb.dbo.Fee.Partref "+
+                                            " GROUP BY i.tools_id, bornatek_sgdb.dbo.Fee.partname, bornatek_sgdb.dbo.Fee.perFee",cnn);
 
-            var cmdtoolscostUnit = new SqlCommand("SELECT sgdb.dbo.Fee.perFee * SUM(i.count) AS Tot, sgdb.dbo.Fee.perFee, SUM(i.count) AS count," +
-                                                  " sgdb.dbo.Fee.partname FROM(SELECT dbo.r_tools.tools_id, SUM(dbo.r_tools.count) AS count " +
+            var cmdtoolscostUnit = new SqlCommand("SELECT bornatek_sgdb.dbo.Fee.perFee * SUM(i.count) AS Tot, bornatek_sgdb.dbo.Fee.perFee, SUM(i.count) AS count," +
+                                                  " bornatek_sgdb.dbo.Fee.partname FROM(SELECT dbo.r_tools.tools_id, SUM(dbo.r_tools.count) AS count " +
                                                   " FROM dbo.r_reply INNER JOIN dbo.r_tools ON dbo.r_reply.id = dbo.r_tools.id_rep INNER JOIN " +
                                                   " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
                                                   " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
@@ -1453,11 +1453,11 @@ namespace CMMS
                                                   " dbo.s_subtools ON dbo.s_subhistory.id = dbo.s_subtools.id_reptag " +
                                                   " WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "') AND (dbo.s_subhistory.new_unit = '"+unit+"')" +
                                                   " GROUP BY dbo.s_subtools.tools_id) AS i INNER JOIN " +
-                                                  " sgdb.dbo.Fee ON i.tools_id = sgdb.dbo.Fee.Partref " +
-                                                  " GROUP BY i.tools_id, sgdb.dbo.Fee.partname, sgdb.dbo.Fee.perFee", cnn);
+                                                  " bornatek_sgdb.dbo.Fee ON i.tools_id = bornatek_sgdb.dbo.Fee.Partref " +
+                                                  " GROUP BY i.tools_id, bornatek_sgdb.dbo.Fee.partname, bornatek_sgdb.dbo.Fee.perFee", cnn);
 
-            var cmdtoolscostLine = new SqlCommand("SELECT sgdb.dbo.Fee.perFee * SUM(i.count) AS Tot, sgdb.dbo.Fee.perFee, SUM(i.count) AS count," +
-                                                  " sgdb.dbo.Fee.partname FROM(SELECT dbo.r_tools.tools_id, SUM(dbo.r_tools.count) AS count " +
+            var cmdtoolscostLine = new SqlCommand("SELECT bornatek_sgdb.dbo.Fee.perFee * SUM(i.count) AS Tot, bornatek_sgdb.dbo.Fee.perFee, SUM(i.count) AS count," +
+                                                  " bornatek_sgdb.dbo.Fee.partname FROM(SELECT dbo.r_tools.tools_id, SUM(dbo.r_tools.count) AS count " +
                                                   " FROM dbo.r_reply INNER JOIN dbo.r_tools ON dbo.r_reply.id = dbo.r_tools.id_rep INNER JOIN " +
                                                   " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
                                                   " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
@@ -1468,8 +1468,8 @@ namespace CMMS
                                                   " dbo.s_subtools ON dbo.s_subhistory.id = dbo.s_subtools.id_reptag " +
                                                   " WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "') AND (dbo.s_subhistory.new_line = " + line + ")" +
                                                   " GROUP BY dbo.s_subtools.tools_id) AS i INNER JOIN " +
-                                                  " sgdb.dbo.Fee ON i.tools_id = sgdb.dbo.Fee.Partref " +
-                                                  " GROUP BY i.tools_id, sgdb.dbo.Fee.partname, sgdb.dbo.Fee.perFee", cnn);
+                                                  " bornatek_sgdb.dbo.Fee ON i.tools_id = bornatek_sgdb.dbo.Fee.Partref " +
+                                                  " GROUP BY i.tools_id, bornatek_sgdb.dbo.Fee.partname, bornatek_sgdb.dbo.Fee.perFee", cnn);
 
             SqlDataReader rd;
             if (line != -1)
@@ -1505,7 +1505,7 @@ namespace CMMS
                                             " FROM dbo.m_machine INNER JOIN " +
                                             " dbo.r_request AS r_request_2 ON dbo.m_machine.id = r_request_2.machine_code INNER JOIN " +
                                             " (SELECT TOP(5) SUM(Tot) AS Total, idreq " +
-                                            " FROM(SELECT sgdb.dbo.Fee.perFee * SUM(i_1.count) AS Tot, i_1.idreq " +
+                                            " FROM(SELECT bornatek_sgdb.dbo.Fee.perFee * SUM(i_1.count) AS Tot, i_1.idreq " +
                                             " FROM(SELECT dbo.r_tools.tools_id, SUM(dbo.r_tools.count) AS count, dbo.r_reply.idreq " +
                                             " FROM dbo.r_reply INNER JOIN " +
                                             " dbo.r_tools ON dbo.r_reply.id = dbo.r_tools.id_rep INNER JOIN " +
@@ -1513,8 +1513,8 @@ namespace CMMS
                                             " dbo.m_machine AS m_machine_2 ON dbo.r_request.machine_code = m_machine_2.id " +
                                             " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') AND dbo.r_tools.rptools=0 " +
                                             " GROUP BY dbo.r_tools.tools_id, dbo.r_reply.idreq) AS i_1 INNER JOIN " +
-                                            " sgdb.dbo.Fee ON i_1.tools_id = sgdb.dbo.Fee.Partref " +
-                                            " GROUP BY sgdb.dbo.Fee.perFee, i_1.idreq) AS Tmain " +
+                                            " bornatek_sgdb.dbo.Fee ON i_1.tools_id = bornatek_sgdb.dbo.Fee.Partref " +
+                                            " GROUP BY bornatek_sgdb.dbo.Fee.perFee, i_1.idreq) AS Tmain " +
                                             " GROUP BY idreq UNION ALL " +
                                             " SELECT SUM(min * (salary / 30 / 440)) AS Price, idreq " +
                                             " FROM(SELECT dbo.i_personel.per_name, dbo.i_personel.per_id, r_reply_2.idreq, -(1 * DATEDIFF(minute, dbo.r_personel.time_work, 0)) AS min, CASE WHEN(task = 0) THEN " +
@@ -1804,8 +1804,8 @@ namespace CMMS
             var infoCost = new List<string[]>();
             cnn.Open();
             var cmdCosts = new SqlCommand("select CASE WHEN (sum(Tot)) IS NULL THEN 0 ELSE sum(Tot) END as Total,'هزینه قطعات' as kind from " +
-                                          " (SELECT sgdb.dbo.Fee.perFee * SUM(i.count) AS Tot, sgdb.dbo.Fee.perFee, SUM(i.count) AS count," +
-                                          " sgdb.dbo.Fee.partname FROM(SELECT dbo.r_tools.tools_id, SUM(dbo.r_tools.count) AS count" +
+                                          " (SELECT bornatek_sgdb.dbo.Fee.perFee * SUM(i.count) AS Tot, bornatek_sgdb.dbo.Fee.perFee, SUM(i.count) AS count," +
+                                          " bornatek_sgdb.dbo.Fee.partname FROM(SELECT dbo.r_tools.tools_id, SUM(dbo.r_tools.count) AS count" +
                                           " FROM dbo.r_reply INNER JOIN dbo.r_tools ON dbo.r_reply.id = dbo.r_tools.id_rep INNER JOIN " +
                                           " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
                                           " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
@@ -1814,8 +1814,8 @@ namespace CMMS
                                           " FROM dbo.s_subhistory INNER JOIN " +
                                           " dbo.s_subtools ON dbo.s_subhistory.id = dbo.s_subtools.id_reptag " +
                                           " WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "') " +
-                                          " GROUP BY dbo.s_subtools.tools_id) AS i INNER JOIN sgdb.dbo.Fee ON i.tools_id = sgdb.dbo.Fee.Partref " +
-                                          " GROUP BY i.tools_id, sgdb.dbo.Fee.partname, sgdb.dbo.Fee.perFee)T " +
+                                          " GROUP BY dbo.s_subtools.tools_id) AS i INNER JOIN bornatek_sgdb.dbo.Fee ON i.tools_id = bornatek_sgdb.dbo.Fee.Partref " +
+                                          " GROUP BY i.tools_id, bornatek_sgdb.dbo.Fee.partname, bornatek_sgdb.dbo.Fee.perFee)T " +
                                           " union all " +
                                           " select CASE WHEN (sum(cost)) IS NULL THEN 0 ELSE sum(cost) END as  Total, 'هزینه پیمانکاران' as kind from( select name, sum(cost) as cost from " +
                                           " (SELECT dbo.s_subcontract.contract_id AS id, dbo.i_contractor.name, SUM(dbo.s_subcontract.cost) AS cost " +
@@ -1873,8 +1873,8 @@ namespace CMMS
                                           " GROUP BY per_name, per_id) as Tmain group by per_id,per_name)P ", cnn);
 
             var cmdCostsUnit = new SqlCommand("select CASE WHEN (sum(Tot)) IS NULL THEN 0 ELSE sum(Tot) END as Total,'هزینه قطعات' as kind from " +
-                                              " (SELECT sgdb.dbo.Fee.perFee * SUM(i.count) AS Tot, sgdb.dbo.Fee.perFee, SUM(i.count) AS count," +
-                                              " sgdb.dbo.Fee.partname FROM(SELECT dbo.r_tools.tools_id, SUM(dbo.r_tools.count) AS count" +
+                                              " (SELECT bornatek_sgdb.dbo.Fee.perFee * SUM(i.count) AS Tot, bornatek_sgdb.dbo.Fee.perFee, SUM(i.count) AS count," +
+                                              " bornatek_sgdb.dbo.Fee.partname FROM(SELECT dbo.r_tools.tools_id, SUM(dbo.r_tools.count) AS count" +
                                               " FROM dbo.r_reply INNER JOIN dbo.r_tools ON dbo.r_reply.id = dbo.r_tools.id_rep INNER JOIN " +
                                               " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
                                               " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
@@ -1883,8 +1883,8 @@ namespace CMMS
                                               " FROM dbo.s_subhistory INNER JOIN " +
                                               " dbo.s_subtools ON dbo.s_subhistory.id = dbo.s_subtools.id_reptag " +
                                               " WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.s_subhistory.new_unit = '" + unit + "') " +
-                                              " GROUP BY dbo.s_subtools.tools_id) AS i INNER JOIN sgdb.dbo.Fee ON i.tools_id = sgdb.dbo.Fee.Partref " +
-                                              " GROUP BY i.tools_id, sgdb.dbo.Fee.partname, sgdb.dbo.Fee.perFee)T " +
+                                              " GROUP BY dbo.s_subtools.tools_id) AS i INNER JOIN bornatek_sgdb.dbo.Fee ON i.tools_id = bornatek_sgdb.dbo.Fee.Partref " +
+                                              " GROUP BY i.tools_id, bornatek_sgdb.dbo.Fee.partname, bornatek_sgdb.dbo.Fee.perFee)T " +
                                               " union all " +
                                               " select CASE WHEN (sum(cost)) IS NULL THEN 0 ELSE sum(cost) END as  Total, 'هزینه پیمانکاران' as kind from( select name, sum(cost) as cost from " +
                                               " (SELECT dbo.s_subcontract.contract_id AS id, dbo.i_contractor.name, SUM(dbo.s_subcontract.cost) AS cost " +
@@ -1942,8 +1942,8 @@ namespace CMMS
                                               " GROUP BY per_name, per_id) as Tmain group by per_id,per_name)P ", cnn);
 
             var cmdCostLine = new SqlCommand("select CASE WHEN (sum(Tot)) IS NULL THEN 0 ELSE sum(Tot) END as Total,'هزینه قطعات' as kind from " +
-                                             " (SELECT sgdb.dbo.Fee.perFee * SUM(i.count) AS Tot, sgdb.dbo.Fee.perFee, SUM(i.count) AS count," +
-                                             " sgdb.dbo.Fee.partname FROM(SELECT dbo.r_tools.tools_id, SUM(dbo.r_tools.count) AS count" +
+                                             " (SELECT bornatek_sgdb.dbo.Fee.perFee * SUM(i.count) AS Tot, bornatek_sgdb.dbo.Fee.perFee, SUM(i.count) AS count," +
+                                             " bornatek_sgdb.dbo.Fee.partname FROM(SELECT dbo.r_tools.tools_id, SUM(dbo.r_tools.count) AS count" +
                                              " FROM dbo.r_reply INNER JOIN dbo.r_tools ON dbo.r_reply.id = dbo.r_tools.id_rep INNER JOIN " +
                                              " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
                                              " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
@@ -1952,8 +1952,8 @@ namespace CMMS
                                              " FROM dbo.s_subhistory INNER JOIN " +
                                              " dbo.s_subtools ON dbo.s_subhistory.id = dbo.s_subtools.id_reptag " +
                                              " WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.s_subhistory.new_line = " + line + ") " +
-                                             " GROUP BY dbo.s_subtools.tools_id) AS i INNER JOIN sgdb.dbo.Fee ON i.tools_id = sgdb.dbo.Fee.Partref " +
-                                             " GROUP BY i.tools_id, sgdb.dbo.Fee.partname, sgdb.dbo.Fee.perFee)T " +
+                                             " GROUP BY dbo.s_subtools.tools_id) AS i INNER JOIN bornatek_sgdb.dbo.Fee ON i.tools_id = bornatek_sgdb.dbo.Fee.Partref " +
+                                             " GROUP BY i.tools_id, bornatek_sgdb.dbo.Fee.partname, bornatek_sgdb.dbo.Fee.perFee)T " +
                                              " union all " +
                                              " select CASE WHEN (sum(cost)) IS NULL THEN 0 ELSE sum(cost) END as  Total, 'هزینه پیمانکاران' as kind from( select name, sum(cost) as cost from " +
                                              " (SELECT dbo.s_subcontract.contract_id AS id, dbo.i_contractor.name, SUM(dbo.s_subcontract.cost) AS cost " +
@@ -2011,8 +2011,8 @@ namespace CMMS
                                              " GROUP BY per_name, per_id) as Tmain group by per_id,per_name)P ", cnn);
 
             var cmdCostsMachine = new SqlCommand("select CASE WHEN (sum(Tot)) IS NULL THEN 0 ELSE sum(Tot) END as Total,'هزینه قطعات' as kind from " +
-                                              " (SELECT sgdb.dbo.Fee.perFee * SUM(i.count) AS Tot, sgdb.dbo.Fee.perFee, SUM(i.count) AS count," +
-                                              " sgdb.dbo.Fee.partname FROM(SELECT dbo.r_tools.tools_id, SUM(dbo.r_tools.count) AS count" +
+                                              " (SELECT bornatek_sgdb.dbo.Fee.perFee * SUM(i.count) AS Tot, bornatek_sgdb.dbo.Fee.perFee, SUM(i.count) AS count," +
+                                              " bornatek_sgdb.dbo.Fee.partname FROM(SELECT dbo.r_tools.tools_id, SUM(dbo.r_tools.count) AS count" +
                                               " FROM dbo.r_reply INNER JOIN dbo.r_tools ON dbo.r_reply.id = dbo.r_tools.id_rep INNER JOIN " +
                                               " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
                                               " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
@@ -2024,8 +2024,8 @@ namespace CMMS
                                               " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
                                               " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
                                               " WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "') AND( dbo.r_request.machine_code = " + machine + ") " +
-                                              " GROUP BY dbo.s_subtools.tools_id) AS i INNER JOIN sgdb.dbo.Fee ON i.tools_id = sgdb.dbo.Fee.Partref " +
-                                              " GROUP BY i.tools_id, sgdb.dbo.Fee.partname, sgdb.dbo.Fee.perFee)T " +
+                                              " GROUP BY dbo.s_subtools.tools_id) AS i INNER JOIN bornatek_sgdb.dbo.Fee ON i.tools_id = bornatek_sgdb.dbo.Fee.Partref " +
+                                              " GROUP BY i.tools_id, bornatek_sgdb.dbo.Fee.partname, bornatek_sgdb.dbo.Fee.perFee)T " +
                                               " union all " +
                                               " select CASE WHEN (sum(cost)) IS NULL THEN 0 ELSE sum(cost) END as  Total, 'هزینه پیمانکاران' as kind from( select name, sum(cost) as cost from " +
                                               " (SELECT dbo.s_subcontract.contract_id AS id, dbo.i_contractor.name, SUM(dbo.s_subcontract.cost) AS cost " +

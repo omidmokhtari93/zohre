@@ -296,7 +296,7 @@ FROM m_control WHERE (Mid = @id)">
                                 <asp:BoundField DataField="comment" HeaderText="ملاحضات" SortExpression="comment" />
                             </Columns>
                         </asp:GridView>
-                        <asp:SqlDataSource ID="Sqltools" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT row_number()OVER(ORDER BY PartName) AS rn,m_parts.PartId, m_parts.mYear, m_parts.min, m_parts.max, m_parts.comment, sgdb.inv.Part.PartName FROM m_parts INNER JOIN sgdb.inv.Part ON m_parts.PartId = sgdb.inv.Part.Serial WHERE (m_parts.Mid = @id)">
+                        <asp:SqlDataSource ID="Sqltools" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT row_number()OVER(ORDER BY PartName) AS rn,m_parts.PartId, m_parts.mYear, m_parts.min, m_parts.max, m_parts.comment, bornatek_sgdb.inv.Part.PartName FROM m_parts INNER JOIN bornatek_sgdb.inv.Part ON m_parts.PartId = bornatek_sgdb.inv.Part.Serial WHERE (m_parts.Mid = @id)">
                             <SelectParameters>
                                 <asp:QueryStringParameter Name="id" QueryStringField="mid" />
                             </SelectParameters>

@@ -1248,8 +1248,8 @@ namespace CMMS
             var partsList = new List<Parts>();
             var getParts =
                 new SqlCommand(
-                    "SELECT m_parts.id,m_parts.PartId,Part.PartName,mYear,min,max,chPeriod,m_parts.comment,i_measurement.measurement,i_measurement.id as measurid FROM CMMS.dbo.m_parts" +
-                    " inner join sgdb.inv.Part on Part.Serial = m_parts.PartId inner join " +
+                    "SELECT m_parts.id,m_parts.PartId,Part.PartName,mYear,min,max,chPeriod,m_parts.comment,i_measurement.measurement,i_measurement.id as measurid FROM bornatek_cmms.dbo.m_parts" +
+                    " inner join bornatek_sgdb.inv.Part on Part.Serial = m_parts.PartId inner join " +
                     " dbo.i_measurement_part ON dbo.m_parts.PartId =i_measurement_part.Serial INNER JOIN " +
                     " dbo.i_measurement ON dbo.i_measurement_part.measurement = dbo.i_measurement.id " +
                     " where Mid = " + mid + " ", _cnn);
@@ -1283,8 +1283,8 @@ namespace CMMS
             var partsList = new List<Parts>();
             var getParts =
                 new SqlCommand(
-                    "SELECT id,b_parts.PartId,Part.PartName,mYear,min,max FROM CMMS.dbo.b_parts" +
-                    " inner join sgdb.inv.Part on Part.Serial = b_parts.PartId where Mid = " + mid + " ", _cnn);
+                    "SELECT id,b_parts.PartId,Part.PartName,mYear,min,max FROM bornatek_cmms.dbo.b_parts" +
+                    " inner join bornatek_sgdb.inv.Part on Part.Serial = b_parts.PartId where Mid = " + mid + " ", _cnn);
             var rd = getParts.ExecuteReader();
             while (rd.Read())
             {
@@ -1896,8 +1896,8 @@ namespace CMMS
             updateRequestState.ExecuteNonQuery();
 
             var listforecast = new List<ForeCastList>();
-            var cmdsearchpartCm = new SqlCommand(" SELECT dbo.p_forecast.PartId, dbo.p_forecast.tarikh, dbo.p_forecast.m_partId, dbo.p_forecast.id, sgdb.inv.Part.PartName " +
-                                                 " FROM dbo.p_forecast INNER JOIN sgdb.inv.Part ON dbo.p_forecast.PartId = sgdb.inv.Part.Serial " +
+            var cmdsearchpartCm = new SqlCommand(" SELECT dbo.p_forecast.PartId, dbo.p_forecast.tarikh, dbo.p_forecast.m_partId, dbo.p_forecast.id, bornatek_sgdb.inv.Part.PartName " +
+                                                 " FROM dbo.p_forecast INNER JOIN bornatek_sgdb.inv.Part ON dbo.p_forecast.PartId = bornatek_sgdb.inv.Part.Serial " +
                                                  " WHERE (dbo.p_forecast.act = 0) AND (dbo.p_forecast.tarikh <> '" + obj.ReplyInfo[0].StartDate + "') AND (dbo.p_forecast.PartId IN " +
                                                  " (SELECT tools_id FROM dbo.r_tools WHERE (id_rep = " + replyId + "))) AND (dbo.p_forecast.m_partId IN " +
                                                  " (SELECT dbo.m_parts.id FROM dbo.m_machine INNER JOIN dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code " +
@@ -2014,16 +2014,16 @@ namespace CMMS
             }
             _cnn.Close();
             _cnn.Open();
-            var selectParts = new SqlCommand(" SELECT sgdb.inv.Part.PartName, dbo.r_tools.count, dbo.i_measurement.measurement AS Measur,case when dbo.r_tools.rptools=1 then 'تعمیر' else 'تعویض' end as rptool " +
+            var selectParts = new SqlCommand(" SELECT bornatek_sgdb.inv.Part.PartName, dbo.r_tools.count, dbo.i_measurement.measurement AS Measur,case when dbo.r_tools.rptools=1 then 'تعمیر' else 'تعویض' end as rptool " +
                                              " FROM dbo.r_tools INNER JOIN " +
-                                             " sgdb.inv.Part ON dbo.r_tools.tools_id = sgdb.inv.Part.Serial INNER JOIN " +
+                                             " bornatek_sgdb.inv.Part ON dbo.r_tools.tools_id = bornatek_sgdb.inv.Part.Serial INNER JOIN " +
                                              " dbo.i_measurement_part ON dbo.r_tools.tools_id = dbo.i_measurement_part.Serial INNER JOIN " +
                                              " dbo.i_measurement ON dbo.i_measurement_part.measurement = dbo.i_measurement.id " +
                                              " WHERE(dbo.r_tools.id_rep = " + replyId + ") " +
                                              " union all " +
-                                             " SELECT sgdb.inv.Part.PartName, dbo.r_tools.count, 'عدد' as Measur,case when dbo.r_tools.rptools=1 then 'تعمیر' else 'تعویض' end as rptool " +
+                                             " SELECT bornatek_sgdb.inv.Part.PartName, dbo.r_tools.count, 'عدد' as Measur,case when dbo.r_tools.rptools=1 then 'تعمیر' else 'تعویض' end as rptool " +
                                              " FROM dbo.r_tools INNER JOIN " +
-                                             " sgdb.inv.Part ON dbo.r_tools.tools_id = sgdb.inv.Part.Serial " +
+                                             " bornatek_sgdb.inv.Part ON dbo.r_tools.tools_id = bornatek_sgdb.inv.Part.Serial " +
                                              " WHERE        (dbo.r_tools.id_rep = " + replyId + " and r_tools.tools_id not in (select Serial from i_measurement_part)) ", _cnn);
 
             var readParts = selectParts.ExecuteReader();
@@ -2036,7 +2036,7 @@ namespace CMMS
             var selecchangedParts = new SqlCommand("SELECT dbo.subsystem.name as subname,Part.PartName as partname, m_machine.name as machname "+
                                                    "FROM dbo.r_helppart inner join m_machine on r_helppart.mid = m_machine.id " +
                                                    "INNER JOIN dbo.subsystem ON dbo.r_helppart.sub_id = dbo.subsystem.id " +
-                                                   "inner join sgdb.inv.Part on dbo.r_helppart.part_id = Part.Serial " +
+                                                   "inner join bornatek_sgdb.inv.Part on dbo.r_helppart.part_id = Part.Serial " +
                                                    "WHERE(dbo.r_helppart.rep_id = " + replyId + " )", _cnn);
             var rcParts = selecchangedParts.ExecuteReader();
             while (rcParts.Read())
@@ -2327,10 +2327,10 @@ namespace CMMS
             _cnn.Open();
             var list = new List<string[]>();
             var array = new List<string[]>();
-            var selectAll = new SqlCommand(" SELECT [CMMS].dbo.i_measurement_part.id,CMMS.dbo.i_measurement.[measurement],sgdb.inv.Part.PartName,CMMS.dbo.i_measurement.id as mid " +
+            var selectAll = new SqlCommand(" SELECT [CMMS].dbo.i_measurement_part.id,bornatek_cmms.dbo.i_measurement.[measurement],bornatek_sgdb.inv.Part.PartName,bornatek_cmms.dbo.i_measurement.id as mid " +
                                            " FROM[CMMS].dbo.i_measurement  INNER JOIN " +
                                            " [CMMS].dbo.i_measurement_part ON[CMMS].dbo.i_measurement.id = [CMMS].dbo.i_measurement_part.measurement " +
-                                           " inner join sgdb.inv.Part on sgdb.inv.Part.Serial = CMMS.dbo.i_measurement_part.Serial " +
+                                           " inner join bornatek_sgdb.inv.Part on bornatek_sgdb.inv.Part.Serial = bornatek_cmms.dbo.i_measurement_part.Serial " +
                                            " order by PartName", _cnn);
             var rd = selectAll.ExecuteReader();
             while (rd.Read())
@@ -2507,10 +2507,10 @@ namespace CMMS
             var list = new List<string[]>();
             var partlist = new List<string[]>();
            
-            var getMojoodi = new SqlCommand("SELECT dbo.m_parts.PartId, sgdb.dbo.kalaMojodi.partname, sgdb.dbo.kalaMojodi.Mojodi " +
+            var getMojoodi = new SqlCommand("SELECT dbo.m_parts.PartId, bornatek_sgdb.dbo.kalaMojodi.partname, bornatek_sgdb.dbo.kalaMojodi.Mojodi " +
                                             "FROM dbo.m_machine INNER JOIN " +
                                             "dbo.m_parts ON dbo.m_machine.id = dbo.m_parts.Mid INNER JOIN " +
-                                            "sgdb.dbo.kalaMojodi ON dbo.m_parts.PartId = sgdb.dbo.kalaMojodi.PartRef " +
+                                            "bornatek_sgdb.dbo.kalaMojodi ON dbo.m_parts.PartId = bornatek_sgdb.dbo.kalaMojodi.PartRef " +
                                             "WHERE(dbo.m_machine.id = " + machineid + ")", _cnn);
             var rd = getMojoodi.ExecuteReader();
             while (rd.Read())
@@ -2528,7 +2528,7 @@ namespace CMMS
             _partsConnection.Open();
             var list = new List<string[]>();
             var partlist = new List<string[]>();
-            var getAnbar = new SqlCommand("SELECT [PartRef],[partname],[Mojodi] FROM [sgdb].[dbo].[kalaMojodi] where PartRef = " + partid+" ",_partsConnection);
+            var getAnbar = new SqlCommand("SELECT [PartRef],[partname],[Mojodi] FROM [bornatek_sgdb].[dbo].[kalaMojodi] where PartRef = " + partid+" ",_partsConnection);
             var rd = getAnbar.ExecuteReader();
             while (rd.Read())
             {
@@ -2649,7 +2649,7 @@ namespace CMMS
                                         "dbo.i_units ON dbo.m_machine.loc = dbo.i_units.unit_code INNER JOIN " +
                                         "dbo.m_parts ON dbo.m_machine.id = dbo.m_parts.Mid INNER JOIN " +
                                         "dbo.p_forecast AS Forecast INNER JOIN " +
-                                        "sgdb.dbo.kalaMojodi AS Part ON Forecast.PartId = Part.PartRef ON dbo.m_parts.id = Forecast.m_partId " +
+                                        "bornatek_sgdb.dbo.kalaMojodi AS Part ON Forecast.PartId = Part.PartRef ON dbo.m_parts.id = Forecast.m_partId " +
                                         "where(Forecast.tarikh between '"+s+"' and '"+e+"') and Forecast.act = 0",_cnn);
             var r = filter.ExecuteReader();
             while (r.Read())
@@ -2699,9 +2699,9 @@ namespace CMMS
             }
             _cnn.Close();
             _cnn.Open();
-            var getparts = new SqlCommand("SELECT part.PartName as name, part.Serial as id FROM CMMS.dbo.r_reqwaitpart as main " +
-                                          "inner join sgdb.inv.Part as part on main.part_id = part.Serial " +
-                                          "inner join CMMS.dbo.r_partwait as req on main.id_wait = req.id " +
+            var getparts = new SqlCommand("SELECT part.PartName as name, part.Serial as id FROM bornatek_cmms.dbo.r_reqwaitpart as main " +
+                                          "inner join bornatek_sgdb.inv.Part as part on main.part_id = part.Serial " +
+                                          "inner join bornatek_cmms.dbo.r_partwait as req on main.id_wait = req.id " +
                                           "where req.req_id = "+requestId+" ",_cnn);
             var re = getparts.ExecuteReader();
             while (re.Read())
