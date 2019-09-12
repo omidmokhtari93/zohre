@@ -93,6 +93,27 @@ $('#gridMachines').on("click", "td", function () {
     } else if ($('#txtmachineCode').val() === '') {
         $.notify("!!ابتدا نام واحد را انتخاب کنید", { globalPosition: 'top left' });
     }
+    else if ($('input[name=switchCode]:checked').attr('value') === "1") {
+        $('#txtmachineCode').val($('#txtmachineCode').val() + tdData);
+        $.ajax({
+            type: "POST",
+            url: "WebService.asmx/GetLatestMachineCode",
+            data: JSON.stringify({ 'machineCode': $('#txtmachineCode').val() }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (e) {
+                var code = JSON.parse(e.d);
+                if (code !== '') {
+                    $('#txtmachineCode').val(code);
+                    $('#txtSubPelak').val(code + '-');
+                }
+                $('#machineTooltip').css('visibility', 'hidden');
+                $('#machineTooltip').css('opacity', '0');
+            },
+            error: function () {
+            }
+        });
+    }
 });
 $('#gridUnits').on("click", "td", function () {
     var tdData = $(this).find('i').text();

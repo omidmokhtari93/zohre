@@ -207,6 +207,47 @@ function EmptyKey() {
 }
 //===================  contoroli  ======================//
 
+function checkControliPart() {
+    var flag = 0;
+
+    if ($('#txtPartControli').val() === '') { RedAlert('txtPartControli', "!!لطفا نام بخش کنترلی را وارد نمایید"); flag = 1; }
+
+    return flag;
+}
+function addPartControli() {
+    if (checkControliPart() === 0) {
+
+        var mored = $('#txtPartControli').val();
+
+
+       
+        var head = '<thead>' +
+            '<tr>' +
+            '<th>بخش کنترلی</th>' +
+            '<th></th>' +
+            '<th></th>' +
+            '</tr>' +
+            '</thead>';
+        var tbody = '<tbody></tbody>';
+        var row = '<tr>' +
+            '<td style="display:none;">0</td>' +
+            '<td >' + mored + '</td>' +
+          
+            '<td><a id="edit">ویرایش</a></td>' +
+            '<td><a id="delete">حذف</a></td>' +
+            '</tr>';
+        if ($('#gridPartControli tr').length != 0) {
+            $("#gridPartControli tbody").append(row);
+        } else {
+            $("#gridPartControli").append(head);
+            $("#gridPartControli").append(tbody);
+            $("#gridPartControli tbody").append(row);
+        }
+        ClearFields('pnlPArtControli');
+      
+    }
+}
+//======================Second Part ======================//
 function checkControliInputs() {
     var flag = 0;
   
@@ -344,6 +385,7 @@ function EmptyControls() {
    
     rowItems = [];
 }
+//===================  add Parts  ======================//
 function addParts() {
     var flag = checkPartInputs();
     var rowsCount = $('#gridGhataatMasrafi tr').length;
@@ -490,39 +532,38 @@ $('#btnMavaredeMasrafiBack').on('click', function () {
     $('#pnlMavaredMasrafi').hide();
 });
 $('#btnMavaredeMasrafiFor').on('click', function () {
-    //if (!$('#chkbargh').is(':checked') && !$('#chkgaz').is(':checked') && !$('#chkhava').is(':checked') && !$('#chksokht').is(':checked')) {
-    //    $('#chkbargh').parent().addClass('checklabelError');
-    //    $('#chkgaz').parent().addClass('checklabelError');
-    //    $('#chkhava').parent().addClass('checklabelError');
-    //    $('#chksokht').parent().addClass('checklabelError');
-    //    $.notify("!!یکی از موارد را تکمیل نمایید", { globalPosition: 'top left' });
-    //    setTimeout(function () {
-    //        $('#chkbargh').parent().removeClass('checklabelError');
-    //        $('#chkgaz').parent().removeClass('checklabelError');
-    //        $('#chkhava').parent().removeClass('checklabelError');
-    //        $('#chksokht').parent().removeClass('checklabelError');
-    //    }, 4000);
-    //} else {
-        $('#pnlMavaredMasrafi').hide();
+    $('#pnlMavaredMasrafi').hide();
         $('#pnlMavaredKey').fadeIn();
-    //}
 });
+//==================
 $('#btnMavaredeKeyBack').on('click', function () {
     $('#pnlMavaredMasrafi').fadeIn();
     $('#pnlMavaredKey').hide();
 });
+
 $('#btnMavaredeKeyFor').on('click', function () {
-    $('#pnlMavaredControli').fadeIn();
+    $('#pnlPartControli').fadeIn();
     $('#pnlMavaredKey').hide();
 });
-$('#btnMavaredControlBack').on('click', function () {
+//===================
+$('#btnPartControlBack').on('click', function () {
     $('#pnlMavaredKey').fadeIn();
+    $('#pnlPartControli').hide();
+});
+$('#btnPartControlFor').on('click', function () {
+    $('#pnlPartControli').hide();
+    $('#pnlMavaredControli').fadeIn();
+});
+//=====================
+$('#btnMavaredControlBack').on('click', function () {
+    $('#pnlPartControli').fadeIn();
     $('#pnlMavaredControli').hide();
 });
 $('#btnMavaredControlFor').on('click', function () {
         $('#pnlMavaredControli').hide();
         $('#pnlSubSytem').fadeIn();
 });
+//====================
 $('#btnSubsystemFor').on('click', function () {
     $('#pnlSubSytem').hide();
     $('#pnlGhatatMasrafi').fadeIn();
