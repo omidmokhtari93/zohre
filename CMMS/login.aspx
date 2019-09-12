@@ -29,13 +29,13 @@
                     <div class="card-body">
                         <br/>
                         <div class="input-container">
-                            <input type="text" tabindex="1" id="UserName" />
+                            <input type="text" tabindex="1" id="UserName" value="admin"/>
                             <label class="unselectable userNameLabel">نام کاربری</label>
                         </div>
                         <br/>
                         <div class="input-container">
                             <button class="fa fa-eye" title="نمایش رمز عبور" type="button" id="showPassword" ></button>
-                            <input type="password" tabindex="2" id="Password"/>
+                            <input type="password" tabindex="2" id="Password" value="123"/>
                             <label class="unselectable PassLabel">رمز عبور</label>
                         </div>
                         <div style=" width: 100%;">

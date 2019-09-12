@@ -541,12 +541,12 @@ namespace CMMS
             var infopremanurely = new List<string[]>();
             cnn.Open();
             var cmdPremanurely = new SqlCommand(" SELECT dbo.p_forecast.inforeason, dbo.i_fail_reason.fail, dbo.p_forecast.permaturely_tarikh, " +
-                                                " dbo.p_forecast.tarikh, sgdb.inv.Part.PartName, dbo.m_machine.name " +
+                                                " dbo.p_forecast.tarikh, bornatek_sgdb.inv.Part.PartName, dbo.m_machine.name " +
                                                 " FROM dbo.p_forecast INNER JOIN dbo.p_forcastFail ON dbo.p_forecast.id = dbo.p_forcastFail.id_forecast INNER JOIN " +
                                                 " dbo.i_fail_reason ON dbo.p_forcastFail.fail_id = dbo.i_fail_reason.id INNER JOIN " +
                                                 " dbo.m_parts ON dbo.p_forecast.m_partId = dbo.m_parts.id INNER JOIN " +
                                                 " dbo.m_machine ON dbo.m_parts.Mid = dbo.m_machine.id INNER JOIN " +
-                                                " sgdb.inv.Part on bornatek_cmms.dbo.p_forecast.PartId = sgdb.inv.Part.Serial  " +
+                                                " bornatek_sgdb.inv.Part on bornatek_cmms.dbo.p_forecast.PartId = bornatek_sgdb.inv.Part.Serial  " +
                                                 " where p_forecast.permaturely_tarikh BETWEEN '" + dateS + "' AND '" + dateE + "' " +
                                                 " order by dbo.p_forecast.tarikh ", cnn);
            
@@ -597,13 +597,13 @@ namespace CMMS
             var cmdTools = new SqlCommand("SELECT TOP ("+count+") Serial, PartName, SUM(count) AS tedad "+
                                          " FROM(SELECT help.PartName, dbo.r_tools.count, help.Serial "+
                                          " FROM dbo.r_tools INNER JOIN "+
-                                         " sgdb.inv.Part AS help ON help.Serial = dbo.r_tools.tools_id INNER JOIN "+
+                                         " bornatek_sgdb.inv.Part AS help ON help.Serial = dbo.r_tools.tools_id INNER JOIN "+
                                          " dbo.r_reply ON dbo.r_tools.id_rep = dbo.r_reply.id  " +
                                          " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') and dbo.r_tools.rptools = 0 " +
                                          " UNION ALL "+
                                          " SELECT help.PartName, dbo.s_subtools.count, help.Serial "+
                                          " FROM dbo.s_subtools INNER JOIN "+
-                                         " sgdb.inv.Part AS help ON help.Serial = dbo.s_subtools.tools_id INNER JOIN "+
+                                         " bornatek_sgdb.inv.Part AS help ON help.Serial = dbo.s_subtools.tools_id INNER JOIN "+
                                          " dbo.s_subhistory ON dbo.s_subtools.id_reptag = dbo.s_subhistory.id  " +
                                          " WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "')) AS tools " +
                                          " GROUP BY PartName, Serial "+
@@ -612,7 +612,7 @@ namespace CMMS
            var cmdToolsUnit=new SqlCommand(" SELECT TOP (" + count + ") Serial, PartName, SUM(count) AS tedad " +
                                         " FROM(SELECT help.PartName, dbo.r_tools.count, help.Serial " +
                                         " FROM dbo.r_tools INNER JOIN " +
-                                        " sgdb.inv.Part AS help ON help.Serial = dbo.r_tools.tools_id INNER JOIN " +
+                                        " bornatek_sgdb.inv.Part AS help ON help.Serial = dbo.r_tools.tools_id INNER JOIN " +
                                         " dbo.r_reply ON dbo.r_tools.id_rep = dbo.r_reply.id INNER JOIN " +
                                         " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
                                         " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
@@ -620,7 +620,7 @@ namespace CMMS
                                         " UNION ALL " +
                                         " SELECT help.PartName, dbo.s_subtools.count, help.Serial " +
                                         " FROM dbo.s_subtools INNER JOIN " +
-                                        " sgdb.inv.Part AS help ON help.Serial = dbo.s_subtools.tools_id INNER JOIN " +
+                                        " bornatek_sgdb.inv.Part AS help ON help.Serial = dbo.s_subtools.tools_id INNER JOIN " +
                                         " dbo.s_subhistory ON dbo.s_subtools.id_reptag = dbo.s_subhistory.id " +
                                         " WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.s_subhistory.new_unit = '"+unit+"')) AS T " +
                                         " GROUP BY PartName, Serial " +
@@ -629,7 +629,7 @@ namespace CMMS
             var cmdToolsLine = new SqlCommand(" SELECT TOP (10) Serial, PartName, SUM(count) AS tedad " +
                                               " FROM(SELECT help.PartName, dbo.r_tools.count, help.Serial " +
                                               " FROM dbo.r_tools INNER JOIN " +
-                                              " sgdb.inv.Part AS help ON help.Serial = dbo.r_tools.tools_id INNER JOIN " +
+                                              " bornatek_sgdb.inv.Part AS help ON help.Serial = dbo.r_tools.tools_id INNER JOIN " +
                                               " dbo.r_reply ON dbo.r_tools.id_rep = dbo.r_reply.id INNER JOIN " +
                                               " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
                                               " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
@@ -637,7 +637,7 @@ namespace CMMS
                                               " UNION ALL " +
                                               " SELECT help.PartName, dbo.s_subtools.count, help.Serial " +
                                               " FROM dbo.s_subtools INNER JOIN " +
-                                              " sgdb.inv.Part AS help ON help.Serial = dbo.s_subtools.tools_id INNER JOIN " +
+                                              " bornatek_sgdb.inv.Part AS help ON help.Serial = dbo.s_subtools.tools_id INNER JOIN " +
                                               " dbo.s_subhistory ON dbo.s_subtools.id_reptag = dbo.s_subhistory.id " +
                                               " WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.s_subhistory.new_line = "+line+")) AS T " +
                                               " GROUP BY PartName, Serial " +
@@ -674,28 +674,28 @@ namespace CMMS
         {
             var infoTools=new List<string[]>();
             cnn.Open();
-            var cmdToolsReport=new SqlCommand(" SELECT bornatek_cmms.dbo.i_units.unit_name,bornatek_cmms.dbo.m_machine.name,sgdb.inv.Part.PartName , SUM(bornatek_cmms.dbo.r_tools.count) AS countt,bornatek_cmms.dbo.i_measurement.measurement AS Measur " +
+            var cmdToolsReport=new SqlCommand(" SELECT bornatek_cmms.dbo.i_units.unit_name,bornatek_cmms.dbo.m_machine.name,bornatek_sgdb.inv.Part.PartName , SUM(bornatek_cmms.dbo.r_tools.count) AS countt,bornatek_cmms.dbo.i_measurement.measurement AS Measur " +
                                               " FROM bornatek_cmms.dbo.m_machine INNER JOIN " +
                                               " bornatek_cmms.dbo.i_units ON bornatek_cmms.dbo.m_machine.loc = bornatek_cmms.dbo.i_units.unit_code INNER JOIN " +
                                               " bornatek_cmms.dbo.r_request ON bornatek_cmms.dbo.m_machine.id = bornatek_cmms.dbo.r_request.machine_code INNER JOIN " +
                                               " bornatek_cmms.dbo.r_reply ON bornatek_cmms.dbo.r_request.req_id = bornatek_cmms.dbo.r_reply.idreq INNER JOIN " +
                                               " bornatek_cmms.dbo.r_tools ON bornatek_cmms.dbo.r_reply.id = bornatek_cmms.dbo.r_tools.id_rep INNER JOIN " +
-                                              " sgdb.inv.Part on bornatek_cmms.dbo.r_tools.tools_id = sgdb.inv.Part.Serial INNER JOIN " +
+                                              " bornatek_sgdb.inv.Part on bornatek_cmms.dbo.r_tools.tools_id = bornatek_sgdb.inv.Part.Serial INNER JOIN " +
                                               " bornatek_cmms.dbo.i_measurement_part ON bornatek_cmms.dbo.r_tools.tools_id = bornatek_cmms.dbo.i_measurement_part.Serial INNER JOIN " +
                                               " bornatek_cmms.dbo.i_measurement ON bornatek_cmms.dbo.i_measurement_part.measurement = bornatek_cmms.dbo.i_measurement.id " +
                                               " where bornatek_cmms.dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "' and bornatek_cmms.dbo.r_tools.tools_id = " + toolsId+ " AND dbo.r_tools.rptools = 0 " +
-                                              " GROUP BY  dbo.i_units.unit_name, dbo.m_machine.name, sgdb.inv.Part.PartName,bornatek_cmms.dbo.i_measurement.measurement", cnn);
-            var cmdNullToolsReport = new SqlCommand(" SELECT bornatek_cmms.dbo.i_units.unit_name,bornatek_cmms.dbo.m_machine.name,sgdb.inv.Part.PartName , SUM(bornatek_cmms.dbo.r_tools.count) AS countt ,bornatek_cmms.dbo.i_measurement.measurement AS Measur " +
+                                              " GROUP BY  dbo.i_units.unit_name, dbo.m_machine.name, bornatek_sgdb.inv.Part.PartName,bornatek_cmms.dbo.i_measurement.measurement", cnn);
+            var cmdNullToolsReport = new SqlCommand(" SELECT bornatek_cmms.dbo.i_units.unit_name,bornatek_cmms.dbo.m_machine.name,bornatek_sgdb.inv.Part.PartName , SUM(bornatek_cmms.dbo.r_tools.count) AS countt ,bornatek_cmms.dbo.i_measurement.measurement AS Measur " +
                                                     " FROM bornatek_cmms.dbo.m_machine INNER JOIN " +
                                                     " bornatek_cmms.dbo.i_units ON bornatek_cmms.dbo.m_machine.loc = bornatek_cmms.dbo.i_units.unit_code INNER JOIN " +
                                                     " bornatek_cmms.dbo.r_request ON bornatek_cmms.dbo.m_machine.id = bornatek_cmms.dbo.r_request.machine_code INNER JOIN " +
                                                     " bornatek_cmms.dbo.r_reply ON bornatek_cmms.dbo.r_request.req_id = bornatek_cmms.dbo.r_reply.idreq INNER JOIN " +
                                                     " bornatek_cmms.dbo.r_tools ON bornatek_cmms.dbo.r_reply.id = bornatek_cmms.dbo.r_tools.id_rep INNER JOIN " +
-                                                    " sgdb.inv.Part on bornatek_cmms.dbo.r_tools.tools_id = sgdb.inv.Part.Serial INNER JOIN " +
+                                                    " bornatek_sgdb.inv.Part on bornatek_cmms.dbo.r_tools.tools_id = bornatek_sgdb.inv.Part.Serial INNER JOIN " +
                                                     " bornatek_cmms.dbo.i_measurement_part ON bornatek_cmms.dbo.r_tools.tools_id = bornatek_cmms.dbo.i_measurement_part.Serial INNER JOIN " +
                                                     " bornatek_cmms.dbo.i_measurement ON bornatek_cmms.dbo.i_measurement_part.measurement = bornatek_cmms.dbo.i_measurement.id " +
                                                 " where bornatek_cmms.dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "' AND dbo.r_tools.rptools = 0 " +
-                                                " GROUP BY  dbo.i_units.unit_name, dbo.m_machine.name, sgdb.inv.Part.PartName,bornatek_cmms.dbo.i_measurement.measurement", cnn);
+                                                " GROUP BY  dbo.i_units.unit_name, dbo.m_machine.name, bornatek_sgdb.inv.Part.PartName,bornatek_cmms.dbo.i_measurement.measurement", cnn);
             SqlDataReader rd;
             if (toolsId == -1)
             {
