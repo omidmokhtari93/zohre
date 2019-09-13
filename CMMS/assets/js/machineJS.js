@@ -1,6 +1,6 @@
 ﻿//variables
 var todayGorgian;
-var todayJalali;;
+var todayJalali;
 var today;
 var selectedDate;
 var controlId;
@@ -23,7 +23,7 @@ $('#btnNewMachineFor').on('click', function () {
     var mid = 0;
     if ($('#Mid').val() !== '') {
         mid = $('#Mid').val();
-        $('[lblMCode]').text($('#txtmachineCode').val() + '___'  + $('#txtmachineName').val());
+        $('[lblMCode]').text($('#txtmachineCode').val() + '___' + $('#txtmachineName').val());
     }
     $.ajax({
         type: "POST",
@@ -56,7 +56,7 @@ $('input[name=switchCode]').change(function (e) {
     } else {
         $('#vahed').hide();
     }
-   
+
 });
 $('#chkbargh').change(function () {
     if (this.checked) {
@@ -103,7 +103,7 @@ $('#chkModiriatEnergy').change(function () {
         $("#pnlModiriatEnergy").fadeOut();
     }
 });
-$('#drControliZaman').change(function() {
+$('#drControliZaman').change(function () {
     if ($('#drControliZaman :selected').val() !== 0 &&
         $('#drControliZaman :selected').val() !== 6) {
         $('#pnlcontroliRooz').show();
@@ -111,7 +111,7 @@ $('#drControliZaman').change(function() {
         $('#pnlcontroliRooz').find('label').text('روزپیش بینی شده در ماه :');
     }
     if ($('#drControliZaman :selected').val() == 6) {
-        $('#pnlControliWeek').show();   
+        $('#pnlControliWeek').show();
         $('#pnlcontroliRooz').hide();
     }
     if ($('#drControliZaman :selected').val() == 0) {
@@ -186,7 +186,7 @@ function addKey() {
             $("#gridMavaredKey").append(tbody);
             $("#gridMavaredKey tbody").append(row);
         }
-    
+
         ClearFields('pnlMavaredKey');
         $('#txtCommentKey').val(keycom);
     }
@@ -206,7 +206,7 @@ $("#gridMavaredKey").on("click", "tr a#delete", function () {
 $("#gridMavaredKey").on("click", "tr a#edit", function () {
     keycom = $('#txtCommentKey').val();
     target_tr = $(this).parent().parent();
-    
+
     $('#txtKeyName').val($(this).parent().parent().find('td:eq(0)').text());
     $('#txtKw').val($(this).parent().parent().find('td:eq(1)').text());
     $('#txtrpm').val($(this).parent().parent().find('td:eq(2)').text());
@@ -218,24 +218,24 @@ $("#gridMavaredKey").on("click", "tr a#edit", function () {
     $('#btnEditKey').show();
     $('#btnCancelEditKey').show();
 });
-function EditKeyItems() {  
-        $(target_tr).find('td:eq(0)').text($('#txtKeyName').val());
-        $(target_tr).find('td:eq(1)').text($('#txtKw').val());
-        $(target_tr).find('td:eq(2)').text($('#txtrpm').val());
-        $(target_tr).find('td:eq(3)').text($('#txtcountry').val());
-        $(target_tr).find('td:eq(4)').text($('#txtvolt').val());
-        $(target_tr).find('td:eq(5)').text($('#txtFlow').val());
-        $(target_tr).find('td:eq(6)').text($('#txtcomment').val());        
-        GreenAlert(target_tr, "✔ ویرایش  انجام شد");
-        $('#btnAddKey').show();
-        $('#btnEditKey').hide();
-        $('#btnCancelEditKey').hide();
-    
+function EditKeyItems() {
+    $(target_tr).find('td:eq(0)').text($('#txtKeyName').val());
+    $(target_tr).find('td:eq(1)').text($('#txtKw').val());
+    $(target_tr).find('td:eq(2)').text($('#txtrpm').val());
+    $(target_tr).find('td:eq(3)').text($('#txtcountry').val());
+    $(target_tr).find('td:eq(4)').text($('#txtvolt').val());
+    $(target_tr).find('td:eq(5)').text($('#txtFlow').val());
+    $(target_tr).find('td:eq(6)').text($('#txtcomment').val());
+    GreenAlert(target_tr, "✔ ویرایش  انجام شد");
+    $('#btnAddKey').show();
+    $('#btnEditKey').hide();
+    $('#btnCancelEditKey').hide();
+
     ClearFields('pnlMavaredKey');
     $('#txtCommentKey').val(keycom);
 }
 function EmptyKey() {
-   
+
     $('#btnAddKey').show();
     $('#btnEditKey').hide();
     $('#btnCancelEditKey').hide();
@@ -271,14 +271,14 @@ function addControli() {
         var roozValue = 0;
         if (zamanValue == 6) {
             rooz = $('#drControlWeek :selected').text();
-            roozValue = $('#drControlWeek :selected').val(); 
+            roozValue = $('#drControlWeek :selected').val();
         }
         if (zamanValue == 0) {
             rooz = '----';
         }
         if (zamanValue == 5) {
             rooz = 'هر ' + $('#txtControliRooz').val() + ' روز';
-            roozValue = $('#txtControliRooz').val(); 
+            roozValue = $('#txtControliRooz').val();
         }
         if (zamanValue != 6 && zamanValue != 0 && zamanValue != 5) {
             roozValue = $('#txtControliRooz').val();
@@ -356,7 +356,7 @@ $('#gridParts').on('click', 'tr', function () {
     var $row = $(this).find("td");
     var $text = $row.text();
     var $value = $row.attr('partid');
-  
+
     var data = [];
     data.push({
         url: 'WebService.asmx/PartsMeasur',
@@ -401,7 +401,7 @@ function DeleteControls() {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function () {
-            GreenAlert('nothing',"✔ مورد کنترلی با موفقیت حذف شد");
+            GreenAlert('nothing', "✔ مورد کنترلی با موفقیت حذف شد");
             $('#ModalDeleteControl').modal('hide');
             var row = $('#gridMavaredControli tr').length;
             if (row === 2) {
@@ -453,7 +453,7 @@ function EditControliItems() {
         $(target_tr).find('td:eq(7)').text($('#txtMavaredComment').val());
         $(target_tr).find('td:eq(15)').text($('#txtMavaredComment').val());
         EmptyControls();
-        GreenAlert(target_tr,"✔ مورد کنترلی ویرایش شد");
+        GreenAlert(target_tr, "✔ مورد کنترلی ویرایش شد");
     }
 }
 function EmptyControls() {
@@ -470,14 +470,12 @@ function addParts() {
     var rowsCount = $('#gridGhataatMasrafi tr').length;
     var table = document.getElementById('gridGhataatMasrafi');
     for (var a = 0; a < rowsCount; a++) {
-        for (var b = 0; b < partData.length; b++) {
-            if (table.rows[a].cells[1].innerHTML == partData[b].PartId) {
-                $.notify("!!این مورد قبلا ثبت شده است", { globalPosition: 'top left' });
-                return ;
-            }
+        if (table.rows[a].cells[1].innerHTML == partData.PartId) {
+            $.notify("!!این مورد قبلا ثبت شده است", { globalPosition: 'top left' });
+            return;
         }
     }
-    if (flag === 0 && partData.length === 1) {
+    if (flag === 0 && partData.PartName !== null) {
         var head = '<thead>' +
             '<tr>' +
             '<th style="display:none;"></th>' +
@@ -494,10 +492,10 @@ function addParts() {
             '</thead>';
         var row = '<tr>' +
             '<td style="display:none;">0</td>' +
-            '<td style="display:none;">' + partData[0].PartId + '</td>' +
+            '<td style="display:none;">' + partData.PartId + '</td>' +
             '<td style="display:none;">' + $('#Drmeasurement').val() + '</td>' +
-            '<td>' + partData[0].PartName + '</td>' +
-            '<td>' + $('#Drmeasurement :selected').text() + '</td>'+ 
+            '<td>' + partData.PartName + '</td>' +
+            '<td>' + $('#Drmeasurement :selected').text() + '</td>' +
             '<td>' + $('#txtGhatatPerYear').val() + '</td>' +
             '<td>' + $('#txtGhatatMin').val() + '</td>' +
             '<td>' + $('#txtGhatatMax').val() + '</td>' +
@@ -514,20 +512,18 @@ function addParts() {
             $("#gridGhataatMasrafi").append(body);
             $("#gridGhataatMasrafi tbody").append(row);
         }
-        partData = [];
+        partData = { PartName: null, PartId: null };
         ClearFields('pnlGhatatMasrafi');
-        $('#txtPartsSearch').attr('placeholder', 'جستجو کنید ...');
-        $('#txtPartsSearch').removeAttr('readonly');
-        $('#PartBadgeArea').find('.PartsBadge').remove();
+        newMachinePartSearchInit();
     }
 }
 function checkPartInputs() {
     var flag = 0;
-    if ($('#txtGhatatChangePeriod').val() != '') {if (checkPastDate('txtGhatatChangePeriod') == false) { RedAlert('txtGhatatChangePeriod', "!!تاریخ انتخاب شده باید بزرگتر از  تاریخ امروز باشد"); flag = 1; }}
+    if ($('#txtGhatatChangePeriod').val() != '') { if (checkPastDate('txtGhatatChangePeriod') == false) { RedAlert('txtGhatatChangePeriod', "!!تاریخ انتخاب شده باید بزرگتر از  تاریخ امروز باشد"); flag = 1; } }
     if ($('#txtGhatatMax').val() == '') { RedAlert('txtGhatatMax', "!!لطفا حداکثر قطعه مصرفی در سال را مشخص کنید"); flag = 1; }
     if ($('#txtGhatatMin').val() == '') { RedAlert('txtGhatatMin', "!!لطفا حداقل قطعه مصرفی در سال را مشخص کنید"); flag = 1; }
     if ($('#txtGhatatPerYear').val() == '') { RedAlert('txtGhatatPerYear', "!!لطفا میزان مصرف در سال را مشخص کنید"); flag = 1; }
-    if (partData.length === 0) { RedAlert('txtPartsSearch', "!!لطفا قطعه را انتخاب نمایید"); flag = 1; }
+    if (partData.PartName === null) { RedAlert('partSearchDiv', "!!لطفا قطعه را انتخاب نمایید"); flag = 1; }
     return flag;
 }
 $("#gridGhataatMasrafi").on("click", "tr a#deletePart", function () {
@@ -536,14 +532,14 @@ $("#gridGhataatMasrafi").on("click", "tr a#deletePart", function () {
     $('#ModalDeletePart').modal('show');
 });
 $("#gridGhataatMasrafi").on("click", "tr a#editPart", function () {
-    if (partData.length > 0) {
+    if (partData.PartName !== null) {
         RedAlert('nothing', '!!ابتدا ویرایش در حال انجام را کامل کنید');
         return;
     }
     target_tr = $(this).parent().parent();
     var partid = $(this).parent().parent().find('td:eq(1)').text();
     var partname = $(this).parent().parent().find('td:eq(3)').text();
-    createPartBadge(partname, partid);
+    newMachinePartSearchCreate(partname, partid);
     $('#Drmeasurement').val($(this).parent().parent().find('td:eq(2)').text());
     $('#txtPartsSearch').removeAttr('placeholder');
     $('#txtGhatatPerYear').val($(this).parent().parent().find('td:eq(5)').text());
@@ -553,6 +549,7 @@ $("#gridGhataatMasrafi").on("click", "tr a#editPart", function () {
     $('#txtGhatatCom').val($(this).parent().parent().find('td:eq(9)').text());
     $('#btnEditPart').show();
     $('#btnCancelEditPart').show();
+    $('#btnAddMasrafi').hide();
 });
 
 function CancelDeletePart() {
@@ -561,7 +558,8 @@ function CancelDeletePart() {
     $('#btnCancelEditPart').hide();
     $('#txtPartsSearch').attr('placeholder', 'جستجو کنید ...');
     $('#txtPartsSearch').removeAttr('readonly');
-    partData = [];
+    partData = { PartName: null, PartId: null };
+    newMachinePartSearchInit();
 }
 
 function editParts() {
@@ -569,19 +567,15 @@ function editParts() {
     var targetTrIndex = $(target_tr).index();
     var table = document.getElementById('gridGhataatMasrafi');
     for (var a = 0; a < rowsCount; a++) {
-        if (targetTrIndex + 1 == a) {continue;}
-        for (var b = 0; b < partData.length; b++) {
-            if (table.rows[a].cells[1].innerHTML == partData[b].PartId) {
-                $.notify("!!این مورد قبلا ثبت شده است", { globalPosition: 'top left' });
-                return;
-            }
+        if (table.rows[a].cells[1].innerHTML == partData.PartId) {
+            $.notify("!!این مورد قبلا ثبت شده است", { globalPosition: 'top left' });
+            return;
         }
     }
     var flag = checkPartInputs();
-    if (flag === 0 && partData.length === 1) {
-        $(target_tr).find('td:eq(1)').text(partData[0].PartId);
-        $(target_tr).find('td:eq(3)').text(partData[0].PartName);
-
+    if (flag === 0 && partData.PartName !== null) {
+        $(target_tr).find('td:eq(1)').text(partData.PartId);
+        $(target_tr).find('td:eq(3)').text(partData.PartName);
         $(target_tr).find('td:eq(5)').text($('#txtGhatatPerYear').val());
         $(target_tr).find('td:eq(6)').text($('#txtGhatatMin').val());
         $(target_tr).find('td:eq(7)').text($('#txtGhatatMax').val());
@@ -589,12 +583,14 @@ function editParts() {
         $(target_tr).find('td:eq(9)').text($('#txtGhatatCom').val());
         ClearFields('pnlGhatatMasrafi');
         $('#PartBadgeArea').find('div').remove();
-        partData = [];
+        partData = { PartName: null, PartId: null };
         $('#btnEditPart').hide();
         $('#btnCancelEditPart').hide();
+        $('#btnAddMasrafi').show();
         $('#txtPartsSearch').attr('placeholder', 'جستجو کنید ...');
         $('#txtPartsSearch').removeAttr('readonly');
-        GreenAlert(target_tr,"✔قطعه ویرایش شد");
+        GreenAlert(target_tr, "✔قطعه ویرایش شد");
+        newMachinePartSearchInit();
     }
 }
 function DeletePart() {
@@ -605,7 +601,7 @@ function DeletePart() {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function () {
-            GreenAlert('nothing',"✔ قطعه با موفقیت حذف شد");
+            GreenAlert('nothing', "✔ قطعه با موفقیت حذف شد");
             $('#ModalDeletePart').modal('hide');
             var row = $('#gridGhataatMasrafi tr').length;
             if (row === 2) {
@@ -637,10 +633,10 @@ $('#btnMavaredeMasrafiFor').on('click', function () {
     //        $('#chksokht').parent().removeClass('checklabelError');
     //    }, 4000);     
     //} else {
-        $('#pnlMavaredMasrafi').hide();
-        $('#pnlMavaredKey').fadeIn();
-        $('#txtCommentKey').focus();
-        $('[lblMCode]').text($('#txtmachineCode').val() + '___' + $('#txtmachineName').val());
+    $('#pnlMavaredMasrafi').hide();
+    $('#pnlMavaredKey').fadeIn();
+    $('#txtCommentKey').focus();
+    $('[lblMCode]').text($('#txtmachineCode').val() + '___' + $('#txtmachineName').val());
     //}
 });
 
@@ -660,38 +656,39 @@ $('#btnMavaredControlBack').on('click', function () {
     $('#pnlMavaredKey').fadeIn();
     $('#pnlMavaredControli').hide();
     $('#txtCommentKey').focus();
-    $('[lblMCode]').text($('#txtmachineCode').val() + '___' + $('#txtmachineName').val());
 });
 
 $('#btnMavaredControlFor').on('click', function () {
-        $('#pnlMavaredControli').hide();
-        $('#pnlSubSytem').fadeIn();
-        $('[lblMCode]').text($('#txtmachineCode').val() + '___' + $('#txtmachineName').val());
+    $('#pnlMavaredControli').hide();
+    $('#pnlSubSytem').fadeIn();
+    setTimeout(function () {
+        subsystemsearchInit();
+    }, 200);
 });
 
 $('#btnSubsystemFor').on('click', function () {
     $('#pnlSubSytem').hide();
     $('#pnlGhatatMasrafi').fadeIn();
-    $('[lblMCode]').text($('#txtmachineCode').val() + '___' + $('#txtmachineName').val());
+    setTimeout(function () {
+        newMachinePartSearchInit();
+    }, 200);
 });
 
 $('#btnSubsystemBack').on('click', function () {
     $('#pnlSubSytem').hide();
     $('#pnlMavaredControli').fadeIn();
     $('#txtControliMoredControl').focus();
-    $('[lblMCode]').text($('#txtmachineCode').val() + '___' + $('#txtmachineName').val());
 });
 
 $('#btnGhatatBack').on('click', function () {
     $('#pnlSubSytem').fadeIn();
     $('#pnlGhatatMasrafi').hide();
-    $('[lblMCode]').text($('#txtmachineCode').val() + '___' + $('#txtmachineName').val());
 });
 
 $('#btnGhatatFor').on('click', function () {
-        $('#pnlGhatatMasrafi').hide();
-        $('#pnlDastoor').fadeIn();
-        $('[lblMCode]').text($('#txtmachineCode').val() + '___' + $('#txtmachineName').val());
+    $('#pnlGhatatMasrafi').hide();
+    $('#pnlDastoor').fadeIn();
+    $('[lblMCode]').text($('#txtmachineCode').val() + '___' + $('#txtmachineName').val());
 });
 
 function checkModEnergy() {
@@ -801,7 +798,7 @@ function SendTablesToDB() {
         obj.Line = $('#drLine :selected').val();
         obj.Faz = $('#drFaz :selected').val();
         obj.Power = $('#txtMachinePower').val();
-        if ($('#txtstopperhour').val() == '') {obj.StopCostPerHour = 0;} else {obj.StopCostPerHour = $('#txtstopperhour').val();}
+        if ($('#txtstopperhour').val() == '') { obj.StopCostPerHour = 0; } else { obj.StopCostPerHour = $('#txtstopperhour').val(); }
         obj.CatGroup = $('#drCatGroup :selected').val();
         obj.VaziatTajhiz = $(document).find('input[name=switch_21]:checked').attr('value');
         obj.MtbfH = $('#txttargetMTBF').val();
@@ -811,7 +808,7 @@ function SendTablesToDB() {
         obj.SellInfo = $('#txtSelInfo').val();
         obj.SuppInfo = $('#txtSupInfo').val();
         obj.Keycomment = $('#txtCommentKey').val();
-        
+
         return obj;
     }
     function sendMinfo() {
@@ -824,7 +821,7 @@ function SendTablesToDB() {
         $.ajax({
             type: "POST",
             url: "WebService.asmx/MachineInfo",
-            data: JSON.stringify({ 'mid': machineId,'minfo': machinMainData() }),
+            data: JSON.stringify({ 'mid': machineId, 'minfo': machinMainData() }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (mid) {
@@ -832,11 +829,11 @@ function SendTablesToDB() {
                 sendMasrafi();
             },
             error: function () {
-                RedAlert('n',"!!خطا در ثبت اطلاعات اولیه ماشین");
+                RedAlert('n', "!!خطا در ثبت اطلاعات اولیه ماشین");
             }
-        }); 
+        });
     }
-  
+
     function masrafiDataMain() {
         var obj = {};
         obj.Length = $('#txtMavaredTool').val();
@@ -885,7 +882,7 @@ function SendTablesToDB() {
         $.ajax({
             type: "POST",
             url: "WebService.asmx/SendMasrafi",
-            data: JSON.stringify({'mid': machinId, 'masrafiMain': masrafiDataMain()}),
+            data: JSON.stringify({ 'mid': machinId, 'masrafiMain': masrafiDataMain() }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function () {
@@ -913,7 +910,7 @@ function SendTablesToDB() {
                 Volt: table.rows[i].cells[4].innerHTML,
                 Flow: table.rows[i].cells[5].innerHTML,
                 CommentKey: table.rows[i].cells[6].innerHTML
-           });
+            });
         }
         $.ajax({
             type: "POST",
@@ -923,7 +920,7 @@ function SendTablesToDB() {
             dataType: "json",
             success: function () {
                 GreenAlert('n', "✔ موارد کلیدی با موفقیت ثبت شد");
-                sendControli();  
+                sendControli();
             },
             error: function () {
                 RedAlert('n', "!!خطا در ثبت موارد کلیدی");
@@ -991,7 +988,7 @@ function SendTablesToDB() {
                 RedAlert('n', "!!خطا در ثبت اجزا سیستم");
                 sendGhataat();
             }
-        }); 
+        });
     }
     function sendGhataat() {
         var rowCount = $('#gridGhataatMasrafi tr').length - 1;
@@ -1045,11 +1042,11 @@ function SendTablesToDB() {
                 PF: table.rows[i].cells[8].innerHTML
             });
         }
-        var dastoorText =  $('#txtInstruc').val();
+        var dastoorText = $('#txtInstruc').val();
         $.ajax({
             type: "POST",
             url: "WebService.asmx/SendInstru",
-            data: JSON.stringify({ 'mid': machinId, 'instructions': energyArr, 'dastoor': dastoorText}),
+            data: JSON.stringify({ 'mid': machinId, 'instructions': energyArr, 'dastoor': dastoorText }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function () {
@@ -1059,7 +1056,7 @@ function SendTablesToDB() {
                 $('#btnFinalLoading').fadeOut(10);
                 clearControls();
                 return;
-            }, error: function() {
+            }, error: function () {
                 RedAlert('no', "!!خطا در ثبت دستورالعمل ها");
                 $('#btnFinalSave').animate({ 'padding-left': '15px', 'padding-right': '15px' });
                 clearControls();
@@ -1153,7 +1150,7 @@ function fillMachineControls(mInfo) {
     var fail = document.getElementById('fail');
     $('#txtmachineName').val(mInfo[0].Name);
     $('#txtmachineCode').val(mInfo[0].Code);
-    $('#txtSubPelak').val(mInfo[0].Code+'-');
+    $('#txtSubPelak').val(mInfo[0].Code + '-');
     $('#txtMachineManufacturer').val(mInfo[0].Creator);
     $('#txtMachineNasbDate').val(mInfo[0].InsDate);
     $('#txtMachineModel').val(mInfo[0].Model);
@@ -1171,7 +1168,7 @@ function fillMachineControls(mInfo) {
     $('#txtSelInfo').val(mInfo[0].SellInfo);
     $('#txtSupInfo').val(mInfo[0].SuppInfo);
     $('#txtCommentKey').val(mInfo[0].Keycomment);
-    
+
 
     if (mInfo[0].Catalog == 1) {
         havecatalog.checked = true;
@@ -1179,7 +1176,7 @@ function fillMachineControls(mInfo) {
         $('#txtcatname').val(mInfo[0].CatName);
         $('#txtcatcode').val(mInfo[0].CatCode);
     }
-    if (mInfo[0].Ahamiyat == "False") { gheyrkelidi.checked = true;}
+    if (mInfo[0].Ahamiyat == "False") { gheyrkelidi.checked = true; }
     if (mInfo[0].VaziatTajhiz == 2) { fail.checked = true; }
     if (mInfo[0].VaziatTajhiz == 0) { deact.checked = true; }
 }
@@ -1273,7 +1270,7 @@ function GetKeyitems() {
                         '<td>' + keyData[i].Volt + '</td>' +
                         '<td>' + keyData[i].Flow + '</td>' +
                         '<td>' + keyData[i].CommentKey + '</td>' +
-                        
+
                         '<td><a id="edit">ویرایش</a></td>' +
                         '<td><a id="delete">حذف</a></td>' +
                         '</tr>';
@@ -1312,9 +1309,9 @@ function GetC() {
                 var tblBody = "<tbody></tbody>";
                 $('#gridMavaredControli').append(tblHead);
                 $('#gridMavaredControli').append(tblBody);
-                var  period, rooz, mdSer ,mdserValue ,opr;
+                var period, rooz, mdSer, mdserValue, opr;
                 for (var i = 0; i < controliData.length; i++) {
-                    if (controliData[i].Time == '0') { period = "روزانه"; rooz = '----'}
+                    if (controliData[i].Time == '0') { period = "روزانه"; rooz = '----' }
                     if (controliData[i].Time == '6') {
                         period = "هفتگی";
                         if (controliData[i].Day == "0") { rooz = 'شنبه' }
@@ -1325,10 +1322,10 @@ function GetC() {
                         if (controliData[i].Day == "5") { rooz = 'پنجشنبه' }
                         if (controliData[i].Day == "6") { rooz = 'جمعه' }
                     }
-                    if (controliData[i].Time == "1") { period = "ماهیانه"; rooz = controliData[i].Day;}
-                    if (controliData[i].Time == "2") { period = "سه ماهه"; rooz = controliData[i].Day;}
-                    if (controliData[i].Time == "3") { period = "شش ماهه"; rooz = controliData[i].Day;}
-                    if (controliData[i].Time == "4") { period = "یکساله"; rooz = controliData[i].Day;}
+                    if (controliData[i].Time == "1") { period = "ماهیانه"; rooz = controliData[i].Day; }
+                    if (controliData[i].Time == "2") { period = "سه ماهه"; rooz = controliData[i].Day; }
+                    if (controliData[i].Time == "3") { period = "شش ماهه"; rooz = controliData[i].Day; }
+                    if (controliData[i].Time == "4") { period = "یکساله"; rooz = controliData[i].Day; }
                     if (controliData[i].Time == "5") {
                         period = "غیره";
                         rooz = 'هر ' + controliData[i].Day + ' روز';
@@ -1336,8 +1333,8 @@ function GetC() {
                     if (controliData[i].Operation == 1) { opr = 'برق' }
                     if (controliData[i].Operation == 2) { opr = 'چک و بازدید' }
                     if (controliData[i].Operation == 3) { opr = 'روانکاری' }
-                    if (controliData[i].MDservice == "1") { mdSer = "بله"; mdserValue = 1;}
-                    if (controliData[i].MDservice == "0") { mdSer = "خیر"; mdserValue = 0;}
+                    if (controliData[i].MDservice == "1") { mdSer = "بله"; mdserValue = 1; }
+                    if (controliData[i].MDservice == "0") { mdSer = "خیر"; mdserValue = 0; }
                     if (controliData[i].Comment == null) { controliData[i].Comment = " "; }
                     tblBody = '<tr>' +
                         '<td style="display:none;">' + controliData[i].Idcontrol + '</td>' +
@@ -1394,7 +1391,7 @@ function GetSubSystems() {
                         '<td>' + subData[i].SubSystemName + '</td>' +
                         '<td>' + subData[i].SubSystemCode + '</td>' +
                         '<td><a id="edit">ویرایش</a></td>' +
-                      '<td><a id="delete">حذف</a></td>' +
+                        '<td><a id="delete">حذف</a></td>' +
                         '</tr>';
                     $('#subSystemTable tbody').append(tblBody);
                     j++;
@@ -1417,9 +1414,9 @@ function GetG() {
             if (partsData.length > 0) {
                 var tblHead = '<thead>' +
                     '<tr>' +
-                    
+
                     '<th>نام قطعه</th>' +
-                    '<th>واحد</th>'+
+                    '<th>واحد</th>' +
                     '<th>مصرف در سال</th>' +
                     '<th>حداقل</th>' +
                     '<th>حداکثر</th>' +
@@ -1432,7 +1429,7 @@ function GetG() {
                 var tblBody = "<tbody></tbody>";
                 $('#gridGhataatMasrafi').append(tblHead);
                 $('#gridGhataatMasrafi').append(tblBody);
-                for (var i = 0; i < partsData.length ; i++) {
+                for (var i = 0; i < partsData.length; i++) {
                     tblBody = '<tr>'
                         + '<td style="display: none;">' + partsData[i].Id + "</td>"
                         + '<td style="display: none;">' + partsData[i].PartId + "</td>"
@@ -1464,7 +1461,7 @@ function GetEnergy() {
         success: function (data) {
             var energyData = JSON.parse(data.d);
             if (energyData[0].Dastoor !== null) {
-                $('#txtInstruc').val(energyData[0].Dastoor);   
+                $('#txtInstruc').val(energyData[0].Dastoor);
             }
             if (energyData.length > 1) {
                 if (energyData[1].Tarikh != null) {
@@ -1499,7 +1496,7 @@ function GetEnergy() {
                             + '<td><a>حذف</a></td></tr>';
                         $('#gridEnergy tbody').append(tblBody);
                     }
-                } 
+                }
             }
             $('#loadingPage').hide();
         }

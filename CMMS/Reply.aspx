@@ -92,6 +92,8 @@
 
         #badgeLocation span {
             cursor: pointer;
+            margin: 3px;
+            font-weight: normal;
         }
     </style>
     <div class="card" id="pnlRequestDetail" style="display: none;">
