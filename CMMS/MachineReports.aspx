@@ -100,9 +100,19 @@
                 </asp:DropDownList>
 
                 <a class="btn btn-info btns" onclick="SubsystemReport();">مشاهده</a>
-                
-                <div id="SubsystemListPrint">
-                </div>
+                <style>
+                    @media print {
+                        body { -webkit-print-color-adjust: exact; }
+                        .footertable{ right: -1px;}
+                        #program { padding: 0; position: relative;}
+                        .printTools{ display: none;font-family: sans;}
+                    }
+                    @page {
+                        size: A4;
+                        margin: 5mm 6mm 0 4mm;
+                    }
+                </style>
+                <div id="SubsystemListPrint"></div>
             </div>
         </div>
     </div>
