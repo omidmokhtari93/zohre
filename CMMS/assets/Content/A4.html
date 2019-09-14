@@ -1,4 +1,4 @@
-﻿<div style="width: 100%; text-align: center;" id="printTools">
+﻿<div class="printTools" style="text-align: center;">
     <a style="cursor: pointer; text-decoration: none;" onclick="printDiv">
         <span class="fa fa-print" style="vertical-align: middle;"></span>
         <label style="cursor: pointer;">پرینت</label>
@@ -100,17 +100,6 @@
             right: 5px;
         }
         .sDate {position: absolute; top: 40px; right: 80px;}
-        @media print {
-            body { -webkit-print-color-adjust: exact; }
-            .footertable{ right: -1px;}
-            #program { padding: 0; position: relative;}
-            #printTools{ display: none;font-family: sans;}
-        }
-
-        @page {
-            size: A4;
-            margin: 5mm 6mm 0 4mm;
-        }
     </style>
     <div class="A4body">
         <table id="HeaderTable">

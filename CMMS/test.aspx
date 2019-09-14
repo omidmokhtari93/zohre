@@ -7,8 +7,8 @@
         <div class="col-md-4">
             <div id="inp"></div>
         </div>
-        <div class="col-md-4">
-            <input class="form-control" />
+        <div class="col-md-4 sans">
+
         </div>
         <div class="col-md-4">
             <div id="mm"></div>
@@ -25,8 +25,8 @@
                 text: 'PartName',
                 id: 'PartId',
                 func: something
-            }); 
-        }    
+            });
+        }
         $('#mm').search({
             width: '100%',
             placeholder: 'جستجو ...',
@@ -37,8 +37,8 @@
             func: something
         });
 
-        function something(id , text) {
-            console.log(id , text)
+        function something(id, text) {
+            console.log(id, text)
         }
     </script>
 </asp:Content>

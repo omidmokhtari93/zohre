@@ -421,7 +421,7 @@ function AjaxData(obj) {
     dataType: 'json',
     success: obj.func,
     error: function () {
-      console.log('error');
+      RedAlert('n' , 'خطا در برقراری ارتباط با سرور')
     }
   });
 }

@@ -68,23 +68,17 @@ function SubsystemReport() {
   }
   $('#SubsystemListPrint').empty();
   $.get("/assets/Content/A4.html", function (e) {
-
     html = e;
     fill();
   }, 'html');
 
   function fill(d) {
-
-    var e = [];
-
-    e.push({
+    AjaxData({
       url: 'Reports.asmx/FilterSubSystems',
-      parameters: [{ loc: $('#drsubsystemunits :selected').val() }],
+      param: { loc: $('#drsubsystemunits :selected').val() },
       func: createSubsystemReport
-    });
-    AjaxCall(e);
+    })
     function createSubsystemReport(s) {
-
       var d = JSON.parse(s.d);
       var k = 1;
       for (var A = 0; A < d.length; A++) {
@@ -107,7 +101,6 @@ function SubsystemReport() {
         var pagesHtml = html;
         //$('#SubsystemListPrint').empty();
         pagesHtml = pagesHtml.replace('#ReportArea#', 'subsystem' + f);
-        pagesHtml = pagesHtml.replace('printTools', 'printTools' + f);
         pagesHtml = pagesHtml.replace('printDiv', 'printDiv(1);');
         pagesHtml = pagesHtml.replace('ExportToExcel();', 'ExportToExcel(\'SubsystemListPrint\');');
         pagesHtml = pagesHtml.replace('#RP#', 'لیست تجهیزات');
@@ -121,19 +114,12 @@ function SubsystemReport() {
         body.push('<table></tr>');
         if (d.length > 0) {
           for (var i = b; i < d.length; i++) {
-            if (k + d[i].SubSystemName.length <= 34) {
-
-              body.push('<tr>' +
-                '<th colspan="3">' +
-                d[i].MachineName +
-                '</th>' +
-                '</tr>');
+            if (k + d[i].SubSystemName.length <= 32) {
+              body.push('<tr><th colspan="3">' + d[i].MachineName + '</th></tr>');
               k++;
               if (d[i].SubSystemName.length > 0) {
                 for (var j = 0; j < d[i].SubSystemName.length; j++) {
-
                   k++;
-
                   body.push('<tr>' +
                     '<td style="width:5%" >' +
                     (j + 1) +
@@ -145,17 +131,13 @@ function SubsystemReport() {
                     d[i].SubSystemCode[j] +
                     '</td>' +
                     '</tr>');
-
                 }
               }
-
-
             } else {
               b = i;
               k = 1;
               break;
             }
-
           }
           body.push('</table>');
           $('.sDate').text(JalaliDateTime);
