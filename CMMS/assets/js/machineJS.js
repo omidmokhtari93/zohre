@@ -556,6 +556,7 @@ function CancelDeletePart() {
     $('#PartBadgeArea').find('div').remove();
     $('#btnEditPart').hide();
     $('#btnCancelEditPart').hide();
+    $('#btnAddMasrafi').show();
     $('#txtPartsSearch').attr('placeholder', 'جستجو کنید ...');
     $('#txtPartsSearch').removeAttr('readonly');
     partData = { PartName: null, PartId: null };
@@ -564,10 +565,10 @@ function CancelDeletePart() {
 
 function editParts() {
     var rowsCount = $('#gridGhataatMasrafi tr').length;
-    var targetTrIndex = $(target_tr).index();
+    var targetRow = $(target_tr).index() + 1;
     var table = document.getElementById('gridGhataatMasrafi');
     for (var a = 0; a < rowsCount; a++) {
-        if (table.rows[a].cells[1].innerHTML == partData.PartId) {
+      if (table.rows[a].cells[1].innerHTML == partData.PartId && targetRow !== a) {
             $.notify("!!این مورد قبلا ثبت شده است", { globalPosition: 'top left' });
             return;
         }
