@@ -218,9 +218,6 @@ function addPartControli() {
     if (checkControliPart() === 0) {
 
         var mored = $('#txtPartControli').val();
-
-
-       
         var head = '<thead>' +
             '<tr>' +
             '<th>بخش کنترلی</th>' +
@@ -232,7 +229,6 @@ function addPartControli() {
         var row = '<tr>' +
             '<td style="display:none;">0</td>' +
             '<td >' + mored + '</td>' +
-          
             '<td><a id="edit">ویرایش</a></td>' +
             '<td><a id="delete">حذف</a></td>' +
             '</tr>';
@@ -247,6 +243,81 @@ function addPartControli() {
       
     }
 }
+
+$("#gridPartControli").on("click", "tr a#delete", function () {
+    target_tr = $(this).parent().parent();
+    controlId = $(this).parent().parent().find('td:eq(0)').text();
+    $('#ModalDeleteControl').show();
+});
+$("#gridPartControli").on("click", "tr a#edit", function () {
+    EmptyControls();
+    target_tr = $(this).parent().parent();
+    controlId = $(this).parent().parent().find('td:eq(0)').text();
+    rowItems.push({
+        Name: $(this).parent().parent().find('td:eq(1)').text()
+      
+    });
+    FillpartControls(rowItems);
+});
+
+function FillpartControls(items) {
+
+    $('#txtPartControli').val(items[0].Name);
+    $('#btnEditPartControls').show();
+    $('#btnCancelPartCotntrols').show();
+}
+//function DeleteControls() {
+//    $.ajax({
+//        type: "POST",
+//        url: "WebService.asmx/BDeleteControlItem",
+//        data: "{controlId : " + controlId + "}",
+//        contentType: "application/json; charset=utf-8",
+//        dataType: "json",
+//        success: function () {
+//            GreenAlert('nothing', "✔ مورد کنترلی با موفقیت حذف شد");
+//            $('#ModalDeleteControl').hide();
+//            var row = $('#gridMavaredControli tr').length;
+//            if (row === 2) {
+//                $("#gridMavaredControli").empty();
+//            } else {
+//                $(target_tr).remove();
+//            }
+//        },
+//        error: function () {
+//            $.notify("!!خطا در حذف مورد کنترلی", { globalPosition: 'top left' });
+//        }
+//    });
+//}
+
+//function EditControliItems() {
+//    if (checkControliInputs() === 0) {
+//        $(target_tr).find('td:eq(1)').text($('#txtControliMoredControl').val());
+//        $(target_tr).find('td:eq(5)').text($('#txtControliMoredControl').val());
+
+//        $(target_tr).find('td:eq(2)').text($('#drcontroliOpr :selected').val());
+//        $(target_tr).find('td:eq(6)').text($('#drcontroliOpr :selected').text());
+
+//        $(target_tr).find('td:eq(4)').text($("#chkbroadcast").is(':checked'));
+
+//        $(target_tr).find('td:eq(7)').html('<input type="checkbox" ' + ($('#chkbroadcast').is(':checked') ? 'checked' : '') + ' disabled/>');
+
+//        $(target_tr).find('td:eq(3)').text($('#txtMavaredComment').val());
+//        $(target_tr).find('td:eq(8)').text($('#txtMavaredComment').val());
+//        EmptyControls();
+
+
+//        GreenAlert(target_tr, "✔ مورد کنترلی ویرایش شد");
+//    }
+//}
+//function EmptyControls() {
+//    $('#chkbroadcast').prop('checked', false);
+//    ClearFields('pnlMavaredControli');
+
+//    $('#btnEditControls').hide();
+//    $('#btnCancelEditCotntrols').hide();
+
+//    rowItems = [];
+//}
 //======================Second Part ======================//
 function checkControliInputs() {
     var flag = 0;
@@ -265,7 +336,6 @@ function addControli() {
         var head = '<thead>' +
             '<tr>' +
             '<th>مورد کنترلی</th>' +
-           
             '<th>عملیات</th>' +
             '<th>اعمال برای همه</th>' +
             '<th>ملاحظات</th>' +
