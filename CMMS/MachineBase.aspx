@@ -396,8 +396,8 @@
 
             </div>
             <div class="card-footer rtl">
-                <button class="button" style="display: none;" type="button" id="btnEditPartControls" onclick="EditControliItems();">ویرایش</button>
-                <button class="button" style="display: none;" type="button" id="btnCancelPartCotntrols" onclick="EmptyControls();">انصراف</button>
+                <button class="button" style="display: none;" type="button" id="btnEditPartControls" onclick="EditPartControliItems();">ویرایش</button>
+                <button class="button" style="display: none;" type="button" id="btnCancelPartCotntrols" onclick="EmptypartControls();">انصراف</button>
                 <button type="button" tabindex="31" id="btnAddPartControli" class="button" onclick="addPartControli();">
                     <span class="fa fa-plus" style="vertical-align: middle; margin-left: 5px;"></span>ثبت
                 </button>
@@ -628,26 +628,44 @@
         </div>
     </div>
 
-    <div id="ModalDeleteControl" class="modal" style="direction: rtl;">
-        <div class="modal-content">
-            <span class="fa fa-remove" id="CloseDeleteControl" onclick="$(this).parent().parent().hide();"
-                style="position: absolute; top: 10px; left: 10px; color: black; cursor: pointer; font-size: 15pt;"></span>
-            <div class="card bg-danger text-white" style="margin-bottom: 0;">
-                <div class="card-header bg-primary text-white" style="font-weight: 800;">حذف مورد کنترلی</div>
+<div id="ModalDeleteControl" class="modal fade" style="direction: rtl;" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content sans">
+            <div class="card" style="margin-bottom: 0;">
+                <div class="card-header bg-danger text-white" style="font-weight: 800;">حذف مورد کنترلی</div>
                 <div class="card-body" style="text-align: center;">
                     <strong style="color: red;">** کاربر گرامی **</strong>
-                    <p style="font-weight: 800;">
-                        آیا مایل به حذف این مورد کنترلی هستید؟
+                    <p class="sans-small text-center">
+                        د آیا مایل به حذف این مورد کنترلی هستید؟
                     </p>
                     <div style="text-align: center;">
                         <button class="button" type="button" onclick="DeleteControls();">حذف</button>
-                        <button class="button" type="button" onclick="$('#ModalDeleteControl').hide();">انصراف</button>
+                        <button class="button" type="button" onclick="$('#ModalDeleteControl').modal('hide');">انصراف</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
+</div>
+<div id="ModalDeletePartControl" class="modal fade" style="direction: rtl;" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content sans">
+            <div class="card" style="margin-bottom: 0;">
+                <div class="card-header bg-danger text-white" style="font-weight: 800;">حذف مورد کنترلی</div>
+                <div class="card-body" style="text-align: center;">
+                    <strong style="color: red;">** کاربر گرامی **</strong>
+                    <p class="sans-small text-center">
+                        د آیا مایل به حذف این مورد کنترلی هستید؟
+                    </p>
+                    <div style="text-align: center;">
+                        <button class="button" type="button" onclick="DeletePartControls();">حذف</button>
+                        <button class="button" type="button" onclick="$('#ModalDeletePartControl').modal('hide');">انصراف</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     <div id="ModalDeletePart" class="modal" style="direction: rtl;">
         <div class="modal-content">
             <span class="fa fa-remove" id="CloseDeletePart" onclick="$(this).parent().parent().hide();"

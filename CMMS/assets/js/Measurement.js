@@ -73,10 +73,10 @@ function insertOrUpdateData(ele, ed, add) {
     return;
   }
   AjaxData({
-    url: 'WebService.asmx/' + add,
-    param: { text: text, editId: ed },
-    func: output
-  })
+      url: 'WebService.asmx/' + add,
+      param: { text: text, editId: ed },
+      func: output
+  });
 
   function output(e) {
     if (e.d === 'i') {

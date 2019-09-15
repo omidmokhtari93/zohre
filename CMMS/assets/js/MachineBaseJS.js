@@ -239,7 +239,7 @@ function addPartControli() {
             $("#gridPartControli").append(tbody);
             $("#gridPartControli tbody").append(row);
         }
-        ClearFields('pnlPArtControli');
+        ClearFields('pnlPartControli');
       
     }
 }
@@ -247,7 +247,7 @@ function addPartControli() {
 $("#gridPartControli").on("click", "tr a#delete", function () {
     target_tr = $(this).parent().parent();
     controlId = $(this).parent().parent().find('td:eq(0)').text();
-    $('#ModalDeleteControl').show();
+    $('#ModalDeletePartControl').modal('show');
 });
 $("#gridPartControli").on("click", "tr a#edit", function () {
     EmptyControls();
@@ -263,61 +263,54 @@ $("#gridPartControli").on("click", "tr a#edit", function () {
 function FillpartControls(items) {
 
     $('#txtPartControli').val(items[0].Name);
+    $('#btnAddPartControli').hide();
     $('#btnEditPartControls').show();
     $('#btnCancelPartCotntrols').show();
 }
-//function DeleteControls() {
-//    $.ajax({
-//        type: "POST",
-//        url: "WebService.asmx/BDeleteControlItem",
-//        data: "{controlId : " + controlId + "}",
-//        contentType: "application/json; charset=utf-8",
-//        dataType: "json",
-//        success: function () {
-//            GreenAlert('nothing', "✔ مورد کنترلی با موفقیت حذف شد");
-//            $('#ModalDeleteControl').hide();
-//            var row = $('#gridMavaredControli tr').length;
-//            if (row === 2) {
-//                $("#gridMavaredControli").empty();
-//            } else {
-//                $(target_tr).remove();
-//            }
-//        },
-//        error: function () {
-//            $.notify("!!خطا در حذف مورد کنترلی", { globalPosition: 'top left' });
-//        }
-//    });
-//}
+function DeletePartControls() {
+    $.ajax({
+        type: "POST",
+        url: "WebService.asmx/BDeletePartControli",
+        data: "{controlId : " + controlId + "}",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function () {
+            GreenAlert('nothing', "✔ بخش کنترلی با موفقیت حذف شد");
+            $('#ModalDeletePartControl').modal('hide');
+            var row = $('#gridPartControli tr').length;
+            if (row === 2) {
+                $("#gridPartControli").empty();
+            } else {
+                $(target_tr).remove();
+            }
+        },
+        error: function () {
+            $.notify("!!خطا در حذف بخش کنترلی", { globalPosition: 'top left' });
+        }
+    });
+}
 
-//function EditControliItems() {
-//    if (checkControliInputs() === 0) {
-//        $(target_tr).find('td:eq(1)').text($('#txtControliMoredControl').val());
-//        $(target_tr).find('td:eq(5)').text($('#txtControliMoredControl').val());
-
-//        $(target_tr).find('td:eq(2)').text($('#drcontroliOpr :selected').val());
-//        $(target_tr).find('td:eq(6)').text($('#drcontroliOpr :selected').text());
-
-//        $(target_tr).find('td:eq(4)').text($("#chkbroadcast").is(':checked'));
-
-//        $(target_tr).find('td:eq(7)').html('<input type="checkbox" ' + ($('#chkbroadcast').is(':checked') ? 'checked' : '') + ' disabled/>');
-
-//        $(target_tr).find('td:eq(3)').text($('#txtMavaredComment').val());
-//        $(target_tr).find('td:eq(8)').text($('#txtMavaredComment').val());
-//        EmptyControls();
+function EditPartControliItems() {
+    if ($('#txtPartControli').val() === '') { RedAlert('txtPartControli', "!!لطفا بخش کنترلی را وارد نمایید"); }
+    else {
+    $(target_tr).find('td:eq(1)').text($('#txtPartControli').val());
+       
+        EmptypartControls();
 
 
-//        GreenAlert(target_tr, "✔ مورد کنترلی ویرایش شد");
-//    }
-//}
-//function EmptyControls() {
-//    $('#chkbroadcast').prop('checked', false);
-//    ClearFields('pnlMavaredControli');
+        GreenAlert(target_tr, "✔ بخش کنترلی ویرایش شد");
+    }
+}
+function EmptypartControls() {
+   
+    ClearFields('pnlPartControli');
 
-//    $('#btnEditControls').hide();
-//    $('#btnCancelEditCotntrols').hide();
+    $('#btnEditPartControls').hide();
+    $('#btnCancelPartCotntrols').hide();
+    $('#btnAddPartControli').show();
 
-//    rowItems = [];
-//}
+    rowItems = [];
+}
 //======================Second Part ======================//
 function checkControliInputs() {
     var flag = 0;
@@ -375,7 +368,7 @@ function addControli() {
 $("#gridMavaredControli").on("click", "tr a#delete", function () {
     target_tr = $(this).parent().parent();
     controlId = $(this).parent().parent().find('td:eq(0)').text();
-    $('#ModalDeleteControl').show();
+    $('#ModalDeleteControl').modal('show');
 });
 $("#gridMavaredControli").on("click", "tr a#edit", function () {
     EmptyControls();
@@ -1249,7 +1242,6 @@ function GetG() {
                     $('#gridGhataatMasrafi tbody').append(tblBody);
                 }
             }
-            GetEnergy();
         }
     });
 }

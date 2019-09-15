@@ -480,7 +480,14 @@ namespace CMMS
             deleteItems.ExecuteNonQuery();
             _cnn.Close();
         }
-
+        [WebMethod]
+        public void BDeletePartControli(int controlId)//Base Information
+        {
+            _cnn.Open();
+            var deleteItems = new SqlCommand("delete from b_partcontrol where id =" + controlId + " ", _cnn);
+            deleteItems.ExecuteNonQuery();
+            _cnn.Close();
+        }
         public void InsertControli(string IdCon, string Tarikh, int Kind, string week, string other)
         {
             var Pmcontrol =

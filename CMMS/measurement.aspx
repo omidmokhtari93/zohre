@@ -34,6 +34,10 @@
                     <a class="nav-link" id="editmeasur-tab" data-toggle="tab" href="#editmeasur" role="tab" aria-controls="profile"
                        aria-selected="false">ویرایش واحد اقلام / کالا</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="Matrial-tab" data-toggle="tab" href="#oilMatrial" role="tab" aria-controls="profile"
+                       aria-selected="false">مواد مصرفی/روانکارها</a>
+                </li>
             </ul>
 
             <div class="tab-content" id="opFrom">
@@ -59,7 +63,7 @@
                         </div>
                     </div>
                 </div>
-
+            
                 <div id="editmeasur" class="tab-pane fade">
                     <div class="menubody">
                         <div class="card card-info">
@@ -92,6 +96,30 @@
                         </div>
                     </div>
                 </div>
+               
+                    <div id="oilMatrial" class="tab-pane fade ">
+                        <div class="menubody">
+                            <div class="card card-info">
+                                <div class="card-body">
+                                    <label style="display: block; text-align: right;">ماده مصرفی/روانکار</label>
+                                    <input class="form-control" style="direction: rtl;" id="txtMatrial" />
+                                </div>
+                                <div class="card-footer">
+                                    <button id="btninsertMatrial" type="button" class="button" onclick="insertOrUpdateMatrialData('txtMatrial',0,'InsertAndUpdateMatrial');">ثبت</button>
+                                    <button id="btneditMatrial" style="display: none;" type="button" class="button" onclick="insertOrUpdateMatrialData('txtMatrial',itemId,'InsertAndUpdateMatrial')">ویرایش</button>
+                                    <button id="btncanselMatrial" style="display: none;" type="button" class="button" onclick="CancelOperation('btninsertMatrial','btneditMatrial','btncanselMatrial');">انصراف</button>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="tablescroll">
+                                        <table id="MatrialTable" class="table">
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            
             </div>
         </div>
     </div>

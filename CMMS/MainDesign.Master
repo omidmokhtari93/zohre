@@ -57,7 +57,7 @@
                                     <li>
                                         <img class="Icon1" src="assets/Images/delaystop.png" /><a href="intrupt.aspx">لیست سرویسکاری / خرابی / تاخیر/ توقفات</a></li>
                                     <li>
-                                        <img class="Icon1" src="assets/Images/measur.png" /><a href="measurement.aspx">واحدهای اندازه گیری</a></li>
+                                        <img class="Icon1" src="assets/Images/measur.png" /><a href="measurement.aspx">واحدهای اندازه گیری/مواد مصرفی</a></li>
                                     <li>
                                         <img class="Icon1" src="assets/Images/costs.png" /><a href="primryCost.aspx">هزینه های پایه</a></li>
                                     <li>
