@@ -32,7 +32,9 @@ namespace CMMS
                 return;
             }
             cnn.Open();
-            var insertPersonel = new SqlCommand("insert into i_personel (per_id,per_name,unit,task,permit)values('" + txtper.Text + "','" + txtname.Text + "'," + userState.Value + ","+drsemat.SelectedValue+","+userActive.Value+")", cnn);
+            var insertPersonel = new SqlCommand("insert into i_personel (per_id,per_name,unit,task,permit,profession)" +
+                                                "values('" + txtper.Text + "','" + txtname.Text + "'," + userState.Value + "" +
+                                                "," + drsemat.SelectedValue + "," + userActive.Value + " , " + drProf.SelectedValue + ")", cnn);
             insertPersonel.ExecuteNonQuery();
             gridpersonel.DataBind();
             txtname.Text = "";
@@ -50,7 +52,7 @@ namespace CMMS
                 cnn.Open();
                 var getUser =
                     new SqlCommand(
-                        "SELECT [per_id],[per_name],[unit],[task],[permit] FROM [dbo].[i_personel] where id = " +
+                        "SELECT [per_id],[per_name],[unit],[task],[permit],[profession] FROM [dbo].[i_personel] where id = " +
                         Convert.ToInt32(ViewState["id"]) + " ", cnn);
                 var rd = getUser.ExecuteReader();
                 if (!rd.Read()) return;
@@ -59,6 +61,7 @@ namespace CMMS
                 userState.Value = rd["unit"].ToString();
                 userActive.Value = rd["permit"].ToString();
                 drsemat.SelectedValue = rd["task"].ToString();
+                drProf.SelectedValue = rd["profession"].ToString();
                 ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "setRadio();setactRadio();",
                     true);
 
@@ -78,7 +81,7 @@ namespace CMMS
                 {
                     cnn.Close();
                     cnn.Open();
-                    var delcommand=new SqlCommand("delete from i_personel where id= " + Convert.ToInt32(ViewState["id"]) + "", cnn);
+                    var delcommand = new SqlCommand("delete from i_personel where id= " + Convert.ToInt32(ViewState["id"]) + "", cnn);
                     delcommand.ExecuteNonQuery();
                     ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "save();", true);
                     cnn.Close();
@@ -94,12 +97,12 @@ namespace CMMS
             {
                 return;
             }
-           
+
         }
 
         protected void btnedit_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtname.Text) || string.IsNullOrEmpty(txtper.Text) )
+            if (string.IsNullOrEmpty(txtname.Text) || string.IsNullOrEmpty(txtper.Text))
             {
                 ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "Err();", true);
                 return;
@@ -112,11 +115,12 @@ namespace CMMS
                                         ",[per_id] = '" + txtper.Text + "' " +
                                         ",[unit] =" + unitt + " " +
                                         ",[task] = " + drsemat.SelectedValue + " " +
-                                        ",[permit]= "+act+" " +
+                                        ",[permit]= " + act + " " +
+                                        ",[profession] = " + drProf.SelectedValue + " " +
                                         "WHERE id = " + ViewState["id"] + " ", cnn);
             upPersonel.ExecuteNonQuery();
             gridpersonel.DataBind();
-            
+
             btninsert.Visible = true;
             btncancel.Visible = false;
             btnedit.Visible = false;
@@ -148,14 +152,23 @@ namespace CMMS
         {
             var task = Convert.ToInt32(drtaskFilter.SelectedValue);
             var unit = Convert.ToInt32(drunitFilter.SelectedValue);
-            sqlpersonel.FilterExpression = " (vahed = " + unit + " or "+unit+" = -1) and (semat = "+task+" or "+task+" = -1) ";
+            var prof = Convert.ToInt32(drProfFilter.SelectedValue);
+            sqlpersonel.FilterExpression = " (vahed = " + unit + " or " + unit + " = -1) " +
+                                           "and (semat = " + task + " or " + task + " = -1) " +
+                                           "and (filterprof = " + prof + " or " + prof + " = -1)";
             gridpersonel.DataBind();
         }
         protected void btnPrintPersonel_OnClick(object sender, EventArgs e)
         {
             var task = drtaskFilter.SelectedValue;
             var unit = drunitFilter.SelectedValue;
-            Response.Write("<script>window.open('PersonelPrint.aspx?task=" + task + "&unit=" + unit+ "','_blank');</script>");
+            var prof = drProfFilter.SelectedValue;
+            Response.Write("<script>window.open('PersonelPrint.aspx?task=" + task + "&unit=" + unit + "&prof=" + prof + "','_blank');</script>");
+        }
+
+        protected void drProfFilter_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            FilterPersonel();
         }
     }
 }

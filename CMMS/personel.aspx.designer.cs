@@ -31,6 +31,15 @@ namespace CMMS {
         protected global::System.Web.UI.WebControls.HiddenField userActive;
         
         /// <summary>
+        /// drsemat control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drsemat;
+        
+        /// <summary>
         /// txtper control.
         /// </summary>
         /// <remarks>
@@ -49,13 +58,13 @@ namespace CMMS {
         protected global::System.Web.UI.WebControls.TextBox txtname;
         
         /// <summary>
-        /// drsemat control.
+        /// drProf control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList drsemat;
+        protected global::System.Web.UI.WebControls.DropDownList drProf;
         
         /// <summary>
         /// btninsert control.
@@ -92,6 +101,15 @@ namespace CMMS {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource sqlpersonel;
+        
+        /// <summary>
+        /// drProfFilter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drProfFilter;
         
         /// <summary>
         /// drtaskFilter control.
