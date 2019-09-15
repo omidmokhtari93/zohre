@@ -2711,16 +2711,20 @@ namespace CMMS
         }
 
         [WebMethod]
-        public string GetPersonels(int task, int unit)
+        public string GetPersonels(int task, int unit , int prof)
         {
             _cnn.Open();
             var persList = new List<string[]>();
             var list = new List<string[]>();
-            var p = new SqlCommand("select per,perid,unit,task,permit from(SELECT per_name as per,case when unit = 0 then 'تاسیسات' when unit = 1 then 'برق'  " +
-                                   "end as unit, case when task = 0 then 'نیروی معمولی' when task = 1 then 'نیروی ماهر' when task = 2 then 'سرشیفت' when " +
-                                   "task = 3 then 'سرپرست' when task = 4 then 'مدیر فنی' end as task, unit as vahed, task as semat,per_id as perid, case when permit = 1 " +
-                                   "then 'فعال' else 'غیرفعال' end as permit FROM i_personel)i " +
-                                   "where (vahed = " + unit + " or " + unit + " = -1) and (semat = " + task + " or " + task + " = -1) ", _cnn);
+            var p = new SqlCommand("select per,perid,unit,task,permit from(SELECT per_name as per,case when unit = 0 then 'مکانیک' "+
+                                   "when unit = 1 then 'برق'  end as unit, case when task = 0 then 'تعمیرکار' when task = 1 then 'تراشکار' " +
+                                   "when task = 2 then 'جوشکار' when task = 3 then 'سرپرست' when task = 4 then 'مدیر فنی' end as task, " +
+                                   "case when profession = 0 then 'ماهر' when profession = 1 then 'نیمه ماهر' when profession = 2 then 'معمولی' " +
+                                   "end as prof, unit as vahed, task as semat, per_id as perid, case when permit = 1 " +
+                                   "then 'فعال' else 'غیرفعال' end as permit, profession FROM i_personel)i  " +
+                                   "where (vahed = " + unit + " or " + unit + " = -1) " +
+                                   "and (semat = " + task + " or " + task + " = -1) " +
+                                   "and (profession = " + prof + " or " + prof + " = -1)", _cnn);
             var r = p.ExecuteReader();
             while (r.Read())
             {

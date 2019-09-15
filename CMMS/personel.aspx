@@ -40,19 +40,30 @@
         label {
             margin: 0;
         }
+
         table tr td a {
-            color: blue!important;
+            color: blue !important;
         }
     </style>
     <div class="card">
         <div class="card-header bg-primary text-white">ثبت نیروی فنی </div>
         <div class="card-body">
             <div class="row ltr">
-                <div class="col-md-6 rtl">
+                <div class="col-md-4 rtl">
+                    <label>سمت : </label>
+                    <asp:DropDownList ID="drsemat" CssClass="form-control" runat="server" TabIndex="5">
+                        <asp:ListItem Value="0">تعمیرکار</asp:ListItem>
+                        <asp:ListItem Value="1">تراشکار</asp:ListItem>
+                        <asp:ListItem Value="2">جوشکار</asp:ListItem>
+                        <asp:ListItem Value="3">سرپرست</asp:ListItem>
+                        <asp:ListItem Value="4">مدیر فنی</asp:ListItem>
+                    </asp:DropDownList>
+                </div>
+                <div class="col-md-4 rtl">
                     <label>شماره پرسنلی : </label>
                     <asp:TextBox ID="txtper" CssClass="form-control" runat="server" TabIndex="2" ClientIDMode="Static"></asp:TextBox>
                 </div>
-                <div class="col-md-6 rtl">
+                <div class="col-md-4 rtl">
                     <label>نام و نام خانوادگی : </label>
                     <asp:TextBox ID="txtname" CssClass="form-control" runat="server" TabIndex="1" ClientIDMode="Static"></asp:TextBox>
                 </div>
@@ -71,19 +82,17 @@
                     <label>نیروی فنی : </label>
                     <div class="switch-field">
                         <input type="radio" id="tasisat" name="switch_3" value="0" checked tabindex="3" />
-                        <label for="tasisat">تاسیسات</label>
+                        <label for="tasisat">مکانیک</label>
                         <input type="radio" id="bargh" name="switch_3" value="1" tabindex="4" />
                         <label for="bargh">برق</label>
                     </div>
                 </div>
                 <div class="col-md-4 rtl">
-                    <label>سمت : </label>
-                    <asp:DropDownList ID="drsemat" CssClass="form-control" runat="server" TabIndex="5">
-                        <asp:ListItem Value="0">نیروی معمولی</asp:ListItem>
-                        <asp:ListItem Value="1">نیروی ماهر</asp:ListItem>
-                        <asp:ListItem Value="2">سرشیفت</asp:ListItem>
-                        <asp:ListItem Value="3">سرپرست</asp:ListItem>
-                        <asp:ListItem Value="4">مدیر فنی</asp:ListItem>
+                    <label>تخصص : </label>
+                    <asp:DropDownList ID="drProf" CssClass="form-control" runat="server" TabIndex="5">
+                        <asp:ListItem Value="0">ماهر</asp:ListItem>
+                        <asp:ListItem Value="1">نیمه ماهر</asp:ListItem>
+                        <asp:ListItem Value="2">معمولی</asp:ListItem>
                     </asp:DropDownList>
                 </div>
             </div>
@@ -92,27 +101,53 @@
             <asp:Button ID="btninsert" runat="server" CssClass="button" Text="ثبت" TabIndex="5" OnClick="btninsert_Click" OnClientClick="getRadio();getactRadio();" />
             <asp:Button ID="btnedit" runat="server" Visible="False" CssClass="button" Text="ویرایش" TabIndex="6" OnClick="btnedit_Click" OnClientClick="getRadio();getactRadio();" />
             <asp:Button ID="btncancel" runat="server" Visible="False" CssClass="button" Text="انصراف" TabIndex="7" OnClick="btncancel_Click" />
-            <asp:SqlDataSource ID="sqlpersonel" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT ROW_NUMBER()over (order by per_id) as rownum,id,per_id,per_name,case when unit = 0 then 'تاسیسات' when unit = 1 then 'برق' end as unitt,case when task = 0 then 'نیروی معمولی' when task = 1 then 'نیروی ماهر' when task = 2 then 'سرشیفت' when task = 3 then 'سرپرست' when task = 4 then 'مدیر فنی' end as task,unit as vahed , task as semat ,permit FROM i_personel order by unit,per_id"></asp:SqlDataSource>
+            <asp:SqlDataSource ID="sqlpersonel" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT ROW_NUMBER()over (order by per_id) as rownum,id,
+per_id,per_name,
+case when unit = 0 then 'مکانیک' when unit = 1 then 'برق' end as unitt,
+case when task = 0 then 'تعمیرکار' 
+when task = 1 then 'تراشکار' 
+when task = 2 then 'جوشکار' 
+when task = 3 then 'سرپرست' 
+when task = 4 then 'مدیر فنی' 
+end as task,
+unit as vahed ,
+case when profession = 0 then 'ماهر' 
+when profession = 1 then 'نیمه ماهر'
+when profession = 2 then 'معمولی'
+ end as prof,
+task as semat ,permit ,profession as filterprof
+FROM i_personel order by unit,per_id"></asp:SqlDataSource>
         </div>
         <div class="card-footer">
-            <div style="display: block; text-align: center;">
+            <div class="text-center">
                 <button class="fa fa-print" runat="server" onserverclick="btnPrintPersonel_OnClick" style="background: transparent; border: none;"></button>
             </div>
             <div class="row" style="margin: 0; border: 1px solid rgb(190, 190, 190); border-radius: 5px; background-color: #dfecfe;">
-                <div class="col-lg-6" style="padding: 5px;">
+                <div class="col-md-4 p-1">
+                    <label style="display: block; text-align: right;">تخصص</label>
+                    <div style="border: 1px solid darkgray; border-radius: 5px; position: relative;">
+                        <asp:DropDownList ID="drProfFilter" CssClass="dr sans" runat="server" TabIndex="5" AutoPostBack="True" OnSelectedIndexChanged="drProfFilter_OnSelectedIndexChanged">
+                            <asp:ListItem Value="-1">همه</asp:ListItem>
+                            <asp:ListItem Value="0">ماهر</asp:ListItem>
+                            <asp:ListItem Value="1">نیمه ماهر</asp:ListItem>
+                            <asp:ListItem Value="2">معمولی</asp:ListItem>
+                        </asp:DropDownList>
+                    </div>
+                </div>
+                <div class="col-md-4 p-1">
                     <label style="display: block; text-align: right;">سمت</label>
                     <div style="border: 1px solid darkgray; border-radius: 5px; position: relative;">
                         <asp:DropDownList ID="drtaskFilter" CssClass="dr sans" runat="server" TabIndex="5" AutoPostBack="True" OnSelectedIndexChanged="drtaskFilter_OnSelectedIndexChanged">
                             <asp:ListItem Value="-1">همه</asp:ListItem>
-                            <asp:ListItem Value="0">نیروی معمولی</asp:ListItem>
-                            <asp:ListItem Value="1">نیروی ماهر</asp:ListItem>
-                            <asp:ListItem Value="2">سرشیفت</asp:ListItem>
+                            <asp:ListItem Value="0">تعمیرکار</asp:ListItem>
+                            <asp:ListItem Value="1">تراشکار</asp:ListItem>
+                            <asp:ListItem Value="2">جوشکار</asp:ListItem>
                             <asp:ListItem Value="3">سرپرست</asp:ListItem>
                             <asp:ListItem Value="4">مدیر فنی</asp:ListItem>
                         </asp:DropDownList>
                     </div>
                 </div>
-                <div class="col-lg-6" style="padding: 5px;">
+                <div class="col-md-4 p-1">
                     <label style="display: block; text-align: right;">نام واحد</label>
                     <div style="border: 1px solid darkgray; border-radius: 5px; position: relative;">
                         <asp:DropDownList ID="drunitFilter" CssClass="dr sans" runat="server" TabIndex="5" AutoPostBack="True" OnSelectedIndexChanged="drunitFilter_OnSelectedIndexChanged">
@@ -130,10 +165,10 @@
                     <asp:BoundField DataField="per_name" HeaderText="نام و نام خانوادگی" SortExpression="per_name" />
                     <asp:BoundField DataField="unitt" HeaderText="واحد" SortExpression="unitt" />
                     <asp:BoundField DataField="task" HeaderText="سمت" SortExpression="task" />
+                    <asp:BoundField DataField="prof" HeaderText="تخصص" SortExpression="prof" />
                     <asp:CheckBoxField DataField="permit" HeaderText="وضعیت" SortExpression="permit" />
                     <asp:ButtonField Text="ویرایش" CommandName="ed" />
                     <asp:ButtonField Text="حذف" CommandName="del" />
-
                 </Columns>
             </asp:GridView>
         </div>
