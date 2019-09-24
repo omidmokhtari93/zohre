@@ -74,6 +74,8 @@ namespace CMMS
     public class Controls
     {
         public int Idcontrol { get; set; }
+        public int IdPartControl { get; set; }
+        public string PartControl { get; set; }
         public string Control { get; set; }
         public int Time { get; set; }
         public int Day { get; set; }
@@ -83,6 +85,10 @@ namespace CMMS
         public string Comment { get; set; }
         public Boolean Broadcast { get; set; }
         public int Bidcontrol { get; set; }
+        public string Matrial { get; set; }
+        public string Smatrial { get; set; }
+        public string Dosage { get; set; }
+
     }
 
     public class Subinformation

@@ -4,7 +4,8 @@ var targetTr;
 var itemId;
 $(function () {
   FillmeasurementTable();
-  FillPartmeasurTable();
+    FillPartmeasurTable();
+    FillmatrialTable();
 });
 function FillmeasurementTable() {
   $('#measurTable tbody').empty();
@@ -25,7 +26,25 @@ function FillmeasurementTable() {
     }
   }
 }
-
+function FillmatrialTable() {
+    $('#MatrialTable tbody').empty();
+    data = [];
+    data.push({
+        url: 'WebService.asmx/GetMatrial',
+        parameters: [],
+        func: fillmeasure
+    });
+    AjaxCall(data);
+    function fillmeasure(e) {
+        data = JSON.parse(e.d);
+        body = [];
+        if (data.length > 0) {
+            body.push('<tr><th>ردیف</th><th>ماده مصرفی/روانکار</th><th></th></tr>');
+            CreateBody(data, body);
+            $('#MatrialTable tbody').append(body.join(''));
+        }
+    }
+}
 function FillPartmeasurTable() {
   $('#PartmeasureTable tbody').empty();
   AjaxData({
@@ -100,16 +119,53 @@ function insertOrUpdateData(ele, ed, add) {
     }
   }
 }
+function insertOrUpdateMatrialData(ele, ed, add) {
+    var text = $('#' + ele).val();
+    if (text === '') {
+        RedAlert(ele, '!!لطفا فیلد خالی را تکمیل کنید');
+        return;
+    }
+    AjaxData({
+        url: 'WebService.asmx/' + add,
+        param: { text: text, editId: ed },
+        func: output
+    });
 
+    function output(e) {
+        if (e.d === 'i') {
+            GreenAlert('no', '.با موفقیت ثبت شد');
+        } else {
+            GreenAlert('no', '.با موفقیت ویرایش شد');
+        }
+        var btn = $('#' + ele).parent().parent().find('button');
+      
+            FillmatrialTable();
+            ClearFields('opFrom');
+            $('#btninsertMatrial').show();
+            $('#btneditMatrial').hide();
+            $('#btncanselMatrial').hide();
+       
+    }
+}
+$('#MatrialTable').on('click', 'tr a#edit', function () {
+    $(targetTr).css('background-color', '');
+    targetTr = $(this).closest('tr');
+    itemId = $(this).closest('tr').find('td:eq(0)').text();
+    $('#txtMatrial').val($(this).closest('tr').find('td:eq(2)').text());
+    $(targetTr).css('background-color', 'lightgreen');
+    $('#btninsertMatrial').hide();
+    $('#btneditMatrial').show();
+    $('#btncanselMatrial').show();
+});
 $('#measurTable').on('click', 'tr a#edit', function () {
   $(targetTr).css('background-color', '');
   targetTr = $(this).closest('tr');
   itemId = $(this).closest('tr').find('td:eq(0)').text();
   $('#txtMeasur').val($(this).closest('tr').find('td:eq(2)').text());
   $(targetTr).css('background-color', 'lightgreen');
-  $('#btninsertmeasur').hide();
-  $('#btneditmeasur').show();
-  $('#btncanselmeasur').show();
+    $('#btninsertMatrial').hide();
+    $('#btneditMatrial').show();
+    $('#btncanselMatrial').show();
 });
 $('#PartmeasureTable').on('click', 'tr a#edit', function () {
   $(targetTr).css('background-color', '');

@@ -415,9 +415,13 @@
             <div class="card-header bg-primary text-white">موارد کنترلی دستگاه</div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-12 rtl">
+                    <div class="col-md-8 rtl">
                         <label>مورد کنترلی :</label>
-                        <input id="txtControliMoredControl" tabindex="27" class="form-control" />
+                        <input id="txtControliMoredControl" tabindex="28" class="form-control" />
+                    </div>
+                    <div class="col-md-4 rtl">
+                        <label>بخش کنترلی :</label>
+                        <select class="form-control" id="Drpartcontrol" ></select>
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -435,6 +439,26 @@
                             <option value="2">چک و بازدید</option>
                             <option value="3">روانکاری</option>
                         </select>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6 rtl">
+                        
+                    </div>
+                    <div class="col-md-3 rtl">
+                        <label>میزان مصرفی :</label>
+                        <input id="txtmizanmasraf" tabindex="28" class="form-control" />
+                    </div>
+                    <div class="col-md-3 rtl">
+                        <label>ماده مصرفی/روانکار</label>
+                        <div class="row">
+                            <div class="col-sm-12 bold-sans">
+                                <asp:DropDownList data-placeholder="انتخاب کنید" class="chosen-select" ClientIDMode="Static" AppendDataBoundItems="True" ID="drMatrial" runat="server" DataSourceID="Sqlmatrial" DataTextField="matrial" DataValueField="id" >
+                                    <asp:ListItem></asp:ListItem>
+                                </asp:DropDownList>
+                                <asp:SqlDataSource ID="Sqlmatrial" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, matrial FROM i_matrial"></asp:SqlDataSource>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -636,7 +660,7 @@
                 <div class="card-body" style="text-align: center;">
                     <strong style="color: red;">** کاربر گرامی **</strong>
                     <p class="sans-small text-center">
-                        د آیا مایل به حذف این مورد کنترلی هستید؟
+                         آیا مایل به حذف این مورد کنترلی هستید؟
                     </p>
                     <div style="text-align: center;">
                         <button class="button" type="button" onclick="DeleteControls();">حذف</button>
@@ -655,7 +679,7 @@
                 <div class="card-body" style="text-align: center;">
                     <strong style="color: red;">** کاربر گرامی **</strong>
                     <p class="sans-small text-center">
-                        د آیا مایل به حذف این مورد کنترلی هستید؟
+                         آیا مایل به حذف این مورد کنترلی هستید؟
                     </p>
                     <div style="text-align: center;">
                         <button class="button" type="button" onclick="DeletePartControls();">حذف</button>
@@ -666,21 +690,22 @@
         </div>
     </div>
 </div>
-    <div id="ModalDeletePart" class="modal" style="direction: rtl;">
-        <div class="modal-content">
-            <span class="fa fa-remove" id="CloseDeletePart" onclick="$(this).parent().parent().hide();"
-                style="position: absolute; top: 10px; left: 10px; color: black; cursor: pointer; font-size: 15pt;"></span>
-            <div class="card bg-danger text-white" style="margin-bottom: 0;">
+    <div id="ModalDeletePart" class="modal fade" style="direction: rtl;" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content sans">
+            <div class="card" style="margin-bottom: 0;">
                 <div class="card-header bg-primary text-white" style="font-weight: 800;">حذف قطعه</div>
                 <div class="card-body" style="text-align: center;">
-                    <p style="font-weight: 800;">آیا مایل به حذف هستید؟</p>
+                    <strong style="color: red;">** کاربر گرامی **</strong>
+                    <p class="sans-small text-center">آیا مایل به حذف هستید؟</p>
                     <div style="text-align: center;">
                         <button class="button" type="button" onclick="DeletePart();">حذف</button>
-                        <button class="button" type="button" onclick="$('#ModalDeletePart').hide();">انصراف</button>
+                        <button class="button" type="button" onclick="$('#ModalDeletePart').modal('hide');">انصراف</button>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
     <script src="assets/js/SubSystemBaseJS .js"></script>
     <script src="assets/js/SearchParts.js"></script>

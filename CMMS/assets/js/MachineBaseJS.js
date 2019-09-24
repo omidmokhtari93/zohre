@@ -25,7 +25,6 @@ $(document).ready(function () {
     }
     kamaDatepicker('txtDastoorTarikh', customOptions);
 });
-
 $('#btnNewMachineFor').on('click', function () {
 
     if ($('#txtmachineName').val() === '') {
@@ -217,30 +216,21 @@ function checkControliPart() {
 function addPartControli() {
     if (checkControliPart() === 0) {
 
+    var Mid = $('#Mid').val();
+    //===================send grid to database=======================//
         var mored = $('#txtPartControli').val();
-        var head = '<thead>' +
-            '<tr>' +
-            '<th>بخش کنترلی</th>' +
-            '<th></th>' +
-            '<th></th>' +
-            '</tr>' +
-            '</thead>';
-        var tbody = '<tbody></tbody>';
-        var row = '<tr>' +
-            '<td style="display:none;">0</td>' +
-            '<td >' + mored + '</td>' +
-            '<td><a id="edit">ویرایش</a></td>' +
-            '<td><a id="delete">حذف</a></td>' +
-            '</tr>';
-        if ($('#gridPartControli tr').length != 0) {
-            $("#gridPartControli tbody").append(row);
-        } else {
-            $("#gridPartControli").append(head);
-            $("#gridPartControli").append(tbody);
-            $("#gridPartControli tbody").append(row);
+        
+        AjaxData({
+            url: "WebService.asmx/BSendPartControl",
+            param: { 'mid': Mid, 'control': mored},
+            func: createPartTable
+        });
+
+        function createPartTable(e) {
+            GreenAlert('n', "✔ موارد کنترلی با موفقیت ثبت شد");
+            GetPartControl();
+            ClearFields('pnlPartControli');
         }
-        ClearFields('pnlPartControli');
-      
     }
 }
 
@@ -248,7 +238,8 @@ $("#gridPartControli").on("click", "tr a#delete", function () {
     target_tr = $(this).parent().parent();
     controlId = $(this).parent().parent().find('td:eq(0)').text();
     $('#ModalDeletePartControl').modal('show');
-});
+}); 
+
 $("#gridPartControli").on("click", "tr a#edit", function () {
     EmptyControls();
     target_tr = $(this).parent().parent();
@@ -258,7 +249,9 @@ $("#gridPartControli").on("click", "tr a#edit", function () {
       
     });
     FillpartControls(rowItems);
+
 });
+
 
 function FillpartControls(items) {
 
@@ -293,12 +286,19 @@ function DeletePartControls() {
 function EditPartControliItems() {
     if ($('#txtPartControli').val() === '') { RedAlert('txtPartControli', "!!لطفا بخش کنترلی را وارد نمایید"); }
     else {
-    $(target_tr).find('td:eq(1)').text($('#txtPartControli').val());
-       
-        EmptypartControls();
 
+        AjaxData({
+            url: "WebService.asmx/BEditPartControl",
+            param: { 'id': controlId, 'control': $('#txtPartControli').val() },
+            func: createPartTable
+        });
 
-        GreenAlert(target_tr, "✔ بخش کنترلی ویرایش شد");
+        function createPartTable(e) {
+            GreenAlert('n', "✔ موارد کنترلی ویرایش شد");
+            GetPartControl();
+            EmptypartControls();
+        }
+
     }
 }
 function EmptypartControls() {
@@ -323,14 +323,17 @@ function addControli() {
     if (checkControliInputs() === 0) {
        
         var mored = $('#txtControliMoredControl').val();
-       
+        var idpart = $('#Drpartcontrol :selected').val();
    
         var comm = $('#txtMavaredComment').val();
         var head = '<thead>' +
             '<tr>' +
+            '<th>بخش کنترلی</th>' +
             '<th>مورد کنترلی</th>' +
             '<th>عملیات</th>' +
             '<th>اعمال برای همه</th>' +
+            '<th>ماده مصرفی</th>' +
+            '<th>میزان مصرف</th>' +
             '<th>ملاحظات</th>' +
             '<th></th>' +
             '<th></th>' +
@@ -339,15 +342,23 @@ function addControli() {
         var tbody = '<tbody></tbody>';
         var row = '<tr>' +
             '<td style="display:none;">0</td>' +
+            '<td style="display:none;">' + idpart + '</td>' +
             '<td style="display:none;">' + mored + '</td>' +
             '<td style="display:none;">' + $('#drcontroliOpr :selected').val() + '</td>' +
+            '<td style="display:none;">' + $('#drMatrial :selected').val() + '</td>' +
+            '<td style="display:none;">' + $('#txtmizanmasraf').val() + '</td>' +
             '<td style="display:none;">' + comm + '</td>' +
             '<td style="display:none;">' + $("#chkbroadcast").is(':checked') + '</td>' +
+            '<td>' + $('#Drpartcontrol :selected').text() + '</td>' +
             '<td>' + mored + '</td>' +
             
             '<td>' + $('#drcontroliOpr :selected').text() + '</td>' +
-            '<td><input type="checkbox" ' + ($('#chkbroadcast').is(':checked') ? 'checked': '')+' disabled/></td>' +
-            '<td>' + comm + '</td>' +
+            '<td><input type="checkbox" ' + ($('#chkbroadcast').is(':checked') ? 'checked' : '') + ' disabled/></td>' +
+            '<td>' + $('#drMatrial :selected').text() + '</td>' +
+            '<td>' + $('#txtmizanmasraf').val() + '</td>' +
+            '<td>' + comm + '</td>' +   
+            
+           
             '<td><a id="edit">ویرایش</a></td>' +
             '<td><a id="delete">حذف</a></td>' +
             '</tr>';
@@ -363,6 +374,8 @@ function addControli() {
         $('#pnlcontroliRooz').hide();
         $('#pnlControliWeek').hide();
     }
+    $("#drMatrial").chosen('destroy');
+    $("#drMatrial").chosen({ width: "100%", rtl: true });
 }
 
 $("#gridMavaredControli").on("click", "tr a#delete", function () {
@@ -375,24 +388,30 @@ $("#gridMavaredControli").on("click", "tr a#edit", function () {
     target_tr = $(this).parent().parent();
     controlId = $(this).parent().parent().find('td:eq(0)').text();
     rowItems.push({
-        Name: $(this).parent().parent().find('td:eq(1)').text(),      
-        Operation: $(this).parent().parent().find('td:eq(2)').text(),     
-        Comment: $(this).parent().parent().find('td:eq(3)').text(),
-        Broadcast: $(this).parent().parent().find('td:eq(4)').text()
+        PartControl: $(this).parent().parent().find('td:eq(1)').text(),
+        Name: $(this).parent().parent().find('td:eq(2)').text(),      
+        Operation: $(this).parent().parent().find('td:eq(3)').text(), 
+        Matial: $(this).parent().parent().find('td:eq(4)').text(),
+        Dosage: $(this).parent().parent().find('td:eq(5)').text(),
+        Comment: $(this).parent().parent().find('td:eq(6)').text(),
+        Broadcast: $(this).parent().parent().find('td:eq(7)').text()
     });
     FillControls(rowItems);
 });
 
 function FillControls(items) {
-    
+    $('#Drpartcontrol').val(items[0].PartControl);
     $('#txtControliMoredControl').val(items[0].Name);   
     $('#drcontroliOpr').val(items[0].Operation);
+    $('#drMatrial').val(items[0].Matial).trigger('chosen:updated');
+    $('#txtmizanmasraf').val(items[0].Dosage);
     $('#txtMavaredComment').val(items[0].Comment);
     if (items[0].Broadcast == "true")
     { $('#chkbroadcast').prop('checked',true); }
     else {
         $('#chkbroadcast').prop('checked',false);
     }
+   
     $('#btnEditControls').show();
     $('#btnCancelEditCotntrols').show();
 }
@@ -405,7 +424,7 @@ function DeleteControls() {
         dataType: "json",
         success: function () {
             GreenAlert('nothing',"✔ مورد کنترلی با موفقیت حذف شد");
-            $('#ModalDeleteControl').hide();
+            $('#ModalDeleteControl').modal('hide');
             var row = $('#gridMavaredControli tr').length;
             if (row === 2) {
                 $("#gridMavaredControli").empty();
@@ -421,20 +440,30 @@ function DeleteControls() {
 
 function EditControliItems() {
     if (checkControliInputs() === 0) {
-        $(target_tr).find('td:eq(1)').text($('#txtControliMoredControl').val());
-        $(target_tr).find('td:eq(5)').text($('#txtControliMoredControl').val());
+        $(target_tr).find('td:eq(1)').text($('#Drpartcontrol :selected').val());
+        $(target_tr).find('td:eq(8)').text($('#Drpartcontrol :selected').text());
+
+        $(target_tr).find('td:eq(2)').text($('#txtControliMoredControl').val());
+        $(target_tr).find('td:eq(9)').text($('#txtControliMoredControl').val());
         
-        $(target_tr).find('td:eq(2)').text($('#drcontroliOpr :selected').val());
-        $(target_tr).find('td:eq(6)').text($('#drcontroliOpr :selected').text());
+        
+        $(target_tr).find('td:eq(3)').text($('#drcontroliOpr :selected').val());
+        $(target_tr).find('td:eq(10)').text($('#drcontroliOpr :selected').text());
 
-        $(target_tr).find('td:eq(4)').text($("#chkbroadcast").is(':checked'));
+        $(target_tr).find('td:eq(7)').text($("#chkbroadcast").is(':checked'));
        
-        $(target_tr).find('td:eq(7)').html('<input type="checkbox" ' + ($('#chkbroadcast').is(':checked') ? 'checked' : '') +' disabled/>');
-
-        $(target_tr).find('td:eq(3)').text($('#txtMavaredComment').val());
-        $(target_tr).find('td:eq(8)').text($('#txtMavaredComment').val());
+        $(target_tr).find('td:eq(11)').html('<input type="checkbox" ' + ($('#chkbroadcast').is(':checked') ? 'checked' : '') + ' disabled/>');
+        $(target_tr).find('td:eq(4)').text($('#drMatrial :selected').val());
+        $(target_tr).find('td:eq(12)').text($('#drMatrial :selected').text());
+        $(target_tr).find('td:eq(5)').text($('#txtmizanmasraf').val());
+        $(target_tr).find('td:eq(13)').text($('#txtmizanmasraf').val());
+        $(target_tr).find('td:eq(6)').text($('#txtMavaredComment').val());
+        $(target_tr).find('td:eq(14)').text($('#txtMavaredComment').val());
+       
+       
         EmptyControls();
-       
+        $("#drMatrial").chosen('destroy');
+        $("#drMatrial").chosen({ width: "100%", rtl: true });
 
         GreenAlert(target_tr,"✔ مورد کنترلی ویرایش شد");
     }
@@ -510,7 +539,7 @@ function checkPartInputs() {
 $("#gridGhataatMasrafi").on("click", "tr a#deletePart", function () {
     target_tr = $(this).parent().parent();
     partId = $(this).parent().parent().find('td:eq(0)').text();
-    $('#ModalDeletePart').show();
+    $('#ModalDeletePart').modal('show');
 });
 $("#gridGhataatMasrafi").on("click", "tr a#editPart", function () {
     if (partData.length > 0) {
@@ -577,7 +606,7 @@ function DeletePart() {
         dataType: "json",
         success: function () {
             GreenAlert('nothing',"✔ قطعه با موفقیت حذف شد");
-            $('#ModalDeletePart').hide();
+            $('#ModalDeletePart').modal('hide');
             var row = $('#gridGhataatMasrafi tr').length;
             if (row === 2) {
                 $("#gridGhataatMasrafi").empty();
@@ -616,6 +645,10 @@ $('#btnPartControlBack').on('click', function () {
 $('#btnPartControlFor').on('click', function () {
     $('#pnlPartControli').hide();
     $('#pnlMavaredControli').fadeIn();
+    setTimeout(function() {
+        $("#drMatrial").chosen({ width: "100%", rtl: true });
+    },200);
+
 });
 //=====================
 $('#btnMavaredControlBack').on('click', function () {
@@ -805,11 +838,13 @@ function SendTablesToDB() {
         for (var i = 1; i < table.rows.length; i++) {
             controliArr.push({
                 Idcontrol: table.rows[i].cells[0].innerHTML,
-                Control: table.rows[i].cells[1].innerHTML,
-              
-                Operation: table.rows[i].cells[2].innerHTML,
-                Comment: table.rows[i].cells[3].innerHTML,
-                Broadcast: table.rows[i].cells[4].innerHTML
+                IdPartControl: table.rows[i].cells[1].innerHTML,
+                Control: table.rows[i].cells[2].innerHTML,
+                Operation: table.rows[i].cells[3].innerHTML,
+                Matrial: table.rows[i].cells[4].innerHTML,
+                Dosage: table.rows[i].cells[5].innerHTML,
+                Comment: table.rows[i].cells[6].innerHTML,
+                Broadcast: table.rows[i].cells[7].innerHTML
             });
         }
         $.ajax({
@@ -1112,11 +1147,53 @@ function GetKeyitems() {
                     j++;
                 }
             }
+            GetPartControl();
+        }
+    });
+}
+function GetPartControl() {
+    var Mid = $('#Mid').val();
+    $('#gridPartControli').empty();
+    $.ajax({
+        type: "POST",
+        url: "WebService.asmx/BGetPartControl",
+        data: "{ mid : " + Mid + "}",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+            var partc = JSON.parse(data.d);
+            var drPartControlOptions = [];
+            var j = 1;
+            if (partc.length > 0) {
+                $('#gridPartControli').empty();
+
+                var tblHead = '<thead><tr>' +
+                    '<th>بخش کنترلی</th>' +
+                    '<th></th>' +
+                    '<th></th>' +
+                    '</tr></thead>';
+                var tblBody = "<tbody></tbody>";
+                $('#gridPartControli').append(tblHead);
+                $('#gridPartControli').append(tblBody);
+                for (var i = 0; i < partc.length; i++) {
+                    tblBody = '<tr>' +
+                        '<td style="display:none;">' + partc[i].Idcontrol + '</td>' +
+                        '<td>' + partc[i].Control + '</td>'+
+                        '<td><a id="edit">ویرایش</a></td>' +
+                        '<td><a id="delete">حذف</a></td>' +
+                        '</tr>';
+                    $('#gridPartControli tbody').append(tblBody);
+                    drPartControlOptions.push('<option value="' + partc[i].Idcontrol + '">' + partc[i].Control + '</option>');
+                }
+                $('#Drpartcontrol').empty().append(drPartControlOptions);
+            }
             GetC();
         }
     });
 }
 function GetC() {
+   
+    $('#gridMavaredControli').empty();
     var Mid = $('#Mid').val();
     $.ajax({
         type: "POST",
@@ -1129,9 +1206,12 @@ function GetC() {
             if (controliData.length > 0) {
                 var tblHead = '<thead>' +
                     '<tr>' +
+                    '<th>بخش کنترلی</th>' +
                     '<th>مورد کنترلی</th>' +
                     '<th>عملیات</th>' +
                     '<th>اعمال برای همه</th>' +
+                    '<th>ماده مصرفی</th>' +
+                    '<th>میزان مصرف</th>' +
                     '<th>ملاحظات</th>' +
                     '<th></th>' +
                     '<th></th>' +
@@ -1149,15 +1229,19 @@ function GetC() {
                     if (controliData[i].Comment == null) { controliData[i].Comment = " "; }
                     tblBody = '<tr>' +
                         '<td style="display:none;">' + controliData[i].Idcontrol + '</td>' +
+                        '<td style="display:none;">' + controliData[i].IdPartControl + '</td>' +
                         '<td style="display:none;">' + controliData[i].Control + '</td>' +                    
                         '<td style="display:none;">' + controliData[i].Operation + '</td>' +
+                        '<td style="display:none;">' + controliData[i].Matrial + '</td>' +
+                        '<td style="display:none;">' + controliData[i].Dosage + '</td>' +
                         '<td style="display:none;">' + controliData[i].Comment + '</td>' +
                         '<td style="display:none;">' + controliData[i].Broadcast + '</td>' +
+                        '<td>' + controliData[i].PartControl + '</td>'+
                         '<td>' + controliData[i].Control + '</td>'
-                       
                         + '<td>' + opr + '</td>'
-
                         + '<td> <input type="checkbox" ' + (controliData[i].Broadcast ? 'checked' : '') +' disabled />  </td>'
+                        + '<td>' + controliData[i].Smatrial + '</td>' 
+                        +'<td>' + controliData[i].Dosage + '</td>' 
                         + '<td>' + controliData[i].Comment + '</td>'
                         + '<td><a id="edit">ویرایش</a></td><td><a id="delete">حذف</a></td></tr>';
                     $('#gridMavaredControli tbody').append(tblBody);
@@ -1169,6 +1253,7 @@ function GetC() {
 }
 
 function GetSubSystems() {
+    $('#subSystemTable tbody').empty();
     var Mid = $('#Mid').val();
     $.ajax({
         type: "POST",
@@ -1204,6 +1289,7 @@ function GetSubSystems() {
     });
 }
 function GetG() {
+    $('#gridGhataatMasrafi').empty();
     var Mid = $('#Mid').val();
     $.ajax({
         type: "POST",

@@ -407,6 +407,28 @@ namespace CMMS
             _cnn.Close();
         }
         [WebMethod]
+        public void BSendPartControl(int mid, string control) //Base Information
+        {
+            _cnn.Open();
+           
+               
+                    var insertInstruct = new SqlCommand(
+                        "insert into b_partcontrol (Mid,PartControl) VALUES ("+mid+",'"+control+"')", _cnn);
+                    insertInstruct.ExecuteNonQuery();
+               
+            _cnn.Close();
+        }
+        [WebMethod]
+        public void BEditPartControl(int id, string control) //Base Information
+        {
+            _cnn.Open();
+
+              var updatePartcontrol=new SqlCommand("update b_partcontrol set PartControl='"+control+"' where id="+id,_cnn);
+              updatePartcontrol.ExecuteNonQuery();
+           
+            _cnn.Close();
+        }
+        [WebMethod]
         public void BSendMasrafi(int mid, MasrafiMain masrafiMain) //Base Information
         {
             _cnn.Open();
@@ -659,21 +681,27 @@ namespace CMMS
             foreach (var item in controls)
             {
                 lst = lst + Convert.ToString(item.Idcontrol) + ',';
-
+                if (item.Matrial == "")
+                {
+                    item.Matrial = "NULL";
+                    item.Dosage = "";
+                }
                 var broad = item.Broadcast == true ? 1 : 0;
                 var searchcontrol = new SqlCommand("select id from b_control where id=" + item.Idcontrol, _cnn);
                 object obj = searchcontrol.ExecuteScalar();
                 if (obj == null)
                 {
+                    
                     var selectrepeatrow = new SqlCommand(
-                        "INSERT INTO [dbo].[b_control]([Mid],[contName],[opr],[comment],[broadcast])" +
-                        "VALUES(" + mid + ",'" + item.Control + "'," + item.Operation + "," + "'" + item.Comment + "'," + broad + ") select max(id) from b_control where Mid=" + mid, _cnn);
+                        "INSERT INTO [dbo].[b_control]([Pid],[Mid],[contName],[opr],[comment],[broadcast],[matrial],[dosage])" +
+                        "VALUES("+item.IdPartControl+"," + mid + ",'" + item.Control + "'," + item.Operation + ",'" + item.Comment + "'," + broad + ","+item.Matrial+",'"+item.Dosage+"') select max(id) from b_control where Mid=" + mid, _cnn);
                     bcontrolid = Convert.ToString(selectrepeatrow.ExecuteScalar());
                     lst = lst + bcontrolid + ',';
                 }
                 else
                 {
-                    var updateBroadcast = new SqlCommand("update b_control set broadcast=" + broad, _cnn);
+                    var updateBroadcast = new SqlCommand("update b_control set broadcast=" + broad+ ",[contName]='" + item.Control + "',[opr]=" + item.Operation + "," +
+                                                         "[comment]='" + item.Comment + "',[matrial]=" + item.Matrial + ",[dosage]='" + item.Dosage + "' where id=" + item.Idcontrol, _cnn);
                     updateBroadcast.ExecuteNonQuery();
                 }
             }
@@ -700,9 +728,9 @@ namespace CMMS
                     foreach (var Midd in machinelist)
                     {
                         var insertMcontrol = new SqlCommand(" if (select count(id) from m_control where Mid=" + Midd + " and idcontrol = " + item.Idcontrol + " )=0 begin " +
-                            "insert into m_control ([Mid],[idcontrol],[contName],[period],[rooz],[MDser],[comment],[pmstart],[opr]) VALUES " +
-                            "(" + Midd + "," + item.Idcontrol + ",'" + item.Control + "',0,0,1," +
-                            "'" + item.Comment + "','1400/01/01'," + item.Operation + ") end ", _cnn);
+                            "insert into m_control ([Pid],[Mid],[idcontrol],[contName],[period],[rooz],[MDser],[comment],[pmstart],[opr],[matrial],[dosage]) VALUES " +
+                            "(" + item.IdPartControl + "," + Midd + "," + item.Idcontrol + ",'" + item.Control + "',0,0,1," +
+                            "'" + item.Comment + "','1400/01/01'," + item.Operation + "," + item.Matrial + ",'" + item.Dosage + "') end ", _cnn);
                         insertMcontrol.ExecuteNonQuery();
                     }
                 }
@@ -1186,12 +1214,12 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(keyitemsList);
         }
         [WebMethod]
-        public string BGetC(int mid) //get Base information  
+        public string BGetPartControl(int mid) //get Base information  
         {
             var controliList = new List<Controls>();
             _cnn.Open();
             var getControls =
-                new SqlCommand("SELECT [id],[contName],[opr],[broadcast],[comment]FROM [dbo].[b_control] where Mid = " + mid + " ", _cnn);
+                new SqlCommand("SELECT [id],[PartControl]FROM [dbo].[b_partcontrol] where Mid = " + mid + " ", _cnn);
             var rd = getControls.ExecuteReader();
             while (rd.Read())
             {
@@ -1200,8 +1228,48 @@ namespace CMMS
                     new Controls
                     {
                         Idcontrol = Convert.ToInt32(rd["id"]),
+                        Control = rd["PartControl"].ToString()
+                        
+                    }
+                });
+            }
+            _cnn.Close();
+            return new JavaScriptSerializer().Serialize(controliList);
+        }
+        [WebMethod]
+        public string BGetC(int mid) //get Base information  
+        {
+            var controliList = new List<Controls>();
+            _cnn.Open();
+            var getControls =
+                new SqlCommand("SELECT        dbo.b_control.id, dbo.b_control.Pid,dbo.b_partcontrol.PartControl, dbo.b_control.contName, dbo.b_control.comment, " +
+                               "dbo.b_control.opr, dbo.b_control.broadcast, dbo.i_matrial.matrial AS MatrialName, dbo.b_control.matrial , " +
+                               "dbo.b_control.dosage " +
+                               "FROM dbo.b_control INNER JOIN  " +
+                               "dbo.i_matrial ON dbo.b_control.matrial = dbo.i_matrial.id INNER JOIN " +
+                               "dbo.b_partcontrol ON dbo.b_control.Pid = dbo.b_partcontrol.id where b_control.Mid = " + mid + "" +
+                               "union all " +
+                               "SELECT        dbo.b_control.id, dbo.b_control.Pid,dbo.b_partcontrol.PartControl, dbo.b_control.contName, dbo.b_control.comment, " +
+                               "dbo.b_control.opr, dbo.b_control.broadcast, '' AS MatrialName, dbo.b_control.matrial, " +
+                               " dbo.b_control.dosage " +
+                               " FROM dbo.b_control  INNER JOIN " +
+                               " dbo.b_partcontrol ON dbo.b_control.Pid = dbo.b_partcontrol.id " +
+                               " where b_control.matrial is null and b_control.Mid = " + mid + " ", _cnn);
+            var rd = getControls.ExecuteReader();
+            while (rd.Read())
+            {
+                controliList.AddRange(new List<Controls>
+                {
+                    new Controls
+                    {
+                        Idcontrol = Convert.ToInt32(rd["id"]),
+                        IdPartControl = Convert.ToInt32(rd["Pid"]),
+                        PartControl = rd["PartControl"].ToString(),
                         Control = rd["contName"].ToString(),
                         Operation = Convert.ToInt32(rd["opr"]),
+                        Smatrial = rd["MatrialName"] == DBNull.Value ? "" :  rd["MatrialName"].ToString(),
+                        Matrial = rd["matrial"] == DBNull.Value ? "" :  rd["matrial"].ToString(),
+                        Dosage = rd["dosage"] == DBNull.Value ? "" :  rd["dosage"].ToString(),
                         Broadcast = Convert.ToBoolean(rd["broadcast"]),
                         Comment = rd["comment"].ToString()
                     }
@@ -2288,6 +2356,22 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(list);
         }
         [WebMethod]
+        public string GetMatrial()
+        {
+            _cnn.Open();
+            var list = new List<string[]>();
+            var array = new List<string[]>();
+            var selectAllStop = new SqlCommand("SELECT [id],[matrial]FROM [dbo].[i_matrial]", _cnn);
+            var rd = selectAllStop.ExecuteReader();
+            while (rd.Read())
+            {
+                array.Add(new[] { rd["id"].ToString(), rd["matrial"].ToString() });
+            }
+            list.AddRange(array);
+            _cnn.Close();
+            return new JavaScriptSerializer().Serialize(list);
+        }
+        [WebMethod]
         public string GetStopReasonTable()
         {
             _cnn.Open();
@@ -2430,6 +2514,21 @@ namespace CMMS
             }
             var cmdUpMeasur = new SqlCommand("update i_measurement set measurement='" + text + "' where id=" + editId + " ", _cnn);
             cmdUpMeasur.ExecuteNonQuery();
+            _cnn.Close();
+            return "e";
+        }
+        [WebMethod]
+        public string InsertAndUpdateMatrial(string text, int editId)
+        {
+            _cnn.Open();
+            if (editId == 0)
+            {
+                var cmdinsertmatrial = new SqlCommand("insert into i_matrial (matrial) values ('" + text + "')", _cnn);
+                cmdinsertmatrial.ExecuteNonQuery();
+                return "i";
+            }
+            var cmdUpMatrial = new SqlCommand("update i_matrial set matrial='" + text + "' where id=" + editId + " ", _cnn);
+            cmdUpMatrial.ExecuteNonQuery();
             _cnn.Close();
             return "e";
         }

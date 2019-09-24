@@ -320,7 +320,7 @@
                             <div>وضعیت دستگاه در زمان تعمیر/سرویسکاری</div>
                             <asp:DropDownList dir="rtl" runat="server" ID="drFailLevel" ClientIDMode="Static" CssClass="form-control">
                                 <asp:ListItem Value="-1">انتخاب نمایید</asp:ListItem>
-                                <asp:ListItem Value="1"> بدون توقف دستگاه</asp:ListItem>
+                                <asp:ListItem Value="1"> دستگاه در حال کار</asp:ListItem>
                                 <asp:ListItem Value="2"> حالت خواب دستگاه</asp:ListItem>
                                 <asp:ListItem Value="3">توقف دستگاه</asp:ListItem>
                             </asp:DropDownList>
