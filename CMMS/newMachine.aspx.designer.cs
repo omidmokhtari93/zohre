@@ -166,6 +166,24 @@ namespace CMMS {
         protected global::System.Web.UI.WebControls.DropDownList drControliZaman;
         
         /// <summary>
+        /// drMatrial control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drMatrial;
+        
+        /// <summary>
+        /// Sqlmatrial control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource Sqlmatrial;
+        
+        /// <summary>
         /// Drmeasurement control.
         /// </summary>
         /// <remarks>

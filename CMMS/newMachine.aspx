@@ -449,19 +449,22 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-12 rtl">
+                    <div class="col-md-8 rtl">
                         <label>مورد کنترلی :</label>
-                        <input id="txtControliMoredControl" tabindex="44" class="form-control" />
+                        <input id="txtControliMoredControl" tabindex="28" class="form-control" />
                     </div>
-                </div>
+                    <div class="col-md-4 rtl">
+                        <label>بخش کنترلی :</label>
+                        <select class="form-control" id="Drpartcontrol" ></select>
+                    </div>
+                    </div>
                 <hr />
                 <div class="row">
-                    <div class="col-md-6 rtl">
+                    <div class="col-md-4 rtl">
                         <label>تاریخ شروع سرویسکاری :</label>
                         <input class="form-control text-center" id="txtStartPMDate" readonly style="cursor: pointer;" />
                     </div>
-                    <div class="col-md-6 rtl">
-                        <div class="col-sm-6" style="padding-left: 0;">
+                    <div class="col-sm-4 rtl" style="padding-left: 0;">
                             <div id="pnlcontroliRooz" style="display: none;">
                                 <label>روزپیش بینی شده در ماه :</label>
                                 <input id="txtControliRooz" tabindex="37" type="number" min="1" max="31" class="form-control text-center" />
@@ -479,7 +482,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-sm-6" style="padding-right: 0;">
+                        <div class="col-sm-4 rtl" style="padding-right: 0;">
                             <label>مدت زمان پیش بینی شده :</label>
                             <asp:DropDownList runat="server" TabIndex="36" ID="drControliZaman" ClientIDMode="Static" CssClass="form-control">
                                 <asp:ListItem Value="0">روزانه</asp:ListItem>
@@ -491,7 +494,6 @@
                                 <asp:ListItem Value="5">غیره</asp:ListItem>
                             </asp:DropDownList>
                         </div>
-                    </div>
                 </div>
                 <hr />
                 <div class="row">
@@ -510,6 +512,26 @@
                             <label for="servicebale">بله</label>
                             <input type="radio" id="servicekheyr" name="switch_3" />
                             <label for="servicekheyr">خیر</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6 rtl">
+                        
+                    </div>
+                    <div class="col-md-3 rtl">
+                        <label>میزان مصرفی :</label>
+                        <input id="txtmizanmasraf" tabindex="28" class="form-control" />
+                    </div>
+                    <div class="col-md-3 rtl">
+                        <label>ماده مصرفی/روانکار</label>
+                        <div class="row">
+                            <div class="col-sm-12 bold-sans">
+                                <asp:DropDownList data-placeholder="انتخاب کنید" class="chosen-select" ClientIDMode="Static" AppendDataBoundItems="True" ID="drMatrial" runat="server" DataSourceID="Sqlmatrial" DataTextField="matrial" DataValueField="id" >
+                                    <asp:ListItem></asp:ListItem>
+                                </asp:DropDownList>
+                                <asp:SqlDataSource ID="Sqlmatrial" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, matrial FROM i_matrial"></asp:SqlDataSource>
+                            </div>
                         </div>
                     </div>
                 </div>

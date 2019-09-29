@@ -265,6 +265,7 @@ function addControli() {
             mdCountValue = 1;
         }
         var mored = $('#txtControliMoredControl').val();
+        var idpart = $('#Drpartcontrol :selected').val();
         var zaman = $('#drControliZaman :selected').text();
         var zamanValue = $('#drControliZaman :selected').val();
         var rooz = $('#txtControliRooz').val();
@@ -287,12 +288,15 @@ function addControli() {
         var comm = $('#txtMavaredComment').val();
         var head = '<thead>' +
             '<tr>' +
+            '<th>بخش کنترلی</th>' +
             '<th>مورد کنترلی</th>' +
             '<th>دوره تکرار</th>' +
             '<th>روز پیش بینی شده</th>' +
             '<th>نمایش برای سرویسکاری</th>' +
             '<th>عملیات</th>' +
             '<th>تاریخ شروع سرویسکاری</th>' +
+            '<th>ماده مصرفی</th>' +
+            '<th>میزان مصرف</th>' +
             '<th>ملاحظات</th>' +
             '<th></th>' +
             '<th></th>' +
@@ -301,20 +305,27 @@ function addControli() {
         var tbody = '<tbody></tbody>';
         var row = '<tr>' +
             '<td style="display:none;">0</td>' +
+            '<td style="display:none;">' + idpart + '</td>' +
             '<td style="display:none;">' + mored + '</td>' +
             '<td style="display:none;">' + zamanValue + '</td>' +
             '<td style="display:none;">' + roozValue + '</td>' +
             '<td style="display:none;">' + mdCountValue + '</td>' +
             '<td style="display:none;">' + $('#drcontroliOpr :selected').val() + '</td>' +
             '<td style="display:none;">' + $('#txtStartPMDate').val() + '</td>' +
+            '<td style="display:none;">' + $('#drMatrial :selected').val() + '</td>' +
+            '<td style="display:none;">' + $('#txtmizanmasraf').val() + '</td>' +
+           
             '<td style="display:none;">' + comm + '</td>' +
             '<td style="display:none;">0</td>' +
+            '<td>' + $('#Drpartcontrol :selected').text() + '</td>' +
             '<td>' + mored + '</td>' +
             '<td>' + zaman + '</td>' +
             '<td>' + rooz + '</td>' +
             '<td>' + mdcont + '</td>' +
             '<td>' + $('#drcontroliOpr :selected').text() + '</td>' +
             '<td>' + $('#txtStartPMDate').val() + '</td>' +
+            '<td>' + $('#drMatrial :selected').text() + '</td>' +
+            '<td>' + $('#txtmizanmasraf').val() + '</td>' +
             '<td>' + comm + '</td>' +
             '<td><a id="edit">ویرایش</a></td>' +
             '<td><a id="delete">حذف</a></td>' +
@@ -342,13 +353,17 @@ $("#gridMavaredControli").on("click", "tr a#edit", function () {
     target_tr = $(this).parent().parent();
     controlId = $(this).parent().parent().find('td:eq(0)').text();
     rowItems.push({
-        Name: $(this).parent().parent().find('td:eq(1)').text(),
-        Period: $(this).parent().parent().find('td:eq(2)').text(),
-        Day: $(this).parent().parent().find('td:eq(3)').text(),
-        Service: $(this).parent().parent().find('td:eq(4)').text(),
-        Operation: $(this).parent().parent().find('td:eq(5)').text(),
-        Date: $(this).parent().parent().find('td:eq(6)').text(),
-        Comment: $(this).parent().parent().find('td:eq(7)').text()
+        PartControl: $(this).parent().parent().find('td:eq(1)').text(),
+        Name: $(this).parent().parent().find('td:eq(2)').text(),
+        Period: $(this).parent().parent().find('td:eq(3)').text(),
+        Day: $(this).parent().parent().find('td:eq(4)').text(),
+        Service: $(this).parent().parent().find('td:eq(5)').text(),
+        Operation: $(this).parent().parent().find('td:eq(6)').text(),
+        Date: $(this).parent().parent().find('td:eq(7)').text(),
+        Matial: $(this).parent().parent().find('td:eq(8)').text(),
+        Dosage: $(this).parent().parent().find('td:eq(9)').text(),
+        
+        Comment: $(this).parent().parent().find('td:eq(10)').text()
     });
     FillControls(rowItems);
 });
@@ -371,6 +386,7 @@ $('#gridParts').on('click', 'tr', function () {
     }
 });
 function FillControls(items) {
+    $('#Drpartcontrol').val(items[0].PartControl);
     $('#txtControliMoredControl').val(items[0].Name);
     $('#drControliZaman').val(items[0].Period);
     if (items[0].Period != 0 && items[0].Period != 6) {
@@ -387,11 +403,14 @@ function FillControls(items) {
     } else {
         document.getElementById('servicekheyr').checked = true;
     }
+    $('#drMatrial').val(items[0].Matial).trigger('chosen:updated');
+    $('#txtmizanmasraf').val(items[0].Dosage);
     $('#drcontroliOpr').val(items[0].Operation);
     $('#txtStartPMDate').val(items[0].Date);
     $('#txtMavaredComment').val(items[0].Comment);
     $('#btnEditControls').show();
     $('#btnCancelEditCotntrols').show();
+    $('#btnAddControli').hide();
 }
 function DeleteControls() {
     $.ajax({
@@ -418,40 +437,46 @@ function DeleteControls() {
 
 function EditControliItems() {
     if (checkControliInputs() === 0) {
-        $(target_tr).find('td:eq(1)').text($('#txtControliMoredControl').val());
-        $(target_tr).find('td:eq(9)').text($('#txtControliMoredControl').val());
-        $(target_tr).find('td:eq(2)').text($('#drControliZaman :selected').val());
-        $(target_tr).find('td:eq(10)').text($('#drControliZaman :selected').text());
+        $(target_tr).find('td:eq(1)').text($('#Drpartcontrol :selected').val());
+        $(target_tr).find('td:eq(12)').text($('#Drpartcontrol :selected').text());
+        $(target_tr).find('td:eq(2)').text($('#txtControliMoredControl').val());
+        $(target_tr).find('td:eq(13)').text($('#txtControliMoredControl').val());
+        $(target_tr).find('td:eq(3)').text($('#drControliZaman :selected').val());
+        $(target_tr).find('td:eq(14)').text($('#drControliZaman :selected').text());
         var period = $('#drControliZaman :selected').val();
         if (period == 6) {
-            $(target_tr).find('td:eq(3)').text($('#drControlWeek :selected').val());
-            $(target_tr).find('td:eq(11)').text($('#drControlWeek :selected').text());
+            $(target_tr).find('td:eq(4)').text($('#drControlWeek :selected').val());
+            $(target_tr).find('td:eq(15)').text($('#drControlWeek :selected').text());
         }
         if (period == 0) {
-            $(target_tr).find('td:eq(3)').text(0);
-            $(target_tr).find('td:eq(11)').text('----');
+            $(target_tr).find('td:eq(4)').text(0);
+            $(target_tr).find('td:eq(15)').text('----');
         }
         if (period == 5) {
-            $(target_tr).find('td:eq(3)').text($('#txtControliRooz').val());
-            $(target_tr).find('td:eq(11)').text('هر ' + $('#txtControliRooz').val() + ' روز');
+            $(target_tr).find('td:eq(4)').text($('#txtControliRooz').val());
+            $(target_tr).find('td:eq(15)').text('هر ' + $('#txtControliRooz').val() + ' روز');
         }
         if (period != 6 && period != 0 && period != 5) {
-            $(target_tr).find('td:eq(3)').text($('#txtControliRooz').val());
-            $(target_tr).find('td:eq(11)').text($('#txtControliRooz').val());
+            $(target_tr).find('td:eq(4)').text($('#txtControliRooz').val());
+            $(target_tr).find('td:eq(15)').text($('#txtControliRooz').val());
         }
         if ($('#servicebale').is(':checked')) {
-            $(target_tr).find('td:eq(4)').text(1);
-            $(target_tr).find('td:eq(12)').text('بله');
+            $(target_tr).find('td:eq(5)').text(1);
+            $(target_tr).find('td:eq(16)').text('بله');
         } else {
-            $(target_tr).find('td:eq(4)').text(0);
-            $(target_tr).find('td:eq(12)').text('خیر');
+            $(target_tr).find('td:eq(5)').text(0);
+            $(target_tr).find('td:eq(16)').text('خیر');
         }
-        $(target_tr).find('td:eq(5)').text($('#drcontroliOpr :selected').val());
-        $(target_tr).find('td:eq(13)').text($('#drcontroliOpr :selected').text());
-        $(target_tr).find('td:eq(6)').text($('#txtStartPMDate').val());
-        $(target_tr).find('td:eq(14)').text($('#txtStartPMDate').val());
-        $(target_tr).find('td:eq(7)').text($('#txtMavaredComment').val());
-        $(target_tr).find('td:eq(15)').text($('#txtMavaredComment').val());
+        $(target_tr).find('td:eq(6)').text($('#drcontroliOpr :selected').val());
+        $(target_tr).find('td:eq(17)').text($('#drcontroliOpr :selected').text());
+        $(target_tr).find('td:eq(7)').text($('#txtStartPMDate').val());
+        $(target_tr).find('td:eq(18)').text($('#txtStartPMDate').val());
+        $(target_tr).find('td:eq(8)').text($('#drMatrial :selected').val());
+        $(target_tr).find('td:eq(19)').text($('#drMatrial :selected').text());
+        $(target_tr).find('td:eq(9)').text($('#txtmizanmasraf').val());
+        $(target_tr).find('td:eq(20)').text($('#txtmizanmasraf').val());
+        $(target_tr).find('td:eq(10)').text($('#txtMavaredComment').val());
+        $(target_tr).find('td:eq(21)').text($('#txtMavaredComment').val());
         EmptyControls();
         GreenAlert(target_tr, "✔ مورد کنترلی ویرایش شد");
     }
@@ -465,6 +490,7 @@ function EmptyControls() {
     document.getElementById('servicebale').checked = true;
     rowItems = [];
 }
+//==============================add Parts==========================
 function addParts() {
     var flag = checkPartInputs();
     var rowsCount = $('#gridGhataatMasrafi tr').length;
@@ -516,6 +542,8 @@ function addParts() {
         ClearFields('pnlGhatatMasrafi');
         newMachinePartSearchInit();
     }
+    $("#drMatrial").chosen('destroy');
+    $("#drMatrial").chosen({ width: "100%", rtl: true });
 }
 function checkPartInputs() {
     var flag = 0;
@@ -651,6 +679,7 @@ $('#btnMavaredeKeyFor').on('click', function () {
     $('#txtControliMoredControl').focus();
     $('#pnlMavaredKey').hide();
     $('[lblMCode]').text($('#txtmachineCode').val() + '___' + $('#txtmachineName').val());
+    $("#drMatrial").chosen({ width: "100%", rtl: true });
 });
 
 $('#btnMavaredControlBack').on('click', function () {
@@ -679,6 +708,7 @@ $('#btnSubsystemBack').on('click', function () {
     $('#pnlSubSytem').hide();
     $('#pnlMavaredControli').fadeIn();
     $('#txtControliMoredControl').focus();
+    $("#drMatrial").chosen({ width: "100%", rtl: true });
 });
 
 $('#btnGhatatBack').on('click', function () {
@@ -939,14 +969,17 @@ function SendTablesToDB() {
         for (var i = 1; i < table.rows.length; i++) {
             controliArr.push({
                 Idcontrol: table.rows[i].cells[0].innerHTML,
-                Control: table.rows[i].cells[1].innerHTML,
-                Time: table.rows[i].cells[2].innerHTML,
-                Day: table.rows[i].cells[3].innerHTML,
-                MDservice: table.rows[i].cells[4].innerHTML,
-                Operation: table.rows[i].cells[5].innerHTML,
-                PmDate: table.rows[i].cells[6].innerHTML,
-                Comment: table.rows[i].cells[7].innerHTML,
-                Bidcontrol: table.rows[i].cells[8].innerHTML
+                IdPartControl: table.rows[i].cells[1].innerHTML,
+                Control: table.rows[i].cells[2].innerHTML,
+                Time: table.rows[i].cells[3].innerHTML,
+                Day: table.rows[i].cells[5].innerHTML,
+                MDservice: table.rows[i].cells[5].innerHTML,
+                Operation: table.rows[i].cells[6].innerHTML,
+                PmDate: table.rows[i].cells[7].innerHTML,
+                Matrial: table.rows[i].cells[8].innerHTML,
+                Dosage: table.rows[i].cells[9].innerHTML,
+                Comment: table.rows[i].cells[10].innerHTML,
+                Bidcontrol: table.rows[i].cells[11].innerHTML
             });
         }
         $.ajax({
@@ -1279,6 +1312,32 @@ function GetKeyitems() {
                     j++;
                 }
             }
+            GetPartControlDr();
+        }
+    });
+}
+function GetPartControlDr() {
+    var Mid = $('#Mid').val();
+    
+    $.ajax({
+        type: "POST",
+        url: "WebService.asmx/GetDrPartControl",
+        data: "{ mid : " + Mid + "}",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+            var partc = JSON.parse(data.d);
+            var drPartControlOptions = [];
+           
+            if (partc.length > 0) {
+                
+               
+                for (var i = 0; i < partc.length; i++) {
+                   
+                    drPartControlOptions.push('<option value="' + partc[i].Idcontrol + '">' + partc[i].Control + '</option>');
+                }
+                $('#Drpartcontrol').empty().append(drPartControlOptions);
+            }
             GetC();
         }
     });
@@ -1296,12 +1355,15 @@ function GetC() {
             if (controliData.length > 0) {
                 var tblHead = '<thead>' +
                     '<tr>' +
+                    '<th>بخش کنترلی</th>' +
                     '<th>مورد کنترلی</th>' +
                     '<th>دوره تکرار</th>' +
                     '<th>روز پیش بینی شده</th>' +
                     '<th>نمایش برای سرویس کاری</th>' +
                     '<th>عملیات</th>' +
                     '<th>شروع سرویسکاری</th>' +
+                    '<th>ماده مصرفی</th>' +
+                    '<th>میزان مصرف</th>' +
                     '<th>ملاحظات</th>' +
                     '<th></th>' +
                     '<th></th>' +
@@ -1339,20 +1401,26 @@ function GetC() {
                     if (controliData[i].Comment == null) { controliData[i].Comment = " "; }
                     tblBody = '<tr>' +
                         '<td style="display:none;">' + controliData[i].Idcontrol + '</td>' +
+                        '<td style="display:none;">' + controliData[i].IdPartControl + '</td>' +
                         '<td style="display:none;">' + controliData[i].Control + '</td>' +
                         '<td style="display:none;">' + controliData[i].Time + '</td>' +
                         '<td style="display:none;">' + controliData[i].Day + '</td>' +
                         '<td style="display:none;">' + mdserValue + '</td>' +
                         '<td style="display:none;">' + controliData[i].Operation + '</td>' +
                         '<td style="display:none;">' + controliData[i].PmDate + '</td>' +
+                        '<td style="display:none;">' + controliData[i].Matrial + '</td>' +
+                        '<td style="display:none;">' + controliData[i].Dosage + '</td>' +
                         '<td style="display:none;">' + controliData[i].Comment + '</td>' +
                         '<td style="display:none;">' + controliData[i].Bidcontrol + '</td>' +
+                        '<td>' + controliData[i].PartControl + '</td>' +
                         '<td>' + controliData[i].Control + '</td>'
                         + '<td>' + period + '</td>'
                         + '<td>' + rooz + '</td>'
                         + '<td>' + mdSer + '</td>'
                         + '<td>' + opr + '</td>'
                         + '<td>' + controliData[i].PmDate + '</td>'
+                        + '<td>' + controliData[i].Smatrial + '</td>'
+                        + '<td>' + controliData[i].Dosage + '</td>' 
                         + '<td>' + controliData[i].Comment + '</td>'
                         + '<td><a id="edit">ویرایش</a></td><td><a id="delete">حذف</a></td></tr>';
                     $('#gridMavaredControli tbody').append(tblBody);
