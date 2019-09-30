@@ -1372,7 +1372,7 @@ function GetC() {
                 var tblBody = "<tbody></tbody>";
                 $('#gridMavaredControli').append(tblHead);
                 $('#gridMavaredControli').append(tblBody);
-                var period, rooz, mdSer, mdserValue, opr;
+                var period, rooz, mdSer, mdserValue, opr,cname;
                 for (var i = 0; i < controliData.length; i++) {
                     if (controliData[i].Time == '0') { period = "روزانه"; rooz = '----' }
                     if (controliData[i].Time == '6') {
@@ -1399,6 +1399,11 @@ function GetC() {
                     if (controliData[i].MDservice == "1") { mdSer = "بله"; mdserValue = 1; }
                     if (controliData[i].MDservice == "0") { mdSer = "خیر"; mdserValue = 0; }
                     if (controliData[i].Comment == null) { controliData[i].Comment = " "; }
+                    if (controliData[i].Control.length > 15) {
+                        cname = controliData[i].Control.substring(0, 15) + "...";
+                    } else {
+                        cname = controliData[i].Control;
+                    }
                     tblBody = '<tr>' +
                         '<td style="display:none;">' + controliData[i].Idcontrol + '</td>' +
                         '<td style="display:none;">' + controliData[i].IdPartControl + '</td>' +
@@ -1413,7 +1418,7 @@ function GetC() {
                         '<td style="display:none;">' + controliData[i].Comment + '</td>' +
                         '<td style="display:none;">' + controliData[i].Bidcontrol + '</td>' +
                         '<td>' + controliData[i].PartControl + '</td>' +
-                        '<td>' + controliData[i].Control + '</td>'
+                        '<td>' + cname + '</td>'
                         + '<td>' + period + '</td>'
                         + '<td>' + rooz + '</td>'
                         + '<td>' + mdSer + '</td>'

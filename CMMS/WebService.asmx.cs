@@ -1266,13 +1266,13 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(controliList);
         }
         [WebMethod]
-        public string GetDrPartControl(int mid) //get Base information  
+        public string GetDrPartControl (int mid) //get Base information  
         {
             var controliList = new List<Controls>();
             _cnn.Open();//if for define code 8 or 6 .8 with unit code and 6 is for without unit code
             var getControls =
                 new SqlCommand("SELECT [id],[PartControl]FROM [dbo].[b_partcontrol] where Mid = " +
-                               "(select case when max(LEN(code)) = 6 then SUBSTRING(code, 1, 3) else SUBSTRING(code, 3, 3) end as mid from m_machine  where id = "+mid+" group by code ) ", _cnn);
+                               "(select case when max(LEN(code)) = 8 then SUBSTRING(code, 3, 3) else SUBSTRING(code, 1, 3) end as mid from m_machine  where id = "+mid+" group by code ) ", _cnn);
             var rd = getControls.ExecuteReader();
             while (rd.Read())
             {

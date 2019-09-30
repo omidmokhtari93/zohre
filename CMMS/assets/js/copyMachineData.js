@@ -139,9 +139,33 @@ function CopyData() {
                         j++;
                     }
                 }
-                getMachineControli();
+                getPartControlDr();
             }
         });
+    }
+    function getPartControlDr() {
+        AjaxData({
+            url: 'WebService.asmx/GetDrPartControl',
+            param: { mid: machineId },
+            func: getDr
+        });
+
+        function getDr(data) {
+            var partc = JSON.parse(data.d);
+            var drPartControlOptions = [];
+
+            if (partc.length > 0) {
+
+
+                for (var i = 0; i < partc.length; i++) {
+
+                    drPartControlOptions.push('<option value="' + partc[i].Idcontrol + '">' + partc[i].Control + '</option>');
+                }
+                $('#Drpartcontrol').empty().append(drPartControlOptions);
+            }
+            getMachineControli();
+        }
+
     }
     function getMachineControli() {
         data = [];
@@ -151,19 +175,23 @@ function CopyData() {
             func: copyControli
         });
         AjaxCall(data);
+
         function copyControli(e) {
             $('#gridMavaredControli').empty();
             var controliData = JSON.parse(e.d);
             if (controliData.length > 0) {
                 var tblHead = '<thead>' +
                     '<tr>' +
-                    '<th>مورد کنترلی</th>' +
-                    '<th>دوره تکرار</th>' +
-                    '<th>روز پیش بینی شده</th>' +
-                    '<th>نمایش برای سرویس کاری</th>' +
-                    '<th>عملیات</th>' +
-                    '<th>شروع سرویسکاری</th>' +
-                    '<th>ملاحظات</th>' +
+                    '<th style="font-size: 10px;">بخش کنترلی</th>' +
+                    '<th style="font-size: 10px;">مورد کنترلی</th>' +
+                    '<th style="font-size: 10px;">دوره تکرار</th>' +
+                    '<th style="font-size: 10px;">روز پیش بینی شده</th>' +
+                    '<th style="font-size: 10px;">نمایش برای سرویس کاری</th>' +
+                    '<th style="font-size: 10px;">عملیات</th>' +
+                    '<th style="font-size: 10px;">شروع سرویسکاری</th>' +
+                    '<th style="font-size: 10px;">ماده مصرفی</th>' +
+                    '<th style="font-size: 10px;">میزان مصرف</th>' +
+                    '<th style="font-size: 10px;">ملاحظات</th>' +
                     '<th></th>' +
                     '<th></th>' +
                     '</tr>' +
@@ -171,43 +199,64 @@ function CopyData() {
                 var tblBody = "<tbody></tbody>";
                 $('#gridMavaredControli').append(tblHead);
                 $('#gridMavaredControli').append(tblBody);
-                var period, rooz, mdSer, mdserValue, opr;
+                var period, rooz, mdSer, mdserValue, opr, cname;
                 for (var i = 0; i < controliData.length; i++) {
                     period = "روزانه";
                     rooz = '----';
-                   
-                    if (controliData[i].Operation == 1) { opr = 'برق' }
-                    if (controliData[i].Operation == 2) { opr = 'چک و بازدید' }
-                    if (controliData[i].Operation == 3) { opr = 'روانکاری' }
-                    mdSer = "بله"; mdserValue = 1; 
-                   
-                    if (controliData[i].Comment == "") {
+
+                    if (controliData[i].Operation == 1) {
+                        opr = 'برق';
+                    }
+                    if (controliData[i].Operation == 2) {
+                        opr = 'چک و بازدید';
+                    }
+                    if (controliData[i].Operation == 3) {
+                        opr = 'روانکاری';
+                    }
+                    mdSer = "بله";
+                    mdserValue = 1;
+
+                    if (controliData[i].Comment == null) {
                         controliData[i].Comment = " ";
-                    } 
+                    }
+                    if (controliData[i].Control.length > 15) {
+                        cname = controliData[i].Control.substring(0,15) + "...";
+                    } else {
+                        cname = controliData[i].Control;
+                    }
                     tblBody = '<tr>' +
                         '<td style="display:none;">0</td>' +
+                        '<td style="display:none;">' + controliData[i].IdPartControl + '</td>' +
                         '<td style="display:none;">' + controliData[i].Control + '</td>' +
                         '<td style="display:none;">' + controliData[i].Time + '</td>' +
                         '<td style="display:none;">' + controliData[i].Day + '</td>' +
                         '<td style="display:none;">' + mdserValue + '</td>' +
                         '<td style="display:none;">' + controliData[i].Operation + '</td>' +
                         '<td style="display:none;">1400/01/01</td>' +
+                        '<td style="display:none;">' + controliData[i].Matrial + '</td>' +
+                        '<td style="display:none;">' + controliData[i].Dosage + '</td>' +
                         '<td style="display:none;">' + controliData[i].Comment + '</td>' +
-                        '<td style="display:none;">' + controliData[i].Idcontrol + '</td>' +
-                        '<td>' + controliData[i].Control + '</td>'
-                        + '<td>' + period + '</td>'
-                        + '<td>' + rooz + '</td>'
-                        + '<td>' + mdSer + '</td>'
-                        + '<td>' + opr + '</td>'
-                        + '<td>1400/01/01</td>'
-                        + '<td>' + controliData[i].Comment + '</td>'
-                        + '<td><a id="edit">ویرایش</a></td><td>' +
-                        '<a id="delete">حذف</a></td></tr>';
+                        '<td style="display:none;">' + controliData[i].Bidcontrol + '</td>' +
+                        '<td>' + controliData[i].PartControl + '</td>' +
+                        '<td title="' + controliData[i].Control + '">' + cname + '</td>' +
+                        '<td>' + period + '</td>' +
+                        '<td>' + rooz + '</td>' +
+                        '<td>' + mdSer + '</td>' +
+                        '<td>' + opr + '</td>' +
+                        '<td>1400/01/01</td>' +
+                        '<td>' + controliData[i].Smatrial + '</td>' +
+                        '<td>' + controliData[i].Dosage + '</td>' +
+                        '<td>' + controliData[i].Comment + '</td>' +
+                        '<td><a id="edit">ویرایش</a></td><td><a id="delete">حذف</a></td></tr>';
+                
                     $('#gridMavaredControli tbody').append(tblBody);
                 }
             }
-            getMachineSubsystem();
-        } 
+        }
+   
+
+         getMachineSubsystem();
+        
     }
 
     function getMachineSubsystem() {

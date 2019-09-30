@@ -1220,13 +1220,18 @@ function GetC() {
                 var tblBody = "<tbody></tbody>";
                 $('#gridMavaredControli').append(tblHead);
                 $('#gridMavaredControli').append(tblBody);
-                var  period, rooz, mdSer ,mdserValue ,opr;
+                var  period, rooz, mdSer ,mdserValue ,opr,cname;
                 for (var i = 0; i < controliData.length; i++) {
  
                     if (controliData[i].Operation == 1) { opr = 'برق' }
                     if (controliData[i].Operation == 2) { opr = 'چک و بازدید' }
                     if (controliData[i].Operation == 3) { opr = 'روانکاری' }
                     if (controliData[i].Comment == null) { controliData[i].Comment = " "; }
+                    if (controliData[i].Control.length > 15) {
+                        cname = controliData[i].Control.substring(0, 15) + "...";
+                    } else {
+                        cname = controliData[i].Control;
+                    }
                     tblBody = '<tr>' +
                         '<td style="display:none;">' + controliData[i].Idcontrol + '</td>' +
                         '<td style="display:none;">' + controliData[i].IdPartControl + '</td>' +
@@ -1237,7 +1242,7 @@ function GetC() {
                         '<td style="display:none;">' + controliData[i].Comment + '</td>' +
                         '<td style="display:none;">' + controliData[i].Broadcast + '</td>' +
                         '<td>' + controliData[i].PartControl + '</td>'+
-                        '<td>' + controliData[i].Control + '</td>'
+                        '<td>' + cname + '</td>'
                         + '<td>' + opr + '</td>'
                         + '<td> <input type="checkbox" ' + (controliData[i].Broadcast ? 'checked' : '') +' disabled />  </td>'
                         + '<td>' + controliData[i].Smatrial + '</td>' 
