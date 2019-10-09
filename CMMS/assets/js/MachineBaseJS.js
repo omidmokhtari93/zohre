@@ -483,17 +483,15 @@ function addParts() {
     var rowsCount = $('#gridGhataatMasrafi tr').length;
     var table = document.getElementById('gridGhataatMasrafi');
     for (var a = 0; a < rowsCount; a++) {
-        for (var b = 0; b < partData.length; b++) {
-            if (table.rows[a].cells[1].innerHTML == partData[b].PartId) {
-                $.notify("!!این مورد قبلا ثبت شده است", { globalPosition: 'top left' });
-                return ;
-            }
+        if (table.rows[a].cells[1].innerHTML == partData.PartId) {
+            $.notify("!!این مورد قبلا ثبت شده است", { globalPosition: 'top left' });
+            return;
         }
     }
-    if (flag === 0 && partData.length === 1) {
+    if (flag === 0 && partData.PartName !== null) {
         var head = '<thead>' +
             '<tr>' +
-            '<th style="display:none;"></th>' +
+           
             '<th>نام قطعه</th>' +
             '<th>مصرف در سال</th>' +
             '<th>حداقل</th>' +
@@ -503,12 +501,14 @@ function addParts() {
             '</tr>' +
             '</thead>';
         var row = '<tr>' +
-            '<td style="display:none;">0</td>' +
-            '<td style="display:none;">' + partData[0].PartId + '</td>' +
-            '<td>' + partData[0].PartName + '</td>' +
+            
+            '<td style="display:none;">' + partData.PartId + '</td>' +
+            '<td style="display:none;">' + $('#Drmeasurement').val() + '</td>' +
+            '<td>' + partData.PartName + '</td>' +
             '<td>' + $('#txtGhatatPerYear').val() + '</td>' +
             '<td>' + $('#txtGhatatMin').val() + '</td>' +
             '<td>' + $('#txtGhatatMax').val() + '</td>' +
+            
             '<td><a id="editPart">ویرایش</a></td>' +
             '<td><a id="deletePart">حذف</a></td>' +
             '</tr>';
@@ -520,12 +520,12 @@ function addParts() {
             $("#gridGhataatMasrafi").append(body);
             $("#gridGhataatMasrafi tbody").append(row);
         }
-        partData = [];
+        partData = { PartName: null, PartId: null };
         ClearFields('pnlGhatatMasrafi');
-        $('#txtPartsSearch').attr('placeholder', 'جستجو کنید ...');
-        $('#txtPartsSearch').removeAttr('readonly');
-        $('#PartBadgeArea').find('.PartsBadge').remove();
+        newMachinePartSearchInit();
     }
+    $("#drMatrial").chosen('destroy');
+    $("#drMatrial").chosen({ width: "100%", rtl: true });
 }
 function checkPartInputs() {
     var flag = 0;
@@ -549,7 +549,7 @@ $("#gridGhataatMasrafi").on("click", "tr a#editPart", function () {
     target_tr = $(this).parent().parent();
     var partid = $(this).parent().parent().find('td:eq(1)').text();
     var partname = $(this).parent().parent().find('td:eq(2)').text();
-    createPartBadge(partname, partid);
+    newMachinePartSearchCreate(partname, partid);
     $('#txtPartsSearch').removeAttr('placeholder');
     $('#txtGhatatPerYear').val($(this).parent().parent().find('td:eq(3)').text());
     $('#txtGhatatMin').val($(this).parent().parent().find('td:eq(4)').text());
@@ -594,7 +594,8 @@ function editParts() {
         $('#btnCancelEditPart').hide();
         $('#txtPartsSearch').attr('placeholder', 'جستجو کنید ...');
         $('#txtPartsSearch').removeAttr('readonly');
-        GreenAlert(target_tr,"✔قطعه ویرایش شد");
+        GreenAlert(target_tr, "✔قطعه ویرایش شد");
+        newMachinePartSearchInit();
     }
 }
 function DeletePart() {
@@ -663,6 +664,9 @@ $('#btnMavaredControlFor').on('click', function () {
 $('#btnSubsystemFor').on('click', function () {
     $('#pnlSubSytem').hide();
     $('#pnlGhatatMasrafi').fadeIn();
+    setTimeout(function () {
+        newMachinePartSearchInit();
+    }, 200);
 });
 $('#btnSubsystemBack').on('click', function () {
     $('#pnlSubSytem').hide();

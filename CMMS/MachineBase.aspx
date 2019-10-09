@@ -531,21 +531,7 @@
                     </div>
                     <div class="col-md-6" style="position: relative;">
                         <label>: نام قطعه پر مصرف</label>
-                        <div id="PartBadgeArea" style="position: relative;">
-                            <input type="text" autocomplete="off" tabindex="41" class="form-control" id="txtPartsSearch" placeholder="جستجوی قطعه ..." />
-                            <img src="assets/Images/loading.png" id="partsLoading" style="width: 20px; height: 20px; position: absolute; top: 7px; left: 7px; display: none;" />
-                        </div>
-                        <div id="PartsSearchResulat">
-                            <div style="padding: 5px 28px 5px 5px; background-color: #dfecfe">
-                                <input type="text" id="txtSubSearchPart" autocomplete="off" />
-                                <img src="assets/Images/funnel.png" class="imgfilter" />
-                            </div>
-                            <div style="overflow: auto; width: 422px; max-height: 200px;">
-                                <table id="gridParts" class="PartsTable">
-                                    <tbody></tbody>
-                                </table>
-                            </div>
-                        </div>
+                        <div id="partSearchDiv"></div>
                     </div>
                 </div>
                 <div class="row">
