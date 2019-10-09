@@ -520,7 +520,7 @@
             </div>
         </div>
 
-
+        <%--ثبت قطعات مصرفی--%>
         <div class="card sans" id="pnlGhatatMasrafi" style="display: none;">
             <div class="card-header bg-primary text-white">ثبت قطعات مصرفی</div>
             <div class="card-body">
@@ -549,7 +549,6 @@
             <div class="card-footer">
                 <button type="button" tabindex="48" title="صفحه بعد" class="button fa fa-arrow-left" id="btnGhatatFor"></button>
                 <button type="button" class="button fa fa-arrow-right" title="صفحه قبل" id="btnGhatatBack"></button>
-                
                 <button class="button" style="display: none;" type="button" id="btnEditPart" onclick="editParts();">ویرایش</button>
                 <button class="button" style="display: none;" type="button" id="btnCancelEditPart" onclick="ClearFields('pnlGhatatMasrafi');CancelDeletePart();">انصراف</button>
                 <button type="button" id="btnAddMasrafi" class="button" onclick="addParts();" tabindex="47">

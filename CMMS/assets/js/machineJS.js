@@ -569,7 +569,6 @@ $("#gridGhataatMasrafi").on("click", "tr a#editPart", function () {
     var partname = $(this).parent().parent().find('td:eq(3)').text();
     newMachinePartSearchCreate(partname, partid);
     $('#Drmeasurement').val($(this).parent().parent().find('td:eq(2)').text());
-    $('#txtPartsSearch').removeAttr('placeholder');
     $('#txtGhatatPerYear').val($(this).parent().parent().find('td:eq(5)').text());
     $('#txtGhatatMin').val($(this).parent().parent().find('td:eq(6)').text());
     $('#txtGhatatMax').val($(this).parent().parent().find('td:eq(7)').text());
@@ -581,12 +580,9 @@ $("#gridGhataatMasrafi").on("click", "tr a#editPart", function () {
 });
 
 function CancelDeletePart() {
-    $('#PartBadgeArea').find('div').remove();
     $('#btnEditPart').hide();
     $('#btnCancelEditPart').hide();
     $('#btnAddMasrafi').show();
-    $('#txtPartsSearch').attr('placeholder', 'جستجو کنید ...');
-    $('#txtPartsSearch').removeAttr('readonly');
     partData = { PartName: null, PartId: null };
     newMachinePartSearchInit();
 }
@@ -611,13 +607,10 @@ function editParts() {
         $(target_tr).find('td:eq(8)').text($('#txtGhatatChangePeriod').val());
         $(target_tr).find('td:eq(9)').text($('#txtGhatatCom').val());
         ClearFields('pnlGhatatMasrafi');
-        $('#PartBadgeArea').find('div').remove();
         partData = { PartName: null, PartId: null };
         $('#btnEditPart').hide();
         $('#btnCancelEditPart').hide();
         $('#btnAddMasrafi').show();
-        $('#txtPartsSearch').attr('placeholder', 'جستجو کنید ...');
-        $('#txtPartsSearch').removeAttr('readonly');
         GreenAlert(target_tr, "✔قطعه ویرایش شد");
         newMachinePartSearchInit();
     }

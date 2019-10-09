@@ -568,35 +568,30 @@ function CancelDeletePart() {
 }
 
 function editParts() {
-    var rowsCount = $('#gridGhataatMasrafi tr').length;
-    var targetTrIndex = $(target_tr).index();
-    var table = document.getElementById('gridGhataatMasrafi');
-    for (var a = 0; a < rowsCount; a++) {
-        if (targetTrIndex + 1 == a) {continue;}
-        for (var b = 0; b < partData.length; b++) {
-            if (table.rows[a].cells[1].innerHTML == partData[b].PartId) {
-                $.notify("!!این مورد قبلا ثبت شده است", { globalPosition: 'top left' });
-                return;
-            }
-        }
+  var rowsCount = $('#gridGhataatMasrafi tr').length;
+  var targetRow = $(target_tr).index() + 1;
+  var table = document.getElementById('gridGhataatMasrafi');
+  for (var a = 0; a < rowsCount; a++) {
+    if (table.rows[a].cells[1].innerHTML == partData.PartId && targetRow !== a) {
+      $.notify("!!این مورد قبلا ثبت شده است", { globalPosition: 'top left' });
+      return;
     }
-    var flag = checkPartInputs();
-    if (flag === 0 && partData.length === 1) {
-        $(target_tr).find('td:eq(1)').text(partData[0].PartId);
-        $(target_tr).find('td:eq(2)').text(partData[0].PartName);
-        $(target_tr).find('td:eq(3)').text($('#txtGhatatPerYear').val());
-        $(target_tr).find('td:eq(4)').text($('#txtGhatatMin').val());
-        $(target_tr).find('td:eq(5)').text($('#txtGhatatMax').val());
-        ClearFields('pnlGhatatMasrafi');
-        $('#PartBadgeArea').find('div').remove();
-        partData = [];
-        $('#btnEditPart').hide();
-        $('#btnCancelEditPart').hide();
-        $('#txtPartsSearch').attr('placeholder', 'جستجو کنید ...');
-        $('#txtPartsSearch').removeAttr('readonly');
-        GreenAlert(target_tr, "✔قطعه ویرایش شد");
-        newMachinePartSearchInit();
-    }
+  }
+  var flag = checkPartInputs();
+  if (flag === 0 && partData.PartName !== null) {
+    $(target_tr).find('td:eq(1)').text(partData.PartId);
+    $(target_tr).find('td:eq(3)').text(partData.PartName);
+    $(target_tr).find('td:eq(5)').text($('#txtGhatatPerYear').val());
+    $(target_tr).find('td:eq(6)').text($('#txtGhatatMin').val());
+    $(target_tr).find('td:eq(7)').text($('#txtGhatatMax').val());
+    ClearFields('pnlGhatatMasrafi');
+    partData = { PartName: null, PartId: null };
+    $('#btnEditPart').hide();
+    $('#btnCancelEditPart').hide();
+    $('#btnAddMasrafi').show();
+    GreenAlert(target_tr, "✔قطعه ویرایش شد");
+    newMachinePartSearchInit();
+  }
 }
 function DeletePart() {
     $.ajax({
