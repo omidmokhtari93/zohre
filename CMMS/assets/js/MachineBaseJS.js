@@ -556,6 +556,7 @@ $("#gridGhataatMasrafi").on("click", "tr a#editPart", function () {
     $('#txtGhatatMax').val($(this).parent().parent().find('td:eq(5)').text());
     $('#btnEditPart').show();
     $('#btnCancelEditPart').show();
+    $('#btnAddMasrafi').hide();
 });
 
 function CancelDeletePart() {
@@ -580,10 +581,10 @@ function editParts() {
   var flag = checkPartInputs();
   if (flag === 0 && partData.PartName !== null) {
     $(target_tr).find('td:eq(1)').text(partData.PartId);
-    $(target_tr).find('td:eq(3)').text(partData.PartName);
-    $(target_tr).find('td:eq(5)').text($('#txtGhatatPerYear').val());
-    $(target_tr).find('td:eq(6)').text($('#txtGhatatMin').val());
-    $(target_tr).find('td:eq(7)').text($('#txtGhatatMax').val());
+    $(target_tr).find('td:eq(2)').text(partData.PartName);
+    $(target_tr).find('td:eq(3)').text($('#txtGhatatPerYear').val());
+    $(target_tr).find('td:eq(4)').text($('#txtGhatatMin').val());
+    $(target_tr).find('td:eq(5)').text($('#txtGhatatMax').val());
     ClearFields('pnlGhatatMasrafi');
     partData = { PartName: null, PartId: null };
     $('#btnEditPart').hide();
