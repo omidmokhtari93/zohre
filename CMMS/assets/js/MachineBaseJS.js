@@ -254,7 +254,6 @@ $("#gridPartControli").on("click", "tr a#edit", function () {
 
 
 function FillpartControls(items) {
-
   $('#txtPartControli').val(items[0].Name);
   $('#btnAddPartControli').hide();
   $('#btnEditPartControls').show();
@@ -302,29 +301,23 @@ function EditPartControliItems() {
   }
 }
 function EmptypartControls() {
-
   ClearFields('pnlPartControli');
-
   $('#btnEditPartControls').hide();
   $('#btnCancelPartCotntrols').hide();
   $('#btnAddPartControli').show();
-
   rowItems = [];
 }
 //======================Second Part ======================//
 function checkControliInputs() {
   var flag = 0;
-
   if ($('#txtControliMoredControl').val() === '') { RedAlert('txtControliMoredControl', "!!لطفا مورد کنترلی را وارد نمایید"); flag = 1; }
-
   return flag;
 }
+
 function addControli() {
   if (checkControliInputs() === 0) {
-
     var mored = $('#txtControliMoredControl').val();
     var idpart = $('#Drpartcontrol :selected').val();
-
     var comm = $('#txtMavaredComment').val();
     var head = '<thead>' +
       '<tr>' +
@@ -351,14 +344,11 @@ function addControli() {
       '<td style="display:none;">' + $("#chkbroadcast").is(':checked') + '</td>' +
       '<td>' + $('#Drpartcontrol :selected').text() + '</td>' +
       '<td>' + mored + '</td>' +
-
       '<td>' + $('#drcontroliOpr :selected').text() + '</td>' +
       '<td><input type="checkbox" ' + ($('#chkbroadcast').is(':checked') ? 'checked' : '') + ' disabled/></td>' +
       '<td>' + $('#drMatrial :selected').text() + '</td>' +
       '<td>' + $('#txtmizanmasraf').val() + '</td>' +
       '<td>' + comm + '</td>' +
-
-
       '<td><a id="edit">ویرایش</a></td>' +
       '<td><a id="delete">حذف</a></td>' +
       '</tr>';
@@ -410,7 +400,6 @@ function FillControls(items) {
   else {
     $('#chkbroadcast').prop('checked', false);
   }
-
   $('#btnEditControls').show();
   $('#btnCancelEditCotntrols').show();
 }
@@ -441,16 +430,11 @@ function EditControliItems() {
   if (checkControliInputs() === 0) {
     $(target_tr).find('td:eq(1)').text($('#Drpartcontrol :selected').val());
     $(target_tr).find('td:eq(8)').text($('#Drpartcontrol :selected').text());
-
     $(target_tr).find('td:eq(2)').text($('#txtControliMoredControl').val());
     $(target_tr).find('td:eq(9)').text($('#txtControliMoredControl').val());
-
-
     $(target_tr).find('td:eq(3)').text($('#drcontroliOpr :selected').val());
     $(target_tr).find('td:eq(10)').text($('#drcontroliOpr :selected').text());
-
     $(target_tr).find('td:eq(7)').text($("#chkbroadcast").is(':checked'));
-
     $(target_tr).find('td:eq(11)').html('<input type="checkbox" ' + ($('#chkbroadcast').is(':checked') ? 'checked' : '') + ' disabled/>');
     $(target_tr).find('td:eq(4)').text($('#drMatrial :selected').val());
     $(target_tr).find('td:eq(12)').text($('#drMatrial :selected').text());
@@ -458,22 +442,17 @@ function EditControliItems() {
     $(target_tr).find('td:eq(13)').text($('#txtmizanmasraf').val());
     $(target_tr).find('td:eq(6)').text($('#txtMavaredComment').val());
     $(target_tr).find('td:eq(14)').text($('#txtMavaredComment').val());
-
-
     EmptyControls();
     $("#drMatrial").chosen('destroy');
     $("#drMatrial").chosen({ width: "100%", rtl: true });
-
     GreenAlert(target_tr, "✔ مورد کنترلی ویرایش شد");
   }
 }
 function EmptyControls() {
   $('#chkbroadcast').prop('checked', false);
   ClearFields('pnlMavaredControli');
-
   $('#btnEditControls').hide();
   $('#btnCancelEditCotntrols').hide();
-
   rowItems = [];
 }
 //===================  add Parts  ======================//
@@ -488,9 +467,7 @@ function addParts() {
     }
   }
   if (flag === 0 && partData.PartName !== null) {
-    var head = '<thead>' +
-      '<tr>' +
-
+    var head = '<thead><tr>' +
       '<th>نام قطعه</th>' +
       '<th>مصرف در سال</th>' +
       '<th>حداقل</th>' +
@@ -500,14 +477,12 @@ function addParts() {
       '</tr>' +
       '</thead>';
     var row = '<tr>' +
-
+      '<td style="display:none;">0</td>' +
       '<td style="display:none;">' + partData.PartId + '</td>' +
-      '<td style="display:none;">' + $('#Drmeasurement').val() + '</td>' +
       '<td>' + partData.PartName + '</td>' +
       '<td>' + $('#txtGhatatPerYear').val() + '</td>' +
       '<td>' + $('#txtGhatatMin').val() + '</td>' +
       '<td>' + $('#txtGhatatMax').val() + '</td>' +
-
       '<td><a id="editPart">ویرایش</a></td>' +
       '<td><a id="deletePart">حذف</a></td>' +
       '</tr>';
@@ -695,8 +670,6 @@ function SendTablesToDB() {
   function machinMainData() {
     var obj = {};
     obj.Name = $('#txtmachineName').val();
-
-
     obj.Ahamiyat = $(document).find('input[name=switch_2]:checked').attr('value');
     obj.Creator = $('#txtMachineManufacturer').val();
     obj.Model = $('#txtMachineModel').val();
@@ -799,8 +772,7 @@ function SendTablesToDB() {
   }
 
   function sendKeyItems() {
-    var rowCount = $('#gridMavaredKey tr').length - 1;
-
+    //var rowCount = $('#gridMavaredKey tr').length - 1;
     var table = document.getElementById("gridMavaredKey");
     var keyArr = [];
     for (var i = 1; i < table.rows.length; i++) {
@@ -905,7 +877,6 @@ function SendTablesToDB() {
         UsePerYear: table.rows[i].cells[3].innerHTML,
         Min: table.rows[i].cells[4].innerHTML,
         Max: table.rows[i].cells[5].innerHTML
-
       });
     }
     $.ajax({
@@ -924,8 +895,8 @@ function SendTablesToDB() {
       }
     });
   }
-  function sendInstr() {
 
+  function sendInstr() {
     var dastoorText = $('#txtInstruc').val();
     $.ajax({
       type: "POST",
@@ -947,6 +918,7 @@ function SendTablesToDB() {
       }
     });
   }
+
   function clearControls() {
     ClearFields('machineform');
     $('#pnlcontroliRooz').css('display', 'none');
@@ -1033,7 +1005,6 @@ function fillMachineControls(mInfo) {
   var deact = document.getElementById('deact');
   var fail = document.getElementById('fail');
   $('#txtmachineName').val(mInfo[0].Name);
-
   $('#txtMachineManufacturer').val(mInfo[0].Creator);
   $('#txtMachineModel').val(mInfo[0].Model);
   $('#drCatGroup').val(mInfo[0].CatGroup);
@@ -1046,7 +1017,6 @@ function fillMachineControls(mInfo) {
   $('#txtSelInfo').val(mInfo[0].SellInfo);
   $('#txtSupInfo').val(mInfo[0].SuppInfo);
   $('#txtCommentKey').val(mInfo[0].Keycomment);
-
   if (mInfo[0].Ahamiyat == "False") { gheyrkelidi.checked = true; }
   if (mInfo[0].VaziatTajhiz == 2) { fail.checked = true; }
   if (mInfo[0].VaziatTajhiz == 0) { deact.checked = true; }
@@ -1193,8 +1163,8 @@ function GetPartControl() {
     }
   });
 }
-function GetC() {
 
+function GetC() {
   $('#gridMavaredControli').empty();
   var Mid = $('#Mid').val();
   $.ajax({
@@ -1295,6 +1265,7 @@ function GetSubSystems() {
     }
   });
 }
+
 function GetG() {
   $('#gridGhataatMasrafi').empty();
   var Mid = $('#Mid').val();
@@ -1313,7 +1284,6 @@ function GetG() {
           '<th>مصرف در سال</th>' +
           '<th>حداقل</th>' +
           '<th>حداکثر</th>' +
-
           '<th></th>' +
           '<th></th>' +
           '</tr>' +
