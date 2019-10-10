@@ -433,6 +433,17 @@ namespace CMMS
         public void BSendMasrafi(int mid, MasrafiMain masrafiMain) //Base Information
         {
             _cnn.Open();
+            var Idarr =new List<int>();
+            var selectId=new SqlCommand("if(select case when max(LEN(code)) = 6 then 6 else 8 end as tool from m_machine)=8 " +
+                                        "begin select id from m_machine where SUBSTRING(code,3,3) =" + mid + " end " +
+                                        "else begin select id from m_machine where SUBSTRING(code,1,3) =" + mid + " end", _cnn);
+            var drId = selectId.ExecuteReader();
+            while (drId.Read())
+            {
+                Idarr.Add(Convert.ToInt32(drId["id"]) );
+            }
+            _cnn.Close();
+            _cnn.Open();
             var insertFuel = new SqlCommand(
                 "if (select count(Mid) from b_fuel where Mid = " + mid + ") <> 0  " +
                 "UPDATE [dbo].[b_fuel] " +
@@ -481,9 +492,7 @@ namespace CMMS
                 ",[fuel] = " + masrafiMain.FuelChecked + " " +
                 ",[fuelType] = '" + masrafiMain.FuelType + "' " +
                 ",[fueltot] = '" + masrafiMain.FuelMasraf + "' " +
-                " WHERE Mid in (if(select case when max(LEN(code)) = 6 then 6 else 8 end as tool from m_machine)=8 " +
-                "begin select id from m_machine where SUBSTRING(code,3,3) =" + mid + " end " +
-                "else begin select id from m_machine where SUBSTRING(code,1,3) =" + mid + " end)", _cnn);
+                " WHERE Mid in ("+string.Join(",",Idarr.Select(x => x.ToString()).ToArray())+" )", _cnn);
             insertFuel.ExecuteNonQuery();
             _cnn.Close();
         }
