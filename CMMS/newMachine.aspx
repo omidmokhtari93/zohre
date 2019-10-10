@@ -15,7 +15,7 @@
         .table td a {
             padding: 0 4px;
             background-color: #5389db;
-            color: white!important;
+            color: white !important;
             font-weight: 500;
             border-radius: 2px;
         }
@@ -88,10 +88,10 @@
                     <div class="col-md-3 pr-0 rtl bold-sans">
                         کدگذاری : 
                         <div class="switch-field">
-                            <input type="radio" name="switchCode" id="bavahed" value="1" checked/>
+                            <input type="radio" name="switchCode" id="bavahed" value="1" checked />
                             <label for="bavahed" style="width: 100px!important; padding: 6px 6px !important;">با واحد</label>
                             <input type="radio" name="switchCode" id="bivahed" value="0" />
-                            <label for="bivahed" style="width: 100px!important;   padding: 6px 6px !important;">بدون واحد</label>
+                            <label for="bivahed" style="width: 100px!important; padding: 6px 6px !important;">بدون واحد</label>
                         </div>
                     </div>
                     <div class="col-md-5 rtl">
@@ -118,9 +118,9 @@
                             </div>
                             <button class="btnVahed" title="واحدها" id="btnVahed" type="button"></button>
                         </div>
-                        
-                      </div>
-                    
+
+                    </div>
+
                     <div class="col-md-4 rtl bold-sans">
                         نام دستگاه :
                     <input id="txtmachineName" tabindex="1" class="form-control" />
@@ -402,7 +402,7 @@
                         <input type="text" id="txtKeyName" tabindex="36" class="form-control" />
                     </div>
                 </div>
-                <div class="row">
+                <div class="row mt-2">
                     <div class="col-md-3 rtl">
                         <label>جریان :</label>
                         <input type="text" id="txtFlow" tabindex="41" class="form-control" />
@@ -416,7 +416,7 @@
                         <input type="text" id="txtcountry" tabindex="39" class="form-control" />
                     </div>
                 </div>
-                <div class="row">
+                <div class="row mt-2">
                     <div class="col-md-6 rtl">
                     </div>
                     <div class="col-md-6 rtl">
@@ -445,7 +445,8 @@
             <asp:HiddenField runat="server" ClientIDMode="Static" ID="chMDcontrol" />
             <div class="card-header bg-primary text-white">
                 <label class="float-left" lblmcode></label>
-                <div class="float-right">موارد کنترلی دستگاه</div>&nbsp;
+                <div class="float-right">موارد کنترلی دستگاه</div>
+                &nbsp;
             </div>
             <div class="card-body">
                 <div class="row">
@@ -455,45 +456,45 @@
                     </div>
                     <div class="col-md-4 rtl">
                         <label>بخش کنترلی :</label>
-                        <select class="form-control" id="Drpartcontrol" ></select>
+                        <select class="form-control" id="Drpartcontrol"></select>
                     </div>
-                    </div>
+                </div>
                 <hr />
                 <div class="row">
                     <div class="col-md-4 rtl">
                         <label>تاریخ شروع سرویسکاری :</label>
                         <input class="form-control text-center" id="txtStartPMDate" readonly style="cursor: pointer;" />
                     </div>
-                    <div class="col-sm-4 rtl" style="padding-left: 0;">
-                            <div id="pnlcontroliRooz" style="display: none;">
-                                <label>روزپیش بینی شده در ماه :</label>
-                                <input id="txtControliRooz" tabindex="37" type="number" min="1" max="31" class="form-control text-center" />
-                            </div>
-                            <div id="pnlControliWeek" style="display: none;">
-                                <label>روز هفته :</label>
-                                <select id="drControlWeek" tabindex="37" class="form-control">
-                                    <option value="0">شنبه</option>
-                                    <option value="1">یکشنبه</option>
-                                    <option value="2">دوشنبه</option>
-                                    <option value="3">سه شنبه</option>
-                                    <option value="4">چهارشنبه</option>
-                                    <option value="5">پنجشنبه</option>
-                                    <option value="6">جمعه</option>
-                                </select>
-                            </div>
+                    <div class="col-sm-4 rtl">
+                        <div id="pnlcontroliRooz" style="display: none;">
+                            <label>روزپیش بینی شده در ماه :</label>
+                            <input id="txtControliRooz" tabindex="37" type="number" min="1" max="31" class="form-control text-center" />
                         </div>
-                        <div class="col-sm-4 rtl" style="padding-right: 0;">
-                            <label>مدت زمان پیش بینی شده :</label>
-                            <asp:DropDownList runat="server" TabIndex="36" ID="drControliZaman" ClientIDMode="Static" CssClass="form-control">
-                                <asp:ListItem Value="0">روزانه</asp:ListItem>
-                                <asp:ListItem Value="6">هفتگی</asp:ListItem>
-                                <asp:ListItem Value="1">ماهیانه</asp:ListItem>
-                                <asp:ListItem Value="2">سه ماهه</asp:ListItem>
-                                <asp:ListItem Value="3">شش ماهه</asp:ListItem>
-                                <asp:ListItem Value="4">یکساله</asp:ListItem>
-                                <asp:ListItem Value="5">غیره</asp:ListItem>
-                            </asp:DropDownList>
+                        <div id="pnlControliWeek" style="display: none;">
+                            <label>روز هفته :</label>
+                            <select id="drControlWeek" tabindex="37" class="form-control">
+                                <option value="0">شنبه</option>
+                                <option value="1">یکشنبه</option>
+                                <option value="2">دوشنبه</option>
+                                <option value="3">سه شنبه</option>
+                                <option value="4">چهارشنبه</option>
+                                <option value="5">پنجشنبه</option>
+                                <option value="6">جمعه</option>
+                            </select>
                         </div>
+                    </div>
+                    <div class="col-sm-4 rtl">
+                        <label>مدت زمان پیش بینی شده :</label>
+                        <asp:DropDownList runat="server" TabIndex="36" ID="drControliZaman" ClientIDMode="Static" CssClass="form-control">
+                            <asp:ListItem Value="0">روزانه</asp:ListItem>
+                            <asp:ListItem Value="6">هفتگی</asp:ListItem>
+                            <asp:ListItem Value="1">ماهیانه</asp:ListItem>
+                            <asp:ListItem Value="2">سه ماهه</asp:ListItem>
+                            <asp:ListItem Value="3">شش ماهه</asp:ListItem>
+                            <asp:ListItem Value="4">یکساله</asp:ListItem>
+                            <asp:ListItem Value="5">غیره</asp:ListItem>
+                        </asp:DropDownList>
+                    </div>
                 </div>
                 <hr />
                 <div class="row">
@@ -517,7 +518,6 @@
                 </div>
                 <div class="row mt-3">
                     <div class="col-md-6 rtl">
-                        
                     </div>
                     <div class="col-md-3 rtl">
                         <label>میزان مصرفی :</label>
@@ -527,7 +527,7 @@
                         <label>ماده مصرفی/روانکار</label>
                         <div class="row">
                             <div class="col-sm-12 bold-sans">
-                                <asp:DropDownList data-placeholder="انتخاب کنید" class="chosen-select" ClientIDMode="Static" AppendDataBoundItems="True" ID="drMatrial" runat="server" DataSourceID="Sqlmatrial" DataTextField="matrial" DataValueField="id" >
+                                <asp:DropDownList data-placeholder="انتخاب کنید" class="chosen-select" ClientIDMode="Static" AppendDataBoundItems="True" ID="drMatrial" runat="server" DataSourceID="Sqlmatrial" DataTextField="matrial" DataValueField="id">
                                     <asp:ListItem></asp:ListItem>
                                 </asp:DropDownList>
                                 <asp:SqlDataSource ID="Sqlmatrial" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, matrial FROM i_matrial"></asp:SqlDataSource>
@@ -535,7 +535,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row mt-2">
                     <div class="col-lg-12">
                         <label>: توضیحات </label>
                         <input class="form-control" tabindex="38" id="txtMavaredComment" />
@@ -561,13 +561,14 @@
         <div class="card" id="pnlSubSytem" style="display: none;">
             <div class="card-header bg-primary text-white">
                 <label class="float-left" lblmcode></label>
-                <div class="float-right">ثبت اجزا ماشین</div>&nbsp;
+                <div class="float-right">ثبت اجزا ماشین</div>
+                &nbsp;
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-3">
                         <label>شماره پلاک </label>
-                        <input class="form-control ltr text-left" tabindex="39" id="txtSubPelak"/>
+                        <input class="form-control ltr text-left" tabindex="39" id="txtSubPelak" />
                     </div>
                     <div class="col-md-9">
                         <label>&nbsp;</label>
@@ -601,7 +602,8 @@
         <div class="card" id="pnlGhatatMasrafi" style="display: none;">
             <div class="card-header bg-primary text-white">
                 <label class="float-left" lblmcode></label>
-                <div class="float-right">ثبت قطعات مصرفی</div>&nbsp;
+                <div class="float-right">ثبت قطعات مصرفی</div>
+                &nbsp;
             </div>
             <div class="card-body">
                 <div class="row">
@@ -651,20 +653,21 @@
                 </button>
                 <button class="button" style="display: none;" type="button" id="btnEditPart" onclick="editParts();">ویرایش</button>
                 <button class="button" style="display: none;" type="button" id="btnCancelEditPart" onclick="ClearFields('pnlGhatatMasrafi');CancelDeletePart();">انصراف</button>
-                
+
             </div>
             <div class="card-footer">
                 <table class="table" id="gridGhataatMasrafi">
                 </table>
             </div>
         </div>
-        
-    <%--دستورالعمل ایمنی و محیط زیستی--%>
+
+        <%--دستورالعمل ایمنی و محیط زیستی--%>
         <div class="card" id="pnlDastoor" style="display: none;">
             <asp:HiddenField runat="server" ClientIDMode="Static" ID="chEnergy" />
             <div class="card-header bg-primary text-white">
                 <label class="float-left" lblmcode></label>
-                <div class="float-right">دستورالعمل ایمنی و محیط زیستی</div>&nbsp;
+                <div class="float-right">دستورالعمل ایمنی و محیط زیستی</div>
+                &nbsp;
             </div>
             <div class="card-body">
                 <div class="row">
@@ -692,7 +695,7 @@
                     </div>
                 </div>
                 <br />
-                <div id="pnlModiriatEnergy" style="border: 2px solid darkgray; border-radius: 5px; padding-bottom: 0;">
+                <div id="pnlModiriatEnergy" class="border pt-2 rounded">
                     <div class="row pr-3 pl-3">
                         <div class="col-md-6 rtl"></div>
                         <div class="col-md-6 rtl">
@@ -700,7 +703,7 @@
                             <input type="text" tabindex="50" id="txtDastoorTarikh" class="form-control text-center" />
                         </div>
                     </div>
-                    <div class="row pr-3 pl-3">
+                    <div class="row pr-3 pl-3 mt-2">
                         <div class="col-md-6 rtl"></div>
                         <div class="col-md-6 rtl">
                             <label>نوع دستگاه :</label>
@@ -710,6 +713,7 @@
                     <hr />
                     <div style="display: block; padding: 5px 15px;">
                         <label>ارزیابی عملکرد موتور</label>
+                        <hr class="mt-1 mb-1"/>
                     </div>
                     <div class="row pr-3 pl-3">
                         <div class="col-md-3"></div>
@@ -726,7 +730,7 @@
                             <input id="txtDastoorAmper1" tabindex="52" class="form-control" />
                         </div>
                     </div>
-                    <div class="row pr-3 pl-3">
+                    <div class="row pr-3 pl-3 mt-2">
                         <div class="col-md-3 rtl">
                             <label>PF :</label>
                             <input id="txtDastoorPF" tabindex="58" class="form-control" />

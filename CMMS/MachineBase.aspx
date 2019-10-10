@@ -148,7 +148,7 @@
                 <div class="row rtl ">
                     <div class="col-md-6">
                         <label style="display: block;">دوره پذیرش :</label>
-                        <input class="form-control text-center w-75 d-inline-block" value="3" tabindex="12" id="txtAdmissionperiodMTBF"/>
+                        <input class="form-control text-center w-75 d-inline-block" value="3" tabindex="12" id="txtAdmissionperiodMTBF" />
                         &nbsp;&nbsp;&nbsp;&nbsp;
                 <label>ماه</label>
                     </div>
@@ -221,7 +221,7 @@
                 </div>
                 <hr />
                 <div class="rtl">
-                    <div >
+                    <div>
                         <label class="checklabel">
                             <input type="checkbox" tabindex="14" id="chkbargh" />
                             برق
@@ -250,7 +250,7 @@
                 </div>
                 <hr />
                 <div class="rtl">
-                    <div >
+                    <div>
                         <label class="checklabel">
                             <input type="checkbox" tabindex="19" id="chkgaz" />
                             گاز
@@ -268,7 +268,7 @@
                 </div>
                 <hr />
                 <div class="rtl">
-                    <div >
+                    <div>
                         <label class="checklabel">
                             <input type="checkbox" tabindex="21" id="chkhava" />
                             هوا
@@ -312,7 +312,7 @@
                 <button type="button" class="button fa fa-arrow-right" title="صفحه قبل" id="btnMavaredeMasrafiBack"></button>
             </div>
         </div>
-    
+
 
         <%--موارد کلیدی دستگاه --%>
         <div class="card sans" id="pnlMavaredKey" style="display: none;">
@@ -382,7 +382,7 @@
             </div>
         </div>
         <%--موارد کنترلی دستگاه--%>
-        
+
         <div class="card sans" id="pnlPartControli" style="display: none;">
             <asp:HiddenField runat="server" ClientIDMode="Static" ID="HiddenField1" />
             <div class="card-header bg-primary text-white">ثبت بخش های کنترلی</div>
@@ -421,7 +421,7 @@
                     </div>
                     <div class="col-md-4 rtl">
                         <label>بخش کنترلی :</label>
-                        <select class="form-control" id="Drpartcontrol" ></select>
+                        <select class="form-control" id="Drpartcontrol"></select>
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -443,7 +443,6 @@
                 </div>
                 <div class="row mt-3">
                     <div class="col-md-6 rtl">
-                        
                     </div>
                     <div class="col-md-3 rtl">
                         <label>میزان مصرفی :</label>
@@ -453,7 +452,7 @@
                         <label>ماده مصرفی/روانکار</label>
                         <div class="row">
                             <div class="col-sm-12 bold-sans">
-                                <asp:DropDownList data-placeholder="انتخاب کنید" class="chosen-select" ClientIDMode="Static" AppendDataBoundItems="True" ID="drMatrial" runat="server" DataSourceID="Sqlmatrial" DataTextField="matrial" DataValueField="id" >
+                                <asp:DropDownList data-placeholder="انتخاب کنید" class="chosen-select" ClientIDMode="Static" AppendDataBoundItems="True" ID="drMatrial" runat="server" DataSourceID="Sqlmatrial" DataTextField="matrial" DataValueField="id">
                                     <asp:ListItem></asp:ListItem>
                                 </asp:DropDownList>
                                 <asp:SqlDataSource ID="Sqlmatrial" runat="server" ConnectionString="<%$ ConnectionStrings:CMMS %>" SelectCommand="SELECT id, matrial FROM i_matrial"></asp:SqlDataSource>
@@ -483,36 +482,21 @@
             </div>
         </div>
 
-    <%--ثبت اجزاء ماشین --%>
+        <%--ثبت اجزاء ماشین --%>
         <div class="card sans" id="pnlSubSytem" style="display: none;">
             <div class="card-header bg-primary text-white">ثبت اجزا ماشین</div>
             <div class="card-body" id="subSearchArea">
-                <div style="padding: 5px 15px;">
-                    <div style="width: 100%; display: inline-block; direction: rtl; position: relative;">
-                        <div id="badgeArea" style="min-height: 24px;"></div>
-                        <input id="txtSearchSubsystem" autocomplete="off" class="form-control" placeholder="جستجو" />
-                        <img src="assets/Images/loading.png" id="subsystemLoading" style="width: 20px; height: 20px; position: absolute; top: 31px; left: 7px; display: none;" />
-                        <div style="display: none; position: absolute; width: 100%;" id="subSystemSearchRes">
-                            <div class="searchscroll">
-                                <table id="gridSubsystem" class="SubSystemTable">
-                                    <tbody></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div id="searchSubsystem"></div>
             </div>
             <div class="card-footer">
                 <button type="button" class="button fa fa-arrow-left" title="صفحه بعد" tabindex="40" id="btnSubsystemFor"></button>
                 <button type="button" class="button fa fa-arrow-right" title="صفحه قبل" id="btnSubsystemBack"></button>
                 <button type="button" id="btnAddSubsystem" class="button" onclick="CreateSubTable();">
-                    <span class="fa fa-plus" style="vertical-align: middle; margin-left: 5px;"></span>ثبت  
+                    <span class="fa fa-plus" style="vertical-align: middle; margin-left: 5px;"></span> ثبت
                 </button>
-                <button type="button" id="btnAddNewSubSystem" class="button" style="direction: rtl;">
+                <button type="button" id="btnAddNewSubSystem" class="button" style="direction: rtl;" data-toggle="modal" data-target="#addSubSystem">
                     مشاهده اجزای ثبت شده 
                 </button>
-                
-                
             </div>
             <div class="card-footer">
                 <table id="subSystemTable" style="width: 60%; margin: auto; direction: rtl;" class="table">
@@ -536,7 +520,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <label> : حداکثر </label>
+                        <label>: حداکثر </label>
                         <input id="txtGhatatMax" tabindex="44" class="form-control" />
                     </div>
                     <div class="col-md-6">
@@ -554,7 +538,7 @@
                 <button type="button" id="btnAddMasrafi" class="button" onclick="addParts();" tabindex="47">
                     <span class="fa fa-plus" style="vertical-align: middle; margin-left: 5px;"></span>ثبت
                 </button>
-               
+
             </div>
             <div class="card-footer">
                 <table class="table" id="gridGhataatMasrafi">
@@ -603,101 +587,100 @@
         </div>
     </div>
 
-    <div id="addSubSystem" class="modal">
-        <div class="modal-content">
-            <span class="fa fa-remove" id="btncloseSubSystem"
-                style="position: absolute; top: 10px; left: 10px; color: black; cursor: pointer; font-size: 15pt;"></span>
-            <div class="card">
-                <div class="card-header bg-primary text-white">ثبت اجزا جدید ماشین آلات</div>
-                <div class="card-body">
-                    <p>.لطفا در ثبت اجزا ماشین دقت فرمایید و از ثبت اجزا تکراری خوداری فرمایید <span class="fa fa-circle" style="color: red;"></span></p>
-                    <div class="row" style="margin: 0;">
-                        <div class="col-lg-2">
-                            <button class="button" type="button" onclick="AddSubSystems();">+</button>
-                        </div>
-                        <div class="col-lg-5">
-                            <input type="number" tabindex="2" autocomplete="off" id="txtToolCode" class="form-control" style="display: inline-block; direction: rtl;" placeholder="کد تجهیز" />
-                            <div id="codeTooltip" class="tooltipp" style="width: 140px;">
-                                .این کد قبلا ثبت شده است
+    <div id="addSubSystem" class="modal fade rtl" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="card sans">
+                    <div class="card-header bg-primary text-white">ثبت اجزا جدید ماشین آلات</div>
+                    <div class="card-body">
+                        <p class="ltr sans-small">.لطفا در ثبت اجزا ماشین دقت فرمایید و از ثبت اجزا تکراری خوداری فرمایید <span class="fa fa-circle text-danger"></span></p>
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <button class="button btn-block align-middle" type="button" onclick="AddSubSystems();">+</button>
+                            </div>
+                            <div class="col-lg-5">
+                                <input type="number" tabindex="2" autocomplete="off" id="txtToolCode" class="form-control" style="display: inline-block; direction: rtl;" placeholder="کد تجهیز" />
+                                <div id="codeTooltip" class="tooltipp" style="width: 140px;">
+                                    .این کد قبلا ثبت شده است
+                                </div>
+                            </div>
+                            <div class="col-lg-5">
+                                <input type="text" autocomplete="off" tabindex="1" id="txtToolName" class="form-control" style="display: inline-block; direction: rtl;" placeholder="نام تجهیز" />
+                                <div id="nameTooltip" class="tooltipp">
+                                </div>
                             </div>
                         </div>
-                        <div class="col-lg-5">
-                            <input type="text" autocomplete="off" tabindex="1" id="txtToolName" class="form-control" style="display: inline-block; direction: rtl;" placeholder="نام تجهیز" />
-                            <div id="nameTooltip" class="tooltipp">
-                            </div>
+                        <div style="width: 100%; height: 250px; margin: 10px 0 0px 0; overflow: auto;">
+                            <table id="gridPopupSubsystem" class="table" style="direction: rtl;">
+                                <tbody></tbody>
+                            </table>
                         </div>
-                    </div>
-                    <div style="width: 100%; height: 250px; margin: 10px 0 0px 0; overflow: auto;">
-                        <table id="gridPopupSubsystem" class="table" style="direction: rtl;">
-                            <tbody></tbody>
-                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-<div id="ModalDeleteControl" class="modal fade" style="direction: rtl;" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content sans">
-            <div class="card" style="margin-bottom: 0;">
-                <div class="card-header bg-danger text-white" style="font-weight: 800;">حذف مورد کنترلی</div>
-                <div class="card-body" style="text-align: center;">
-                    <strong style="color: red;">** کاربر گرامی **</strong>
-                    <p class="sans-small text-center">
-                         آیا مایل به حذف این مورد کنترلی هستید؟
-                    </p>
-                    <div style="text-align: center;">
-                        <button class="button" type="button" onclick="DeleteControls();">حذف</button>
-                        <button class="button" type="button" onclick="$('#ModalDeleteControl').modal('hide');">انصراف</button>
+    <div id="ModalDeleteControl" class="modal fade" style="direction: rtl;" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content sans">
+                <div class="card" style="margin-bottom: 0;">
+                    <div class="card-header bg-danger text-white" style="font-weight: 800;">حذف مورد کنترلی</div>
+                    <div class="card-body" style="text-align: center;">
+                        <strong style="color: red;">** کاربر گرامی **</strong>
+                        <p class="sans-small text-center">
+                            آیا مایل به حذف این مورد کنترلی هستید؟
+                        </p>
+                        <div style="text-align: center;">
+                            <button class="button" type="button" onclick="DeleteControls();">حذف</button>
+                            <button class="button" type="button" onclick="$('#ModalDeleteControl').modal('hide');">انصراف</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div id="ModalDeletePartControl" class="modal fade" style="direction: rtl;" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content sans">
-            <div class="card" style="margin-bottom: 0;">
-                <div class="card-header bg-danger text-white" style="font-weight: 800;">حذف مورد کنترلی</div>
-                <div class="card-body" style="text-align: center;">
-                    <strong style="color: red;">** کاربر گرامی **</strong>
-                    <p class="sans-small text-center">
-                         آیا مایل به حذف این مورد کنترلی هستید؟
-                    </p>
-                    <div style="text-align: center;">
-                        <button class="button" type="button" onclick="DeletePartControls();">حذف</button>
-                        <button class="button" type="button" onclick="$('#ModalDeletePartControl').modal('hide');">انصراف</button>
+    <div id="ModalDeletePartControl" class="modal fade" style="direction: rtl;" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content sans">
+                <div class="card" style="margin-bottom: 0;">
+                    <div class="card-header bg-danger text-white" style="font-weight: 800;">حذف مورد کنترلی</div>
+                    <div class="card-body" style="text-align: center;">
+                        <strong style="color: red;">** کاربر گرامی **</strong>
+                        <p class="sans-small text-center">
+                            آیا مایل به حذف این مورد کنترلی هستید؟
+                        </p>
+                        <div style="text-align: center;">
+                            <button class="button" type="button" onclick="DeletePartControls();">حذف</button>
+                            <button class="button" type="button" onclick="$('#ModalDeletePartControl').modal('hide');">انصراف</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
     <div id="ModalDeletePart" class="modal fade" style="direction: rtl;" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content sans">
-            <div class="card" style="margin-bottom: 0;">
-                <div class="card-header bg-primary text-white" style="font-weight: 800;">حذف قطعه</div>
-                <div class="card-body" style="text-align: center;">
-                    <strong style="color: red;">** کاربر گرامی **</strong>
-                    <p class="sans-small text-center">آیا مایل به حذف هستید؟</p>
-                    <div style="text-align: center;">
-                        <button class="button" type="button" onclick="DeletePart();">حذف</button>
-                        <button class="button" type="button" onclick="$('#ModalDeletePart').modal('hide');">انصراف</button>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content sans">
+                <div class="card" style="margin-bottom: 0;">
+                    <div class="card-header bg-primary text-white" style="font-weight: 800;">حذف قطعه</div>
+                    <div class="card-body" style="text-align: center;">
+                        <strong style="color: red;">** کاربر گرامی **</strong>
+                        <p class="sans-small text-center">آیا مایل به حذف هستید؟</p>
+                        <div style="text-align: center;">
+                            <button class="button" type="button" onclick="DeletePart();">حذف</button>
+                            <button class="button" type="button" onclick="$('#ModalDeletePart').modal('hide');">انصراف</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
-    <script src="assets/js/SubSystemBaseJS .js"></script>
+    <script src="assets/js/SubSystemBaseJS.js"></script>
     <script src="assets/js/SearchParts.js"></script>
     <script src="assets/js/MachineCode.js"></script>
     <script src="assets/js/copyMachineData.js"></script>
     <script src="assets/js/MachineBaseJS.js"></script>
-
 </asp:Content>
 
 

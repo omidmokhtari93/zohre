@@ -481,7 +481,8 @@ namespace CMMS
                 ",[fuel] = " + masrafiMain.FuelChecked + " " +
                 ",[fuelType] = '" + masrafiMain.FuelType + "' " +
                 ",[fueltot] = '" + masrafiMain.FuelMasraf + "' " +
-                " WHERE Mid in (if(select case when max(LEN(code)) = 6 then 6 else 8 end as tool from m_machine)=8 begin select id from m_machine where SUBSTRING(code,3,3) =" + mid + " end " +
+                " WHERE Mid in (if(select case when max(LEN(code)) = 6 then 6 else 8 end as tool from m_machine)=8 " +
+                "begin select id from m_machine where SUBSTRING(code,3,3) =" + mid + " end " +
                 "else begin select id from m_machine where SUBSTRING(code,1,3) =" + mid + " end)", _cnn);
             insertFuel.ExecuteNonQuery();
             _cnn.Close();

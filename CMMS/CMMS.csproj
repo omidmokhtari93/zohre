@@ -231,7 +231,7 @@
     <Content Include="assets\js\Reply.js" />
     <Content Include="assets\js\SearchParts.js" />
     <Content Include="assets\js\StopReport.js" />
-    <Content Include="assets\js\SubSystemBaseJS .js" />
+    <Content Include="assets\js\SubSystemBaseJS.js" />
     <Content Include="assets\js\SubSystemJS.js" />
     <Content Include="assets\js\SubSystemPage.js" />
     <Content Include="assets\js\Tags.js" />
