@@ -411,12 +411,12 @@ namespace CMMS
         public void BSendPartControl(int mid, string control) //Base Information
         {
             _cnn.Open();
-           
-               
-                    var insertInstruct = new SqlCommand(
-                        "insert into b_partcontrol (Mid,PartControl) VALUES ("+mid+",'"+control+"')", _cnn);
-                    insertInstruct.ExecuteNonQuery();
-               
+
+
+            var insertInstruct = new SqlCommand(
+                "insert into b_partcontrol (Mid,PartControl) VALUES (" + mid + ",'" + control + "')", _cnn);
+            insertInstruct.ExecuteNonQuery();
+
             _cnn.Close();
         }
         [WebMethod]
@@ -424,25 +424,32 @@ namespace CMMS
         {
             _cnn.Open();
 
-              var updatePartcontrol=new SqlCommand("update b_partcontrol set PartControl='"+control+"' where id="+id,_cnn);
-              updatePartcontrol.ExecuteNonQuery();
-           
+            var updatePartcontrol = new SqlCommand("update b_partcontrol set PartControl='" + control + "' where id=" + id, _cnn);
+            updatePartcontrol.ExecuteNonQuery();
+
             _cnn.Close();
         }
-        [WebMethod]
-        public void BSendMasrafi(int mid, MasrafiMain masrafiMain) //Base Information
+
+        public string SelectId(int mid)
         {
             _cnn.Open();
-            var Idarr =new List<int>();
-            var selectId=new SqlCommand("if(select case when max(LEN(code)) = 6 then 6 else 8 end as tool from m_machine)=8 " +
-                                        "begin select id from m_machine where SUBSTRING(code,3,3) =" + mid + " end " +
-                                        "else begin select id from m_machine where SUBSTRING(code,1,3) =" + mid + " end", _cnn);
+            var Idarr = new List<int>();
+            var selectId = new SqlCommand("if(select case when max(LEN(code)) = 6 then 6 else 8 end as tool from m_machine)=8 " +
+                                          "begin select id from m_machine where SUBSTRING(code,3,3) =" + mid + " end " +
+                                          "else begin select id from m_machine where SUBSTRING(code,1,3) =" + mid + " end", _cnn);
             var drId = selectId.ExecuteReader();
             while (drId.Read())
             {
-                Idarr.Add(Convert.ToInt32(drId["id"]) );
+                Idarr.Add(Convert.ToInt32(drId["id"]));
             }
             _cnn.Close();
+            return string.Join(",", Idarr.Select(x => x.ToString()).ToArray());
+        }
+
+        [WebMethod]
+        public void BSendMasrafi(int mid, MasrafiMain masrafiMain) //Base Information
+        {
+            var Idarr = SelectId(mid); // method defined to the top of this method
             _cnn.Open();
             var insertFuel = new SqlCommand(
                 "if (select count(Mid) from b_fuel where Mid = " + mid + ") <> 0  " +
@@ -492,7 +499,7 @@ namespace CMMS
                 ",[fuel] = " + masrafiMain.FuelChecked + " " +
                 ",[fuelType] = '" + masrafiMain.FuelType + "' " +
                 ",[fueltot] = '" + masrafiMain.FuelMasraf + "' " +
-                " WHERE Mid in ("+string.Join(",",Idarr.Select(x => x.ToString()).ToArray())+" )", _cnn);
+                " WHERE Mid in (" + Idarr + " )", _cnn);
             insertFuel.ExecuteNonQuery();
             _cnn.Close();
         }
@@ -553,21 +560,21 @@ namespace CMMS
                 }
                 var selectrepeatrow = new SqlCommand(
                     "if(SELECT COUNT(id) AS idd FROM dbo.m_control WHERE (id IN (SELECT DISTINCT idmcontrol AS Idm FROM dbo.p_pmcontrols WHERE (idmcontrol = " + item.Idcontrol + "))))>0  " +
-                    "begin UPDATE [dbo].[m_control] SET [Pid]="+item.IdPartControl+",[contName] ='" + item.Control + "',[period] =" + item.Time + " " +
-                    ",[rooz] =" + item.Day + ",[opr] = " + item.Operation + ",[MDser] =" + item.MDservice + " ,[matrial]="+item.Matrial+",[dosage]='"+item.Dosage+"', " +
+                    "begin UPDATE [dbo].[m_control] SET [Pid]=" + item.IdPartControl + ",[contName] ='" + item.Control + "',[period] =" + item.Time + " " +
+                    ",[rooz] =" + item.Day + ",[opr] = " + item.Operation + ",[MDser] =" + item.MDservice + " ,[matrial]=" + item.Matrial + ",[dosage]='" + item.Dosage + "', " +
                     "[comment] ='" + item.Comment + "' ,[pmstart] ='" + item.PmDate + "' WHERE id=" + item.Idcontrol +
                     " SELECT '" + item.Idcontrol + "' AS IDc end " +
                     "else if(" + item.Bidcontrol + ")=0 begin  INSERT INTO [dbo].[m_control]([Pid],[Mid],[contName],[period],[rooz],[opr],[pmstart],[MDser],[matrial],[dosage],[comment])" +
-                    "VALUES("+item.IdPartControl+"," + mid + ",'" + item.Control + "'," + item.Time + "," + item.Day + "," + item.Operation + "," +
+                    "VALUES(" + item.IdPartControl + "," + mid + ",'" + item.Control + "'," + item.Time + "," + item.Day + "," + item.Operation + "," +
                     "'" + item.PmDate + "'," + item.MDservice + "," + item.Matrial + ",'" + item.Dosage + "','" + item.Comment +
                     "') insert into b_control (Pid,Mid,contName,comment,opr,matrial,dosage,broadcast) VALUES(" + item.IdPartControl + ",(select case when max(LEN(code)) = 6 then SUBSTRING(code, 1, 3) else SUBSTRING(code, 3, 3) end as midd from m_machine where id =" + mid + " group by code),'" + item.Control + "'," +
-                    "'" + item.Comment + "'," + item.Operation + ","+item.Matrial+",'"+item.Dosage+"',0)" +
+                    "'" + item.Comment + "'," + item.Operation + "," + item.Matrial + ",'" + item.Dosage + "',0)" +
                     " update m_control set idcontrol=i.id from (select id from b_control where id=(select MAX(id) from b_control)) i where m_control.id=(select MAX(id) from m_control)  SELECT CAST(scope_identity() AS nvarchar) end  " +
                     "else if(" + item.Idcontrol + ")=0 begin INSERT INTO [dbo].[m_control]([Pid],[Mid],[idcontrol],[contName],[period],[rooz],[opr],[pmstart],[MDser],[matrial],[dosage],[comment])" +
                     "VALUES(" + item.IdPartControl + "," + mid + "," + item.Bidcontrol + ",'" + item.Control + "'," + item.Time + "," + item.Day + "," + item.Operation + "," +
-                    "'" + item.PmDate + "'," + item.MDservice + ","+item.Matrial+",'"+item.Dosage+"','" + item.Comment + "')  SELECT CAST(scope_identity() AS nvarchar) end else begin UPDATE [dbo].[m_control] SET [contName] ='" + item.Control + "',[period] =" + item.Time + " " +
+                    "'" + item.PmDate + "'," + item.MDservice + "," + item.Matrial + ",'" + item.Dosage + "','" + item.Comment + "')  SELECT CAST(scope_identity() AS nvarchar) end else begin UPDATE [dbo].[m_control] SET [contName] ='" + item.Control + "',[period] =" + item.Time + " " +
                     ",[rooz] =" + item.Day + ",[opr] = " + item.Operation + ",[MDser] =" + item.MDservice + " ," +
-                    "[comment] ='" + item.Comment + "' ,[pmstart] ='" + item.PmDate + "',[matrial]="+item.Matrial+",[dosage]='"+item.Dosage+"' WHERE idcontrol=" + item.Bidcontrol + " and id=" + item.Idcontrol + "  " +
+                    "[comment] ='" + item.Comment + "' ,[pmstart] ='" + item.PmDate + "',[matrial]=" + item.Matrial + ",[dosage]='" + item.Dosage + "' WHERE idcontrol=" + item.Bidcontrol + " and id=" + item.Idcontrol + "  " +
                     " select id from m_control where idcontrol=" + item.Bidcontrol + " and id=" + item.Idcontrol + " end ", _cnn);
                 string idmcontrol = "";
                 idmcontrol = selectrepeatrow.ExecuteScalar().ToString();
@@ -709,16 +716,16 @@ namespace CMMS
                 object obj = searchcontrol.ExecuteScalar();
                 if (obj == null)
                 {
-                    
+
                     var selectrepeatrow = new SqlCommand(
                         "INSERT INTO [dbo].[b_control]([Pid],[Mid],[contName],[opr],[comment],[broadcast],[matrial],[dosage])" +
-                        "VALUES("+item.IdPartControl+"," + mid + ",'" + item.Control + "'," + item.Operation + ",'" + item.Comment + "'," + broad + ","+item.Matrial+",'"+item.Dosage+"') select max(id) from b_control where Mid=" + mid, _cnn);
+                        "VALUES(" + item.IdPartControl + "," + mid + ",'" + item.Control + "'," + item.Operation + ",'" + item.Comment + "'," + broad + "," + item.Matrial + ",'" + item.Dosage + "') select max(id) from b_control where Mid=" + mid, _cnn);
                     bcontrolid = Convert.ToString(selectrepeatrow.ExecuteScalar());
                     lst = lst + bcontrolid + ',';
                 }
                 else
                 {
-                    var updateBroadcast = new SqlCommand("update b_control set broadcast=" + broad+ ",[contName]='" + item.Control + "',[opr]=" + item.Operation + "," +
+                    var updateBroadcast = new SqlCommand("update b_control set broadcast=" + broad + ",[contName]='" + item.Control + "',[opr]=" + item.Operation + "," +
                                                          "[comment]='" + item.Comment + "',[matrial]=" + item.Matrial + ",[dosage]='" + item.Dosage + "' where id=" + item.Idcontrol, _cnn);
                     updateBroadcast.ExecuteNonQuery();
                 }
@@ -729,7 +736,8 @@ namespace CMMS
 
             //===================insert new control into m_control =============
             var chooseIdmachin =
-                new SqlCommand("if(select case when max(LEN(code)) = 6 then 6 else 8 end as tool from m_machine)=8 begin select id from m_machine where SUBSTRING(code,3,3) =" + mid + " end " +
+                new SqlCommand("if(select case when max(LEN(code)) = 6 then 6 else 8 end as tool from m_machine)=8" +
+                               " begin select id from m_machine where SUBSTRING(code,3,3) =" + mid + " end " +
                                "else begin select id from m_machine where SUBSTRING(code,1,3) =" + mid + " end  ", _cnn);
             var rd = chooseIdmachin.ExecuteReader();
 
@@ -786,14 +794,17 @@ namespace CMMS
                     "VALUES(" + mid + "," + item.SubSystemId + ")", _cnn);
                 insertParts.ExecuteNonQuery();
             }
-            var deleteM = new SqlCommand("delete from m_subsystem where Mid in (select id from m_machine where SUBSTRING(CONVERT(varchar(8), code), 3, 3)= " + mid + " ) and code IS NULL ", _cnn);
+            var deleteM = new SqlCommand("delete from m_subsystem where Mid in " +
+                                         "(select id from m_machine where SUBSTRING(CONVERT(varchar(8), code), 3, 3)= " + mid + " )" +
+                                         " and code IS NULL ", _cnn);
             deleteM.ExecuteNonQuery();
             _cnn.Close();
 
             //============================================
             _cnn.Open();
             List<string> machinelist = new List<string>();
-            var machine = new SqlCommand("if(select case when max(LEN(code)) = 6 then 6 else 8 end as tool from m_machine)=8 begin select id from m_machine where SUBSTRING(code,3,3) =" + mid + " end " +
+            var machine = new SqlCommand("if(select case when max(LEN(code)) = 6 then 6 else 8 end as tool from m_machine)=8" +
+                                         " begin select id from m_machine where SUBSTRING(code,3,3) =" + mid + " end " +
                                          "else begin select id from m_machine where SUBSTRING(code,1,3) =" + mid + " end", _cnn);
             var rd = machine.ExecuteReader();
             while (rd.Read())
@@ -808,7 +819,8 @@ namespace CMMS
                 {
 
                     var insertParts = new SqlCommand(
-                        "if(select count(id) from m_subsystem where Mid=" + Mid + " and subId=" + item.SubSystemId + ")=0 begin INSERT INTO [dbo].[m_subsystem](Mid , subId)" +
+                        "if(select count(id) from m_subsystem where Mid=" + Mid + " and subId=" + item.SubSystemId + ")=0 " +
+                        "begin INSERT INTO [dbo].[m_subsystem](Mid , subId)" +
                         "VALUES(" + Mid + "," + item.SubSystemId + ") end ", _cnn);
 
                     insertParts.ExecuteNonQuery();
@@ -853,7 +865,8 @@ namespace CMMS
             _cnn.Close();
             _cnn.Open();
             List<string> machinelist = new List<string>();
-            var machine = new SqlCommand("if(select case when max(LEN(code)) = 6 then 6 else 8 end as tool from m_machine)=8 begin select id from m_machine where SUBSTRING(code,3,3) =" + mid + " end " +
+            var machine = new SqlCommand("if(select case when max(LEN(code)) = 6 then 6 else 8 end as tool from m_machine)=8" +
+                                         " begin select id from m_machine where SUBSTRING(code,3,3) =" + mid + " end " +
                                          "else begin select id from m_machine where SUBSTRING(code,1,3) =" + mid + " end", _cnn);
             var rd = machine.ExecuteReader();
             while (rd.Read())
@@ -867,7 +880,8 @@ namespace CMMS
                 foreach (var item in parts)
                 {
                     var insertParts = new SqlCommand(
-                        "if(select count(id) from m_parts where Mid=" + Mid + " and PartId=" + item.PartId + ")=0 begin INSERT INTO [dbo].[m_parts]([Mid],[PartId],[mYear],[min],[max],[chPeriod],[comment])" +
+                        "if(select count(id) from m_parts where Mid=" + Mid + " and PartId=" + item.PartId + ")=0 " +
+                        "begin INSERT INTO [dbo].[m_parts]([Mid],[PartId],[mYear],[min],[max],[chPeriod],[comment])" +
                         "VALUES (" + Mid + "," + item.PartId + ",'" + item.UsePerYear + "','" + item.Min + "','" + item.Max + "','1400/01/01','---') end ", _cnn);
 
                     insertParts.ExecuteNonQuery();
@@ -951,13 +965,13 @@ namespace CMMS
         [WebMethod]
         public void BSendInstru(int mid, string dastoor) //Base Information
         {
+            var selectedId = SelectId(mid);
             _cnn.Open();
             var insertInstruct = new SqlCommand(
                 "if (select count(Mid) from b_inst where Mid = " + mid + ") <> 0 " +
                 "UPDATE [dbo].[m_inst] " +
                 "SET[inst] = '" + dastoor + "' " +
-                "WHERE Mid in (if(select case when max(LEN(code)) = 6 then 6 else 8 end as tool from m_machine)=8 begin select id from m_machine where SUBSTRING(code,3,3) =" + mid + " end " +
-                "else begin select id from m_machine where SUBSTRING(code,1,3) =" + mid + " end) " +
+                "WHERE Mid in (" + selectedId + ") " +
                 " else " +
                 "INSERT INTO [dbo].[b_inst]([Mid],[inst])VALUES" +
                 "(" + mid + ",'" + dastoor + "')", _cnn);
@@ -1179,7 +1193,7 @@ namespace CMMS
                                " dbo.m_control.MDser, dbo.m_control.comment, dbo.m_control.matrial, dbo.m_control.dosage, dbo.i_matrial.matrial AS smatrial " +
                                " FROM dbo.m_control INNER JOIN " +
                                " dbo.b_partcontrol ON dbo.m_control.Pid = dbo.b_partcontrol.id INNER JOIN " +
-                               " dbo.i_matrial ON dbo.m_control.matrial = dbo.i_matrial.id where dbo.m_control.Mid=" + mid+" " +
+                               " dbo.i_matrial ON dbo.m_control.matrial = dbo.i_matrial.id where dbo.m_control.Mid=" + mid + " " +
                                " union all " +
                                " SELECT dbo.m_control.id, dbo.m_control.Pid, dbo.b_partcontrol.PartControl, dbo.m_control.contName, dbo.m_control.idcontrol," +
                                " dbo.m_control.period, dbo.m_control.rooz, dbo.m_control.pmstart, dbo.m_control.opr, " +
@@ -1268,7 +1282,7 @@ namespace CMMS
                     {
                         Idcontrol = Convert.ToInt32(rd["id"]),
                         Control = rd["PartControl"].ToString()
-                        
+
                     }
                 });
             }
@@ -1276,13 +1290,13 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(controliList);
         }
         [WebMethod]
-        public string GetDrPartControl (int mid)
+        public string GetDrPartControl(int mid)
         {
             var controliList = new List<Controls>();
             _cnn.Open();
             var getControls =
-                new SqlCommand("SELECT [id],[PartControl]FROM [dbo].[b_partcontrol] where Mid = " + mid , _cnn);
-                              
+                new SqlCommand("SELECT [id],[PartControl]FROM [dbo].[b_partcontrol] where Mid = " + mid, _cnn);
+
             var rd = getControls.ExecuteReader();
             while (rd.Read())
             {
@@ -2873,12 +2887,12 @@ namespace CMMS
         }
 
         [WebMethod]
-        public string GetPersonels(int task, int unit , int prof)
+        public string GetPersonels(int task, int unit, int prof)
         {
             _cnn.Open();
             var persList = new List<string[]>();
             var list = new List<string[]>();
-            var p = new SqlCommand("select per,perid,unit,task,permit from(SELECT per_name as per,case when unit = 0 then 'مکانیک' "+
+            var p = new SqlCommand("select per,perid,unit,task,permit from(SELECT per_name as per,case when unit = 0 then 'مکانیک' " +
                                    "when unit = 1 then 'برق'  end as unit, case when task = 0 then 'تعمیرکار' when task = 1 then 'تراشکار' " +
                                    "when task = 2 then 'جوشکار' when task = 3 then 'سرپرست' when task = 4 then 'مدیر فنی' end as task, " +
                                    "case when profession = 0 then 'ماهر' when profession = 1 then 'نیمه ماهر' when profession = 2 then 'معمولی' " +

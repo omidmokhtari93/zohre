@@ -581,7 +581,8 @@
                 <label style="display: inline-block; color: red; margin-left: 20px; display: none;" id="lblwarn">** لطفا فیلد خالی را پر کنید **</label>
                 <button id="btnFinalSave" style="outline: none;" type="button" class="button" onclick="SendTablesToDB();" tabindex="61">
                     ثبت نهایی
-            <img id="btnFinalLoading" style="position: absolute; left: 50px; bottom: 28px; display: inline; width: 20px; display: none;" src="assets/Images/loading.png" />
+                    <img id="btnFinalLoading" style="position: absolute; left: 30px; bottom: 19px; display: inline; width: 20px; display: none;" 
+                        src="assets/Images/loading.png" />
                 </button>
             </div>
         </div>

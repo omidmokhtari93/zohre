@@ -11,6 +11,7 @@ function subsystemsearchInit() {
   });
 
   function createSubData(id, text) {
+    subData = [];
     subData.push({ Name: text, Id: id });
   }
 }
@@ -25,7 +26,7 @@ function CreateSubTable() {
     return;
   }
   var rowsCount = $('#subSystemTable tr').length;
-  if ($('#subSystemTable tr td:contains(' +subData[0].Name+ ')').length > 0) {
+  if ($('#subSystemTable tr td:contains(' + subData[0].Name + ')').length > 0) {
     RedAlert('no', '!!این مورد قبلا ثبت شده است');
     return;
   }
