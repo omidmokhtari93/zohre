@@ -368,9 +368,9 @@ $('table').on('click', 'tr a#ed', function () {
         data = data.replace("#btn#", 'onclick="editReport();"');
         data = $(data).find('div#collapse1');
         $(data).find('button').html('ویرایش');
-        $('#modalBody').append('<div class="panel-heading">ویرایش گزارش</div>');
+        $('#modalBody').append('<div class="card-header bg-primary text-white">ویرایش گزارش</div>');
         $('#modalBody').append($(data).html());
-        $('#reportModal').show();
+        $('#reportModal').modal('show');
         $('#tarikh').val($(tbl).parent().parent().find('td:eq(5)').text());
         $('#txtmanager').val($(tbl).parent().parent().find('td:eq(6)').text());
         $('#txtproducer').val($(tbl).parent().parent().find('td:eq(4)').text());
@@ -381,7 +381,7 @@ $('table').on('click', 'tr a#ed', function () {
 });
 
 $('table').on('click', 'tr a#del', function () {
-    $('#deletereportModal').show();
+  $('#deletereportModal').modal('show');
     reportId = $(this).parent().parent().find('td:eq(0)').text();
 });
 

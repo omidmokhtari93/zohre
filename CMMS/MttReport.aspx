@@ -198,7 +198,8 @@
                     </div>
                 </div>
                 <div style="padding: 15px;">
-                    <button type="button" class="btn btn-info" style="width: 100%;" onclick="GetFilteredReportTable('txtReportStartDate','txtReportEndDate','drRepiarTime');">مشاهده گزارشات و تحلیل ها </button>
+                    <button type="button" class="btn btn-info" style="width: 100%;" 
+                            onclick="GetFilteredReportTable('txtReportStartDate','txtReportEndDate','drRepiarTime');">مشاهده گزارشات و تحلیل ها </button>
                 </div>
                 <div id="MttrReportGrid" style="width: 100%; height: 400px; margin: 10px auto; overflow: auto;">
                     <table class="table" dir="rtl" id="gridReports">
@@ -209,23 +210,25 @@
         </div>
     </div>
 
-    <div id="reportModal" class="modal" style="direction: rtl;">
-        <div class="modal-content" style="width: 60%;">
-            <span class="fa fa-remove" onclick="$(this).parent().parent().hide();"
-                style="position: absolute; top: 10px; left: 10px; color: black; cursor: pointer; font-size: 15pt;"></span>
-            <div class="card sans" style="margin-bottom: 0;" id="modalBody">
+    <div id="reportModal" class="modal fade" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="card sans" style="margin-bottom: 0;" id="modalBody">
+                </div>
             </div>
         </div>
     </div>
 
-    <div id="deletereportModal" class="modal " style="direction: rtl;">
-        <div class="modal-content" style="width: 200px;">
-            <div class="card bg-warning text-white" style="margin-bottom: 0;">
-                <div class="card-header">حذف گزارش</div>
-                <div class="card-body">
-                    <label style="padding: 5px; display: block;">آیا مایل به حذف هستید؟</label>
-                    <button class="button" type="button" onclick="$(this).parent().parent().parent().parent().hide();">خیر</button>
-                    <button class="button" type="button" onclick="DeleteReport();">بله</button>
+    <div id="deletereportModal" class="modal fade" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="card">
+                    <div class="card-header bg-warning text-white">حذف گزارش</div>
+                    <div class="card-body text-center">
+                        <label style="padding: 5px; display: block;">آیا مایل به حذف هستید؟</label>
+                        <button class="button" type="button" onclick="$(this).parent().parent().parent().parent().hide();">خیر</button>
+                        <button class="button" type="button" onclick="DeleteReport();">بله</button>
+                    </div>
                 </div>
             </div>
         </div>
