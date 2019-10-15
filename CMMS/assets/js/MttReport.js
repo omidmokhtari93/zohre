@@ -364,7 +364,7 @@ $('table').on('click', 'tr a#ed', function () {
     $('#modalBody').empty();
     reportId = $(this).parent().parent().find('td:eq(0)').text();
     var tbl = this;
-    $.get("Content/report.html", function (data) {
+    $.get("assets/Content/report.html", function (data) {
         data = data.replace("#btn#", 'onclick="editReport();"');
         data = $(data).find('div#collapse1');
         $(data).find('button').html('ویرایش');

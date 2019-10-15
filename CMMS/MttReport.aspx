@@ -213,12 +213,12 @@
         <div class="modal-content" style="width: 60%;">
             <span class="fa fa-remove" onclick="$(this).parent().parent().hide();"
                 style="position: absolute; top: 10px; left: 10px; color: black; cursor: pointer; font-size: 15pt;"></span>
-            <div class="card " style="margin-bottom: 0;" id="modalBody">
+            <div class="card sans" style="margin-bottom: 0;" id="modalBody">
             </div>
         </div>
     </div>
 
-    <div id="deletereportModal" class="modal" style="direction: rtl;">
+    <div id="deletereportModal" class="modal " style="direction: rtl;">
         <div class="modal-content" style="width: 200px;">
             <div class="card bg-warning text-white" style="margin-bottom: 0;">
                 <div class="card-header">حذف گزارش</div>

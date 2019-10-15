@@ -163,9 +163,9 @@ $('#measurTable').on('click', 'tr a#edit', function () {
   itemId = $(this).closest('tr').find('td:eq(0)').text();
   $('#txtMeasur').val($(this).closest('tr').find('td:eq(2)').text());
   $(targetTr).css('background-color', 'lightgreen');
-    $('#btninsertMatrial').hide();
-    $('#btneditMatrial').show();
-    $('#btncanselMatrial').show();
+  $('#btninsertmeasur').hide();
+  $('#btneditmeasur').show();
+  $('#btncanselmeasur').show();
 });
 $('#PartmeasureTable').on('click', 'tr a#edit', function () {
   $(targetTr).css('background-color', '');
