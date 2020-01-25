@@ -26,33 +26,28 @@
 </head>
 <body class="background_pattern">
     <form id="form1" runat="server" novalidate>
-        <center>
-        <asp:panel CssClass="mainbody" runat="server">
-            <asp:Panel runat="server" CssClass="header_image unselectable">
-                <asp:Image ID="Image1" CssClass="background_image" ImageUrl="/Images/bornaheader.png" runat="server"></asp:Image>
-            </asp:Panel>
+        <div class="w-75 m-auto" style="min-height: 110vh;">
+            <img src="assets/Images/bornaheader.png" class="w-100 rounded-top mb-1 z-depth-1" />
             <div class="row">
-                <div class="col-lg-9" style="padding: 0px 1px 0 18px;">
-                    <asp:Panel runat="server" CssClass="main_panel">
-                        <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+                <div class="col-md-9 pr-1">
+                    <div class="bg-white">
+                        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
                         </asp:ContentPlaceHolder>
-                    </asp:Panel>
+                    </div>
                 </div>
-                <div class="col-lg-3" style="padding-left: 0px; position: relative; padding-right: 0; width: 305px;">
+                <div class="col-md-3 pl-0">
                     <div class="newsBlock unselectable">
-                        <img src="Images/taghdis_logo.jpg" style="height: 58px; width: auto; position: absolute; right:8px; top: 8px;"/>
-                        <label style="position: absolute; top: 25px; left: 16px; color: white; font-size: 18pt;">شرکت صنایع چینی تقدیس</label>
+                        <img src="assets/Images/taghdis_logo.jpg" style="height: 58px; width: auto; position: absolute; right: 9px; top: 7px;" />
+                        <label style="position: absolute; top: 23px; left: 50px; color: white; font-size: 15pt;">شرکت صنایع چینی تقدیس</label>
                     </div>
-                        <div class="timeDate unselectable">
-                            <label style="margin: 0;">
-                                <asp:Label runat="server" style="font-family: myfont; font-size: 12pt; color: white; line-height: 30px;" ID="lblDate"></asp:Label>
-                            </label>
-                        </div>
-                    <div class="user_section unselectable">
-                        <label style="color: white; margin: 0; line-height: 30px;"><asp:Label runat="server" dir="rtl" ID="lbl_userName"></asp:Label></label>
+                    <div class="timeDate unselectable text-center">
+                        <asp:Label runat="server" Style="font-family: myfont; font-size: 12pt; color: white; line-height: 30px;" CssClass="mb-0 sans" ID="lblDate"></asp:Label>
                     </div>
-                    <div style="position: relative; width: 100%; top: 0px; margin-bottom: 32px;">
-                        <div id="cssmenu">
+                    <div class="user_section unselectable text-center">
+                        <asp:Label Style="color: white; margin: 0; line-height: 30px;" runat="server" CssClass="sans" dir="rtl" ID="lbl_userName"></asp:Label>
+                    </div>
+
+                    <div id="cssmenu">
                         <ul>
                             <li class="active"><a href='#'><span></span></a></li>
                             <li class='has-sub' id="arshiv" runat="server"><a href='#'><span>آرشیو فنی</span></a>
@@ -172,57 +167,34 @@
                             <li><a class="exit" href="login.aspx">خروج</a></li>
                         </ul>
                     </div>
-                    </div>
                 </div>
             </div>
-        </asp:panel>     
-    </center>
+        </div>
         <%-- -------------------ارتباط با ما------------------------%>
-        <div>
-            <div id="contactUsmodal" class="modal">
+        <div class="modal fade" id="contactUsmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <div class="close">
-                            <span class="fa fa-remove" id="closeContactUs" style="color: #43383e;"></span>
-                        </div>
-                        <img class="contactUsImage" src="Images/contactus1.png" />
+                        <img class="contactUsImage" src="assets/Images/contactus1.png" />
                     </div>
-                    <div class="modal-body">
-                        <div style="width: 100%; text-align: center;">
-                            <label style="width: 75%; display: inline-block; color: #43383e; font-weight: 800;">
-                                برای تماس با ما و ارائه نظرات و پیشنهادات خود می توانید
+                    <div class="modal-body text-center" id="contactinputarea">
+                        <p class="sans-small">
+                            برای تماس با ما و ارائه نظرات و پیشنهادات خود می توانید
                             از طریق فرم زیر اقدام به ارسال پیغام نمایید ... توجه داشته باشید
-                            که اطلاعات ارسالی در این سیستم محفوظ بوده و منتشر نخواهد شد...
-                            </label>
+                            ...که اطلاعات ارسالی در این سیستم محفوظ بوده و منتشر نخواهد شد 
+                        </p>
+                        <hr style="margin: 10px;"/>
+                        <input class="form-control mb-2" type="text" id="txtName" required placeholder="نام و نام خانوادگی"/>
+                        <input type="text" id="txtEmail" class="form-control mb-2" style="direction: ltr!important;" required placeholder="آدرس ایمیل"/>
+                        <input type="text" id="txtPhone" class="form-control mb-2" required placeholder="شماره تماس"/>
+                        <textarea id="txtMessage" class="form-control mb-2" style="resize: none" rows="5" required placeholder="پیام"></textarea>
+                        <div class="mt-2 text-left">
+                            <button type="button" class="btn btn-success" id="btnSend">
+                                <img id="loading" class="loading-sm" src="assets/Images/loading.gif"/>
+                                ارسال
+                            </button>
                         </div>
-                        <hr style="margin: 10px;" />
-                        <div style="position: relative;">
-                            <label id="lblName" class="lblArea" style="width: 50px;">نام</label>
-                            <input type="text" id="txtName" style="direction: rtl;" class="textArea" />
-                            <span id="nameValidation"></span>
-                        </div>
-                        <div style="position: relative;">
-                            <label id="lblEmail" class="lblArea">آدرس ایمیل</label>
-                            <input type="text" id="txtEmail" style="font-family: arial; direction: ltr !important;" class="textArea" />
-                            <span id="emailValidation"></span>
-                        </div>
-                        <div style="position: relative;">
-                            <label id="lblPhone" class="lblArea">شماره تماس</label>
-                            <input type="text" id="txtPhone" class="textArea" style="direction: ltr !important;" />
-                            <span id="phoneValidation"></span>
-                        </div>
-                        <div style="position: relative;">
-                            <label id="lblMessage" class="lblArea" style="width: 50px;">پیام</label>
-                            <textarea id="txtMessage" style="direction: rtl; height: 150px; resize: vertical; z-index: 999; padding: 5px 5px" class="textArea"></textarea>
-                            <span id="messsageValidateion"></span>
-                        </div>
-                        <div style="text-align: left; padding-left: 83px; position: relative;">
-                            <button type="button" class="sendButton" id="btnSend">ارسال</button>
-                            <img id="imgLoading" class="loadingSend" style="display: none;" src="Images/loading.png" />
-                        </div>
-                        <label id="lblWarning" style="display: none;" class="lblWarning"></label>
                     </div>
-                    <%-- <div class="modal-footer"></div>--%>
                 </div>
             </div>
         </div>
@@ -230,51 +202,54 @@
 
         <%---------------------------درباره ما-------------------- --%>
         <div>
-            <div id="aboutUsmodal" class="modal">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="close">
-                            <span class="fa fa-remove" id="closeAboutUs" style="color: #43383e;"></span>
+            <div id="aboutUsmodal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <img class="contactUsImage" src="assets/Images/aboutus1.png" />
                         </div>
-                        <img class="contactUsImage" src="Images/aboutus1.png" />
-                    </div>
-                    <div class="modal-body">
-                        <div style="width: 100%; margin-bottom: 15px;">
-                            <img src="Images/aboutus.png" style="width: auto; height: 120px;" />
+                        <div class="modal-body text-center">
+                            <div style="width: 100%; margin-bottom: 15px;">
+                                <img src="assets/Images/aboutus.png" style="width: auto; height: 120px;" />
+                            </div>
+                            <div style="width: 100%;">
+                                <label style="width: 85%;" class="sans-small">
+                                    <div><span class="fa fa-certificate"></span><span class="fa fa-certificate"></span><span class="fa fa-certificate"></span></div>
+                                    <p style="line-height: 25px;" class="text-center">
+                                        شرکت فنی و مهندسی برناگستر از سال 1390 فعالیت خود را در زمینه طراحی و اجرای
+                                        سیستم های اتوماسیون اداری , نرم افزارهای PM (مدیریت و برنامه ریزی)
+                                        و همچنین طراحی و اجرای سیستم های آماری شرکت های خصوصی با خط تولید خاص شروع نموده است.
+                                    </p>
+                                    <p style="line-height: 25px;" class="text-center">
+                                        این شرکت با تکیه بر توان داخلی و بکارگیری مهندسان متخصص و استفاده از مشاوران سیستم های اتوماسیون اداری و مدیریت برنامه ریزی
+                                        توانسته است برنامه ها و نرم افزار های ساده و کاربردی و در عین حال پیچیده ای را طراحی و برنامه ریزی نماید.
+                                    </p>
+                                    <p style="line-height: 25px;" class="text-center">
+                                        هدف این شرکت رضایت مشتری , بهترین مشاوره برای داشتن بهترین تولید و بهینه سازی سیستم های اتوماسیون اداری شرکت ها و کارخانجاتی است که رسیدن به بالاترین سطح کیفیت جز
+                                        اهداف آنها می باشد.
+                                    </p>
+                                </label>
+                            </div>
                         </div>
-                        <div style="width: 100%;">
-                            <label style="width: 85%;">
-                                <div><span class="fa fa-certificate"></span><span class="fa fa-certificate"></span><span class="fa fa-certificate"></span></div>
-                                <p style="line-height: 25px;">
-                                    شرکت فنی و مهندسی برناگستر از سال 1390 فعالیت خود را در زمینه طراحی و اجرای
-                                سیستم های اتوماسیون اداری , نرم افزارهای PM (مدیریت و برنامه ریزی)
-                                و همچنین طراحی و اجرای سیستم های آماری شرکت های خصوصی با خط تولید خاص شروع نموده است.
-                                </p>
-                                <p style="line-height: 25px;">
-                                    این شرکت با تکیه بر توان داخلی و بکارگیری مهندسان متخصص و استفاده از مشاوران سیستم های اتوماسیون اداری و مدیریت برنامه ریزی
-                                توانسته است برنامه ها و نرم افزار های ساده و کاربردی و در عین حال پیچیده ای را طراحی و برنامه ریزی نماید.
-                                </p>
-                                <p style="line-height: 25px;">
-                                    هدف این شرکت رضایت مشتری , بهترین مشاوره برای داشتن بهترین تولید و بهینه سازی سیستم های اتوماسیون اداری شرکت ها و کارخانجاتی است که رسیدن به بالاترین سطح کیفیت جز
-                                اهداف آنها می باشد.
-                                </p>
+                        <div class="modal-footer text-right">
+                            <label style="margin: 0;" class="sans-small">
+                                <span>شماره های تماس  :</span>&nbsp;&nbsp;<span>05157257048</span>  -  <span>حسینی 09120280730</span>  -  <span>مختاری 09190152706</span>
+                                <span class="fa fa-phone-square"></span>
                             </label>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <label style="margin: 0;">
-                            <span>شماره های تماس  :</span>&nbsp;&nbsp;<span>05157257048</span>  -  <span>حسینی 09120280730</span>  -  <span>مختاری 09190152706</span>
-                            <span class="fa fa-phone-square"></span>
-                        </label>
                     </div>
                 </div>
             </div>
         </div>
         <%-------------------------------------------------------- --%>
-        <link href="Scripts/contactus.css" rel="stylesheet" />
-        <script src="Scripts/contactusJS.js"></script>
-        <script src="Scripts/Notifications.js"></script>
-        <script src="Scripts/excel/table2excel.js"></script>
+        <link href="assets/css/contactus.css" rel="stylesheet" />
+        <script src="assets/js/contactusJS.js"></script>
+        <script src="assets/js/Notifications.js"></script>
+        <script src="assets/js/excel/table2excel.js"></script>
+        <script src="assets/js/popper.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/js/mdb.min.js"></script>
+        <script src="assets/js/script.js"></script>
     </form>
 </body>
 </html>
