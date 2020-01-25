@@ -87,7 +87,6 @@
 
         <div class="unselectable footerArea">
             <label class="footerCompany">طراحی و اجرا توسط شرکت برنا گستر طوس</label>
-            <label class="footerTel">تلفن پشتیبانی : 57257048 - 051</label>
         </div>
     </form>
 <script src="assets/js/loginJS.js"></script>
