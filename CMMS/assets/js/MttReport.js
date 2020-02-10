@@ -411,7 +411,7 @@ function editReport() {
         });
 
         function updateReport(e) {
-            $('#reportModal').hide();
+            $('#reportModal').modal('hide');
             GreenAlert('no', 'با موفقیت ویرایش شد');
             GetFilteredReportTable('txtReportStartDate', 'txtReportEndDate', 'drRepiarTime');
         }
@@ -426,7 +426,7 @@ function DeleteReport() {
     });
 
     function deleteReport() {
-        $('#deletereportModal').hide();
+        $('#deletereportModal').modal('hide');
         GreenAlert('no', 'با موفقیت حذف شد');
         GetFilteredReportTable('txtReportStartDate', 'txtReportEndDate', 'drRepiarTime');
     }
