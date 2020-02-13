@@ -541,12 +541,12 @@ namespace CMMS
             var infopremanurely = new List<string[]>();
             cnn.Open();
             var cmdPremanurely = new SqlCommand(" SELECT dbo.p_forecast.inforeason, dbo.i_fail_reason.fail, dbo.p_forecast.permaturely_tarikh, " +
-                                                " dbo.p_forecast.tarikh, anbar.dbo.CmmsAnbar.PartName, dbo.m_machine.name " +
+                                                " dbo.p_forecast.tarikh, sgdb.inv.Part.PartName, dbo.m_machine.name " +
                                                 " FROM dbo.p_forecast INNER JOIN dbo.p_forcastFail ON dbo.p_forecast.id = dbo.p_forcastFail.id_forecast INNER JOIN " +
                                                 " dbo.i_fail_reason ON dbo.p_forcastFail.fail_id = dbo.i_fail_reason.id INNER JOIN " +
                                                 " dbo.m_parts ON dbo.p_forecast.m_partId = dbo.m_parts.id INNER JOIN " +
                                                 " dbo.m_machine ON dbo.m_parts.Mid = dbo.m_machine.id INNER JOIN " +
-                                                " anbar.dbo.CmmsAnbar on CMMS.dbo.p_forecast.PartId = anbar.dbo.CmmsAnbar.Serial  " +
+                                                " sgdb.inv.Part on CMMS.dbo.p_forecast.PartId = sgdb.inv.Part.Serial  " +
                                                 " where p_forecast.permaturely_tarikh BETWEEN '" + dateS + "' AND '" + dateE + "' " +
                                                 " order by dbo.p_forecast.tarikh ", cnn);
            
@@ -597,13 +597,13 @@ namespace CMMS
             var cmdTools = new SqlCommand("SELECT TOP ("+count+") Serial, PartName, SUM(count) AS tedad "+
                                          " FROM(SELECT help.PartName, dbo.r_tools.count, help.Serial "+
                                          " FROM dbo.r_tools INNER JOIN "+
-                                         " anbar.dbo.CmmsAnbar AS help ON help.Serial = dbo.r_tools.tools_id INNER JOIN " +
+                                         " sgdb.inv.Part AS help ON help.Serial = dbo.r_tools.tools_id INNER JOIN "+
                                          " dbo.r_reply ON dbo.r_tools.id_rep = dbo.r_reply.id  " +
                                          " WHERE(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') and dbo.r_tools.rptools = 0 " +
                                          " UNION ALL "+
                                          " SELECT help.PartName, dbo.s_subtools.count, help.Serial "+
                                          " FROM dbo.s_subtools INNER JOIN "+
-                                         " anbar.dbo.CmmsAnbar AS help ON help.Serial = dbo.s_subtools.tools_id INNER JOIN " +
+                                         " sgdb.inv.Part AS help ON help.Serial = dbo.s_subtools.tools_id INNER JOIN "+
                                          " dbo.s_subhistory ON dbo.s_subtools.id_reptag = dbo.s_subhistory.id  " +
                                          " WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "')) AS tools " +
                                          " GROUP BY PartName, Serial "+
@@ -612,7 +612,7 @@ namespace CMMS
            var cmdToolsUnit=new SqlCommand(" SELECT TOP (" + count + ") Serial, PartName, SUM(count) AS tedad " +
                                         " FROM(SELECT help.PartName, dbo.r_tools.count, help.Serial " +
                                         " FROM dbo.r_tools INNER JOIN " +
-                                        " anbar.dbo.CmmsAnbar AS help ON help.Serial = dbo.r_tools.tools_id INNER JOIN " +
+                                        " sgdb.inv.Part AS help ON help.Serial = dbo.r_tools.tools_id INNER JOIN " +
                                         " dbo.r_reply ON dbo.r_tools.id_rep = dbo.r_reply.id INNER JOIN " +
                                         " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
                                         " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
@@ -620,7 +620,7 @@ namespace CMMS
                                         " UNION ALL " +
                                         " SELECT help.PartName, dbo.s_subtools.count, help.Serial " +
                                         " FROM dbo.s_subtools INNER JOIN " +
-                                        " anbar.dbo.CmmsAnbar AS help ON help.Serial = dbo.s_subtools.tools_id INNER JOIN " +
+                                        " sgdb.inv.Part AS help ON help.Serial = dbo.s_subtools.tools_id INNER JOIN " +
                                         " dbo.s_subhistory ON dbo.s_subtools.id_reptag = dbo.s_subhistory.id " +
                                         " WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.s_subhistory.new_unit = '"+unit+"')) AS T " +
                                         " GROUP BY PartName, Serial " +
@@ -629,7 +629,7 @@ namespace CMMS
             var cmdToolsLine = new SqlCommand(" SELECT TOP (10) Serial, PartName, SUM(count) AS tedad " +
                                               " FROM(SELECT help.PartName, dbo.r_tools.count, help.Serial " +
                                               " FROM dbo.r_tools INNER JOIN " +
-                                              " anbar.dbo.CmmsAnbar AS help ON help.Serial = dbo.r_tools.tools_id INNER JOIN " +
+                                              " sgdb.inv.Part AS help ON help.Serial = dbo.r_tools.tools_id INNER JOIN " +
                                               " dbo.r_reply ON dbo.r_tools.id_rep = dbo.r_reply.id INNER JOIN " +
                                               " dbo.r_request ON dbo.r_reply.idreq = dbo.r_request.req_id INNER JOIN " +
                                               " dbo.m_machine ON dbo.r_request.machine_code = dbo.m_machine.id " +
@@ -637,7 +637,7 @@ namespace CMMS
                                               " UNION ALL " +
                                               " SELECT help.PartName, dbo.s_subtools.count, help.Serial " +
                                               " FROM dbo.s_subtools INNER JOIN " +
-                                              " anbar.dbo.CmmsAnbar AS help ON help.Serial = dbo.s_subtools.tools_id INNER JOIN " +
+                                              " sgdb.inv.Part AS help ON help.Serial = dbo.s_subtools.tools_id INNER JOIN " +
                                               " dbo.s_subhistory ON dbo.s_subtools.id_reptag = dbo.s_subhistory.id " +
                                               " WHERE(dbo.s_subhistory.tarikh BETWEEN '" + dateS + "' AND '" + dateE + "') AND(dbo.s_subhistory.new_line = "+line+")) AS T " +
                                               " GROUP BY PartName, Serial " +
@@ -674,28 +674,28 @@ namespace CMMS
         {
             var infoTools=new List<string[]>();
             cnn.Open();
-            var cmdToolsReport=new SqlCommand(" SELECT CMMS.dbo.i_units.unit_name,CMMS.dbo.m_machine.name,anbar.dbo.CmmsAnbar.PartName , SUM(CMMS.dbo.r_tools.count) AS countt,CMMS.dbo.i_measurement.measurement AS Measur " +
+            var cmdToolsReport=new SqlCommand(" SELECT CMMS.dbo.i_units.unit_name,CMMS.dbo.m_machine.name,sgdb.inv.Part.PartName , SUM(CMMS.dbo.r_tools.count) AS countt,CMMS.dbo.i_measurement.measurement AS Measur " +
                                               " FROM CMMS.dbo.m_machine INNER JOIN " +
                                               " CMMS.dbo.i_units ON CMMS.dbo.m_machine.loc = CMMS.dbo.i_units.unit_code INNER JOIN " +
                                               " CMMS.dbo.r_request ON CMMS.dbo.m_machine.id = CMMS.dbo.r_request.machine_code INNER JOIN " +
                                               " CMMS.dbo.r_reply ON CMMS.dbo.r_request.req_id = CMMS.dbo.r_reply.idreq INNER JOIN " +
                                               " CMMS.dbo.r_tools ON CMMS.dbo.r_reply.id = CMMS.dbo.r_tools.id_rep INNER JOIN " +
-                                              " anbar.dbo.CmmsAnbar on CMMS.dbo.r_tools.tools_id = anbar.dbo.CmmsAnbar.Serial INNER JOIN " +
+                                              " sgdb.inv.Part on CMMS.dbo.r_tools.tools_id = sgdb.inv.Part.Serial INNER JOIN " +
                                               " CMMS.dbo.i_measurement_part ON CMMS.dbo.r_tools.tools_id = CMMS.dbo.i_measurement_part.Serial INNER JOIN " +
                                               " CMMS.dbo.i_measurement ON CMMS.dbo.i_measurement_part.measurement = CMMS.dbo.i_measurement.id " +
                                               " where CMMS.dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "' and CMMS.dbo.r_tools.tools_id = " + toolsId+ " AND dbo.r_tools.rptools = 0 " +
-                                              " GROUP BY  dbo.i_units.unit_name, dbo.m_machine.name, anbar.dbo.CmmsAnbar.PartName,CMMS.dbo.i_measurement.measurement", cnn);
-            var cmdNullToolsReport = new SqlCommand(" SELECT CMMS.dbo.i_units.unit_name,CMMS.dbo.m_machine.name,anbar.dbo.CmmsAnbar.PartName , SUM(CMMS.dbo.r_tools.count) AS countt ,CMMS.dbo.i_measurement.measurement AS Measur " +
+                                              " GROUP BY  dbo.i_units.unit_name, dbo.m_machine.name, sgdb.inv.Part.PartName,CMMS.dbo.i_measurement.measurement", cnn);
+            var cmdNullToolsReport = new SqlCommand(" SELECT CMMS.dbo.i_units.unit_name,CMMS.dbo.m_machine.name,sgdb.inv.Part.PartName , SUM(CMMS.dbo.r_tools.count) AS countt ,CMMS.dbo.i_measurement.measurement AS Measur " +
                                                     " FROM CMMS.dbo.m_machine INNER JOIN " +
                                                     " CMMS.dbo.i_units ON CMMS.dbo.m_machine.loc = CMMS.dbo.i_units.unit_code INNER JOIN " +
                                                     " CMMS.dbo.r_request ON CMMS.dbo.m_machine.id = CMMS.dbo.r_request.machine_code INNER JOIN " +
                                                     " CMMS.dbo.r_reply ON CMMS.dbo.r_request.req_id = CMMS.dbo.r_reply.idreq INNER JOIN " +
                                                     " CMMS.dbo.r_tools ON CMMS.dbo.r_reply.id = CMMS.dbo.r_tools.id_rep INNER JOIN " +
-                                                    " anbar.dbo.CmmsAnbar on CMMS.dbo.r_tools.tools_id = anbar.dbo.CmmsAnbar.Serial INNER JOIN " +
+                                                    " sgdb.inv.Part on CMMS.dbo.r_tools.tools_id = sgdb.inv.Part.Serial INNER JOIN " +
                                                     " CMMS.dbo.i_measurement_part ON CMMS.dbo.r_tools.tools_id = CMMS.dbo.i_measurement_part.Serial INNER JOIN " +
                                                     " CMMS.dbo.i_measurement ON CMMS.dbo.i_measurement_part.measurement = CMMS.dbo.i_measurement.id " +
                                                 " where CMMS.dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "' AND dbo.r_tools.rptools = 0 " +
-                                                " GROUP BY  dbo.i_units.unit_name, dbo.m_machine.name, anbar.dbo.CmmsAnbar.PartName,CMMS.dbo.i_measurement.measurement", cnn);
+                                                " GROUP BY  dbo.i_units.unit_name, dbo.m_machine.name, sgdb.inv.Part.PartName,CMMS.dbo.i_measurement.measurement", cnn);
             SqlDataReader rd;
             if (toolsId == -1)
             {
@@ -2173,31 +2173,31 @@ namespace CMMS
         {
             var obj = new MtMachines();
             cnn.Open();
-            var cmdStopunit = new SqlCommand("SELECT dbo.subsystem.name, dbo.r_reply.elec_time as elec, dbo.r_reply.mech_time as mech" +
+            var cmdStopunit = new SqlCommand("SELECT dbo.subsystem.name, sum(dbo.r_reply.elec_time) as elec, sum(dbo.r_reply.mech_time) as mech" +
                                              " FROM dbo.m_machine INNER JOIN " +
                                              " dbo.m_subsystem ON dbo.m_machine.id = dbo.m_subsystem.Mid INNER JOIN " +
                                              " dbo.subsystem ON dbo.m_subsystem.subId = dbo.subsystem.id INNER JOIN " +
                                              " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
                                              " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq AND dbo.subsystem.id = dbo.r_reply.subsystem " +
                                              " WHERE(dbo.m_machine.loc = '" + unit + "') AND(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
-                                             " GROUP BY dbo.subsystem.name, dbo.r_reply.elec_time, dbo.r_reply.mech_time", cnn);
+                                             " GROUP BY dbo.subsystem.name", cnn);
 
-            var cmdStopLine = new SqlCommand("SELECT dbo.subsystem.name, dbo.r_reply.elec_time as elec, dbo.r_reply.mech_time as mech " +
+            var cmdStopLine = new SqlCommand("SELECT dbo.subsystem.name, sum(dbo.r_reply.elec_time) as elec, sum(dbo.r_reply.mech_time) as mech " +
                                              " FROM dbo.m_machine INNER JOIN " +
                                              " dbo.m_subsystem ON dbo.m_machine.id = dbo.m_subsystem.Mid INNER JOIN " +
                                              " dbo.subsystem ON dbo.m_subsystem.subId = dbo.subsystem.id INNER JOIN " +
                                              " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
                                              " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq AND dbo.subsystem.id = dbo.r_reply.subsystem " +
                                              " WHERE(dbo.m_machine.line = " + line + ") AND(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
-                                             " GROUP BY dbo.subsystem.name, dbo.r_reply.elec_time, dbo.r_reply.mech_time", cnn);
-            var cmdStopFaz = new SqlCommand("SELECT dbo.subsystem.name, dbo.r_reply.elec_time as elec, dbo.r_reply.mech_time as mech " +
+                                             " GROUP BY dbo.subsystem.name", cnn);
+            var cmdStopFaz = new SqlCommand("SELECT dbo.subsystem.name, sum(dbo.r_reply.elec_time) as elec, sum(dbo.r_reply.mech_time) as mech " +
                                              " FROM dbo.m_machine INNER JOIN " +
                                              " dbo.m_subsystem ON dbo.m_machine.id = dbo.m_subsystem.Mid INNER JOIN " +
                                              " dbo.subsystem ON dbo.m_subsystem.subId = dbo.subsystem.id INNER JOIN " +
                                              " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
                                              " dbo.r_reply ON dbo.r_request.req_id = dbo.r_reply.idreq AND dbo.subsystem.id = dbo.r_reply.subsystem " +
                                              " WHERE(dbo.m_machine.faz = " + faz + ") AND(dbo.r_reply.start_repdate BETWEEN '" + dateS + "' AND '" + dateE + "') " +
-                                             " GROUP BY dbo.subsystem.name, dbo.r_reply.elec_time, dbo.r_reply.mech_time", cnn);
+                                             " GROUP BY dbo.subsystem.name", cnn);
 
 
             SqlDataReader rd;
@@ -2341,7 +2341,7 @@ namespace CMMS
                                           " GROUP BY dbo.m_machine.code) " +
                                           " GROUP BY dbo.m_machine.name, dbo.m_machine.mttrH", cnn);
 
-            var cmdMttrRLine = new SqlCommand("SELECT dbo.m_machine.name + ' _ ' + dbo.i_lines.line_name AS MachineName,dbo.i_faz.faz_name, SUM(DATEDIFF(minute, 0, dbo.r_reply.rep_time_help)) AS TR, COUNT(dbo.m_machine.code) AS Trcount," +
+            var cmdMttrRLine = new SqlCommand("SELECT dbo.m_machine.name  AS MachineName,dbo.i_lines.line_name,dbo.i_faz.faz_name, SUM(DATEDIFF(minute, 0, dbo.r_reply.rep_time_help)) AS TR, COUNT(dbo.m_machine.code) AS Trcount," +
                                          " SUM(DATEDIFF(minute, 0, dbo.r_reply.rep_time_help)) / 60 / COUNT(dbo.m_machine.code) AS MTTRrep, dbo.m_machine.mttrH" +
                                               " FROM dbo.m_machine INNER JOIN " +
                                               " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
@@ -2352,7 +2352,7 @@ namespace CMMS
                                          " WHERE(dbo.r_request.date_req BETWEEN '" + dateS + "' AND '" + dateE + "') AND(m_machine.line = " + line + ")" +
                                          " GROUP BY dbo.m_machine.name, dbo.m_machine.mttrH,dbo.i_faz.faz_name,dbo.i_lines.line_name", cnn);
 
-            var cmdMttrRFaz = new SqlCommand("SELECT dbo.m_machine.name + ' _ ' + dbo.i_lines.line_name AS MachineName,dbo.i_faz.faz_name,SUM(DATEDIFF(minute, 0, dbo.r_reply.rep_time_help)) AS TR, COUNT(dbo.m_machine.code) AS Trcount," +
+            var cmdMttrRFaz = new SqlCommand("SELECT dbo.m_machine.name AS MachineName,dbo.i_lines.line_name,dbo.i_faz.faz_name,SUM(DATEDIFF(minute, 0, dbo.r_reply.rep_time_help)) AS TR, COUNT(dbo.m_machine.code) AS Trcount," +
                                               " SUM(DATEDIFF(minute, 0, dbo.r_reply.rep_time_help)) / 60 / COUNT(dbo.m_machine.code) AS MTTRrep, dbo.m_machine.mttrH" +
                                              " FROM dbo.m_machine INNER JOIN " +
                                              " dbo.r_request ON dbo.m_machine.id = dbo.r_request.machine_code INNER JOIN " +
