@@ -2747,7 +2747,7 @@ namespace CMMS
             var rd = getAnbar.ExecuteReader();
             while (rd.Read())
             {
-                partlist.Add(new[] { rd["PartName"].ToString(), rd["Serial"].ToString(), rd["Qty"].ToString() });
+                partlist.Add(new[] { rd["PartName"].ToString(), rd["Serial"].ToString(), (Convert.ToDecimal(rd["Qty"]) / 1.000000000000000000000000000000000m).ToString() });
             }
             list.AddRange(partlist);
             _cnn.Close();
