@@ -109,7 +109,7 @@ namespace CMMS
     public class Parts
     {
         public int Id { get; set; }
-        public int PartId { get; set; }
+        public string PartId { get; set; }
         public string PartName { get; set; }
         public string Measurement { get; set; }
         public int MeasurId { get; set; }
@@ -169,7 +169,7 @@ namespace CMMS
     public class PartsFilter
     {
         public string PartName { get; set; }
-        public int PartId { get; set; }
+        public string PartId { get; set; }
     }
     public class RequestDetails
     {
