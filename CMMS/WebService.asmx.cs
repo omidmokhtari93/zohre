@@ -2231,6 +2231,30 @@ namespace CMMS
             return new JavaScriptSerializer().Serialize(list);
         }
         [WebMethod]
+        public string GetDrPartControl(int mid)
+        {
+            var controliList = new List<Controls>();
+            _cnn.Open();
+            var getControls =
+                new SqlCommand("SELECT [id],[PartControl]FROM [dbo].[b_partcontrol] where Mid = " + mid, _cnn);
+
+            var rd = getControls.ExecuteReader();
+            while (rd.Read())
+            {
+                controliList.AddRange(new List<Controls>
+                {
+                    new Controls
+                    {
+                        Idcontrol = Convert.ToInt32(rd["id"]),
+                        Control = rd["PartControl"].ToString()
+
+                    }
+                });
+            }
+            _cnn.Close();
+            return new JavaScriptSerializer().Serialize(controliList);
+        }
+        [WebMethod]
         public string GetMeasurement()
         {
             _cnn.Open();
